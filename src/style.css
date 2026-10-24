@@ -1,0 +1,121 @@
+/* EstudeGrátis Brasil — Estilos, Tema Brasil & Acessibilidade */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --br-green: #009639;
+  --br-green-dark: #00702a;
+  --br-green-light: #e8f5e9;
+  --br-yellow: #ffcc29;
+  --br-yellow-dark: #d97706;
+  --br-blue: #002776;
+  --br-blue-dark: #001a4e;
+  --br-blue-light: #e0f2fe;
+}
+
+/* Base de Foco para Acessibilidade Total (Teclado) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #ffcc29 !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 5px rgba(0, 150, 57, 0.4) !important;
+}
+
+/* Modos de Tamanho de Fonte (Acessibilidade) */
+html.font-size-small { font-size: 87.5%; }    /* 14px base */
+html.font-size-normal { font-size: 100%; }    /* 16px base */
+html.font-size-large { font-size: 112.5%; }   /* 18px base */
+html.font-size-xlarge { font-size: 125%; }    /* 20px base */
+
+/* Modo Alto Contraste (Acessibilidade para Baixa Visão) */
+html.high-contrast {
+  filter: contrast(110%);
+}
+
+html.high-contrast body {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+html.high-contrast header,
+html.high-contrast main,
+html.high-contrast footer,
+html.high-contrast section,
+html.high-contrast article,
+html.high-contrast .course-card,
+html.high-contrast div,
+html.high-contrast nav {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+html.high-contrast a,
+html.high-contrast button {
+  background-color: #000000 !important;
+  color: #ffff00 !important;
+  border: 2px solid #ffff00 !important;
+}
+
+html.high-contrast a:hover,
+html.high-contrast button:hover {
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+}
+
+html.high-contrast input,
+html.high-contrast select,
+html.high-contrast textarea {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+
+/* Barra de rolagem suave e discreta */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Transições de elementos */
+.course-card {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+.course-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Animações */
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInSlide 0.25s ease-out forwards;
+}
+
+/* Ajustes no posicionamento do VLibras */
+[vw] {
+  z-index: 99999 !important;
+}

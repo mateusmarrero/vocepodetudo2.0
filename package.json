@@ -1,0 +1,17 @@
+{
+  "name": "voce-pode-tudo",
+  "version": "1.0.0",
+  "description": "Você Pode Tudo — Portal Oficial de Cursos Gratuitos com Certificado no Brasil",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "keywords": [
+    "cursos-gratuitos",
+    "educacao",
+    "brasil",
+    "certificado-gratis"
+  ],
+  "author": "",
+  "license": "MIT"
+}

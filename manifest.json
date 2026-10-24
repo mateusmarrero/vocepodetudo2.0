@@ -1,0 +1,32 @@
+{
+  "name": "Você Pode Tudo — Cursos Gratuitos com Certificado Oficial",
+  "short_name": "Você Pode Tudo",
+  "description": "Portal brasileiro de cursos online 100% gratuitos e com certificado oficial de instituições públicas e privadas.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#009639",
+  "lang": "pt-BR",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./assets/logo-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./assets/logo-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [
+    "education",
+    "career",
+    "technology",
+    "government"
+  ]
+}

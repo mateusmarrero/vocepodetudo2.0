@@ -1,0 +1,14 @@
+# Robots.txt — Você Pode Tudo (www.vocepodetudo.com)
+# Permissões completas para indexação e rastreamento pelos motores de busca
+
+User-agent: *
+Allow: /
+Allow: /src/
+Allow: /assets/
+
+# Bloquear diretórios internos e temporários se houver
+Disallow: /scratch/
+Disallow: /.git/
+
+# Localização do Mapa do Site Oficial
+Sitemap: https://www.vocepodetudo.com/sitemap.xml

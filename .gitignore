@@ -1,0 +1,12 @@
+# Dependências
+node_modules/
+
+# Arquivos do Sistema Operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs e Temporários
+*.log
+npm-debug.log*
+.tmp/

@@ -1,12 +1,15 @@
-// Você Pode Tudo — Lógica da Aplicação com Acessibilidade, Segurança Criptográfica & SEO
+// Você Pode Tudo — Lógica da Aplicação com Acessibilidade, Segurança Criptográfica, MySQL Backend & SEO
 
 (function() {
   'use strict';
 
+  // Configuração da API do Servidor (ServerByte / cPanel)
+  const API_BASE = './api';
+
   // Configurações e Constantes de Segurança Criptográfica
   const SECURITY = {
     SALT: 'vpt_brazil_secure_salt_2026',
-    // Hash SHA-256 de (SALT + 'admin123')
+    // Hash SHA-256 de fallback (SALT + 'admin123')
     DEFAULT_ADMIN_HASH: '1c6a7fb1921db4c75ab524113183912227cc3b6c00a780915c9646d3e73efbdb',
     DEFAULT_ADMIN_USER: 'admin',
     MAX_ATTEMPTS: 5,
@@ -17,7 +20,6 @@
   // Funções Utilitárias de Segurança (Hashing, Anti-XSS e Sanitização)
   async function hashPassword(plainText) {
     if (!window.crypto || !window.crypto.subtle) {
-      // Fallback compatível caso SubtleCrypto não esteja disponível
       return btoa(SECURITY.SALT + plainText);
     }
     const encoder = new TextEncoder();
@@ -215,6 +217,7 @@
         } else {
           state.isAdmin = false;
           sessionStorage.removeItem('vpt_is_admin');
+          sessionStorage.removeItem('vpt_auth_token');
           sessionStorage.removeItem('vpt_admin_login_time');
         }
       }
@@ -239,13 +242,12 @@
         applyFontSize();
       }
 
-      // 5. Cursos Adicionados por Admin com Validação Anti-Tampering
+      // 5. Cursos Adicionados por Admin com Validação Anti-Tampering (Fallback Local)
       const userCoursesRaw = localStorage.getItem('vocepodetudo_custom_courses') || localStorage.getItem('estudegratis_custom_courses');
       let customCourses = [];
       if (userCoursesRaw) {
         const parsed = JSON.parse(userCoursesRaw);
         if (Array.isArray(parsed)) {
-          // Validar integridade dos campos
           customCourses = parsed.filter(c => c && typeof c.title === 'string' && typeof c.url === 'string');
         }
       }
@@ -255,6 +257,28 @@
     } catch (e) {
       console.error('Erro ao ler LocalStorage:', e);
       state.allCourses = (window.PORTAL_DATA && window.PORTAL_DATA.courses) || [];
+    }
+  }
+
+  // Sincronizar catálogo diretamente com o banco de dados MySQL do servidor
+  async function syncCoursesWithMySQL() {
+    try {
+      const response = await fetch(`${API_BASE}/courses.php`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.courses && Array.isArray(data.courses) && data.courses.length > 0) {
+          state.allCourses = data.courses;
+          renderCourses();
+          renderTracksRoadmap();
+          renderCategories();
+          renderProviderOptions();
+          updateHeaderStats();
+          console.log(`[Você Pode Tudo] Conectado ao MySQL ServerByte: ${data.courses.length} cursos sincronizados.`);
+        }
+      }
+    } catch (err) {
+      // Se a API estiver offline ou em ambiente sem PHP, os dados de fallback locais permanecem ativos
+      console.info('[Você Pode Tudo] Backend MySQL não detectado no momento. Utilizando catálogo integrado.', err);
     }
   }
 
@@ -300,7 +324,6 @@
     try {
       const params = new URLSearchParams(window.location.search);
 
-      // 1. Busca Direta via URL
       const queryParam = params.get('q');
       if (queryParam) {
         state.searchQuery = queryParam.trim();
@@ -310,19 +333,16 @@
         if (clearBtn) clearBtn.style.display = 'block';
       }
 
-      // 2. Categoria via URL
       const categoryParam = params.get('categoria');
       if (categoryParam) {
         state.activeCategory = categoryParam;
       }
 
-      // 3. Trilha de Aprendizado via URL
       const trackParam = params.get('trilha');
       if (trackParam) {
         state.selectedTrack = trackParam;
       }
 
-      // 4. Aba Ativa via URL
       const viewParam = params.get('view');
       if (viewParam === 'tracks' || viewParam === 'favorites') {
         state.viewMode = viewParam;
@@ -373,7 +393,6 @@
 
       return true;
     }).sort((a, b) => {
-      // Se houver trilha ativa, ordenar pela sequência recomendada da trilha
       if (state.selectedTrack) {
         const track = (window.PORTAL_DATA && window.PORTAL_DATA.tracks || []).find(t => t.id === state.selectedTrack);
         if (track && track.courses) {
@@ -912,9 +931,8 @@
     }
   }
 
-  // Configuração dos Modais (Admin Login Seguro com SHA-256, Bloqueio de Força Bruta & Troca de Senha)
+  // Configuração dos Modais (Admin Login Seguro com MySQL, SHA-256 e Troca de Senha)
   function setupModals() {
-    // 1. Modal de Login de Administrador
     const adminLoginModal = document.getElementById('admin-login-modal');
     const openAdminLoginBtn = document.getElementById('open-admin-login-btn');
     const footerAdminBtn = document.getElementById('footer-admin-btn');
@@ -924,26 +942,22 @@
     const lockoutAlert = document.getElementById('admin-lockout-alert');
     const lockoutCountdown = document.getElementById('admin-lockout-countdown');
 
-    // 2. Modal de Cadastro de Curso Oficial
     const adminCourseModal = document.getElementById('admin-course-modal');
     const adminAddCourseBtn = document.getElementById('admin-add-course-btn');
     const closeAdminCourseModalBtn = document.getElementById('close-admin-course-modal-btn');
     const adminCourseForm = document.getElementById('admin-course-form');
     const adminLogoutBtn = document.getElementById('admin-logout-btn');
 
-    // 3. Modal de Alteração Segura de Senha
     const changePasswordModal = document.getElementById('admin-change-password-modal');
     const openChangePasswordBtn = document.getElementById('open-change-password-modal-btn');
     const closeChangePasswordBtn = document.getElementById('close-change-password-btn');
     const changePasswordForm = document.getElementById('change-password-form');
 
-    // 4. Modal de Reportar Link
     const reportModal = document.getElementById('report-modal');
     const openReportBtns = document.querySelectorAll('.open-report-modal-btn');
     const closeReportBtn = document.getElementById('close-report-modal-btn');
     const reportForm = document.getElementById('report-broken-form');
 
-    // Atualização visual do bloqueio por força bruta
     function updateLockoutUI() {
       const remaining = getLockoutRemainingSeconds();
       if (remaining > 0) {
@@ -966,14 +980,12 @@
       }
     }
 
-    // Intervalo de verificação do bloqueio quando o modal estiver aberto
     setInterval(() => {
       if (adminLoginModal && !adminLoginModal.classList.contains('hidden')) {
         updateLockoutUI();
       }
     }, 1000);
 
-    // Abrir Login de Admin (se já estiver logado, abre direto o painel)
     const handleAdminAccess = () => {
       if (state.isAdmin) {
         if (adminCourseModal) adminCourseModal.classList.remove('hidden');
@@ -992,12 +1004,11 @@
       });
     }
 
-    // Processar Login Seguro do Administrador com Criptografia SHA-256 e Rate Limiting
+    // Processar Login Seguro do Administrador
     if (adminLoginForm) {
       adminLoginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // 1. Verificar se o sistema está bloqueado contra força bruta
         const remaining = getLockoutRemainingSeconds();
         if (remaining > 0) {
           showToast(`Acesso temporariamente bloqueado. Aguarde ${remaining} segundos.`, 'error');
@@ -1011,16 +1022,45 @@
         const enteredUser = userInput ? userInput.value.trim() : '';
         const enteredPass = passInput ? passInput.value.trim() : '';
 
-        // Obter hash salvo ou usar hash padrão
+        // 1. Tentar autenticação no Servidor MySQL
+        try {
+          const res = await fetch(`${API_BASE}/auth.php?action=login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: enteredUser, password: enteredPass })
+          });
+
+          const result = await res.json();
+
+          if (res.ok && result.success && result.token) {
+            state.isAdmin = true;
+            sessionStorage.setItem('vpt_is_admin', 'true');
+            sessionStorage.setItem('vpt_auth_token', result.token);
+            sessionStorage.setItem('vpt_admin_login_time', Date.now().toString());
+            clearFailedLoginAttempts();
+            updateAdminUI();
+            if (adminLoginModal) adminLoginModal.classList.add('hidden');
+            adminLoginForm.reset();
+            showToast('Login de administrador autenticado com sucesso no servidor MySQL!', 'success');
+            return;
+          }
+
+          if (res.status === 401) {
+            const lockedSecs = registerFailedLoginAttempt();
+            updateLockoutUI();
+            showToast('Usuário ou senha incorretos no servidor.', 'error');
+            return;
+          }
+        } catch (serverErr) {
+          console.info('Autenticação local de contingência:', serverErr);
+        }
+
+        // 2. Fallback Seguro Local caso a API PHP esteja sendo configurada
         const savedHash = localStorage.getItem('vpt_admin_hash') || SECURITY.DEFAULT_ADMIN_HASH;
         const savedUser = localStorage.getItem('vpt_admin_user') || SECURITY.DEFAULT_ADMIN_USER;
-
-        // Calcular hash SHA-256 da senha digitada
         const calculatedHash = await hashPassword(enteredPass);
 
-        // Validação criptográfica com tempo constante conceitual
         if (enteredUser.toLowerCase() === savedUser.toLowerCase() && calculatedHash === savedHash) {
-          // Sucesso no Login
           state.isAdmin = true;
           sessionStorage.setItem('vpt_is_admin', 'true');
           sessionStorage.setItem('vpt_admin_login_time', Date.now().toString());
@@ -1028,13 +1068,12 @@
           updateAdminUI();
           if (adminLoginModal) adminLoginModal.classList.add('hidden');
           adminLoginForm.reset();
-          showToast('Login de administrador autenticado com sucesso! Painel protegido ativado.', 'success');
+          showToast('Login de administrador realizado com sucesso!', 'success');
         } else {
-          // Falha: Registrar tentativa
           const lockedSecs = registerFailedLoginAttempt();
           updateLockoutUI();
           if (lockedSecs > 0) {
-            showToast(`Muitas tentativas incorretas. Bloqueio de segurança ativado por ${lockedSecs / 60} minutos.`, 'error');
+            showToast(`Bloqueio de segurança ativado por ${lockedSecs / 60} minutos.`, 'error');
           } else {
             const currentAttempts = parseInt(localStorage.getItem('vpt_admin_failed_attempts') || '0', 10);
             showToast(`Usuário ou senha incorretos (${currentAttempts}/${SECURITY.MAX_ATTEMPTS} tentativas).`, 'error');
@@ -1048,6 +1087,7 @@
       adminLogoutBtn.addEventListener('click', () => {
         state.isAdmin = false;
         sessionStorage.removeItem('vpt_is_admin');
+        sessionStorage.removeItem('vpt_auth_token');
         sessionStorage.removeItem('vpt_admin_login_time');
         updateAdminUI();
         if (adminCourseModal) adminCourseModal.classList.add('hidden');
@@ -1055,7 +1095,7 @@
       });
     }
 
-    // Botão "+ Novo Curso" (apenas visível para admin logado)
+    // Botão "+ Novo Curso"
     if (adminAddCourseBtn && adminCourseModal) {
       adminAddCourseBtn.addEventListener('click', () => {
         adminCourseModal.classList.remove('hidden');
@@ -1094,14 +1134,6 @@
         const newPass = newPassInput ? newPassInput.value.trim() : '';
         const confirmPass = confirmPassInput ? confirmPassInput.value.trim() : '';
 
-        const savedHash = localStorage.getItem('vpt_admin_hash') || SECURITY.DEFAULT_ADMIN_HASH;
-        const currentHash = await hashPassword(currentPass);
-
-        if (currentHash !== savedHash) {
-          showToast('A senha atual digitada está incorreta.', 'error');
-          return;
-        }
-
         if (newPass.length < 6) {
           showToast('A nova senha deve ter no mínimo 6 caracteres.', 'error');
           return;
@@ -1112,7 +1144,44 @@
           return;
         }
 
-        // Criptografar nova senha e salvar
+        // Tentar alterar diretamente no MySQL
+        const authToken = sessionStorage.getItem('vpt_auth_token');
+        if (authToken) {
+          try {
+            const res = await fetch(`${API_BASE}/auth.php?action=change_password`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+              },
+              body: JSON.stringify({ current_password: currentPass, new_password: newPass })
+            });
+
+            const result = await res.json();
+            if (res.ok && result.success) {
+              changePasswordForm.reset();
+              if (changePasswordModal) changePasswordModal.classList.add('hidden');
+              if (adminCourseModal) adminCourseModal.classList.remove('hidden');
+              showToast('Senha alterada com sucesso no MySQL (BCRYPT)!', 'success');
+              return;
+            } else {
+              showToast(result.message || 'Senha atual incorreta.', 'error');
+              return;
+            }
+          } catch (err) {
+            console.error('Erro na requisição ao servidor:', err);
+          }
+        }
+
+        // Fallback Local
+        const savedHash = localStorage.getItem('vpt_admin_hash') || SECURITY.DEFAULT_ADMIN_HASH;
+        const currentHash = await hashPassword(currentPass);
+
+        if (currentHash !== savedHash) {
+          showToast('A senha atual digitada está incorreta.', 'error');
+          return;
+        }
+
         const newHash = await hashPassword(newPass);
         localStorage.setItem('vpt_admin_hash', newHash);
         changePasswordForm.reset();
@@ -1122,9 +1191,9 @@
       });
     }
 
-    // Processar Inclusão de Curso pelo Administrador com Validação Rigorosa
+    // Processar Inclusão de Curso pelo Administrador (MySQL + Fallback Local)
     if (adminCourseForm) {
-      adminCourseForm.addEventListener('submit', (e) => {
+      adminCourseForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const title = document.getElementById('admin-title').value.trim();
         const provider = document.getElementById('admin-provider').value.trim();
@@ -1142,6 +1211,46 @@
           return;
         }
 
+        // 1. Tentar salvar no MySQL via API
+        const authToken = sessionStorage.getItem('vpt_auth_token');
+        if (authToken) {
+          try {
+            const res = await fetch(`${API_BASE}/courses.php`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+              },
+              body: JSON.stringify({
+                title,
+                provider,
+                category,
+                url: safeUrl,
+                workloadHours: workload,
+                hasFreeCertificate: certFree,
+                level,
+                description: desc
+              })
+            });
+
+            const result = await res.json();
+            if (res.ok && result.success && result.course) {
+              state.allCourses.unshift(result.course);
+              adminCourseForm.reset();
+              if (adminCourseModal) adminCourseModal.classList.add('hidden');
+              showToast(`Curso "${title}" salvo com sucesso no MySQL e publicado para todos!`, 'success');
+
+              renderCourses();
+              renderTracksRoadmap();
+              renderProviderOptions();
+              return;
+            }
+          } catch (serverErr) {
+            console.error('Falha ao gravar no servidor MySQL, gravando localmente:', serverErr);
+          }
+        }
+
+        // 2. Fallback Local caso o servidor não esteja ativo
         const newCourse = {
           id: 'admin-' + Date.now(),
           title: title,
@@ -1171,15 +1280,14 @@
           state.allCourses.unshift(newCourse);
           adminCourseForm.reset();
           if (adminCourseModal) adminCourseModal.classList.add('hidden');
-          showToast(`Curso "${title}" publicado com sucesso no catálogo oficial!`, 'success');
+          showToast(`Curso "${title}" publicado com sucesso no catálogo!`, 'success');
 
-          // Atualizar telas e seletores
           renderCourses();
           renderTracksRoadmap();
           renderProviderOptions();
         } catch (err) {
           console.error(err);
-          showToast('Erro ao salvar novo curso oficial.', 'error');
+          showToast('Erro ao salvar curso.', 'error');
         }
       });
     }
@@ -1206,7 +1314,6 @@
       });
     }
 
-    // Fechar ao clicar no fundo escurecido
     [adminLoginModal, adminCourseModal, changePasswordModal, reportModal].forEach(modal => {
       if (!modal) return;
       modal.addEventListener('click', (e) => {
@@ -1218,7 +1325,6 @@
   // Atalhos de Teclado e Eventos Gerais
   function setupEventListeners() {
     window.addEventListener('keydown', (e) => {
-      // Esc fecha todos os modais abertos e silencia TTS
       if (e.key === 'Escape') {
         const modals = [
           'admin-login-modal',
@@ -1237,7 +1343,6 @@
         }
       }
 
-      // Atalho '/' para focar na busca
       if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
         e.preventDefault();
         const searchInput = document.getElementById('search-input');
@@ -1247,35 +1352,30 @@
         }
       }
 
-      // Alt + 1: Ir para o Conteúdo principal
       if (e.altKey && e.key === '1') {
         e.preventDefault();
         const main = document.getElementById('main-content');
         if (main) main.focus();
       }
 
-      // Alt + 2: Ir para o campo de Busca
       if (e.altKey && e.key === '2') {
         e.preventDefault();
         const search = document.getElementById('search-input');
         if (search) search.focus();
       }
 
-      // Alt + 3: Ir para o Grid de cursos
       if (e.altKey && e.key === '3') {
         e.preventDefault();
         const grid = document.getElementById('courses-grid');
         if (grid) grid.focus();
       }
 
-      // Alt + 4: Alternar Alto Contraste
       if (e.altKey && e.key === '4') {
         e.preventDefault();
         toggleHighContrast();
       }
     });
 
-    // Controles de Acessibilidade da Barra Superior
     const btnFontInc = document.getElementById('btn-font-increase');
     const btnFontDec = document.getElementById('btn-font-decrease');
     const btnFontReset = document.getElementById('btn-font-reset');
@@ -1293,7 +1393,6 @@
       });
     }
 
-    // Campo de busca
     const searchInput = document.getElementById('search-input');
     const clearSearchBtn = document.getElementById('clear-search-btn');
 
@@ -1321,7 +1420,6 @@
       });
     }
 
-    // Filtros de Certificado
     const certAllBtn = document.getElementById('filter-cert-all');
     const certFreeBtn = document.getElementById('filter-cert-free');
     const certAuditedBtn = document.getElementById('filter-cert-audited');
@@ -1350,7 +1448,6 @@
       });
     });
 
-    // Filtro de Carga Horária
     const workloadSelect = document.getElementById('workload-select');
     if (workloadSelect) {
       workloadSelect.addEventListener('change', (e) => {
@@ -1359,7 +1456,6 @@
       });
     }
 
-    // Filtro de Ordenação
     const sortSelect = document.getElementById('sort-select');
     if (sortSelect) {
       sortSelect.addEventListener('change', (e) => {
@@ -1368,7 +1464,6 @@
       });
     }
 
-    // Alternador de Abas Principais: Cursos, Trilhas, Salvos
     const catTabBtn = document.getElementById('tab-catalog-btn');
     const tracksTabBtn = document.getElementById('tab-tracks-btn');
     const favTabBtn = document.getElementById('tab-favorites-btn');
@@ -1402,7 +1497,6 @@
       });
     }
 
-    // Limpar filtros no empty state
     const resetFiltersBtn = document.getElementById('reset-filters-btn');
     if (resetFiltersBtn) {
       resetFiltersBtn.addEventListener('click', () => {
@@ -1450,6 +1544,9 @@
     updateFavoritesBadge();
     setupModals();
     setupEventListeners();
+
+    // Sincronizar catálogo diretamente com o MySQL do servidor
+    syncCoursesWithMySQL();
   }
 
   if (document.readyState === 'loading') {

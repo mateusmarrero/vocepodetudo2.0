@@ -1109,6 +1109,13 @@
     }
 
     // Modal de Troca de Senha do Administrador
+    const changePwHeaderBtn = document.getElementById('admin-change-pw-header-btn');
+    if (changePwHeaderBtn && changePasswordModal) {
+      changePwHeaderBtn.addEventListener('click', () => {
+        changePasswordModal.classList.remove('hidden');
+      });
+    }
+
     if (openChangePasswordBtn && changePasswordModal) {
       openChangePasswordBtn.addEventListener('click', () => {
         if (adminCourseModal) adminCourseModal.classList.add('hidden');

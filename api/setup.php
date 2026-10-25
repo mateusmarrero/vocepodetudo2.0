@@ -2,13 +2,23 @@
 /**
  * Instalador e Semeador Automático do Banco MySQL
  * Portal Você Pode Tudo — ServerByte
- * 
- * Acesse uma única vez pelo navegador: https://seusite.com/api/setup.php
  */
 
-require_once __DIR__ . '/config.php';
-
 header('Content-Type: text/html; charset=UTF-8');
+
+$host = 'sdb-73.hosting.stackcp.net';
+$db   = 'voce_podetudo-35303633ebd7';
+$user = 'voce_podetudo';
+$pass = 'Rx178gpo2@1985!';
+
+// Tentar carregar de config.php se existir
+if (file_exists(__DIR__ . '/config.php')) {
+    @include_once __DIR__ . '/config.php';
+    if (defined('DB_HOST')) $host = DB_HOST;
+    if (defined('DB_NAME')) $db   = DB_NAME;
+    if (defined('DB_USER')) $user = DB_USER;
+    if (defined('DB_PASS')) $pass = DB_PASS;
+}
 
 ?>
 <!DOCTYPE html>
@@ -34,8 +44,13 @@ header('Content-Type: text/html; charset=UTF-8');
 
 <?php
 try {
-    $pdo = getDBConnection();
-    echo "<div class='step success'>✓ Conexão com o MySQL realizada com sucesso!</div>";
+    $dsn = "mysql:host={$host};dbname={$db};charset=utf8mb4";
+    $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_TIMEOUT => 6
+    ];
+    $pdo = new PDO($dsn, $user, $pass, $options);
+    echo "<div class='step success'>✓ Conexão com o MySQL na ServerByte realizada com sucesso!</div>";
 
     // 1. Criar Tabela admin_users
     $pdo->exec("
@@ -138,7 +153,7 @@ try {
       <div class='info-box'>
         <strong>Parabéns! Seu banco de dados MySQL está 100% pronto.</strong><br>
         - Acesso de Administrador: usuário <code>admin</code> | senha <code>admin123</code><br>
-        - Por questões de segurança, após testar o site, você pode remover ou renomear este arquivo <code>api/setup.php</code>.
+        - Por questões de segurança, você já pode acessar o site.
       </div>
       <a href='../index.html' class='btn'>Acessar o Portal Você Pode Tudo →</a>
     ";
@@ -147,8 +162,7 @@ try {
     echo "<div class='step error'>❌ Erro ao conectar no MySQL: " . htmlspecialchars($e->getMessage()) . "</div>";
     echo "<div class='info-box' style='background:#fef2f2; border-color:#dc2626;'>
             <strong>O que fazer:</strong><br>
-            1. Verifique se a senha foi salva no painel StackCP clicando em <strong>Save</strong>.<br>
-            2. Utilize a ferramenta de teste para testar diferentes senhas ou o host <code>localhost</code>.<br><br>
+            Acesse a ferramenta de teste para testar a conexão diretamente:<br><br>
             <a href='test_db.php' class='btn' style='background:#002776; display:inline-block;'>Abrir Ferramenta de Teste de Conexão ➔</a>
           </div>";
 }

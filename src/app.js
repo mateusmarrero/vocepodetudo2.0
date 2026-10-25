@@ -95,7 +95,10 @@
     isAdmin: false,           // status de autenticação do administrador
     fontSizeLevel: 1,         // 0: Pequeno, 1: Normal, 2: Grande, 3: Extra Grande
     isHighContrast: false,
-    isSpeaking: false
+    isSpeaking: false,
+    coursesPerPage: 12,       // Paginação e carregamento progressivo suave
+    currentPage: 1,
+    isLoadingMore: false
   };
 
   const fontSizes = ['font-size-small', 'font-size-normal', 'font-size-large', 'font-size-xlarge'];
@@ -665,177 +668,138 @@
     });
   }
 
-  // Renderizar Cards de Cursos no Catálogo com Sanitização Rigorosa
-  function renderCourses() {
-    const grid = document.getElementById('courses-grid');
-    const emptyState = document.getElementById('empty-state');
-    const resultCount = document.getElementById('results-count-text');
-    if (!grid) return;
+  // Gerador de HTML de Card de Curso com Animação Suave Fade-In
+  function createCourseCardHtml(course) {
+    const isFav = state.favorites.has(course.id);
+    const safeTitle = escapeHTML(course.title);
+    const safeDesc = escapeHTML(course.description);
+    const safeProvider = escapeHTML(course.provider);
+    const safeTag = escapeHTML(course.providerTag || course.provider);
+    const safeUrl = sanitizeUrl(course.url);
+    
+    const certBadge = course.hasFreeCertificate 
+      ? `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-[#00702a] border border-emerald-300">
+           <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+           Certificado 100% Gratuito
+         </span>`
+      : `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-900 border border-amber-300">
+           <i data-lucide="info" class="w-4 h-4"></i>
+           ${escapeHTML(course.certificateNote || 'Modo Ouvinte Gratuito')}
+         </span>`;
 
-    const filtered = getFilteredCourses();
+    const tagsHtml = (course.tags || []).slice(0, 3).map(tag => `
+      <span class="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+        #${escapeHTML(tag)}
+      </span>
+    `).join('');
 
-    if (resultCount) {
-      if (state.selectedTrack) {
-        const track = (window.PORTAL_DATA && window.PORTAL_DATA.tracks || []).find(t => t.id === state.selectedTrack);
-        resultCount.innerHTML = `
-          <div class="inline-flex items-center gap-2 flex-wrap">
-            <span>Trilha Guiada: <strong class="text-[#002776]">${track ? escapeHTML(track.title) : ''}</strong> (${filtered.length} cursos na sequência de aprendizado)</span>
-            <button id="clear-track-btn" class="inline-flex items-center gap-1 text-xs text-rose-600 hover:text-rose-800 font-bold bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-200">
-              <i data-lucide="x" class="w-3.5 h-3.5"></i>
-              <span>Sair da Trilha</span>
-            </button>
-          </div>
-        `;
-        const clearBtn = document.getElementById('clear-track-btn');
-        if (clearBtn) {
-          clearBtn.addEventListener('click', () => {
-            state.selectedTrack = null;
-            renderTracks();
-            renderCourses();
-          });
-        }
-      } else {
-        const viewLabel = state.viewMode === 'favorites' ? 'curso(s) salvo(s)' : 'cursos gratuitos catalogados';
-        resultCount.innerHTML = `Exibindo <strong class="text-[#009639]">${filtered.length}</strong> ${viewLabel}`;
-      }
-    }
-
-    if (filtered.length === 0) {
-      grid.innerHTML = '';
-      if (emptyState) emptyState.classList.remove('hidden');
-      return;
-    }
-
-    if (emptyState) emptyState.classList.add('hidden');
-
-    grid.innerHTML = filtered.map(course => {
-      const isFav = state.favorites.has(course.id);
-      const safeTitle = escapeHTML(course.title);
-      const safeDesc = escapeHTML(course.description);
-      const safeProvider = escapeHTML(course.provider);
-      const safeTag = escapeHTML(course.providerTag || course.provider);
-      const safeUrl = sanitizeUrl(course.url);
-      
-      const certBadge = course.hasFreeCertificate 
-        ? `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-[#00702a] border border-emerald-300">
-             <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-             Certificado 100% Gratuito
-           </span>`
-        : `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-900 border border-amber-300">
-             <i data-lucide="info" class="w-4 h-4"></i>
-             ${escapeHTML(course.certificateNote || 'Modo Ouvinte Gratuito')}
-           </span>`;
-
-      const tagsHtml = (course.tags || []).slice(0, 3).map(tag => `
-        <span class="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">
-          #${escapeHTML(tag)}
-        </span>
-      `).join('');
-
-      return `
-        <article class="course-card flex flex-col justify-between bg-white border-2 border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-[#009639] transition-all relative group" aria-label="${safeTitle}">
-          <div>
-            <div class="flex items-start justify-between gap-2 mb-3">
-              <span class="inline-flex items-center px-3 py-1 rounded-lg text-xs font-bold border-2 ${course.providerColor || 'bg-slate-100 text-slate-800 border-slate-300'}">
-                ${safeTag}
-              </span>
-              
-              <div class="flex items-center gap-1">
-                <button 
-                  data-speak-title="${safeTitle}"
-                  data-speak-provider="${safeProvider}"
-                  data-speak-workload="${course.workloadHours}"
-                  data-speak-desc="${safeDesc}"
-                  class="speak-course-btn p-2 rounded-xl text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-colors"
-                  title="Ouvir em voz alta os dados deste curso"
-                  aria-label="Ouvir descrição de ${safeTitle} em voz alta"
-                >
-                  <i data-lucide="volume-2" class="w-4 h-4"></i>
-                </button>
-
-                <button 
-                  data-course-id="${escapeHTML(course.id)}"
-                  class="fav-btn p-2 rounded-xl border transition-colors ${
-                    isFav 
-                      ? 'text-rose-600 bg-rose-50 border-rose-200' 
-                      : 'text-slate-400 bg-slate-50 border-slate-200 hover:text-rose-600 hover:bg-rose-50'
-                  }"
-                  title="${isFav ? 'Remover dos favoritos' : 'Salvar nos favoritos'}"
-                  aria-label="${isFav ? 'Remover dos favoritos' : 'Salvar nos favoritos'}"
-                >
-                  <i data-lucide="heart" class="w-4 h-4 ${isFav ? 'fill-current' : ''}"></i>
-                </button>
-              </div>
-            </div>
-
-            <h3 class="text-lg font-extrabold text-slate-900 leading-snug mb-2 group-hover:text-[#009639] transition-colors">
-              ${safeTitle}
-            </h3>
-
-            <p class="text-xs font-semibold text-slate-500 mb-3 flex items-center gap-1.5">
-              <i data-lucide="building-2" class="w-4 h-4 text-slate-400 flex-shrink-0"></i>
-              <span class="truncate">${safeProvider}</span>
-            </p>
-
-            <p class="text-sm text-slate-700 mb-5 leading-relaxed">
-              ${safeDesc}
-            </p>
-          </div>
-
-          <div>
-            <div class="flex flex-wrap items-center gap-3 mb-4 py-2.5 border-y border-slate-100 text-xs text-slate-700 font-semibold">
-              <span class="inline-flex items-center gap-1.5">
-                <i data-lucide="clock" class="w-4 h-4 text-[#009639]"></i>
-                ${course.workloadHours}h de aula
-              </span>
-              <span class="text-slate-300">•</span>
-              <span class="inline-flex items-center gap-1.5">
-                <i data-lucide="bar-chart-2" class="w-4 h-4 text-[#002776]"></i>
-                ${escapeHTML(course.level || 'Iniciante')}
-              </span>
-              <span class="text-slate-300">•</span>
-              <span class="inline-flex items-center gap-1 font-bold text-amber-700">
-                <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-500"></i>
-                ${course.rating ? course.rating.toFixed(1) : '4.9'}
-              </span>
-            </div>
-
-            <div class="flex items-center justify-between gap-2 mb-4 flex-wrap">
-              ${certBadge}
-              <div class="flex items-center gap-1 overflow-hidden">
-                ${tagsHtml}
-              </div>
-            </div>
-
-            <div class="flex items-center gap-2">
-              <a 
-                href="${safeUrl}" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                class="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-sm bg-[#009639] hover:bg-[#00702a] text-white shadow-md shadow-emerald-700/20 active:scale-95 transition-all"
-                aria-label="Acessar página oficial do curso ${safeTitle} (abre em nova aba)"
+    return `
+      <article class="course-card animate-fade-in-up flex flex-col justify-between bg-white border-2 border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-[#009639] transition-all relative group" aria-label="${safeTitle}">
+        <div>
+          <div class="flex items-start justify-between gap-2 mb-3">
+            <span class="inline-flex items-center px-3 py-1 rounded-lg text-xs font-bold border-2 ${course.providerColor || 'bg-slate-100 text-slate-800 border-slate-300'}">
+              ${safeTag}
+            </span>
+            
+            <div class="flex items-center gap-1">
+              <button 
+                data-speak-title="${safeTitle}"
+                data-speak-provider="${safeProvider}"
+                data-speak-workload="${course.workloadHours}"
+                data-speak-desc="${safeDesc}"
+                class="speak-course-btn p-2 rounded-xl text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-colors"
+                title="Ouvir em voz alta os dados deste curso"
+                aria-label="Ouvir descrição de ${safeTitle} em voz alta"
               >
-                <span>Acessar Curso Oficial</span>
-                <i data-lucide="external-link" class="w-4 h-4"></i>
-              </a>
+                <i data-lucide="volume-2" class="w-4 h-4"></i>
+              </button>
 
               <button 
-                data-share-url="${safeUrl}"
-                data-course-title="${safeTitle}"
-                class="share-btn p-3 rounded-xl border-2 border-slate-200 text-slate-700 hover:bg-slate-100 transition-colors"
-                title="Copiar link do curso"
-                aria-label="Copiar link do curso ${safeTitle}"
+                data-course-id="${escapeHTML(course.id)}"
+                class="fav-btn p-2 rounded-xl border transition-colors ${
+                  isFav 
+                    ? 'text-rose-600 bg-rose-50 border-rose-200' 
+                    : 'text-slate-400 bg-slate-50 border-slate-200 hover:text-rose-600 hover:bg-rose-50'
+                }"
+                title="${isFav ? 'Remover dos favoritos' : 'Salvar nos favoritos'}"
+                aria-label="${isFav ? 'Remover dos favoritos' : 'Salvar nos favoritos'}"
               >
-                <i data-lucide="share-2" class="w-4 h-4"></i>
+                <i data-lucide="heart" class="w-4 h-4 ${isFav ? 'fill-current' : ''}"></i>
               </button>
             </div>
           </div>
-        </article>
-      `;
-    }).join('');
 
-    // Eventos dos cards
-    grid.querySelectorAll('.speak-course-btn').forEach(btn => {
+          <h3 class="text-lg font-extrabold text-slate-900 leading-snug mb-2 group-hover:text-[#009639] transition-colors">
+            ${safeTitle}
+          </h3>
+
+          <p class="text-xs font-semibold text-slate-500 mb-3 flex items-center gap-1.5">
+            <i data-lucide="building-2" class="w-4 h-4 text-slate-400 flex-shrink-0"></i>
+            <span class="truncate">${safeProvider}</span>
+          </p>
+
+          <p class="text-sm text-slate-700 mb-5 leading-relaxed">
+            ${safeDesc}
+          </p>
+        </div>
+
+        <div>
+          <div class="flex flex-wrap items-center gap-3 mb-4 py-2.5 border-y border-slate-100 text-xs text-slate-700 font-semibold">
+            <span class="inline-flex items-center gap-1.5">
+              <i data-lucide="clock" class="w-4 h-4 text-[#009639]"></i>
+              ${course.workloadHours}h de aula
+            </span>
+            <span class="text-slate-300">•</span>
+            <span class="inline-flex items-center gap-1.5">
+              <i data-lucide="bar-chart-2" class="w-4 h-4 text-[#002776]"></i>
+              ${escapeHTML(course.level || 'Iniciante')}
+            </span>
+            <span class="text-slate-300">•</span>
+            <span class="inline-flex items-center gap-1 font-bold text-amber-700">
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-500"></i>
+              ${course.rating ? course.rating.toFixed(1) : '4.9'}
+            </span>
+          </div>
+
+          <div class="flex items-center justify-between gap-2 mb-4 flex-wrap">
+            ${certBadge}
+            <div class="flex items-center gap-1 overflow-hidden">
+              ${tagsHtml}
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <a 
+              href="${safeUrl}" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-sm bg-[#009639] hover:bg-[#00702a] text-white shadow-md shadow-emerald-700/20 active:scale-95 transition-all"
+              aria-label="Acessar página oficial do curso ${safeTitle} (abre em nova aba)"
+            >
+              <span>Acessar Curso Oficial</span>
+              <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+
+            <button 
+              data-share-url="${safeUrl}"
+              data-course-title="${safeTitle}"
+              class="share-btn p-3 rounded-xl border-2 border-slate-200 text-slate-700 hover:bg-slate-100 transition-colors"
+              title="Copiar link do curso"
+              aria-label="Copiar link do curso ${safeTitle}"
+            >
+              <i data-lucide="share-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  // Vincular ouvintes de evento aos cards de curso
+  function attachCourseCardListeners(container) {
+    if (!container) return;
+
+    container.querySelectorAll('.speak-course-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         const title = btn.getAttribute('data-speak-title');
@@ -847,7 +811,7 @@
       });
     });
 
-    grid.querySelectorAll('.fav-btn').forEach(btn => {
+    container.querySelectorAll('.fav-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         const courseId = btn.getAttribute('data-course-id');
@@ -859,11 +823,11 @@
           showToast('Curso salvo com sucesso nos seus favoritos!', 'success');
         }
         saveFavorites();
-        renderCourses();
+        renderCourses(false);
       });
     });
 
-    grid.querySelectorAll('.share-btn').forEach(btn => {
+    container.querySelectorAll('.share-btn').forEach(btn => {
       btn.addEventListener('click', async () => {
         const url = btn.getAttribute('data-share-url');
         const title = btn.getAttribute('data-course-title');
@@ -879,9 +843,189 @@
         }
       });
     });
+  }
+
+  // Atualiza indicadores de carregamento suave / fim de catálogo
+  function updateScrollUI(hasMore, totalFiltered) {
+    const loadMoreBox = document.getElementById('load-more-box');
+    const allLoadedMsg = document.getElementById('all-loaded-message');
+
+    if (totalFiltered === 0) {
+      if (loadMoreBox) {
+        loadMoreBox.classList.add('hidden');
+        loadMoreBox.classList.remove('flex');
+      }
+      if (allLoadedMsg) allLoadedMsg.classList.add('hidden');
+      return;
+    }
+
+    if (hasMore) {
+      if (loadMoreBox) {
+        loadMoreBox.classList.remove('hidden');
+        loadMoreBox.classList.add('flex');
+      }
+      if (allLoadedMsg) allLoadedMsg.classList.add('hidden');
+    } else {
+      if (loadMoreBox) {
+        loadMoreBox.classList.add('hidden');
+        loadMoreBox.classList.remove('flex');
+      }
+      if (allLoadedMsg) {
+        if (totalFiltered > state.coursesPerPage) {
+          allLoadedMsg.classList.remove('hidden');
+        } else {
+          allLoadedMsg.classList.add('hidden');
+        }
+      }
+    }
+  }
+
+  // Carregar mais cursos suavemente quando o usuário atinge o final da visualização
+  function loadMoreCourses() {
+    if (state.isLoadingMore) return;
+    const filtered = getFilteredCourses();
+    const totalFiltered = filtered.length;
+    const startIndex = state.currentPage * state.coursesPerPage;
+    if (startIndex >= totalFiltered) return;
+
+    state.isLoadingMore = true;
+    const spinner = document.getElementById('load-more-spinner');
+    const btn = document.getElementById('load-more-courses-btn');
+    if (spinner) {
+      spinner.classList.remove('hidden');
+      spinner.classList.add('inline-flex');
+    }
+    if (btn) btn.classList.add('hidden');
+
+    setTimeout(() => {
+      const nextBatch = filtered.slice(startIndex, startIndex + state.coursesPerPage);
+      state.currentPage++;
+
+      const grid = document.getElementById('courses-grid');
+      if (grid && nextBatch.length > 0) {
+        const tempContainer = document.createElement('div');
+        tempContainer.innerHTML = nextBatch.map(createCourseCardHtml).join('');
+        
+        const newCards = Array.from(tempContainer.children);
+        newCards.forEach(card => {
+          grid.appendChild(card);
+          attachCourseCardListeners(card);
+        });
+
+        if (window.lucide) {
+          window.lucide.createIcons({ root: grid });
+        }
+      }
+
+      // Atualiza o contador de resultados no cabeçalho do catálogo
+      const resultCount = document.getElementById('results-count-text');
+      if (resultCount && !state.selectedTrack) {
+        const currentlyShown = Math.min(state.currentPage * state.coursesPerPage, totalFiltered);
+        const viewLabel = state.viewMode === 'favorites' ? 'curso(s) salvo(s)' : 'cursos gratuitos catalogados';
+        resultCount.innerHTML = `Exibindo <strong class="text-[#009639]">${currentlyShown}</strong> de <strong class="text-slate-800">${totalFiltered}</strong> ${viewLabel}`;
+      }
+
+      const hasMore = (state.currentPage * state.coursesPerPage) < totalFiltered;
+      if (spinner) {
+        spinner.classList.add('hidden');
+        spinner.classList.remove('inline-flex');
+      }
+      if (btn) btn.classList.remove('hidden');
+
+      updateScrollUI(hasMore, totalFiltered);
+      state.isLoadingMore = false;
+    }, 250);
+  }
+
+  // Renderizar Cards de Cursos no Catálogo com Carregamento Progressivo Suave
+  function renderCourses(resetPagination = true) {
+    const grid = document.getElementById('courses-grid');
+    const emptyState = document.getElementById('empty-state');
+    const resultCount = document.getElementById('results-count-text');
+    if (!grid) return;
+
+    if (resetPagination) {
+      state.currentPage = 1;
+    }
+
+    const filtered = getFilteredCourses();
+    const totalFiltered = filtered.length;
+    const endIndex = state.currentPage * state.coursesPerPage;
+    const visibleCourses = filtered.slice(0, endIndex);
+    const hasMore = endIndex < totalFiltered;
+
+    if (resultCount) {
+      if (state.selectedTrack) {
+        const track = (window.PORTAL_DATA && window.PORTAL_DATA.tracks || []).find(t => t.id === state.selectedTrack);
+        resultCount.innerHTML = `
+          <div class="inline-flex items-center gap-2 flex-wrap">
+            <span>Trilha Guiada: <strong class="text-[#002776]">${track ? escapeHTML(track.title) : ''}</strong> (${totalFiltered} cursos na sequência de aprendizado)</span>
+            <button id="clear-track-btn" class="inline-flex items-center gap-1 text-xs text-rose-600 hover:text-rose-800 font-bold bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-200">
+              <i data-lucide="x" class="w-3.5 h-3.5"></i>
+              <span>Sair da Trilha</span>
+            </button>
+          </div>
+        `;
+        const clearBtn = document.getElementById('clear-track-btn');
+        if (clearBtn) {
+          clearBtn.addEventListener('click', () => {
+            state.selectedTrack = null;
+            renderTracks();
+            renderCourses(true);
+          });
+        }
+      } else {
+        const viewLabel = state.viewMode === 'favorites' ? 'curso(s) salvo(s)' : 'cursos gratuitos catalogados';
+        resultCount.innerHTML = `Exibindo <strong class="text-[#009639]">${visibleCourses.length}</strong> de <strong class="text-slate-800">${totalFiltered}</strong> ${viewLabel}`;
+      }
+    }
+
+    if (totalFiltered === 0) {
+      grid.innerHTML = '';
+      if (emptyState) emptyState.classList.remove('hidden');
+      updateScrollUI(false, 0);
+      return;
+    }
+
+    if (emptyState) emptyState.classList.add('hidden');
+
+    grid.innerHTML = visibleCourses.map(createCourseCardHtml).join('');
+    attachCourseCardListeners(grid);
 
     if (window.lucide) window.lucide.createIcons({ root: grid });
+    updateScrollUI(hasMore, totalFiltered);
     updateHeaderStats();
+  }
+
+  // Configuração do Scroll Infinito Suave via IntersectionObserver
+  function setupInfiniteScroll() {
+    const trigger = document.getElementById('courses-scroll-trigger');
+    const loadMoreBtn = document.getElementById('load-more-courses-btn');
+
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener('click', () => {
+        loadMoreCourses();
+      });
+    }
+
+    if (trigger && 'IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const filtered = getFilteredCourses();
+            if ((state.currentPage * state.coursesPerPage) < filtered.length) {
+              loadMoreCourses();
+            }
+          }
+        });
+      }, {
+        root: null,
+        rootMargin: '300px',
+        threshold: 0.1
+      });
+
+      observer.observe(trigger);
+    }
   }
 
   function updateHeaderStats() {
@@ -1321,10 +1465,44 @@
       });
     }
 
-    [adminLoginModal, adminCourseModal, changePasswordModal, reportModal].forEach(modal => {
+    // Modal Popup de Boas-Vindas e Aviso de Utilidade Pública (Não Hospedamos Cursos)
+    const disclaimerModal = document.getElementById('welcome-disclaimer-modal');
+    const closeDisclaimerXBtn = document.getElementById('close-disclaimer-x-btn');
+    const confirmDisclaimerBtn = document.getElementById('confirm-disclaimer-btn');
+    const dontShowAgainCheckbox = document.getElementById('dont-show-disclaimer-again');
+
+    function closeDisclaimer() {
+      if (disclaimerModal) {
+        disclaimerModal.classList.add('hidden');
+      }
+      if (dontShowAgainCheckbox && dontShowAgainCheckbox.checked) {
+        localStorage.setItem('vpt_disclaimer_dismissed', 'true');
+      }
+    }
+
+    if (closeDisclaimerXBtn) closeDisclaimerXBtn.addEventListener('click', closeDisclaimer);
+    if (confirmDisclaimerBtn) confirmDisclaimerBtn.addEventListener('click', closeDisclaimer);
+
+    if (disclaimerModal) {
+      // Exibe suavemente na primeira visita (ou se o usuário não marcou "não mostrar novamente")
+      const isDismissed = localStorage.getItem('vpt_disclaimer_dismissed') === 'true';
+      if (!isDismissed) {
+        setTimeout(() => {
+          disclaimerModal.classList.remove('hidden');
+        }, 500);
+      }
+    }
+
+    [adminLoginModal, adminCourseModal, changePasswordModal, reportModal, disclaimerModal].forEach(modal => {
       if (!modal) return;
       modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.classList.add('hidden');
+        if (e.target === modal) {
+          if (modal === disclaimerModal) {
+            closeDisclaimer();
+          } else {
+            modal.classList.add('hidden');
+          }
+        }
       });
     });
   }
@@ -1337,7 +1515,8 @@
           'admin-login-modal',
           'admin-course-modal',
           'admin-change-password-modal',
-          'report-modal'
+          'report-modal',
+          'welcome-disclaimer-modal'
         ];
         modals.forEach(id => {
           const el = document.getElementById(id);
@@ -1551,6 +1730,7 @@
     updateFavoritesBadge();
     setupModals();
     setupEventListeners();
+    setupInfiniteScroll();
 
     // Sincronizar catálogo diretamente com o MySQL do servidor
     syncCoursesWithMySQL();

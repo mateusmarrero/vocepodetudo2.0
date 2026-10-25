@@ -144,8 +144,13 @@ try {
     ";
 
 } catch (Exception $e) {
-    echo "<div class='step error'>❌ Erro durante a instalação: " . htmlspecialchars($e->getMessage()) . "</div>";
-    echo "<p>Certifique-se de preencher o arquivo <code>api/config.php</code> com os dados de acesso do banco criados no cPanel da ServerByte.</p>";
+    echo "<div class='step error'>❌ Erro ao conectar no MySQL: " . htmlspecialchars($e->getMessage()) . "</div>";
+    echo "<div class='info-box' style='background:#fef2f2; border-color:#dc2626;'>
+            <strong>O que fazer:</strong><br>
+            1. Verifique se a senha foi salva no painel StackCP clicando em <strong>Save</strong>.<br>
+            2. Utilize a ferramenta de teste para testar diferentes senhas ou o host <code>localhost</code>.<br><br>
+            <a href='test_db.php' class='btn' style='background:#002776; display:inline-block;'>Abrir Ferramenta de Teste de Conexão ➔</a>
+          </div>";
 }
 ?>
   </div>

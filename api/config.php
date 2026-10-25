@@ -41,15 +41,19 @@ function getDBConnection() {
         return $pdo;
     } catch (PDOException $e) {
         error_log("Erro de Conexão MySQL: " . $e->getMessage());
-        jsonResponse([
-            'error' => true,
-            'message' => 'Falha de conexão com o banco de dados MySQL: ' . $e->getMessage(),
-            'diagnostico' => [
-                'servidor_usado' => DB_HOST,
-                'banco_usado' => DB_NAME,
-                'usuario_usado' => DB_USER
-            ]
-        ], 500);
+        // Se for uma requisição de API JSON, responde em JSON
+        if (strpos($_SERVER['REQUEST_URI'] ?? '', 'setup.php') === false && strpos($_SERVER['REQUEST_URI'] ?? '', 'test_db.php') === false) {
+            jsonResponse([
+                'error' => true,
+                'message' => 'Falha de conexão com o banco de dados MySQL: ' . $e->getMessage(),
+                'diagnostico' => [
+                    'servidor_usado' => DB_HOST,
+                    'banco_usado' => DB_NAME,
+                    'usuario_usado' => DB_USER
+                ]
+            ], 500);
+        }
+        throw $e;
     }
 }
 

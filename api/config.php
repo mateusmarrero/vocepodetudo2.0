@@ -9,12 +9,11 @@ ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 error_reporting(E_ALL);
 
-// Configurações do Banco de Dados MySQL na ServerByte
-// Altere estes valores com os dados do seu banco criado no cPanel / phpMyAdmin
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'vocepodetudo');     // Nome do seu banco criado no cPanel
-define('DB_USER', 'vocepodetudo_user'); // Usuário do banco
-define('DB_PASS', 'SuaSenhaSegura123!'); // Senha do usuário do banco
+// Configurações do Banco de Dados MySQL na ServerByte / StackCP (obtidas do painel)
+define('DB_HOST', 'sdb-73.hosting.stackcp.net');
+define('DB_NAME', 'voce_podetudo-35303633ebd7');
+define('DB_USER', 'voce_podetudo');
+define('DB_PASS', 'Rx178gpo2@1985!'); // Senha definida no campo "New password" e salva
 define('DB_CHARSET', 'utf8mb4');
 
 // Chave Secreta para Assinatura de Tokens de Acesso (HMAC-SHA256)

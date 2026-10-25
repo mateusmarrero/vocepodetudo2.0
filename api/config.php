@@ -43,7 +43,12 @@ function getDBConnection() {
         error_log("Erro de Conexão MySQL: " . $e->getMessage());
         jsonResponse([
             'error' => true,
-            'message' => 'Falha de conexão com o banco de dados MySQL. Verifique as credenciais no arquivo api/config.php.'
+            'message' => 'Falha de conexão com o banco de dados MySQL: ' . $e->getMessage(),
+            'diagnostico' => [
+                'servidor_usado' => DB_HOST,
+                'banco_usado' => DB_NAME,
+                'usuario_usado' => DB_USER
+            ]
         ], 500);
     }
 }

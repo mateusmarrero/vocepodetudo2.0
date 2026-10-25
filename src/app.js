@@ -668,6 +668,99 @@
     });
   }
 
+  // Gerador de Card de Anúncio Nativo In-Feed (Google AdSense 300x250 ou Patrocinador)
+  function createAdCardHtml() {
+    return `
+      <article class="course-card course-ad-card animate-fade-in-up flex flex-col justify-between bg-gradient-to-br from-amber-50/70 via-white to-emerald-50/40 border-2 border-dashed border-amber-300 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all relative" aria-label="Espaço Publicitário">
+        <div>
+          <div class="flex items-start justify-between gap-2 mb-3">
+            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-black bg-amber-100 text-amber-900 border border-amber-300">
+              <i data-lucide="tag" class="w-3.5 h-3.5 text-amber-700"></i>
+              <span>Publicidade</span>
+            </span>
+            <span class="text-[11px] text-slate-400 font-semibold">Anúncio Patrocinado</span>
+          </div>
+
+          <h3 class="text-lg font-black text-slate-800 leading-snug mb-2">
+            Espaço para Parceiros & Apoiadores
+          </h3>
+
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+            Alcance milhares de estudantes e trabalhadores qualificados em todo o Brasil. Espaço reservado para o Google AdSense ou parceiros educacionais.
+          </p>
+        </div>
+
+        <div class="pt-4 border-t border-amber-200/60">
+          <div class="flex items-center justify-between text-xs text-slate-500 font-semibold mb-3">
+            <span>Formato: 300x250 / Nativo</span>
+            <span class="text-emerald-700 font-bold">Google AdSense Ready</span>
+          </div>
+          <a 
+            href="mailto:contato.vocepodetudo@gmail.com?subject=Anunciar%20no%20Portal%20Voce%20Pode%20Tudo" 
+            class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs bg-amber-400 hover:bg-amber-500 text-slate-950 transition-colors shadow-sm"
+          >
+            <i data-lucide="megaphone" class="w-4 h-4"></i>
+            <span>Anuncie Aqui sua Instituição</span>
+          </a>
+        </div>
+      </article>
+    `;
+  }
+
+  // Abre o modal de compartilhamento com opções para redes sociais
+  function openShareModal(title, provider, url) {
+    const modal = document.getElementById('share-course-modal');
+    if (!modal) return;
+
+    const titleEl = document.getElementById('share-modal-title');
+    const providerEl = document.getElementById('share-modal-provider');
+    const inputUrl = document.getElementById('share-modal-input-url');
+
+    if (titleEl) titleEl.textContent = title;
+    if (providerEl) providerEl.textContent = provider;
+    if (inputUrl) inputUrl.value = url;
+
+    const shareText = `Olha esse curso 100% gratuito que encontrei no Você Pode Tudo: "${title}" (${provider}). Acesse o link oficial: ${url}`;
+    const encodedText = encodeURIComponent(shareText);
+    const encodedUrl = encodeURIComponent(url);
+
+    const whatsappLink = document.getElementById('share-link-whatsapp');
+    if (whatsappLink) whatsappLink.href = `https://api.whatsapp.com/send?text=${encodedText}`;
+
+    const linkedinLink = document.getElementById('share-link-linkedin');
+    if (linkedinLink) linkedinLink.href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+
+    const telegramLink = document.getElementById('share-link-telegram');
+    if (telegramLink) telegramLink.href = `https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(title)}`;
+
+    const twitterLink = document.getElementById('share-link-twitter');
+    if (twitterLink) twitterLink.href = `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`;
+
+    const nativeBtn = document.getElementById('share-modal-native-btn');
+    if (nativeBtn) {
+      if (navigator.share) {
+        nativeBtn.classList.remove('hidden');
+        nativeBtn.classList.add('inline-flex');
+        nativeBtn.onclick = async () => {
+          try {
+            await navigator.share({
+              title: title,
+              text: shareText,
+              url: url
+            });
+          } catch (err) {
+            // Cancelado pelo usuário
+          }
+        };
+      } else {
+        nativeBtn.classList.add('hidden');
+        nativeBtn.classList.remove('inline-flex');
+      }
+    }
+
+    modal.classList.remove('hidden');
+  }
+
   // Gerador de HTML de Card de Curso com Animação Suave Fade-In
   function createCourseCardHtml(course) {
     const isFav = state.favorites.has(course.id);
@@ -692,6 +785,9 @@
         #${escapeHTML(tag)}
       </span>
     `).join('');
+
+    const shareMsg = `Olha esse curso 100% gratuito que encontrei no Você Pode Tudo: "${safeTitle}" (${safeProvider}) com ${course.workloadHours}h de aula. Acesse aqui: ${safeUrl}`;
+    const directWhatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareMsg)}`;
 
     return `
       <article class="course-card animate-fade-in-up flex flex-col justify-between bg-white border-2 border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-[#009639] transition-all relative group" aria-label="${safeTitle}">
@@ -773,19 +869,33 @@
               href="${safeUrl}" 
               target="_blank" 
               rel="noopener noreferrer"
-              class="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-sm bg-[#009639] hover:bg-[#00702a] text-white shadow-md shadow-emerald-700/20 active:scale-95 transition-all"
+              class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-xs sm:text-sm bg-[#009639] hover:bg-[#00702a] text-white shadow-md shadow-emerald-700/20 active:scale-95 transition-all truncate"
               aria-label="Acessar página oficial do curso ${safeTitle} (abre em nova aba)"
             >
               <span>Acessar Curso Oficial</span>
-              <i data-lucide="external-link" class="w-4 h-4"></i>
+              <i data-lucide="external-link" class="w-4 h-4 flex-shrink-0"></i>
             </a>
 
+            <!-- Compartilhar direto no WhatsApp -->
+            <a 
+              href="${directWhatsappUrl}" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="p-3 rounded-xl border-2 border-emerald-200 bg-emerald-50 text-[#00702a] hover:bg-emerald-100 hover:border-emerald-400 transition-colors flex-shrink-0"
+              title="Compartilhar direto no WhatsApp"
+              aria-label="Compartilhar curso ${safeTitle} no WhatsApp"
+            >
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+
+            <!-- Menu de opções de compartilhamento (LinkedIn, Telegram, X, Link) -->
             <button 
               data-share-url="${safeUrl}"
               data-course-title="${safeTitle}"
-              class="share-btn p-3 rounded-xl border-2 border-slate-200 text-slate-700 hover:bg-slate-100 transition-colors"
-              title="Copiar link do curso"
-              aria-label="Copiar link do curso ${safeTitle}"
+              data-course-provider="${safeProvider}"
+              class="open-share-modal-btn p-3 rounded-xl border-2 border-slate-200 text-slate-700 hover:bg-slate-100 hover:border-slate-300 transition-colors flex-shrink-0"
+              title="Mais opções de compartilhamento (LinkedIn, Telegram, Link)"
+              aria-label="Mais opções de compartilhamento para ${safeTitle}"
             >
               <i data-lucide="share-2" class="w-4 h-4"></i>
             </button>
@@ -827,20 +937,13 @@
       });
     });
 
-    container.querySelectorAll('.share-btn').forEach(btn => {
-      btn.addEventListener('click', async () => {
+    container.querySelectorAll('.open-share-modal-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
         const url = btn.getAttribute('data-share-url');
         const title = btn.getAttribute('data-course-title');
-        try {
-          if (navigator.clipboard) {
-            await navigator.clipboard.writeText(url);
-            showToast(`Link de "${title}" copiado com sucesso!`, 'success');
-          } else {
-            prompt('Copie o link abaixo:', url);
-          }
-        } catch (err) {
-          showToast('Link do curso: ' + url, 'info');
-        }
+        const provider = btn.getAttribute('data-course-provider');
+        openShareModal(title, provider, url);
       });
     });
   }
@@ -903,8 +1006,18 @@
 
       const grid = document.getElementById('courses-grid');
       if (grid && nextBatch.length > 0) {
+        const cardsHtml = [];
+        nextBatch.forEach((course, index) => {
+          cardsHtml.push(createCourseCardHtml(course));
+          const currentCount = startIndex + index + 1;
+          // Inserir card de publicidade nativo a cada 6 cursos
+          if (currentCount % 6 === 0) {
+            cardsHtml.push(createAdCardHtml());
+          }
+        });
+
         const tempContainer = document.createElement('div');
-        tempContainer.innerHTML = nextBatch.map(createCourseCardHtml).join('');
+        tempContainer.innerHTML = cardsHtml.join('');
         
         const newCards = Array.from(tempContainer.children);
         newCards.forEach(card => {
@@ -989,7 +1102,16 @@
 
     if (emptyState) emptyState.classList.add('hidden');
 
-    grid.innerHTML = visibleCourses.map(createCourseCardHtml).join('');
+    const cardsHtml = [];
+    visibleCourses.forEach((course, index) => {
+      cardsHtml.push(createCourseCardHtml(course));
+      // Inserir card de publicidade nativo a cada 6 cursos
+      if ((index + 1) % 6 === 0) {
+        cardsHtml.push(createAdCardHtml());
+      }
+    });
+
+    grid.innerHTML = cardsHtml.join('');
     attachCourseCardListeners(grid);
 
     if (window.lucide) window.lucide.createIcons({ root: grid });
@@ -1493,7 +1615,37 @@
       }
     }
 
-    [adminLoginModal, adminCourseModal, changePasswordModal, reportModal, disclaimerModal].forEach(modal => {
+    // Modal de Opções de Compartilhamento do Curso
+    const shareModal = document.getElementById('share-course-modal');
+    const closeShareModalBtn = document.getElementById('close-share-modal-btn');
+    const copyShareUrlBtn = document.getElementById('share-modal-copy-btn');
+    const inputShareUrl = document.getElementById('share-modal-input-url');
+
+    if (closeShareModalBtn && shareModal) {
+      closeShareModalBtn.addEventListener('click', () => {
+        shareModal.classList.add('hidden');
+      });
+    }
+
+    if (copyShareUrlBtn && inputShareUrl) {
+      copyShareUrlBtn.addEventListener('click', async () => {
+        const url = inputShareUrl.value;
+        try {
+          if (navigator.clipboard) {
+            await navigator.clipboard.writeText(url);
+            showToast('Link do curso copiado com sucesso!', 'success');
+          } else {
+            inputShareUrl.select();
+            document.execCommand('copy');
+            showToast('Link do curso copiado!', 'success');
+          }
+        } catch (err) {
+          showToast('Link: ' + url, 'info');
+        }
+      });
+    }
+
+    [adminLoginModal, adminCourseModal, changePasswordModal, reportModal, disclaimerModal, shareModal].forEach(modal => {
       if (!modal) return;
       modal.addEventListener('click', (e) => {
         if (e.target === modal) {
@@ -1516,7 +1668,8 @@
           'admin-course-modal',
           'admin-change-password-modal',
           'report-modal',
-          'welcome-disclaimer-modal'
+          'welcome-disclaimer-modal',
+          'share-course-modal'
         ];
         modals.forEach(id => {
           const el = document.getElementById(id);

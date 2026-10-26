@@ -138,6 +138,27 @@
     }, 3200);
   }
 
+  // Atualiza indicadores visuais do painel de acessibilidade
+  function updateVisualAccessibilityUI() {
+    const contrastBadge = document.getElementById('acc-contrast-status-badge');
+    const fontBadge = document.getElementById('acc-font-level-badge');
+    
+    if (contrastBadge) {
+      if (state.isHighContrast) {
+        contrastBadge.textContent = 'Ativado';
+        contrastBadge.className = 'text-[10px] font-black uppercase px-2 py-0.5 rounded bg-[#ffdf00] text-slate-950 border border-slate-950';
+      } else {
+        contrastBadge.textContent = 'Desativado';
+        contrastBadge.className = 'text-[10px] font-black uppercase px-2 py-0.5 rounded bg-slate-200 text-slate-700';
+      }
+    }
+
+    if (fontBadge) {
+      const labels = ['Pequeno (85%)', 'Normal (100%)', 'Grande (115%)', 'Extra Grande (125%)'];
+      fontBadge.textContent = labels[state.fontSizeLevel] || 'Normal (100%)';
+    }
+  }
+
   // Leitor de Texto em Voz Alta (Acessibilidade TTS)
   function speakText(text) {
     if (!('speechSynthesis' in window)) {
@@ -145,9 +166,12 @@
       return;
     }
 
+    const btnText = document.getElementById('btn-read-page-text');
+
     if (window.speechSynthesis.speaking) {
       window.speechSynthesis.cancel();
       state.isSpeaking = false;
+      if (btnText) btnText.textContent = 'Ouvir Resumo da Página';
       showToast('Leitura de voz interrompida.', 'info');
       return;
     }
@@ -158,15 +182,18 @@
 
     utterance.onstart = () => {
       state.isSpeaking = true;
-      showToast('Lendo em voz alta...', 'info');
+      if (btnText) btnText.textContent = 'Pausar Leitura de Voz';
+      showToast('Lendo resumo do portal em voz alta...', 'info');
     };
 
     utterance.onend = () => {
       state.isSpeaking = false;
+      if (btnText) btnText.textContent = 'Ouvir Resumo da Página';
     };
 
     utterance.onerror = () => {
       state.isSpeaking = false;
+      if (btnText) btnText.textContent = 'Ouvir Resumo da Página';
     };
 
     window.speechSynthesis.speak(utterance);
@@ -178,6 +205,7 @@
     fontSizes.forEach(cls => html.classList.remove(cls));
     html.classList.add(fontSizes[state.fontSizeLevel]);
     localStorage.setItem('vocepodetudo_fontsize', state.fontSizeLevel);
+    updateVisualAccessibilityUI();
   }
 
   function changeFontSize(delta) {
@@ -206,6 +234,7 @@
       localStorage.setItem('vocepodetudo_contrast', 'normal');
       showToast('Modo Alto Contraste desativado', 'info');
     }
+    updateVisualAccessibilityUI();
   }
 
   // Carregar dados salvos no LocalStorage / SessionStorage com Validação de Segurança
@@ -2266,12 +2295,94 @@
     }
   }
 
+  // ============================================================
+  // WIDGET FLUTUANTE DE ACESSIBILIDADE VISUAL (ABAIXO DO VLIBRAS)
+  // ============================================================
+  function setupVisualAccessibilityWidget() {
+    const widget = document.getElementById('visual-accessibility-widget');
+    const toggleBtn = document.getElementById('visual-accessibility-toggle-btn');
+    const panel = document.getElementById('visual-accessibility-panel');
+    const closeBtn = document.getElementById('close-visual-accessibility-btn');
+
+    if (!widget || !toggleBtn || !panel) return;
+
+    function openPanel() {
+      panel.classList.remove('hidden');
+      toggleBtn.setAttribute('aria-expanded', 'true');
+      updateVisualAccessibilityUI();
+      if (window.lucide && window.lucide.createIcons) {
+        window.lucide.createIcons({ root: panel });
+      }
+    }
+
+    function closePanel() {
+      panel.classList.add('hidden');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    function togglePanel() {
+      if (panel.classList.contains('hidden')) {
+        openPanel();
+      } else {
+        closePanel();
+      }
+    }
+
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      togglePanel();
+    });
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closePanel();
+      });
+    }
+
+    // Fechar ao clicar fora do painel
+    document.addEventListener('click', (e) => {
+      if (!panel.classList.contains('hidden') && !panel.contains(e.target) && !toggleBtn.contains(e.target)) {
+        closePanel();
+      }
+    });
+
+    // Fechar ao pressionar ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !panel.classList.contains('hidden')) {
+        closePanel();
+      }
+    });
+
+    // Alinhamento dinâmico automático com a posição exata do VLibras
+    function alignWithVLibras() {
+      const vlibrasBtn = document.querySelector('[vw-access-button], .vw-access-button, [vw] div[vw-access-button]');
+      if (vlibrasBtn) {
+        const rect = vlibrasBtn.getBoundingClientRect();
+        if (rect && rect.height > 0 && rect.bottom > 0) {
+          widget.style.top = `${Math.round(rect.bottom + 8)}px`;
+          return;
+        }
+      }
+      widget.style.top = 'calc(50% + 28px)';
+    }
+
+    alignWithVLibras();
+    setTimeout(alignWithVLibras, 500);
+    setTimeout(alignWithVLibras, 1500);
+    setTimeout(alignWithVLibras, 3000);
+    window.addEventListener('resize', alignWithVLibras);
+
+    updateVisualAccessibilityUI();
+  }
+
   // Inicialização Completa
   function init() {
     // 1. Recursos essenciais e utilidades imediatas
     try { setupLGPD(); } catch (e) { console.warn('[LGPD] Erro ao iniciar:', e); }
     try { initWeatherWidget(); } catch (e) { console.warn('[Weather] Erro ao iniciar:', e); }
     try { initNewsTicker(); } catch (e) { console.warn('[News] Erro ao iniciar:', e); }
+    try { setupVisualAccessibilityWidget(); } catch (e) { console.warn('[VisualAcc] Erro ao iniciar:', e); }
 
     // 2. Catálogo e preferências persistidas
     loadPersistedData();

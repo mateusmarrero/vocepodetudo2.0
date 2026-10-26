@@ -184,83 +184,13 @@
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col font-sans antialiased selection:bg-[#ffcc29] selection:text-slate-900">
 
-  <!-- Barra de Acessibilidade Governamental (Padrão e-MAG Brasil) -->
-  <nav aria-label="Barra de Acessibilidade e Atalhos" class="bg-[#002776] text-white text-xs py-2 px-4 border-b border-blue-900">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-      
-      <!-- Atalhos rápidos de teclado -->
-      <div class="flex items-center gap-3 text-[11px] font-semibold">
-        <a href="#main-content" class="hover:underline flex items-center gap-1 focus:bg-[#ffcc29] focus:text-slate-900 px-1 py-0.5 rounded">
-          <span>Ir para o conteúdo</span>
-          <kbd class="bg-blue-900/80 px-1 rounded text-[10px]">Alt + 1</kbd>
-        </a>
-        <span class="text-blue-400">|</span>
-        <a href="#search-input" class="hover:underline flex items-center gap-1 focus:bg-[#ffcc29] focus:text-slate-900 px-1 py-0.5 rounded">
-          <span>Ir para a busca</span>
-          <kbd class="bg-blue-900/80 px-1 rounded text-[10px]">Alt + 2</kbd>
-        </a>
-      </div>
-
-      <!-- Controles de Acessibilidade Visual e Sonora -->
-      <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
-        <!-- Síntese de Voz (Ouvir Página) -->
-        <button 
-          id="btn-read-page" 
-          class="flex items-center gap-1 px-2.5 py-1 rounded bg-blue-900 hover:bg-blue-800 text-[11px] font-bold border border-blue-700 transition-colors"
-          title="Ouvir resumo da página em voz alta"
-          aria-label="Ouvir resumo da página em voz alta"
-        >
-          <i data-lucide="volume-2" class="w-3.5 h-3.5 text-[#ffcc29]"></i>
-          <span>Ouvir Página</span>
-        </button>
-
-        <span class="text-blue-400 hidden sm:inline">|</span>
-
-        <!-- Tamanho da Fonte (A- / A / A+) -->
-        <div class="flex items-center bg-blue-900/90 rounded border border-blue-700 p-0.5">
-          <button 
-            id="btn-font-decrease" 
-            class="px-2 py-0.5 hover:bg-blue-800 rounded text-xs font-bold transition-colors"
-            title="Diminuir fonte da página"
-            aria-label="Diminuir tamanho da fonte"
-          >
-            A-
-          </button>
-          <button 
-            id="btn-font-reset" 
-            class="px-2 py-0.5 hover:bg-blue-800 rounded text-xs font-bold text-[#ffcc29] transition-colors"
-            title="Redefinir tamanho padrão da fonte"
-            aria-label="Redefinir tamanho normal da fonte"
-          >
-            A
-          </button>
-          <button 
-            id="btn-font-increase" 
-            class="px-2 py-0.5 hover:bg-blue-800 rounded text-xs font-bold transition-colors"
-            title="Aumentar fonte da página"
-            aria-label="Aumentar tamanho da fonte"
-          >
-            A+
-          </button>
-        </div>
-
-        <span class="text-blue-400 hidden sm:inline">|</span>
-
-        <!-- Alto Contraste -->
-        <button 
-          id="btn-contrast-toggle" 
-          class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-blue-900 hover:bg-blue-800 text-[11px] font-bold border border-blue-700 transition-colors"
-          title="Alternar modo de Alto Contraste para pessoas com baixa visão (Alt + 4)"
-          aria-label="Alternar modo de Alto Contraste"
-        >
-          <i data-lucide="sun-moon" class="w-3.5 h-3.5 text-[#ffcc29]"></i>
-          <span>Alto Contraste</span>
-          <kbd class="hidden md:inline bg-blue-950 px-1 rounded text-[9px]">Alt+4</kbd>
-        </button>
-      </div>
-
-    </div>
-  </nav>
+  <!-- Links Rápidos de Pulo e-MAG / WCAG (Acessíveis para Leitores de Tela e Navegação por Teclado) -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#ffcc29] focus:text-slate-950 focus:font-black focus:rounded-xl focus:shadow-2xl focus:outline-none focus:ring-4 focus:ring-blue-600">
+    Ir para o conteúdo principal [Alt + 1]
+  </a>
+  <a href="#search-input" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-64 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#ffcc29] focus:text-slate-950 focus:font-black focus:rounded-xl focus:shadow-2xl focus:outline-none focus:ring-4 focus:ring-blue-600">
+    Ir para a busca de cursos [Alt + 2]
+  </a>
 
   <!-- Barra de Informações: Clima Local em Tempo Real & Giro de Notícias do Brasil (Tons da Bandeira do Brasil: Verde, Amarelo, Azul e Branco) -->
   <aside id="top-utility-bar" aria-label="Informações do Dia, Clima e Notícias" class="bg-gradient-to-r from-[#005e24] via-[#008031] to-[#005e24] text-white border-b-2 border-[#ffcc29] text-xs py-2 px-3 sm:px-4 select-none relative z-30 shadow-sm transition-colors">
@@ -1451,8 +1381,175 @@
     }
   </script>
 
-  <!-- Carregamento dos Scripts da Aplicação (com Cache-Busting v=2.2.0) -->
-  <script src="./src/data/courses.js?v=2.2.0"></script>
-  <script src="./src/app.js?v=2.2.0"></script>
+  <!-- Widget Flutuante de Acessibilidade Visual (Posicionado estrategicamente abaixo do auxílio de VLibras) -->
+  <aside 
+    id="visual-accessibility-widget" 
+    class="fixed right-0 z-50 transition-all select-none"
+    style="top: calc(50% + 28px);"
+    aria-label="Ferramentas de Acessibilidade Visual"
+  >
+    <!-- Botão Flutuante Discreto e Elegante com Cores do Brasil -->
+    <button 
+      id="visual-accessibility-toggle-btn" 
+      type="button"
+      class="group flex items-center gap-1.5 bg-[#002776] hover:bg-[#001a4e] text-white border-2 border-r-0 border-[#ffcc29] rounded-l-2xl py-2 px-2.5 sm:px-3 shadow-2xl transition-all hover:pl-3.5 focus:outline-none focus:ring-2 focus:ring-[#ffcc29]"
+      title="Acessibilidade Visual (Alto Contraste, Fontes e Leitor de Voz)"
+      aria-label="Abrir menu de acessibilidade visual"
+      aria-expanded="false"
+      aria-controls="visual-accessibility-panel"
+    >
+      <div class="w-7 h-7 rounded-xl bg-[#00143d] text-[#ffdf00] flex items-center justify-center border border-[#ffcc29]/40 group-hover:scale-105 transition-transform flex-shrink-0 shadow-inner">
+        <i data-lucide="eye" class="w-4 h-4"></i>
+      </div>
+      <div class="hidden md:flex flex-col text-left leading-none pr-1">
+        <span class="text-[10px] font-black uppercase text-[#ffdf00] tracking-wider">Acessibilidade</span>
+        <span class="text-[9px] font-bold text-slate-200">Visual</span>
+      </div>
+    </button>
+
+    <!-- Painel Expansível de Acessibilidade Visual -->
+    <div 
+      id="visual-accessibility-panel" 
+      class="hidden absolute right-full mr-2.5 top-0 -translate-y-1/3 sm:-translate-y-1/4 w-72 sm:w-80 bg-white text-slate-900 rounded-3xl shadow-2xl border-4 border-[#002776] p-4 sm:p-5 z-50 animate-fade-in max-h-[85vh] overflow-y-auto"
+      role="dialog"
+      aria-modal="false"
+      aria-labelledby="visual-acc-title"
+    >
+      <!-- Cabeçalho do Painel -->
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-blue-100 text-[#002776] flex items-center justify-center flex-shrink-0">
+            <i data-lucide="eye" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 id="visual-acc-title" class="text-xs sm:text-sm font-black text-slate-900 leading-tight">
+              Acessibilidade Visual
+            </h3>
+            <span class="text-[10px] text-slate-500 font-semibold">Baixa Visão & Leitura Facilitada</span>
+          </div>
+        </div>
+        <button 
+          id="close-visual-accessibility-btn" 
+          type="button"
+          class="text-slate-400 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-100 transition-colors"
+          aria-label="Fechar menu de acessibilidade"
+        >
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <!-- 1. Modo Alto Contraste -->
+        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-black text-slate-800 flex items-center gap-1.5">
+              <i data-lucide="sun-moon" class="w-3.5 h-3.5 text-[#002776]"></i>
+              <span>Alto Contraste</span>
+            </span>
+            <span id="acc-contrast-status-badge" class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-slate-200 text-slate-700">
+              Desativado
+            </span>
+          </div>
+          <button 
+            id="btn-contrast-toggle" 
+            type="button"
+            class="w-full py-2 px-3 rounded-xl font-black text-xs bg-[#002776] hover:bg-[#001a4e] text-white transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
+            title="Alternar Alto Contraste (Alt + 4)"
+          >
+            <i data-lucide="contrast" class="w-3.5 h-3.5 text-[#ffdf00]"></i>
+            <span>Alternar Alto Contraste</span>
+            <kbd class="ml-1 bg-[#00143d] text-[#ffdf00] px-1.5 py-0.2 rounded text-[9px]">Alt+4</kbd>
+          </button>
+        </div>
+
+        <!-- 2. Tamanho da Fonte -->
+        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-black text-slate-800 flex items-center gap-1.5">
+              <i data-lucide="type" class="w-3.5 h-3.5 text-[#009639]"></i>
+              <span>Tamanho do Texto</span>
+            </span>
+            <span id="acc-font-level-badge" class="text-[10px] font-black px-2 py-0.5 rounded bg-emerald-100 text-[#00702a]">
+              Normal (100%)
+            </span>
+          </div>
+          <div class="grid grid-cols-3 gap-1.5">
+            <button 
+              id="btn-font-decrease" 
+              type="button"
+              class="py-1.5 px-2 rounded-xl border border-slate-300 hover:bg-white text-slate-800 font-black text-xs transition-colors flex items-center justify-center gap-1 cursor-pointer"
+              title="Diminuir fonte"
+              aria-label="Diminuir fonte"
+            >
+              <span>A -</span>
+            </button>
+            <button 
+              id="btn-font-reset" 
+              type="button"
+              class="py-1.5 px-2 rounded-xl border border-slate-300 hover:bg-white text-slate-800 font-bold text-xs transition-colors flex items-center justify-center cursor-pointer"
+              title="Tamanho padrão (100%)"
+              aria-label="Tamanho padrão da fonte"
+            >
+              <span>100%</span>
+            </button>
+            <button 
+              id="btn-font-increase" 
+              type="button"
+              class="py-1.5 px-2 rounded-xl border border-slate-300 hover:bg-white text-slate-800 font-black text-xs transition-colors flex items-center justify-center gap-1 cursor-pointer"
+              title="Aumentar fonte"
+              aria-label="Aumentar fonte"
+            >
+              <span>A +</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. Síntese de Voz (Ouvir Página) -->
+        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-black text-slate-800 flex items-center gap-1.5">
+              <i data-lucide="volume-2" class="w-3.5 h-3.5 text-[#002776]"></i>
+              <span>Leitor por Voz</span>
+            </span>
+            <span class="text-[10px] text-slate-500 font-bold">Português (BR)</span>
+          </div>
+          <button 
+            id="btn-read-page" 
+            type="button"
+            class="w-full py-2 px-3 rounded-xl font-black text-xs bg-emerald-600 hover:bg-emerald-700 text-white transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
+            title="Ouvir resumo da página em voz alta"
+          >
+            <i data-lucide="volume-2" class="w-3.5 h-3.5 text-[#ffdf00]"></i>
+            <span id="btn-read-page-text">Ouvir Resumo da Página</span>
+          </button>
+        </div>
+
+        <!-- 4. Atalhos de Teclado e-MAG -->
+        <div class="p-2.5 rounded-2xl bg-blue-50/60 border border-blue-200/60 text-[11px] text-slate-700 space-y-1">
+          <div class="font-black text-[#002776] mb-1 flex items-center gap-1">
+            <i data-lucide="keyboard" class="w-3 h-3"></i>
+            <span>Atalhos Rápidos de Teclado:</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span>Ir para Conteúdo</span>
+            <kbd class="bg-white border border-slate-300 px-1.5 py-0.2 rounded font-mono text-[10px] text-slate-900 font-bold">Alt + 1</kbd>
+          </div>
+          <div class="flex items-center justify-between">
+            <span>Ir para a Busca</span>
+            <kbd class="bg-white border border-slate-300 px-1.5 py-0.2 rounded font-mono text-[10px] text-slate-900 font-bold">Alt + 2</kbd>
+          </div>
+          <div class="flex items-center justify-between">
+            <span>Alto Contraste</span>
+            <kbd class="bg-white border border-slate-300 px-1.5 py-0.2 rounded font-mono text-[10px] text-slate-900 font-bold">Alt + 4</kbd>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </aside>
+
+  <!-- Carregamento dos Scripts da Aplicação (com Cache-Busting v=2.3.0) -->
+  <script src="./src/data/courses.js?v=2.3.0"></script>
+  <script src="./src/app.js?v=2.3.0"></script>
 </body>
 </html>

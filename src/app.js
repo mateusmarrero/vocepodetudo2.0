@@ -107,7 +107,9 @@
       answers: {},
       result: null,
       activeResultArea: null
-    }
+    },
+    student: null,
+    studentToken: localStorage.getItem('vpt_student_token') || null
   };
 
   const fontSizes = ['font-size-small', 'font-size-normal', 'font-size-large', 'font-size-xlarge'];
@@ -1445,6 +1447,10 @@
       primary_area: results.primary.areaKey
     });
 
+    if (state.studentToken) {
+      saveStudentCareerTest(results);
+    }
+
     state.viewMode = 'career-result';
     updateViewModeButtons();
     renderCareerResult();
@@ -1482,6 +1488,15 @@
 
     if (headerBadge) {
       headerBadge.textContent = isPrimaryArea ? 'Seu Perfil Principal Sugerido' : 'Área Selecionada para Exploração';
+    }
+
+    const quizSaveBanner = document.getElementById('quiz-save-to-account-banner');
+    if (quizSaveBanner) {
+      if (state.student) {
+        quizSaveBanner.classList.add('hidden');
+      } else {
+        quizSaveBanner.classList.remove('hidden');
+      }
     }
     if (matchBadge) {
       matchBadge.textContent = `${affinityObj.percent}% de Afinidade`;
@@ -3319,6 +3334,56 @@
     if (courseClicksEl) courseClicksEl.textContent = Number(data.summary?.course_clicks || 0).toLocaleString('pt-BR');
     if (totalFavsEl) totalFavsEl.textContent = Number(data.summary?.total_favorites || state.favorites.size || 0).toLocaleString('pt-BR');
     if (careerTestsEl) careerTestsEl.textContent = Number(data.summary?.career_tests_count || 0).toLocaleString('pt-BR');
+    
+    const totalStudentsEl = document.getElementById('stat-total-students');
+    if (totalStudentsEl) totalStudentsEl.textContent = Number(data.summary?.total_students || 0).toLocaleString('pt-BR');
+
+    // Atualizar Painel Comercial / Mídia Kit para Anunciantes
+    const mkHome = document.getElementById('mk-home-views');
+    const mkTracks = document.getElementById('mk-tracks-views');
+    const mkClicks = document.getElementById('mk-course-clicks');
+    const mkQuiz = document.getElementById('mk-quiz-count');
+    const mkStudents = document.getElementById('mk-students-count');
+    const mkFavs = document.getElementById('mk-favs-count');
+    const mkDate = document.getElementById('mediakit-issue-date');
+    const mkStates = document.getElementById('mk-top-states');
+    const mkInterests = document.getElementById('mk-top-interests');
+
+    if (mkHome) mkHome.textContent = Number(data.summary?.home_views || 0).toLocaleString('pt-BR');
+    if (mkTracks) mkTracks.textContent = Number(data.summary?.tracks_views || 0).toLocaleString('pt-BR');
+    if (mkClicks) mkClicks.textContent = Number(data.summary?.course_clicks || 0).toLocaleString('pt-BR');
+    if (mkQuiz) mkQuiz.textContent = Number(data.summary?.career_tests_count || 0).toLocaleString('pt-BR');
+    if (mkStudents) mkStudents.textContent = Number(data.summary?.total_students || 0).toLocaleString('pt-BR');
+    if (mkFavs) mkFavs.textContent = Number(data.summary?.total_favorites || 0).toLocaleString('pt-BR');
+    if (mkDate) mkDate.textContent = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+    if (mkStates) {
+      if (Array.isArray(data.locations_brazil_states) && data.locations_brazil_states.length > 0) {
+        mkStates.innerHTML = data.locations_brazil_states.slice(0, 4).map(s => `
+          <div class="flex items-center justify-between py-1 border-b border-slate-100 last:border-none">
+            <span class="font-bold text-slate-800">${escapeHTML(s.name || s.uf)} (${escapeHTML(s.uf)})</span>
+            <span class="font-black text-emerald-800">${s.count.toLocaleString('pt-BR')} <span class="text-slate-400 font-normal">(${s.percent}%)</span></span>
+          </div>
+        `).join('');
+      } else {
+        mkStates.innerHTML = '<span class="text-slate-400">Em coleta contínua pelo servidor...</span>';
+      }
+    }
+
+    if (mkInterests) {
+      if (Array.isArray(data.career_test_areas_ascending) && data.career_test_areas_ascending.length > 0) {
+        const topInterests = [...data.career_test_areas_ascending].reverse().slice(0, 4);
+        mkInterests.innerHTML = topInterests.map(i => `
+          <div class="flex items-center justify-between py-1 border-b border-slate-100 last:border-none">
+            <span class="font-bold text-slate-800">${escapeHTML(i.title || i.key)}</span>
+            <span class="font-black text-purple-800">${i.count.toLocaleString('pt-BR')} <span class="text-slate-400 font-normal">(${i.percent}%)</span></span>
+          </div>
+        `).join('');
+      } else {
+        mkInterests.innerHTML = '<span class="text-slate-400">Em coleta contínua pelo servidor...</span>';
+      }
+    }
+
     if (lastUpdateEl) {
       const d = new Date(data.last_updated || Date.now());
       lastUpdateEl.textContent = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
@@ -3508,9 +3573,13 @@
     const tabGeoBtn = document.getElementById('analytics-tab-geo-btn');
     const tabCoursesBtn = document.getElementById('analytics-tab-courses-btn');
     const tabQuizBtn = document.getElementById('analytics-tab-quiz-btn');
+    const tabMediaKitBtn = document.getElementById('analytics-tab-mediakit-btn');
     const viewGeo = document.getElementById('analytics-view-geo');
     const viewCourses = document.getElementById('analytics-view-courses');
     const viewQuiz = document.getElementById('analytics-view-quiz');
+    const viewMediaKit = document.getElementById('analytics-view-mediakit');
+    const downloadCsvBtn = document.getElementById('admin-download-mediakit-csv-btn');
+    const printMediaKitBtn = document.getElementById('admin-print-mediakit-btn');
 
     function openModal() {
       if (!state.isAdmin) {
@@ -3549,15 +3618,62 @@
       if (viewGeo) viewGeo.classList.toggle('hidden', activeTab !== 'geo');
       if (viewCourses) viewCourses.classList.toggle('hidden', activeTab !== 'courses');
       if (viewQuiz) viewQuiz.classList.toggle('hidden', activeTab !== 'quiz');
+      if (viewMediaKit) viewMediaKit.classList.toggle('hidden', activeTab !== 'mediakit');
 
       if (tabGeoBtn) tabGeoBtn.className = activeTab === 'geo' ? activeClass : inactiveClass;
       if (tabCoursesBtn) tabCoursesBtn.className = activeTab === 'courses' ? activeClass : inactiveClass;
       if (tabQuizBtn) tabQuizBtn.className = activeTab === 'quiz' ? activeClass : inactiveClass;
+      if (tabMediaKitBtn) tabMediaKitBtn.className = activeTab === 'mediakit' ? activeClass : inactiveClass;
     }
 
     if (tabGeoBtn) tabGeoBtn.addEventListener('click', () => switchAnalyticsTab('geo'));
     if (tabCoursesBtn) tabCoursesBtn.addEventListener('click', () => switchAnalyticsTab('courses'));
     if (tabQuizBtn) tabQuizBtn.addEventListener('click', () => switchAnalyticsTab('quiz'));
+    if (tabMediaKitBtn) tabMediaKitBtn.addEventListener('click', () => switchAnalyticsTab('mediakit'));
+
+    if (downloadCsvBtn) {
+      downloadCsvBtn.addEventListener('click', () => {
+        showToast('Baixando planilha oficial para anunciantes...', 'info');
+        window.location.href = 'api/analytics.php?action=mediakit_csv';
+      });
+    }
+
+    if (printMediaKitBtn) {
+      printMediaKitBtn.addEventListener('click', () => {
+        const report = document.getElementById('mediakit-printable-report');
+        if (!report) return;
+        const win = window.open('', '_blank');
+        win.document.write(`
+          <!DOCTYPE html>
+          <html lang="pt-BR">
+          <head>
+            <meta charset="UTF-8">
+            <title>Dossiê Oficial de Audiência & Mídia Kit — Você Pode Tudo</title>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+            <style>
+              body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 30px; color: #0f172a; }
+              @media print {
+                body { padding: 0; }
+                .no-print { display: none !important; }
+              }
+            </style>
+          </head>
+          <body>
+            <div class="max-w-4xl mx-auto border-2 border-slate-300 rounded-3xl p-8 shadow-sm">
+              <div class="no-print mb-6 flex items-center justify-between pb-4 border-b border-slate-200">
+                <span class="text-xs text-slate-500 font-bold">Portal Você Pode Tudo — Relatório Executivo Oficial</span>
+                <button onclick="window.print()" class="px-5 py-2.5 bg-[#002776] text-white font-black rounded-xl text-xs flex items-center gap-2 cursor-pointer shadow">
+                  🖨️ Imprimir / Salvar como PDF
+                </button>
+              </div>
+              ${report.innerHTML}
+            </div>
+          </body>
+          </html>
+        `);
+        win.document.close();
+      });
+    }
 
     // Botão Atualizar Métricas
     if (refreshBtn) {
@@ -3610,6 +3726,987 @@
     }
   }
 
+
+  // ==========================================
+  // MÓDULO DA ÁREA DO ALUNO & ACOMPANHAMENTO
+  // ==========================================
+
+  // Salvar teste vocacional automaticamente na conta do aluno
+  async function saveStudentCareerTest(results) {
+    if (!state.studentToken || !results) return;
+    try {
+      await fetch('api/student.php?action=save_test', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${state.studentToken}`
+        },
+        body: JSON.stringify({
+          primary_area: results.primary?.areaKey || 'tecnologia',
+          secondary_area: results.secondary?.areaKey || '',
+          scores: results.scores || {},
+          recommended_track: results.primary?.recommendedTrack?.id || ''
+        })
+      });
+    } catch (e) {}
+  }
+
+  // Inicializar sessão do aluno persistida no token
+  async function initStudentSession() {
+    if (!state.studentToken) {
+      updateStudentUI();
+      return;
+    }
+
+    try {
+      const res = await fetchWithTimeout('api/student.php?action=me', 3500, {
+        headers: {
+          'Authorization': `Bearer ${state.studentToken}`
+        }
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success && json.student) {
+          state.student = json.student;
+        } else {
+          localStorage.removeItem('vpt_student_token');
+          state.studentToken = null;
+          state.student = null;
+        }
+      } else {
+        localStorage.removeItem('vpt_student_token');
+        state.studentToken = null;
+        state.student = null;
+      }
+    } catch (e) {
+      console.warn('[Student] Verificação offline ou timeout:', e);
+    }
+
+    updateStudentUI();
+  }
+
+  // Atualizar elementos da interface relacionados ao Aluno
+  function updateStudentUI() {
+    const openBtn = document.getElementById('open-student-auth-btn');
+    const loggedMenu = document.getElementById('student-logged-in-menu');
+    const avatarBadge = document.getElementById('student-avatar-badge');
+    const nameDisplay = document.getElementById('student-name-display');
+    const dropdownEmail = document.getElementById('student-dropdown-email');
+    const quizBanner = document.getElementById('quiz-save-to-account-banner');
+
+    if (state.student) {
+      if (openBtn) openBtn.classList.add('hidden');
+      if (loggedMenu) loggedMenu.classList.remove('hidden');
+
+      const firstName = (state.student.name || 'Aluno').trim().split(' ')[0];
+      const initial = (state.student.name || 'A').trim().charAt(0).toUpperCase();
+
+      if (avatarBadge) {
+        avatarBadge.textContent = initial;
+        avatarBadge.style.backgroundColor = state.student.avatar_color || '#002776';
+      }
+      if (nameDisplay) nameDisplay.textContent = firstName;
+      if (dropdownEmail) dropdownEmail.textContent = state.student.email;
+      if (quizBanner) quizBanner.classList.add('hidden');
+    } else {
+      if (openBtn) openBtn.classList.remove('hidden');
+      if (loggedMenu) loggedMenu.classList.add('hidden');
+      if (quizBanner) {
+        if (state.careerQuiz.result) quizBanner.classList.remove('hidden');
+        else quizBanner.classList.add('hidden');
+      }
+    }
+
+    if (window.lucide && window.lucide.createIcons) {
+      window.lucide.createIcons();
+    }
+  }
+
+  // Configuração dos eventos de Autenticação do Aluno (Login & Cadastro)
+  function setupStudentAuth() {
+    const authModal = document.getElementById('student-auth-modal');
+    const openBtn = document.getElementById('open-student-auth-btn');
+    const closeBtn = document.getElementById('close-student-auth-btn');
+    const quizSaveBtn = document.getElementById('quiz-save-to-account-btn');
+
+    const tabRegisterBtn = document.getElementById('student-tab-register-btn');
+    const tabLoginBtn = document.getElementById('student-tab-login-btn');
+    const nameField = document.getElementById('student-name-field');
+    const nameInput = document.getElementById('student-name-input');
+    const emailInput = document.getElementById('student-email-input');
+    const passwordInput = document.getElementById('student-password-input');
+    const goalField = document.getElementById('student-goal-field');
+    const goalSelect = document.getElementById('student-goal-select');
+    const submitBtn = document.getElementById('student-auth-submit-btn');
+    const btnText = document.getElementById('student-auth-btn-text');
+    const syncHint = document.getElementById('student-auth-sync-hint');
+    const alertBox = document.getElementById('student-auth-alert');
+    const authForm = document.getElementById('student-auth-form');
+
+    const profileToggleBtn = document.getElementById('student-profile-toggle-btn');
+    const dropdownMenu = document.getElementById('student-dropdown-menu');
+    const menuDashboardBtn = document.getElementById('student-menu-dashboard-btn');
+    const menuTestsBtn = document.getElementById('student-menu-tests-btn');
+    const menuCertsBtn = document.getElementById('student-menu-certificates-btn');
+    const logoutBtn = document.getElementById('student-logout-btn');
+
+    let authMode = 'register'; // 'register' ou 'login'
+
+    function setAuthMode(mode) {
+      authMode = mode;
+      if (alertBox) alertBox.classList.add('hidden');
+
+      if (mode === 'register') {
+        if (tabRegisterBtn) tabRegisterBtn.className = 'py-2 text-xs font-black rounded-xl bg-purple-900 text-white shadow-sm transition-all cursor-pointer';
+        if (tabLoginBtn) tabLoginBtn.className = 'py-2 text-xs font-bold rounded-xl text-slate-600 hover:text-slate-900 transition-all cursor-pointer';
+        if (nameField) nameField.classList.remove('hidden');
+        if (goalField) goalField.classList.remove('hidden');
+        if (syncHint) syncHint.classList.remove('hidden');
+        if (btnText) btnText.textContent = 'Criar Minha Conta Gratuita';
+        if (nameInput) nameInput.required = true;
+      } else {
+        if (tabLoginBtn) tabLoginBtn.className = 'py-2 text-xs font-black rounded-xl bg-purple-900 text-white shadow-sm transition-all cursor-pointer';
+        if (tabRegisterBtn) tabRegisterBtn.className = 'py-2 text-xs font-bold rounded-xl text-slate-600 hover:text-slate-900 transition-all cursor-pointer';
+        if (nameField) nameField.classList.add('hidden');
+        if (goalField) goalField.classList.add('hidden');
+        if (syncHint) syncHint.classList.add('hidden');
+        if (btnText) btnText.textContent = 'Entrar na Conta';
+        if (nameInput) nameInput.required = false;
+      }
+    }
+
+    function openModal(mode = 'register') {
+      setAuthMode(mode);
+      if (authModal) authModal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      if (authModal) authModal.classList.add('hidden');
+    }
+
+    if (openBtn) openBtn.addEventListener('click', () => openModal('register'));
+    if (quizSaveBtn) quizSaveBtn.addEventListener('click', () => openModal('register'));
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+    if (tabRegisterBtn) tabRegisterBtn.addEventListener('click', () => setAuthMode('register'));
+    if (tabLoginBtn) tabLoginBtn.addEventListener('click', () => setAuthMode('login'));
+
+    // Fechar ao pressionar ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && authModal && !authModal.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+
+    // Submissão do Formulário de Aluno
+    if (authForm) {
+      authForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = emailInput ? emailInput.value.trim() : '';
+        const password = passwordInput ? passwordInput.value.trim() : '';
+        const name = nameInput ? nameInput.value.trim() : '';
+        const goal = goalSelect ? goalSelect.value : 'primeiro_emprego';
+
+        if (alertBox) {
+          alertBox.classList.add('hidden');
+          alertBox.textContent = '';
+        }
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.classList.add('opacity-75');
+        }
+
+        try {
+          if (authMode === 'register') {
+            // Sincronização Mágica: Anexar último teste vocacional e favoritos locais
+            const initialTest = state.careerQuiz.result ? {
+              primary_area: state.careerQuiz.result.primary?.areaKey || 'tecnologia',
+              secondary_area: state.careerQuiz.result.secondary?.areaKey || '',
+              scores: state.careerQuiz.result.scores || {},
+              recommended_track: state.careerQuiz.result.primary?.recommendedTrack?.id || ''
+            } : null;
+
+            const initialCourses = Array.from(state.favorites);
+
+            const res = await fetch('api/student.php?action=register', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                name,
+                email,
+                password,
+                goal,
+                initial_test: initialTest,
+                initial_courses: initialCourses
+              })
+            });
+
+            const json = await res.json();
+            if (!res.ok || json.error) {
+              throw new Error(json.message || 'Erro ao criar conta.');
+            }
+
+            localStorage.setItem('vpt_student_token', json.token);
+            state.studentToken = json.token;
+            state.student = json.student;
+            updateStudentUI();
+            closeModal();
+            showToast('Parabéns! Sua conta foi criada e seus dados foram salvos com sucesso.', 'success');
+            openStudentDashboard('courses');
+
+          } else {
+            // Login
+            const res = await fetch('api/student.php?action=login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, password })
+            });
+
+            const json = await res.json();
+            if (!res.ok || json.error) {
+              throw new Error(json.message || 'E-mail ou senha incorretos.');
+            }
+
+            localStorage.setItem('vpt_student_token', json.token);
+            state.studentToken = json.token;
+            state.student = json.student;
+            updateStudentUI();
+            closeModal();
+            showToast(`Bem-vindo de volta, ${json.student.name.split(' ')[0]}!`, 'success');
+            openStudentDashboard('courses');
+          }
+        } catch (err) {
+          if (alertBox) {
+            alertBox.className = 'mb-4 p-3 rounded-xl text-xs font-bold bg-rose-100 text-rose-900 border border-rose-300';
+            alertBox.textContent = err.message || 'Ocorreu um erro. Tente novamente.';
+            alertBox.classList.remove('hidden');
+          }
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('opacity-75');
+          }
+        }
+      });
+    }
+
+    // Toggle Dropdown Menu
+    if (profileToggleBtn && dropdownMenu) {
+      profileToggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('hidden');
+      });
+
+      document.addEventListener('click', () => {
+        if (!dropdownMenu.classList.contains('hidden')) {
+          dropdownMenu.classList.add('hidden');
+        }
+      });
+    }
+
+    if (menuDashboardBtn) {
+      menuDashboardBtn.addEventListener('click', () => {
+        if (dropdownMenu) dropdownMenu.classList.add('hidden');
+        openStudentDashboard('courses');
+      });
+    }
+
+    if (menuTestsBtn) {
+      menuTestsBtn.addEventListener('click', () => {
+        if (dropdownMenu) dropdownMenu.classList.add('hidden');
+        openStudentDashboard('quiz');
+      });
+    }
+
+    if (menuCertsBtn) {
+      menuCertsBtn.addEventListener('click', () => {
+        if (dropdownMenu) dropdownMenu.classList.add('hidden');
+        openStudentDashboard('certs');
+      });
+    }
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('vpt_student_token');
+        state.studentToken = null;
+        state.student = null;
+        updateStudentUI();
+        if (dropdownMenu) dropdownMenu.classList.add('hidden');
+        showToast('Você saiu da sua conta de aluno.', 'info');
+      });
+    }
+  }
+
+  // Abrir o Painel Completo do Aluno
+  function openStudentDashboard(initialTab = 'courses') {
+    if (!state.studentToken) {
+      const openBtn = document.getElementById('open-student-auth-btn');
+      if (openBtn) openBtn.click();
+      return;
+    }
+
+    const modal = document.getElementById('student-dashboard-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      loadStudentDashboardData(initialTab);
+    }
+  }
+
+  // Carregar dados completos do aluno no Painel
+  let currentStudentDashboardData = null;
+  let activeStudentFilter = 'all';
+
+  async function loadStudentDashboardData(initialTab = 'courses') {
+    const modal = document.getElementById('student-dashboard-modal');
+    if (!modal || !state.studentToken) return;
+
+    try {
+      const res = await fetch('api/student.php?action=dashboard', {
+        headers: { 'Authorization': `Bearer ${state.studentToken}` }
+      });
+
+      if (!res.ok) {
+        throw new Error('Falha ao carregar dados do aluno');
+      }
+
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message);
+
+      currentStudentDashboardData = data;
+
+      // 1. Atualizar Perfil e Cabeçalho
+      const nameEl = document.getElementById('student-dash-name');
+      const emailEl = document.getElementById('student-dash-email');
+      const goalBadge = document.getElementById('student-dash-goal-badge');
+      const avatarEl = document.getElementById('student-dash-avatar');
+
+      const goalNames = {
+        'primeiro_emprego': 'Primeiro Emprego',
+        'transicao_ti': 'Transição para TI',
+        'concurso': 'Concursos Públicos',
+        'promocao': 'Crescimento Profissional',
+        'geral': 'Aprendizado Livre'
+      };
+
+      if (nameEl) nameEl.textContent = `Olá, ${data.student.name}!`;
+      if (emailEl) emailEl.textContent = data.student.email;
+      if (goalBadge) goalBadge.textContent = goalNames[data.student.goal] || 'Aluno Dedicado';
+      if (avatarEl) {
+        avatarEl.textContent = data.student.name.trim().charAt(0).toUpperCase();
+        avatarEl.style.backgroundColor = data.student.avatar_color || '#002776';
+      }
+
+      // 2. Atualizar KPIs
+      const completedEl = document.getElementById('stat-student-completed');
+      const hoursEl = document.getElementById('stat-student-hours');
+      const inProgressEl = document.getElementById('stat-student-in-progress');
+      const testsEl = document.getElementById('stat-student-tests');
+
+      if (completedEl) completedEl.textContent = data.summary.completed;
+      if (hoursEl) hoursEl.textContent = `${data.summary.total_hours_completed}h`;
+      if (inProgressEl) inProgressEl.textContent = data.summary.in_progress;
+      if (testsEl) testsEl.textContent = data.summary.career_tests_count;
+
+      // 3. Renderizar Abas
+      switchStudentDashboardTab(initialTab);
+      renderStudentCoursesList(data.courses, activeStudentFilter);
+      renderStudentQuizHistory(data.career_tests);
+      renderStudentCertificates(data.courses);
+
+      if (window.lucide && window.lucide.createIcons) {
+        window.lucide.createIcons({ root: modal });
+      }
+
+    } catch (e) {
+      console.warn('[Student Dashboard] Erro:', e);
+      showToast('Erro ao atualizar dados do aluno.', 'error');
+    }
+  }
+
+  // Alternância das abas internas do Painel do Aluno
+  function switchStudentDashboardTab(activeTab) {
+    const tabCoursesBtn = document.getElementById('student-dash-tab-courses-btn');
+    const tabQuizBtn = document.getElementById('student-dash-tab-quiz-btn');
+    const tabCertsBtn = document.getElementById('student-dash-tab-certs-btn');
+
+    const viewCourses = document.getElementById('student-dash-view-courses');
+    const viewQuiz = document.getElementById('student-dash-view-quiz');
+    const viewCerts = document.getElementById('student-dash-view-certs');
+
+    const activeClass = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-black bg-purple-900 text-white shadow-sm flex items-center gap-2 transition-all cursor-pointer';
+    const inactiveClass = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2 transition-all cursor-pointer';
+
+    if (viewCourses) viewCourses.classList.toggle('hidden', activeTab !== 'courses');
+    if (viewQuiz) viewQuiz.classList.toggle('hidden', activeTab !== 'quiz');
+    if (viewCerts) viewCerts.classList.toggle('hidden', activeTab !== 'certs');
+
+    if (tabCoursesBtn) tabCoursesBtn.className = activeTab === 'courses' ? activeClass : inactiveClass;
+    if (tabQuizBtn) tabQuizBtn.className = activeTab === 'quiz' ? activeClass : inactiveClass;
+    if (tabCertsBtn) tabCertsBtn.className = activeTab === 'certs' ? activeClass : inactiveClass;
+  }
+
+  // Renderizar Lista de Cursos no Painel do Aluno
+  function renderStudentCoursesList(courses, filterStatus = 'all') {
+    const container = document.getElementById('student-courses-list');
+    const countText = document.getElementById('student-courses-count-text');
+    if (!container) return;
+
+    if (!Array.isArray(courses) || courses.length === 0) {
+      container.innerHTML = `
+        <div class="text-center py-10 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200 p-6 space-y-3">
+          <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-800 flex items-center justify-center mx-auto shadow-sm">
+            <i data-lucide="book-marked" class="w-6 h-6"></i>
+          </div>
+          <h5 class="font-black text-slate-800 text-sm">Sua lista de cursos está vazia</h5>
+          <p class="text-xs text-slate-500 max-w-md mx-auto">
+            Navegue pelo nosso catálogo de mais de 150 cursos gratuitos ou faça o teste de perfil para adicionar cursos à sua jornada!
+          </p>
+          <button 
+            onclick="document.getElementById('close-student-dashboard-btn').click();"
+            class="px-4 py-2 rounded-xl text-xs font-black bg-purple-900 text-white hover:bg-purple-950 transition-colors"
+          >
+            Explorar Cursos Gratuitos
+          </button>
+        </div>
+      `;
+      if (countText) countText.textContent = '0 cursos salvos';
+      return;
+    }
+
+    const filtered = courses.filter(c => {
+      if (filterStatus === 'all') return true;
+      return c.status === filterStatus;
+    });
+
+    if (countText) {
+      countText.textContent = `${filtered.length} de ${courses.length} curso${courses.length === 1 ? '' : 's'}`;
+    }
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div class="text-xs text-slate-500 py-8 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+          Nenhum curso encontrado com o filtro selecionado.
+        </div>
+      `;
+      return;
+    }
+
+    const html = filtered.map(c => {
+      const isCompleted = c.status === 'completed';
+      const isInProgress = c.status === 'in_progress';
+
+      return `
+        <div class="p-4 rounded-2xl bg-white border-2 border-slate-200 hover:border-purple-300 transition-all shadow-2xs space-y-3">
+          <div class="flex items-start justify-between gap-3 flex-wrap">
+            <div class="space-y-1 max-w-lg">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-blue-50 text-[#002776] border border-blue-200">
+                  ${escapeHTML(c.category || 'Geral')}
+                </span>
+                <span class="text-xs font-bold text-slate-500">
+                  ${escapeHTML(c.provider)}
+                </span>
+                <span class="text-[11px] text-amber-700 font-bold flex items-center gap-1">
+                  <i data-lucide="clock" class="w-3 h-3"></i>
+                  <span>${c.workload_hours || 10}h</span>
+                </span>
+              </div>
+              <h5 class="font-black text-slate-900 text-sm leading-snug">
+                ${escapeHTML(c.title)}
+              </h5>
+            </div>
+
+            <!-- Seletor de Status do Curso -->
+            <div class="flex items-center gap-2 flex-wrap">
+              <select 
+                class="student-course-status-select px-3 py-1.5 rounded-xl text-xs font-bold border-2 transition-all cursor-pointer ${
+                  isCompleted 
+                    ? 'bg-emerald-50 text-[#00702a] border-emerald-300' 
+                    : isInProgress 
+                    ? 'bg-blue-50 text-[#002776] border-blue-300' 
+                    : 'bg-slate-100 text-slate-700 border-slate-300'
+                }"
+                data-course-id="${escapeHTML(c.course_id)}"
+                data-workload="${c.workload_hours || 10}"
+              >
+                <option value="saved" ${c.status === 'saved' ? 'selected' : ''}>📌 Quero Fazer</option>
+                <option value="in_progress" ${c.status === 'in_progress' ? 'selected' : ''}>⏳ Cursando Agora</option>
+                <option value="completed" ${c.status === 'completed' ? 'selected' : ''}>✅ Concluído</option>
+              </select>
+
+              <button 
+                class="student-remove-course-btn p-1.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                data-course-id="${escapeHTML(c.course_id)}"
+                title="Remover da minha lista"
+              >
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Rodapé do Card: Certificado e Link Oficial -->
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs flex-wrap gap-2">
+            <div class="flex items-center gap-2">
+              ${isCompleted ? `
+                <div class="flex items-center gap-1.5">
+                  ${c.certificate_url ? `
+                    <a 
+                      href="${sanitizeUrl(c.certificate_url)}" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center gap-1 text-[11px] font-black text-purple-700 hover:underline"
+                    >
+                      <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                      <span>Ver Certificado Salvo</span>
+                    </a>
+                  ` : `
+                    <button 
+                      class="student-add-cert-btn text-[11px] font-bold text-amber-700 hover:underline flex items-center gap-1 cursor-pointer"
+                      data-course-id="${escapeHTML(c.course_id)}"
+                    >
+                      <i data-lucide="plus" class="w-3 h-3"></i>
+                      <span>Adicionar Link do Certificado</span>
+                    </button>
+                  `}
+                </div>
+              ` : `
+                <span class="text-[11px] text-slate-400 font-medium">Conclua o curso na instituição para registrar seu certificado</span>
+              `}
+            </div>
+
+            ${c.url ? `
+              <a 
+                href="${sanitizeUrl(c.url)}" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1 text-xs font-black text-[#002776] hover:underline"
+              >
+                <span>Acessar Plataforma Oficial</span>
+                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+              </a>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    container.innerHTML = html;
+
+    // Vincular eventos dos seletores de status
+    container.querySelectorAll('.student-course-status-select').forEach(sel => {
+      sel.addEventListener('change', async (e) => {
+        const courseId = e.target.dataset.courseId;
+        const status = e.target.value;
+        const workload = parseInt(e.target.dataset.workload || '10', 10);
+        await updateStudentCourseStatus(courseId, status, '', workload);
+      });
+    });
+
+    // Vincular botões de remoção
+    container.querySelectorAll('.student-remove-course-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const courseId = e.currentTarget.dataset.courseId;
+        if (confirm('Deseja remover este curso da sua lista de estudos?')) {
+          await removeStudentCourse(courseId);
+        }
+      });
+    });
+
+    // Vincular botões de adicionar certificado
+    container.querySelectorAll('.student-add-cert-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const courseId = e.currentTarget.dataset.courseId;
+        const url = prompt('Cole aqui o link do seu certificado emitido pela instituição parceira:');
+        if (url && url.trim().length > 5) {
+          await updateStudentCourseStatus(courseId, 'completed', url.trim());
+        }
+      });
+    });
+
+    if (window.lucide && window.lucide.createIcons) {
+      window.lucide.createIcons({ root: container });
+    }
+  }
+
+  // Atualizar status de um curso do aluno via API
+  async function updateStudentCourseStatus(courseId, status, certificateUrl = '', workloadHours = 10) {
+    if (!state.studentToken) return;
+    try {
+      const res = await fetch('api/student.php?action=update_course', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${state.studentToken}`
+        },
+        body: JSON.stringify({
+          course_id: courseId,
+          status,
+          certificate_url: certificateUrl,
+          workload_hours: workloadHours
+        })
+      });
+
+      if (res.ok) {
+        showToast('Progresso do curso atualizado!', 'success');
+        await loadStudentDashboardData('courses');
+      }
+    } catch (e) {
+      showToast('Erro ao atualizar status do curso.', 'error');
+    }
+  }
+
+  // Remover curso da lista do aluno
+  async function removeStudentCourse(courseId) {
+    if (!state.studentToken) return;
+    try {
+      const res = await fetch('api/student.php?action=remove_course', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${state.studentToken}`
+        },
+        body: JSON.stringify({ course_id: courseId })
+      });
+
+      if (res.ok) {
+        showToast('Curso removido da sua lista.', 'info');
+        await loadStudentDashboardData('courses');
+      }
+    } catch (e) {}
+  }
+
+  // Renderizar Histórico de Testes Vocacionais no Painel
+  function renderStudentQuizHistory(tests) {
+    const container = document.getElementById('student-quiz-history-list');
+    if (!container) return;
+
+    if (!Array.isArray(tests) || tests.length === 0) {
+      container.innerHTML = `
+        <div class="text-center py-8 bg-white rounded-2xl border border-dashed border-slate-200 p-4">
+          <i data-lucide="target" class="w-8 h-8 text-purple-400 mx-auto mb-2"></i>
+          <h5 class="font-black text-slate-800 text-sm">Nenhum teste salvo ainda</h5>
+          <p class="text-xs text-slate-500 max-w-sm mx-auto mt-1">
+            Faça seu teste de perfil e aptidão para descobrir as áreas que mais combinam com você.
+          </p>
+        </div>
+      `;
+      return;
+    }
+
+    const areaTitles = {
+      'tecnologia': 'Tecnologia & Informática',
+      'administracao': 'Administração & Rotinas de Escritório',
+      'comunicacao': 'Atendimento ao Cliente & Comunicação',
+      'criatividade': 'Design, Criatividade & Conteúdo Digital',
+      'vendas': 'Empreendedorismo & Vendas',
+      'tecnica': 'Atividades Técnicas & Práticas Operacionais',
+      'gestao': 'Gestão, Liderança & Organização',
+      'educacao': 'Educação & Desenvolvimento Humano'
+    };
+
+    const html = tests.map((t, idx) => {
+      const d = new Date(t.created_at);
+      const dateStr = d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const mainTitle = areaTitles[t.primary_area] || t.primary_area;
+      const isLatest = idx === 0;
+
+      // Calcular afinidades ordenadas
+      const scoresArr = Object.entries(t.scores || {}).map(([key, sc]) => ({
+        key,
+        title: areaTitles[key] || key,
+        score: Number(sc)
+      })).sort((a, b) => b.score - a.score);
+
+      const maxScore = Math.max(...scoresArr.map(s => s.score), 1);
+
+      return `
+        <div class="p-5 rounded-2xl bg-white border-2 ${isLatest ? 'border-purple-300 shadow-sm' : 'border-slate-200'} space-y-4">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-2">
+              <span class="w-7 h-7 rounded-lg bg-purple-100 text-purple-900 flex items-center justify-center font-black text-xs">
+                #${tests.length - idx}
+              </span>
+              <div>
+                <strong class="font-black text-slate-900 text-sm block">${escapeHTML(mainTitle)}</strong>
+                <span class="text-[11px] text-slate-500 font-medium">Realizado em ${dateStr}</span>
+              </div>
+            </div>
+            ${isLatest ? `
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-[#00702a] border border-emerald-300">
+                Resultado Mais Recente
+              </span>
+            ` : ''}
+          </div>
+
+          <!-- Barras de afinidade das 8 áreas -->
+          <div class="space-y-2 pt-2 border-t border-slate-100">
+            <span class="text-[10px] font-black uppercase text-slate-400 block tracking-wider">Afinidade por Área:</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              ${scoresArr.slice(0, 6).map(s => {
+                const barWidth = Math.min(100, Math.round((s.score / maxScore) * 100));
+                return `
+                  <div class="space-y-1">
+                    <div class="flex items-center justify-between text-[11px] font-bold text-slate-700">
+                      <span class="truncate">${escapeHTML(s.title)}</span>
+                      <span class="text-purple-700 font-black">${s.score} pts</span>
+                    </div>
+                    <div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                      <div class="h-full bg-gradient-to-r from-purple-500 to-[#002776] rounded-full" style="width: ${barWidth}%;"></div>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    container.innerHTML = html;
+
+    if (window.lucide && window.lucide.createIcons) {
+      window.lucide.createIcons({ root: container });
+    }
+  }
+
+  // Renderizar Caderno de Certificados no Painel
+  function renderStudentCertificates(courses) {
+    const container = document.getElementById('student-certs-list');
+    if (!container) return;
+
+    const completed = (courses || []).filter(c => c.status === 'completed');
+
+    if (completed.length === 0) {
+      container.innerHTML = `
+        <div class="text-center py-8 bg-white rounded-2xl border border-dashed border-slate-200 p-4">
+          <i data-lucide="award" class="w-8 h-8 text-amber-400 mx-auto mb-2"></i>
+          <h5 class="font-black text-slate-800 text-sm">Nenhum certificado registrado ainda</h5>
+          <p class="text-xs text-slate-500 max-w-sm mx-auto mt-1">
+            Conforme você concluir os cursos gratuitos das instituições oficiais, marque-os como "Concluído" para salvar seus comprovantes!
+          </p>
+        </div>
+      `;
+      return;
+    }
+
+    const html = completed.map(c => `
+      <div class="p-3.5 rounded-2xl bg-white border border-slate-200 flex items-center justify-between gap-3 flex-wrap">
+        <div class="space-y-0.5">
+          <strong class="font-bold text-slate-900 text-xs sm:text-sm block leading-tight">${escapeHTML(c.title)}</strong>
+          <span class="text-[11px] text-slate-500 font-semibold">${escapeHTML(c.provider)} • ${c.workload_hours || 10}h oficiais</span>
+        </div>
+        <div class="flex items-center gap-2">
+          ${c.certificate_url ? `
+            <a 
+              href="${sanitizeUrl(c.certificate_url)}" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="px-3 py-1.5 rounded-xl text-xs font-black bg-purple-100 text-purple-900 hover:bg-purple-200 transition-colors flex items-center gap-1.5"
+            >
+              <i data-lucide="award" class="w-3.5 h-3.5 text-purple-700"></i>
+              <span>Acessar Certificado</span>
+            </a>
+          ` : `
+            <span class="text-[11px] text-emerald-800 font-bold bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+              ✓ Carga Horária Cumprida
+            </span>
+          `}
+        </div>
+      </div>
+    `).join('');
+
+    container.innerHTML = html;
+
+    if (window.lucide && window.lucide.createIcons) {
+      window.lucide.createIcons({ root: container });
+    }
+  }
+
+  // Configuração dos Botões e Ações do Painel do Aluno
+  function setupStudentDashboard() {
+    const modal = document.getElementById('student-dashboard-modal');
+    const closeBtn = document.getElementById('close-student-dashboard-btn');
+    const printBtn = document.getElementById('student-print-summary-btn');
+    const retakeQuizBtn = document.getElementById('student-retake-quiz-btn');
+    const deleteAccountBtn = document.getElementById('student-delete-account-btn');
+
+    const tabCoursesBtn = document.getElementById('student-dash-tab-courses-btn');
+    const tabQuizBtn = document.getElementById('student-dash-tab-quiz-btn');
+    const tabCertsBtn = document.getElementById('student-dash-tab-certs-btn');
+
+    if (closeBtn) closeBtn.addEventListener('click', () => {
+      if (modal) modal.classList.add('hidden');
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+        modal.classList.add('hidden');
+      }
+    });
+
+    if (tabCoursesBtn) tabCoursesBtn.addEventListener('click', () => switchStudentDashboardTab('courses'));
+    if (tabQuizBtn) tabQuizBtn.addEventListener('click', () => switchStudentDashboardTab('quiz'));
+    if (tabCertsBtn) tabCertsBtn.addEventListener('click', () => switchStudentDashboardTab('certs'));
+
+    // Filtros de cursos
+    const filterAll = document.getElementById('student-filter-all-btn');
+    const filterProgress = document.getElementById('student-filter-progress-btn');
+    const filterCompleted = document.getElementById('student-filter-completed-btn');
+    const filterSaved = document.getElementById('student-filter-saved-btn');
+
+    const setFilter = (status, activeBtn) => {
+      activeStudentFilter = status;
+      [filterAll, filterProgress, filterCompleted, filterSaved].forEach(b => {
+        if (b) b.className = 'px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer';
+      });
+      if (activeBtn) activeBtn.className = 'px-3 py-1.5 rounded-xl text-xs font-black bg-slate-900 text-white cursor-pointer';
+      if (currentStudentDashboardData) {
+        renderStudentCoursesList(currentStudentDashboardData.courses, status);
+      }
+    };
+
+    if (filterAll) filterAll.addEventListener('click', () => setFilter('all', filterAll));
+    if (filterProgress) filterProgress.addEventListener('click', () => setFilter('in_progress', filterProgress));
+    if (filterCompleted) filterCompleted.addEventListener('click', () => setFilter('completed', filterCompleted));
+    if (filterSaved) filterSaved.addEventListener('click', () => setFilter('saved', filterSaved));
+
+    // Refazer Quiz a partir do painel
+    if (retakeQuizBtn) {
+      retakeQuizBtn.addEventListener('click', () => {
+        if (modal) modal.classList.add('hidden');
+        startCareerTest();
+      });
+    }
+
+    // Imprimir Comprovante Curricular Oficial do Aluno
+    if (printBtn) {
+      printBtn.addEventListener('click', () => {
+        if (!currentStudentDashboardData) return;
+        const s = currentStudentDashboardData.student;
+        const summary = currentStudentDashboardData.summary;
+        const completedCourses = (currentStudentDashboardData.courses || []).filter(c => c.status === 'completed');
+
+        const win = window.open('', '_blank');
+        win.document.write(`
+          <!DOCTYPE html>
+          <html lang="pt-BR">
+          <head>
+            <meta charset="UTF-8">
+            <title>Histórico e Comprovante de Capacitação — ${escapeHTML(s.name)}</title>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+            <style>
+              body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 40px; color: #0f172a; }
+              @media print {
+                body { padding: 0; }
+                .no-print { display: none !important; }
+              }
+            </style>
+          </head>
+          <body>
+            <div class="max-w-3xl mx-auto border-4 border-slate-900 rounded-3xl p-8 space-y-6">
+              
+              <div class="no-print flex justify-end pb-4 border-b border-slate-200">
+                <button onclick="window.print()" class="px-5 py-2.5 bg-[#002776] text-white font-black rounded-xl text-xs cursor-pointer shadow">
+                  🖨️ Imprimir / Salvar em PDF
+                </button>
+              </div>
+
+              <div class="flex items-center justify-between border-b-2 border-slate-200 pb-5">
+                <div>
+                  <h1 class="text-xl font-black text-slate-900 uppercase">Comprovante de Capacitação Profissional</h1>
+                  <span class="text-xs text-slate-500 font-bold">Portal Você Pode Tudo — www.vocepodetudo.com</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-xs font-black text-[#00702a] bg-emerald-100 px-3 py-1 rounded-full border border-emerald-300 uppercase">Documento de Estudos</span>
+                  <span class="text-[11px] text-slate-400 block mt-1">Data: ${new Date().toLocaleDateString('pt-BR')}</span>
+                </div>
+              </div>
+
+              <!-- Dados do Aluno -->
+              <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 grid grid-cols-2 gap-4 text-xs">
+                <div>
+                  <span class="text-slate-400 font-bold uppercase block text-[10px]">Nome do Aluno:</span>
+                  <strong class="text-sm font-black text-slate-900">${escapeHTML(s.name)}</strong>
+                </div>
+                <div>
+                  <span class="text-slate-400 font-bold uppercase block text-[10px]">E-mail Registrado:</span>
+                  <span class="text-slate-700 font-medium">${escapeHTML(s.email)}</span>
+                </div>
+                <div>
+                  <span class="text-slate-400 font-bold uppercase block text-[10px]">Cursos Concluídos:</span>
+                  <strong class="text-sm font-black text-[#009639]">${summary.completed} formações oficiais</strong>
+                </div>
+                <div>
+                  <span class="text-slate-400 font-bold uppercase block text-[10px]">Carga Horária Total Cumprida:</span>
+                  <strong class="text-sm font-black text-[#002776]">${summary.total_hours_completed} horas de capacitação</strong>
+                </div>
+              </div>
+
+              <!-- Lista de Cursos Finalizados -->
+              <div class="space-y-3">
+                <h3 class="text-xs font-black uppercase text-slate-700 tracking-wider">Formações Gratuitas Realizadas:</h3>
+                ${completedCourses.length > 0 ? `
+                  <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr class="border-b-2 border-slate-200 font-black text-slate-600">
+                        <th class="py-2">Curso</th>
+                        <th class="py-2">Instituição Parceira</th>
+                        <th class="py-2 text-right">Horas</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                      ${completedCourses.map(c => `
+                        <tr>
+                          <td class="py-2.5 font-bold text-slate-900">${escapeHTML(c.title)}</td>
+                          <td class="py-2.5 text-slate-600">${escapeHTML(c.provider)}</td>
+                          <td class="py-2.5 text-right font-black text-[#002776]">${c.workload_hours || 10}h</td>
+                        </tr>
+                      `).join('')}
+                    </tbody>
+                  </table>
+                ` : `
+                  <p class="text-xs text-slate-500 py-3">Nenhum curso marcado como concluído até o momento.</p>
+                `}
+              </div>
+
+              <div class="pt-6 border-t-2 border-slate-200 text-[11px] text-slate-400 text-center">
+                Portal Você Pode Tudo — Conectando brasileiros a oportunidades de educação gratuita e de qualidade.
+              </div>
+
+            </div>
+          </body>
+          </html>
+        `);
+        win.document.close();
+      });
+    }
+
+    // Excluir Conta (LGPD)
+    if (deleteAccountBtn) {
+      deleteAccountBtn.addEventListener('click', async () => {
+        if (confirm('ATENÇÃO: Deseja realmente excluir permanentemente sua conta e todos os seus testes e cursos salvos? Esta ação não pode ser desfeita.')) {
+          try {
+            const res = await fetch('api/student.php?action=delete_account', {
+              method: 'POST',
+              headers: { 'Authorization': `Bearer ${state.studentToken}` }
+            });
+            if (res.ok) {
+              localStorage.removeItem('vpt_student_token');
+              state.studentToken = null;
+              state.student = null;
+              updateStudentUI();
+              if (modal) modal.classList.add('hidden');
+              showToast('Sua conta e todos os seus dados foram excluídos com sucesso.', 'info');
+            }
+          } catch (e) {
+            showToast('Erro ao excluir conta.', 'error');
+          }
+        }
+      });
+    }
+  }
+
   // Inicialização Completa
   function init() {
     // 1. Recursos essenciais e utilidades imediatas
@@ -3618,6 +4715,9 @@
     try { initNewsTicker(); } catch (e) { console.warn('[News] Erro ao iniciar:', e); }
     try { setupVisualAccessibilityWidget(); } catch (e) { console.warn('[VisualAcc] Erro ao iniciar:', e); }
     try { setupAdminAnalytics(); } catch (e) { console.warn('[Analytics] Erro ao iniciar:', e); }
+    try { initStudentSession(); } catch (e) { console.warn('[StudentSession] Erro:', e); }
+    try { setupStudentAuth(); } catch (e) { console.warn('[StudentAuth] Erro:', e); }
+    try { setupStudentDashboard(); } catch (e) { console.warn('[StudentDash] Erro:', e); }
 
     // Rastreamento inicial de visualização da Home
     trackAnalyticsEvent('pageview_home');

@@ -288,6 +288,21 @@ switch ($action) {
             }
         }
 
+        // Obter Total de Alunos Cadastrados no Banco MySQL
+        $totalStudents = 0;
+        try {
+            if (file_exists(__DIR__ . '/config.php')) {
+                require_once __DIR__ . '/config.php';
+                $pdo = getDBConnection();
+                $stmtStudents = $pdo->query("SELECT COUNT(*) FROM students");
+                if ($stmtStudents) {
+                    $totalStudents = (int) $stmtStudents->fetchColumn();
+                }
+            }
+        } catch (Exception $e) {}
+
+        $data['summary']['total_students'] = $totalStudents;
+
         echo json_encode([
             'success' => true,
             'summary' => $data['summary'],
@@ -298,6 +313,122 @@ switch ($action) {
             'career_test_areas_ascending' => $quizAreasAscending,
             'last_updated' => $data['last_updated'] ?? date('c')
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        exit;
+
+    case 'mediakit_csv':
+        $data = loadAnalyticsData($cacheFile);
+        
+        $totalStudents = 0;
+        try {
+            if (file_exists(__DIR__ . '/config.php')) {
+                require_once __DIR__ . '/config.php';
+                $pdo = getDBConnection();
+                $stmtStudents = $pdo->query("SELECT COUNT(*) FROM students");
+                if ($stmtStudents) {
+                    $totalStudents = (int) $stmtStudents->fetchColumn();
+                }
+            }
+        } catch (Exception $e) {}
+
+        $dateStr = date('d/m/Y H:i:s');
+        $fileName = 'midia_kit_audiencia_vocepodetudo_' . date('Y_m_d') . '.csv';
+
+        header('Content-Type: text/csv; charset=UTF-8');
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+
+        $out = fopen('php://output', 'w');
+        // UTF-8 BOM para abrir perfeitamente no Excel
+        fprintf($out, chr(0xEF).chr(0xBB).chr(0xBF));
+
+        // Cabeçalho Oficial
+        fputcsv($out, ['DOSSIÊ DE AUDIÊNCIA & MÍDIA KIT OFICIAL — PORTAL VOCÊ PODE TUDO'], ';');
+        fputcsv($out, ['Documento de Comprovação de Tráfego e Métricas de Visitantes'], ';');
+        fputcsv($out, ['Data de Emissão', $dateStr], ';');
+        fputcsv($out, ['URL Oficial', 'https://www.vocepodetudo.com'], ';');
+        fputcsv($out, ['Ambiente', 'Servidor de Produção ServerByte / StackCP'], ';');
+        fputcsv($out, [], ';');
+
+        // 1. Resumo Executivo
+        fputcsv($out, ['--- 1. INDICADORES-CHAVE DE AUDIÊNCIA (KPIs) ---'], ';');
+        fputcsv($out, ['Indicador de Mídia', 'Total Registrado', 'Descrição'], ';');
+        fputcsv($out, ['Visualizações da Home / Catálogo', $data['summary']['home_views'] ?? 0, 'Impressões diretas da vitrine principal de cursos'], ';');
+        fputcsv($out, ['Visualizações de Trilhas Guiadas', $data['summary']['tracks_views'] ?? 0, 'Acessos às páginas de primeiro emprego, TI, etc.'], ';');
+        fputcsv($out, ['Cliques em Cursos Oficiais (Conversão)', $data['summary']['course_clicks'] ?? 0, 'Cliques no botão Acessar Curso Oficial'], ';');
+        fputcsv($out, ['Testes Vocacionais Concluídos', $data['summary']['career_tests_count'] ?? 0, 'Visitantes qualificados que responderam ao teste completo'], ';');
+        fputcsv($out, ['Base de Alunos Cadastrados', $totalStudents, 'Alunos registrados com conta e progresso ativo'], ';');
+        fputcsv($out, ['Cursos Salvos / Favoritados', $data['summary']['total_favorites'] ?? 0, 'Itens salvos com intenção de estudo'], ';');
+        fputcsv($out, [], ';');
+
+        // 2. Estados Brasileiros
+        fputcsv($out, ['--- 2. DISTRIBUIÇÃO GEOGRÁFICA NACIONAL (ESTADOS DO BRASIL) ---'], ';');
+        fputcsv($out, ['UF', 'Estado', 'Acessos', 'Participação (%)'], ';');
+        if (!empty($data['locations_brazil_states'])) {
+            $totalSt = array_sum($data['locations_brazil_states']) ?: 1;
+            arsort($data['locations_brazil_states']);
+            foreach ($data['locations_brazil_states'] as $uf => $cnt) {
+                $name = $brazilStateNames[$uf] ?? $uf;
+                $pct = round(($cnt / $totalSt) * 100, 1);
+                fputcsv($out, [$uf, $name, $cnt, $pct . '%'], ';');
+            }
+        } else {
+            fputcsv($out, ['Nenhum dado registrado ainda', '-', 0, '0%'], ';');
+        }
+        fputcsv($out, [], ';');
+
+        // 3. Top Cidades
+        fputcsv($out, ['--- 3. TOP CIDADES DO BRASIL COM MAIS VISITANTES ---'], ';');
+        fputcsv($out, ['Cidade', 'Acessos Registrados'], ';');
+        if (!empty($data['locations_brazil_cities'])) {
+            arsort($data['locations_brazil_cities']);
+            foreach (array_slice($data['locations_brazil_cities'], 0, 15, true) as $city => $cnt) {
+                fputcsv($out, [$city, $cnt], ';');
+            }
+        }
+        fputcsv($out, [], ';');
+
+        // 4. Países
+        fputcsv($out, ['--- 4. ALCANCE GLOBAL (PAÍSES) ---'], ';');
+        fputcsv($out, ['País', 'Acessos Registrados'], ';');
+        if (!empty($data['locations_world'])) {
+            arsort($data['locations_world']);
+            foreach ($data['locations_world'] as $country => $cnt) {
+                fputcsv($out, [$country, $cnt], ';');
+            }
+        }
+        fputcsv($out, [], ';');
+
+        // 5. Interesses Vocacionais
+        fputcsv($out, ['--- 5. PERFIL DE INTERESSES E AFINIDADES DOS VISITANTES (TESTE VOCACIONAL) ---'], ';');
+        fputcsv($out, ['Área Profissional', 'Direcionamentos', 'Participação (%)'], ';');
+        if (!empty($data['career_test_areas'])) {
+            $totalQ = array_sum($data['career_test_areas']) ?: 1;
+            arsort($data['career_test_areas']);
+            foreach ($data['career_test_areas'] as $k => $cnt) {
+                $title = $careerAreaTitles[$k] ?? ucfirst($k);
+                $pct = round(($cnt / $totalQ) * 100, 1);
+                fputcsv($out, [$title, $cnt, $pct . '%'], ';');
+            }
+        }
+        fputcsv($out, [], ';');
+
+        // 6. Ranking de Cursos Mais Procurados
+        fputcsv($out, ['--- 6. CURSOS DE MAIOR ENGAJAMENTO E CLIQUES ---'], ';');
+        fputcsv($out, ['Posição', 'Nome do Curso', 'Instituição Parceira', 'Categoria', 'Cliques Oficiais'], ';');
+        if (!empty($data['top_courses'])) {
+            uasort($data['top_courses'], function($a, $b) {
+                return ($b['clicks'] ?? 0) <=> ($a['clicks'] ?? 0);
+            });
+            $rank = 1;
+            foreach (array_slice($data['top_courses'], 0, 20, true) as $c) {
+                fputcsv($out, [$rank++, $c['title'] ?? '', $c['provider'] ?? '', $c['category'] ?? '', $c['clicks'] ?? 0], ';');
+            }
+        }
+
+        fputcsv($out, [], ';');
+        fputcsv($out, ['Autenticidade', 'Dados certificados diretamente pelo sistema de métricas do Você Pode Tudo'], ';');
+        fclose($out);
         exit;
 
     case 'reset':

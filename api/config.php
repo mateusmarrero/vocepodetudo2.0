@@ -129,3 +129,47 @@ function requireAuth() {
 
     return $userData;
 }
+
+/**
+ * Gera Token de Acesso do Aluno (HMAC-SHA256)
+ */
+function generateStudentToken($studentId, $name, $email) {
+    $header = base64_encode(json_encode(['typ' => 'JWT', 'alg' => 'HS256']));
+    $payload = base64_encode(json_encode([
+        'sub' => (int) $studentId,
+        'name' => $name,
+        'email' => $email,
+        'role' => 'student',
+        'exp' => time() + (TOKEN_EXPIRATION_SECONDS * 4), // 28 dias para comodidade do aluno
+        'iat' => time()
+    ]));
+    $signature = hash_hmac('sha256', "$header.$payload", JWT_SECRET);
+    return "$header.$payload.$signature";
+}
+
+/**
+ * Proteção de Rota: Exige autenticação de Aluno
+ */
+function requireStudentAuth() {
+    $headers = function_exists('getallheaders') ? getallheaders() : [];
+    $authHeader = $headers['Authorization'] ?? $headers['authorization'] ?? ($_SERVER['HTTP_AUTHORIZATION'] ?? '');
+
+    $token = '';
+    if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+        $token = $matches[1];
+    } elseif (isset($_COOKIE['vpt_student_token'])) {
+        $token = $_COOKIE['vpt_student_token'];
+    } elseif (isset($_GET['token'])) {
+        $token = $_GET['token'];
+    }
+
+    $tokenData = verifyToken($token);
+    if (!$tokenData || ($tokenData['role'] ?? '') !== 'student') {
+        jsonResponse([
+            'error' => true,
+            'message' => 'Sessão do aluno expirada ou inválida. Por favor, faça login.'
+        ], 401);
+    }
+
+    return $tokenData;
+}

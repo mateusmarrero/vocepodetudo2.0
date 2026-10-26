@@ -326,6 +326,78 @@
           </button>
         </div>
 
+        <!-- Área do Aluno: Cadastro & Acompanhamento de Estudos -->
+        <div id="student-auth-container" class="flex items-center">
+          <!-- Quando NÃO logado -->
+          <button 
+            id="open-student-auth-btn"
+            type="button"
+            class="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-xl text-xs font-black text-white bg-gradient-to-r from-purple-700 to-[#002776] hover:from-purple-800 hover:to-blue-950 shadow-sm transition-all cursor-pointer"
+            title="Acompanhe seus cursos, testes vocacionais e certificados"
+          >
+            <i data-lucide="graduation-cap" class="w-4 h-4 text-[#ffcc29]"></i>
+            <span class="hidden sm:inline">Área do Aluno</span>
+            <span class="sm:hidden">Aluno</span>
+          </button>
+
+          <!-- Quando LOGADO -->
+          <div id="student-logged-in-menu" class="hidden relative">
+            <button 
+              id="student-profile-toggle-btn"
+              type="button"
+              class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-black text-slate-800 bg-purple-50 hover:bg-purple-100 border-2 border-purple-200 transition-all cursor-pointer"
+              title="Abrir opções da Área do Aluno"
+            >
+              <span id="student-avatar-badge" class="w-6 h-6 rounded-lg bg-[#002776] text-white flex items-center justify-center text-[11px] font-black uppercase">
+                A
+              </span>
+              <span id="student-name-display" class="max-w-[110px] truncate hidden sm:inline">Aluno</span>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-purple-700"></i>
+            </button>
+
+            <!-- Dropdown Menu do Aluno -->
+            <div id="student-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 bg-white border-2 border-purple-200 rounded-2xl shadow-xl z-50 p-2 space-y-1">
+              <div class="px-3 py-2 border-b border-slate-100 mb-1">
+                <span class="text-[10px] font-black uppercase text-purple-600 block">Aluno Conectado</span>
+                <span id="student-dropdown-email" class="text-xs font-bold text-slate-900 block truncate">aluno@email.com</span>
+              </div>
+              <button 
+                id="student-menu-dashboard-btn"
+                type="button"
+                class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-purple-50 hover:text-purple-900 flex items-center gap-2 cursor-pointer transition-colors"
+              >
+                <i data-lucide="layout-dashboard" class="w-4 h-4 text-purple-600"></i>
+                <span>Meu Painel de Estudos</span>
+              </button>
+              <button 
+                id="student-menu-tests-btn"
+                type="button"
+                class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-purple-50 hover:text-purple-900 flex items-center gap-2 cursor-pointer transition-colors"
+              >
+                <i data-lucide="target" class="w-4 h-4 text-purple-600"></i>
+                <span>Meus Testes Vocacionais</span>
+              </button>
+              <button 
+                id="student-menu-certificates-btn"
+                type="button"
+                class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-purple-50 hover:text-purple-900 flex items-center gap-2 cursor-pointer transition-colors"
+              >
+                <i data-lucide="award" class="w-4 h-4 text-amber-500"></i>
+                <span>Cursos & Certificados</span>
+              </button>
+              <div class="border-t border-slate-100 my-1"></div>
+              <button 
+                id="student-logout-btn"
+                type="button"
+                class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 flex items-center gap-2 cursor-pointer transition-colors"
+              >
+                <i data-lucide="log-out" class="w-4 h-4 text-rose-500"></i>
+                <span>Sair da Conta</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- Área de Administração: Apenas com Login & Senha -->
         <div id="admin-logged-out-container">
           <button 
@@ -865,6 +937,27 @@
         </div>
       </div>
 
+      <!-- Banner para Visitante Salvar Resultado Criando Conta Gratuita -->
+      <div id="quiz-save-to-account-banner" class="hidden mb-8 bg-gradient-to-r from-purple-900 via-indigo-950 to-[#002776] text-white p-5 sm:p-6 rounded-3xl shadow-xl border-2 border-purple-300 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-2xl bg-[#ffcc29] text-slate-950 flex items-center justify-center flex-shrink-0 shadow-md">
+            <i data-lucide="sparkles" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h4 class="font-black text-sm sm:text-base text-white">Deseja acompanhar sua evolução profissional?</h4>
+            <p class="text-xs text-purple-200 font-medium">Salve este resultado, monte sua trilha de cursos gratuitos e registre seus certificados criando sua conta de aluno.</p>
+          </div>
+        </div>
+        <button 
+          id="quiz-save-to-account-btn"
+          type="button"
+          class="px-5 py-3 rounded-xl font-black text-xs sm:text-sm bg-[#ffcc29] hover:bg-[#ffdf00] text-slate-950 shadow-md whitespace-nowrap cursor-pointer transition-transform active:scale-95 flex items-center gap-2"
+        >
+          <i data-lucide="user-plus" class="w-4 h-4 text-slate-950"></i>
+          <span>Criar Conta & Salvar</span>
+        </button>
+      </div>
+
       <!-- Card do Perfil Principal & Segunda Área -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         
@@ -1383,6 +1476,360 @@
     </div>
   </div>
 
+  <!-- Modal: Autenticação do Aluno (Cadastro & Login Rápido) -->
+  <div 
+    id="student-auth-modal" 
+    class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-student-auth-title"
+  >
+    <div class="bg-white border-4 border-purple-800 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative animate-fade-in max-h-[92vh] overflow-y-auto">
+      
+      <!-- Cabeçalho -->
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-purple-900 text-[#ffdf00] flex items-center justify-center flex-shrink-0 shadow-md">
+            <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 id="modal-student-auth-title" class="text-base sm:text-lg font-black text-slate-900 leading-tight">
+              Área do Aluno Gratuita
+            </h3>
+            <span class="text-xs text-purple-700 font-bold">Você Pode Tudo</span>
+          </div>
+        </div>
+        <button 
+          id="close-student-auth-btn"
+          type="button"
+          class="text-slate-400 hover:text-slate-700 p-1.5 rounded-xl hover:bg-slate-100 transition-colors"
+          aria-label="Fechar janela"
+        >
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Seletor de Abas: [Criar Conta Grátis] vs [Entrar na Conta] -->
+      <div class="grid grid-cols-2 gap-1 p-1 bg-slate-100 rounded-2xl mb-5">
+        <button 
+          id="student-tab-register-btn"
+          type="button"
+          class="py-2 text-xs font-black rounded-xl bg-purple-900 text-white shadow-sm transition-all cursor-pointer"
+        >
+          Criar Conta Gratuita
+        </button>
+        <button 
+          id="student-tab-login-btn"
+          type="button"
+          class="py-2 text-xs font-bold rounded-xl text-slate-600 hover:text-slate-900 transition-all cursor-pointer"
+        >
+          Já Tenho Conta
+        </button>
+      </div>
+
+      <!-- Mensagem de Benefício Rápido -->
+      <div id="student-auth-sync-hint" class="bg-purple-50 border border-purple-200 rounded-2xl p-3 mb-4 text-[11px] text-purple-950 flex items-start gap-2 font-medium">
+        <i data-lucide="sparkles" class="w-4 h-4 text-purple-700 flex-shrink-0 mt-0.5"></i>
+        <span>Seus cursos favoritados e testes vocacionais realizados serão salvos automaticamente na sua conta!</span>
+      </div>
+
+      <!-- Alerta de Erro/Sucesso -->
+      <div id="student-auth-alert" class="hidden mb-4 p-3 rounded-xl text-xs font-bold"></div>
+
+      <!-- Formulário de Autenticação -->
+      <form id="student-auth-form" class="space-y-3.5">
+        
+        <!-- Campo Nome (Apenas Cadastro) -->
+        <div id="student-name-field">
+          <label for="student-name-input" class="block text-xs font-black text-slate-800 mb-1">Nome Completo *</label>
+          <input 
+            type="text" 
+            id="student-name-input" 
+            placeholder="Como gostaria de ser chamado?" 
+            class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 border-2 border-slate-300 text-slate-900 focus:outline-none focus:border-purple-800"
+          >
+        </div>
+
+        <!-- Campo E-mail -->
+        <div>
+          <label for="student-email-input" class="block text-xs font-black text-slate-800 mb-1">Seu E-mail *</label>
+          <input 
+            type="email" 
+            id="student-email-input" 
+            required 
+            placeholder="seuemail@exemplo.com" 
+            class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 border-2 border-slate-300 text-slate-900 focus:outline-none focus:border-purple-800"
+          >
+        </div>
+
+        <!-- Campo Senha -->
+        <div>
+          <label for="student-password-input" class="block text-xs font-black text-slate-800 mb-1">
+            <span id="student-pw-label">Criar Senha (mín. 6 caracteres) *</span>
+          </label>
+          <input 
+            type="password" 
+            id="student-password-input" 
+            required 
+            minlength="6"
+            placeholder="••••••••" 
+            class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-slate-50 border-2 border-slate-300 text-slate-900 focus:outline-none focus:border-purple-800"
+          >
+        </div>
+
+        <!-- Campo Objetivo Profissional (Apenas Cadastro) -->
+        <div id="student-goal-field">
+          <label for="student-goal-select" class="block text-xs font-black text-slate-800 mb-1">Qual seu foco no momento?</label>
+          <select 
+            id="student-goal-select" 
+            class="w-full px-3 py-2.5 rounded-xl text-xs sm:text-sm bg-slate-50 border-2 border-slate-300 text-slate-900 focus:outline-none focus:border-purple-800 font-medium"
+          >
+            <option value="primeiro_emprego">Conquistar meu Primeiro Emprego</option>
+            <option value="transicao_ti">Transição de Carreira para Tecnologia (TI)</option>
+            <option value="concurso">Estudos para Concursos Públicos</option>
+            <option value="promocao">Melhorar meu Currículo e Salário Atual</option>
+            <option value="geral">Aprender Novas Habilidades por Curiosidade</option>
+          </select>
+        </div>
+
+        <!-- Botão de Ação -->
+        <button 
+          id="student-auth-submit-btn"
+          type="submit" 
+          class="w-full py-3.5 rounded-xl font-black text-sm bg-purple-900 hover:bg-purple-950 text-white shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer mt-2"
+        >
+          <i data-lucide="check-circle" class="w-4 h-4 text-[#ffcc29]"></i>
+          <span id="student-auth-btn-text">Criar Minha Conta Gratuita</span>
+        </button>
+      </form>
+
+      <!-- Rodapé com Segurança & LGPD -->
+      <div class="mt-4 pt-3 border-t border-slate-100 text-center">
+        <p class="text-[11px] text-slate-400 font-medium flex items-center justify-center gap-1">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+          <span>100% Gratuito • Sem cobranças • Dados protegidos pela LGPD</span>
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal: Painel Completo do Aluno (Meu Espaço de Desenvolvimento) -->
+  <div 
+    id="student-dashboard-modal" 
+    class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-student-dashboard-title"
+  >
+    <div class="bg-white border-4 border-purple-900 rounded-3xl max-w-5xl w-full p-4 sm:p-7 shadow-2xl relative animate-fade-in max-h-[92vh] flex flex-col">
+      
+      <!-- Cabeçalho do Painel do Aluno -->
+      <div class="flex items-center justify-between pb-4 border-b border-slate-200 flex-shrink-0 flex-wrap gap-3">
+        <div class="flex items-center gap-3">
+          <div id="student-dash-avatar" class="w-12 h-12 rounded-2xl bg-purple-900 text-white flex items-center justify-center font-black text-lg uppercase shadow-md flex-shrink-0">
+            A
+          </div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <h3 id="student-dash-name" class="text-base sm:text-xl font-black text-slate-900 leading-tight">
+                Olá, Aluno!
+              </h3>
+              <span id="student-dash-goal-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-purple-100 text-purple-900 border border-purple-300">
+                Primeiro Emprego
+              </span>
+            </div>
+            <span id="student-dash-email" class="text-xs text-slate-500 font-medium">aluno@exemplo.com</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button 
+            id="student-print-summary-btn"
+            type="button"
+            class="px-3.5 py-2 rounded-xl border-2 border-purple-200 hover:bg-purple-50 text-purple-900 text-xs font-black flex items-center gap-1.5 transition-colors cursor-pointer"
+            title="Imprimir ou Salvar Comprovante Curricular de Estudos em PDF"
+          >
+            <i data-lucide="printer" class="w-4 h-4 text-purple-700"></i>
+            <span class="hidden sm:inline">Imprimir Currículo</span>
+          </button>
+          <button 
+            id="close-student-dashboard-btn"
+            type="button"
+            class="text-slate-400 hover:text-slate-700 p-2 rounded-xl hover:bg-slate-100 transition-colors"
+            aria-label="Fechar painel do aluno"
+          >
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Corpo com Rolagem -->
+      <div class="overflow-y-auto py-5 space-y-6 pr-1 flex-1">
+        
+        <!-- 1. KPIs de Progresso do Aluno -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+          
+          <div class="bg-gradient-to-br from-emerald-50 to-white border-2 border-emerald-200 rounded-2xl p-3.5 sm:p-4 shadow-sm">
+            <div class="flex items-center justify-between text-emerald-800 mb-1">
+              <span class="text-xs font-black uppercase tracking-wider">Cursos Concluídos</span>
+              <i data-lucide="check-circle" class="w-4 h-4 text-[#009639]"></i>
+            </div>
+            <div id="stat-student-completed" class="text-2xl sm:text-3xl font-black text-slate-900 leading-none mb-1">0</div>
+            <span class="text-[11px] text-slate-500 font-semibold">Cursos Finalizados</span>
+          </div>
+
+          <div class="bg-gradient-to-br from-amber-50 to-white border-2 border-amber-200 rounded-2xl p-3.5 sm:p-4 shadow-sm">
+            <div class="flex items-center justify-between text-amber-900 mb-1">
+              <span class="text-xs font-black uppercase tracking-wider">Carga Horária</span>
+              <i data-lucide="clock" class="w-4 h-4 text-amber-600"></i>
+            </div>
+            <div id="stat-student-hours" class="text-2xl sm:text-3xl font-black text-slate-900 leading-none mb-1">0h</div>
+            <span class="text-[11px] text-slate-500 font-semibold">Horas Acumuladas</span>
+          </div>
+
+          <div class="bg-gradient-to-br from-blue-50 to-white border-2 border-blue-200 rounded-2xl p-3.5 sm:p-4 shadow-sm">
+            <div class="flex items-center justify-between text-[#002776] mb-1">
+              <span class="text-xs font-black uppercase tracking-wider">Em Andamento</span>
+              <i data-lucide="play-circle" class="w-4 h-4 text-[#002776]"></i>
+            </div>
+            <div id="stat-student-in-progress" class="text-2xl sm:text-3xl font-black text-slate-900 leading-none mb-1">0</div>
+            <span class="text-[11px] text-slate-500 font-semibold">Estudando Agora</span>
+          </div>
+
+          <div class="bg-gradient-to-br from-purple-50 to-white border-2 border-purple-200 rounded-2xl p-3.5 sm:p-4 shadow-sm">
+            <div class="flex items-center justify-between text-purple-900 mb-1">
+              <span class="text-xs font-black uppercase tracking-wider">Testes de Perfil</span>
+              <i data-lucide="target" class="w-4 h-4 text-purple-600"></i>
+            </div>
+            <div id="stat-student-tests" class="text-2xl sm:text-3xl font-black text-slate-900 leading-none mb-1">0</div>
+            <span class="text-[11px] text-slate-500 font-semibold">Histórico Vocacional</span>
+          </div>
+
+        </div>
+
+        <!-- 2. Abas do Painel do Aluno -->
+        <div>
+          <!-- Seletor de Abas -->
+          <div class="flex items-center gap-2 border-b-2 border-slate-200 mb-4 pb-1 flex-wrap">
+            <button 
+              id="student-dash-tab-courses-btn"
+              type="button"
+              class="px-4 py-2 rounded-xl text-xs sm:text-sm font-black bg-purple-900 text-white shadow-sm flex items-center gap-2 transition-all cursor-pointer"
+            >
+              <i data-lucide="book-open" class="w-4 h-4 text-[#ffcc29]"></i>
+              <span>Minha Jornada & Cursos</span>
+            </button>
+            <button 
+              id="student-dash-tab-quiz-btn"
+              type="button"
+              class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2 transition-all cursor-pointer"
+            >
+              <i data-lucide="target" class="w-4 h-4 text-purple-600"></i>
+              <span>Evolução Vocacional</span>
+            </button>
+            <button 
+              id="student-dash-tab-certs-btn"
+              type="button"
+              class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2 transition-all cursor-pointer"
+            >
+              <i data-lucide="award" class="w-4 h-4 text-amber-500"></i>
+              <span>Caderno de Certificados</span>
+            </button>
+          </div>
+
+          <!-- Conteúdo da Aba 1: Minha Jornada & Cursos -->
+          <div id="student-dash-view-courses" class="space-y-4">
+            <!-- Filtros de Status -->
+            <div class="flex items-center justify-between gap-2 flex-wrap">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <button id="student-filter-all-btn" class="px-3 py-1.5 rounded-xl text-xs font-black bg-slate-900 text-white cursor-pointer">Todos</button>
+                <button id="student-filter-progress-btn" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">Em Andamento</button>
+                <button id="student-filter-completed-btn" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">Concluídos</button>
+                <button id="student-filter-saved-btn" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">Quero Fazer</button>
+              </div>
+              <span id="student-courses-count-text" class="text-xs text-slate-500 font-bold">Carregando seus cursos...</span>
+            </div>
+
+            <!-- Lista de Cursos do Aluno -->
+            <div id="student-courses-list" class="space-y-3">
+              <!-- Injetado dinamicamente via JS -->
+              <div class="text-xs text-slate-500 py-8 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200 p-4">
+                Carregando cursos do aluno...
+              </div>
+            </div>
+          </div>
+
+          <!-- Conteúdo da Aba 2: Evolução Vocacional -->
+          <div id="student-dash-view-quiz" class="hidden space-y-4">
+            <div class="bg-slate-50 border-2 border-slate-200 rounded-3xl p-4 sm:p-5">
+              <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-200 flex-wrap gap-2">
+                <div>
+                  <h4 class="font-black text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                    <i data-lucide="trending-up" class="w-4 h-4 text-purple-600"></i>
+                    <span>Histórico e Evolução do seu Perfil Vocacional</span>
+                  </h4>
+                  <span class="text-xs text-slate-500 font-medium">Veja como suas preferências evoluem ao longo do tempo</span>
+                </div>
+                <button 
+                  id="student-retake-quiz-btn"
+                  type="button"
+                  class="px-4 py-2 rounded-xl text-xs font-black bg-purple-900 hover:bg-purple-950 text-white shadow-sm flex items-center gap-1.5 cursor-pointer"
+                >
+                  <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-[#ffcc29]"></i>
+                  <span>Refazer Teste & Comparar</span>
+                </button>
+              </div>
+
+              <div id="student-quiz-history-list" class="space-y-4">
+                <!-- Injetado dinamicamente via JS -->
+                <div class="text-xs text-slate-500 py-6 text-center">Nenhum teste vocacional registrado na sua conta ainda.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Conteúdo da Aba 3: Caderno de Certificados & LGPD -->
+          <div id="student-dash-view-certs" class="hidden space-y-4">
+            <div class="bg-slate-50 border-2 border-slate-200 rounded-3xl p-4 sm:p-5">
+              <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-200 flex-wrap gap-2">
+                <div>
+                  <h4 class="font-black text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                    <i data-lucide="file-badge" class="w-4 h-4 text-amber-500"></i>
+                    <span>Comprovante de Capacitação e Certificados Salvos</span>
+                  </h4>
+                  <span class="text-xs text-slate-500 font-medium">Seus cursos finalizados e links de certificados emitidos pelas instituições oficiais</span>
+                </div>
+              </div>
+
+              <div id="student-certs-list" class="space-y-3">
+                <!-- Injetado dinamicamente via JS -->
+                <div class="text-xs text-slate-500 py-6 text-center">Nenhum curso concluído com certificado salvo ainda.</div>
+              </div>
+            </div>
+
+            <!-- Bloco de Privacidade LGPD -->
+            <div class="bg-rose-50/50 border border-rose-200 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div>
+                <strong class="text-xs font-black text-rose-900 block">Privacidade & Dados (LGPD)</strong>
+                <span class="text-[11px] text-slate-500 font-medium">Você tem o direito de excluir permanentemente sua conta e todos os dados associados a qualquer momento.</span>
+              </div>
+              <button 
+                id="student-delete-account-btn"
+                type="button"
+                class="px-3.5 py-2 rounded-xl text-xs font-bold text-rose-700 bg-white border border-rose-300 hover:bg-rose-600 hover:text-white transition-colors cursor-pointer whitespace-nowrap"
+              >
+                Excluir Minha Conta
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
   <!-- Modal: Painel de Controle de Informações & Métricas de Acesso (Administração) -->
   <div 
     id="admin-analytics-modal" 
@@ -1436,7 +1883,7 @@
       <div class="overflow-y-auto py-5 space-y-6 pr-1 flex-1">
         
         <!-- 1. KPIs / Cartões Resumo de Acessos -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
           <!-- Total Home Views -->
           <div class="bg-gradient-to-br from-emerald-50 to-white border-2 border-emerald-200 rounded-2xl p-3.5 sm:p-4 shadow-sm">
             <div class="flex items-center justify-between text-emerald-800 mb-1">
@@ -1501,6 +1948,19 @@
               <span>Testes Concluídos</span>
             </span>
           </div>
+
+          <!-- Total Alunos Cadastrados -->
+          <div class="col-span-2 sm:col-span-1 bg-gradient-to-br from-indigo-50 to-white border-2 border-indigo-200 rounded-2xl p-3.5 sm:p-4 shadow-sm">
+            <div class="flex items-center justify-between text-indigo-900 mb-1">
+              <span class="text-xs font-black uppercase tracking-wider">Alunos Cadastrados</span>
+              <i data-lucide="graduation-cap" class="w-4 h-4 text-indigo-600"></i>
+            </div>
+            <div id="stat-total-students" class="text-2xl sm:text-3xl font-black text-slate-900 leading-none mb-1">--</div>
+            <span class="text-[11px] text-slate-500 font-semibold flex items-center gap-1">
+              <i data-lucide="users" class="w-3 h-3 text-indigo-600"></i>
+              <span>Base Registrada</span>
+            </span>
+          </div>
         </div>
 
         <!-- 2. Abas de Detalhamento: [Geolocalização Brasil & Mundo] e [Top Cursos Mais Acessados] -->
@@ -1530,6 +1990,14 @@
             >
               <i data-lucide="target" class="w-4 h-4 text-purple-600"></i>
               <span>Áreas Vocacionais (Ordem Ascendente)</span>
+            </button>
+            <button 
+              id="analytics-tab-mediakit-btn"
+              type="button"
+              class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2 transition-all cursor-pointer"
+            >
+              <i data-lucide="briefcase" class="w-4 h-4 text-emerald-600"></i>
+              <span>Mídia Kit & Anunciantes</span>
             </button>
           </div>
 
@@ -1645,6 +2113,134 @@
                 <div class="text-xs text-slate-500 py-6 text-center">Nenhum teste vocacional registrado até o momento.</div>
               </div>
             </div>
+          </div>
+
+          <!-- Conteúdo da Aba 4: Mídia Kit & Comprovante de Audiência para Anunciantes -->
+          <div id="analytics-view-mediakit" class="hidden space-y-5">
+            
+            <!-- Barra Superior de Exportação Comercial -->
+            <div class="bg-gradient-to-r from-emerald-900 to-[#002776] text-white p-4 sm:p-5 rounded-3xl shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-[#ffdf00] text-slate-950 flex items-center justify-center flex-shrink-0 shadow-md">
+                  <i data-lucide="file-check-2" class="w-6 h-6"></i>
+                </div>
+                <div>
+                  <h4 class="font-black text-sm sm:text-base text-white">Dossiê Oficial de Audiência & Mídia Kit</h4>
+                  <p class="text-xs text-emerald-100 font-medium">Documento de comprovação de visitas, público e alcance para patrocinadores e anunciantes.</p>
+                </div>
+              </div>
+              
+              <!-- Botões de Extração Comercial -->
+              <div class="flex items-center gap-2 flex-wrap">
+                <button 
+                  id="admin-print-mediakit-btn"
+                  type="button"
+                  class="px-4 py-2.5 rounded-xl font-black text-xs bg-white text-slate-900 hover:bg-slate-100 shadow-md flex items-center gap-2 cursor-pointer transition-all"
+                  title="Gerar visualização formatada para impressão ou exportação em PDF"
+                >
+                  <i data-lucide="printer" class="w-4 h-4 text-emerald-700"></i>
+                  <span>Imprimir / Salvar PDF</span>
+                </button>
+                <button 
+                  id="admin-download-mediakit-csv-btn"
+                  type="button"
+                  class="px-4 py-2.5 rounded-xl font-black text-xs bg-[#ffcc29] hover:bg-[#ffdf00] text-slate-950 shadow-md flex items-center gap-2 cursor-pointer transition-all"
+                  title="Baixar planilha compatível com Microsoft Excel e Google Sheets"
+                >
+                  <i data-lucide="file-spreadsheet" class="w-4 h-4 text-slate-950"></i>
+                  <span>Baixar Planilha Excel</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Dossiê Visual / Prévia Comercial -->
+            <div id="mediakit-printable-report" class="bg-white border-2 border-slate-200 rounded-3xl p-5 sm:p-7 space-y-6 shadow-sm">
+              
+              <!-- Timbre do Veículo -->
+              <div class="flex items-center justify-between border-b-2 border-slate-100 pb-4 flex-wrap gap-3">
+                <div class="flex items-center gap-3">
+                  <img src="./assets/logo.png" alt="Você Pode Tudo" class="h-10 w-auto">
+                  <div>
+                    <h5 class="font-black text-sm text-slate-900 uppercase tracking-wider">Portal Você Pode Tudo (VCPDTD)</h5>
+                    <span class="text-[11px] text-slate-500 font-semibold">www.vocepodetudo.com • Dados Oficiais do Servidor</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span class="inline-flex items-center gap-1 text-[10px] font-black uppercase px-2.5 py-1 rounded bg-emerald-100 text-[#00702a] border border-emerald-300">
+                    <i data-lucide="badge-check" class="w-3 h-3 text-[#009639]"></i>
+                    <span>Métricas Certificadas</span>
+                  </span>
+                  <span class="text-[10px] text-slate-400 block mt-0.5">Emitido em: <strong id="mediakit-issue-date" class="text-slate-600">Hoje</strong></span>
+                </div>
+              </div>
+
+              <!-- Sumário Executivo de Tráfego -->
+              <div>
+                <h6 class="text-xs font-black uppercase text-slate-400 tracking-wider mb-3">1. Resumo Executivo de Tráfego e Engajamento</h6>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                  <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                    <span class="text-[10px] font-bold text-slate-500 uppercase block">Visitas da Home</span>
+                    <strong id="mk-home-views" class="text-xl font-black text-slate-900 block mt-1">--</strong>
+                    <span class="text-[9px] text-emerald-700 font-bold">Impressões do catálogo</span>
+                  </div>
+                  <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                    <span class="text-[10px] font-bold text-slate-500 uppercase block">Trilhas Vistas</span>
+                    <strong id="mk-tracks-views" class="text-xl font-black text-slate-900 block mt-1">--</strong>
+                    <span class="text-[9px] text-blue-700 font-bold">Engajamento temático</span>
+                  </div>
+                  <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                    <span class="text-[10px] font-bold text-slate-500 uppercase block">Cliques em Cursos</span>
+                    <strong id="mk-course-clicks" class="text-xl font-black text-slate-900 block mt-1">--</strong>
+                    <span class="text-[9px] text-amber-700 font-bold">Alta intenção de ação</span>
+                  </div>
+                  <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                    <span class="text-[10px] font-bold text-slate-500 uppercase block">Testes Feitos</span>
+                    <strong id="mk-quiz-count" class="text-xl font-black text-slate-900 block mt-1">--</strong>
+                    <span class="text-[9px] text-purple-700 font-bold">Perfil qualificado</span>
+                  </div>
+                  <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                    <span class="text-[10px] font-bold text-slate-500 uppercase block">Alunos Cadastrados</span>
+                    <strong id="mk-students-count" class="text-xl font-black text-slate-900 block mt-1">--</strong>
+                    <span class="text-[9px] text-indigo-700 font-bold">Base fidelizada</span>
+                  </div>
+                  <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                    <span class="text-[10px] font-bold text-slate-500 uppercase block">Cursos Salvos</span>
+                    <strong id="mk-favs-count" class="text-xl font-black text-slate-900 block mt-1">--</strong>
+                    <span class="text-[9px] text-rose-700 font-bold">Favoritados</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Perfil Demográfico & Geográfico -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                  <h6 class="text-xs font-black uppercase text-slate-700 tracking-wider mb-2.5 flex items-center gap-1.5">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-emerald-600"></i>
+                    <span>Concentração Geográfica (Brasil)</span>
+                  </h6>
+                  <div id="mk-top-states" class="space-y-1.5 text-xs text-slate-600">
+                    Carregando estados...
+                  </div>
+                </div>
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                  <h6 class="text-xs font-black uppercase text-slate-700 tracking-wider mb-2.5 flex items-center gap-1.5">
+                    <i data-lucide="pie-chart" class="w-4 h-4 text-purple-600"></i>
+                    <span>Interesse Vocacional dos Visitantes</span>
+                  </h6>
+                  <div id="mk-top-interests" class="space-y-1.5 text-xs text-slate-600">
+                    Carregando interesses...
+                  </div>
+                </div>
+              </div>
+
+              <!-- Rodapé da Comprovação Comercial -->
+              <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400 flex-wrap gap-2">
+                <span>Relatório gerado automaticamente para apresentação a marcas, agências e patrocinadores.</span>
+                <span class="font-mono text-slate-500">ID de Auditoria: VCPDTD-AUDIT-2026</span>
+              </div>
+
+            </div>
+
           </div>
 
         </div>
@@ -2325,8 +2921,8 @@
   </aside>
 
   <!-- Carregamento dos Scripts da Aplicação (com Cache-Busting v=2.7.0) -->
-  <script src="./src/data/courses.js?v=2.7.0"></script>
-  <script src="./src/data/career_quiz.js?v=2.7.0"></script>
-  <script src="./src/app.js?v=2.7.0"></script>
+  <script src="./src/data/courses.js?v=2.8.0"></script>
+  <script src="./src/data/career_quiz.js?v=2.8.0"></script>
+  <script src="./src/app.js?v=2.8.0"></script>
 </body>
 </html>

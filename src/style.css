@@ -164,3 +164,55 @@ html.high-contrast #visual-accessibility-panel div {
   border-color: #ffff00 !important;
   color: #ffffff !important;
 }
+
+/* ==============================================================
+   FOLHA DE ESTILO PARA IMPRESSÃO LIMPA DO RESULTADO VOCACIONAL
+   ============================================================== */
+@media print {
+  header,
+  footer,
+  #top-utility-bar,
+  #visual-accessibility-widget,
+  [vw],
+  #catalog-view,
+  #tracks-view,
+  #career-test-view,
+  #result-explore-other-areas-btn,
+  #result-restart-test-btn,
+  #result-back-to-catalog-btn,
+  #result-explore-other-areas-top-btn,
+  #result-print-btn,
+  #career-review-modal,
+  #career-explore-modal,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    font-size: 11pt !important;
+  }
+
+  #main-content {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  #career-result-view {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .shadow-xl, .shadow-lg, .shadow-md, .shadow-sm {
+    box-shadow: none !important;
+  }
+
+  /* Garante cores em gráficos e bordas */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

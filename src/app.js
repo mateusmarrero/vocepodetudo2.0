@@ -90,7 +90,7 @@
     certificateFilter: 'all', // 'all', 'free-only', 'audited'
     workloadFilter: 'all',    // 'all', 'short', 'medium', 'long'
     sortBy: 'recommended',   // 'recommended', 'rating', 'workload-asc', 'workload-desc', 'name'
-    viewMode: 'catalog',      // 'catalog', 'tracks', ou 'favorites'
+    viewMode: 'catalog',      // 'catalog', 'tracks', 'favorites', 'career-test', ou 'career-result'
     selectedTrack: null,      // id da trilha de aprendizagem ativa no catálogo
     isAdmin: false,           // status de autenticação do administrador
     fontSizeLevel: 1,         // 0: Pequeno, 1: Normal, 2: Grande, 3: Extra Grande
@@ -101,7 +101,13 @@
     isLoadingMore: false,
     visitorCity: 'São Paulo',
     visitorRegion: 'SP',
-    visitorCountry: 'Brasil'
+    visitorCountry: 'Brasil',
+    careerQuiz: {
+      currentStep: 0,
+      answers: {},
+      result: null,
+      activeResultArea: null
+    }
   };
 
   const fontSizes = ['font-size-small', 'font-size-normal', 'font-size-large', 'font-size-xlarge'];
@@ -277,7 +283,19 @@
         applyFontSize();
       }
 
-      // 5. Cursos Adicionados por Admin com Validação Anti-Tampering (Fallback Local)
+      // 5. Teste de Perfil Profissional Salvo (se existente)
+      const savedCareerTest = localStorage.getItem('vpt_career_test_result');
+      if (savedCareerTest) {
+        try {
+          const parsedTest = JSON.parse(savedCareerTest);
+          if (parsedTest && parsedTest.primary) {
+            state.careerQuiz.result = parsedTest;
+            state.careerQuiz.activeResultArea = parsedTest.primary.areaKey;
+          }
+        } catch (e) {}
+      }
+
+      // 6. Cursos Adicionados por Admin com Validação Anti-Tampering (Fallback Local)
       const userCoursesRaw = localStorage.getItem('vocepodetudo_custom_courses') || localStorage.getItem('estudegratis_custom_courses');
       let customCourses = [];
       if (userCoursesRaw) {
@@ -379,8 +397,11 @@
       }
 
       const viewParam = params.get('view');
-      if (viewParam === 'tracks' || viewParam === 'favorites') {
+      const testParam = params.get('teste') || params.get('quiz');
+      if (viewParam === 'tracks' || viewParam === 'favorites' || viewParam === 'career-test' || viewParam === 'career-result') {
         state.viewMode = viewParam;
+      } else if (testParam === '1' || testParam === 'true' || window.location.hash === '#teste-perfil') {
+        state.viewMode = 'career-test';
       }
     } catch (err) {
       console.error('Erro ao ler parâmetros de busca na URL:', err);
@@ -1172,14 +1193,17 @@
     }
   }
 
-  // Alternador de Visualização (Cursos, Trilhas, Salvos)
+  // Alternador de Visualização (Cursos, Trilhas, Salvos, Teste Vocacional, Resultado)
   function updateViewModeButtons() {
     const catTabBtn = document.getElementById('tab-catalog-btn');
     const tracksTabBtn = document.getElementById('tab-tracks-btn');
     const favTabBtn = document.getElementById('tab-favorites-btn');
+    const careerTabBtn = document.getElementById('tab-career-test-btn');
 
     const catalogView = document.getElementById('catalog-view');
     const tracksView = document.getElementById('tracks-view');
+    const careerTestView = document.getElementById('career-test-view');
+    const careerResultView = document.getElementById('career-result-view');
 
     const activeClasses = 'px-3 sm:px-4 py-2 rounded-xl bg-[#009639] text-white shadow-sm transition-all font-bold';
     const inactiveClasses = 'px-3 sm:px-4 py-2 rounded-xl text-slate-700 hover:text-[#009639] transition-all font-bold';
@@ -1191,17 +1215,584 @@
     if (favTabBtn) {
       favTabBtn.className = `${state.viewMode === 'favorites' ? activeClasses : inactiveClasses} flex items-center gap-1.5`;
     }
+    if (careerTabBtn) {
+      const isTestActive = state.viewMode === 'career-test' || state.viewMode === 'career-result';
+      careerTabBtn.className = `${isTestActive ? 'px-3 sm:px-4 py-2 rounded-xl bg-[#002776] text-white shadow-sm transition-all font-bold' : inactiveClasses} flex items-center gap-1.5`;
+    }
+
+    // Ocultar todas as visualizações primeiro para evitar sobreposição
+    if (catalogView) catalogView.classList.add('hidden');
+    if (tracksView) tracksView.classList.add('hidden');
+    if (careerTestView) careerTestView.classList.add('hidden');
+    if (careerResultView) careerResultView.classList.add('hidden');
 
     if (state.viewMode === 'tracks') {
-      if (catalogView) catalogView.classList.add('hidden');
       if (tracksView) tracksView.classList.remove('hidden');
       renderTracksRoadmap();
+    } else if (state.viewMode === 'career-test') {
+      if (careerTestView) careerTestView.classList.remove('hidden');
+    } else if (state.viewMode === 'career-result') {
+      if (careerResultView) careerResultView.classList.remove('hidden');
     } else {
-      if (tracksView) tracksView.classList.add('hidden');
+      // 'catalog' ou 'favorites'
       if (catalogView) catalogView.classList.remove('hidden');
       renderCourses();
     }
   }
+
+  // ============================================================
+  // TESTE DE PERFIL & APTIDÃO PROFISSIONAL (QUESTIONÁRIO & RESULTADO)
+  // ============================================================
+
+  function startCareerTest(forceRestart = false) {
+    if (!window.CAREER_QUIZ) {
+      showToast('Carregando questionário de perfil...', 'info');
+      return;
+    }
+
+    if (forceRestart) {
+      state.careerQuiz.currentStep = 0;
+      state.careerQuiz.answers = {};
+    }
+
+    state.viewMode = 'career-test';
+    updateViewModeButtons();
+    renderCurrentQuizStep();
+
+    trackAnalyticsEvent('career_test_started');
+
+    const testEl = document.getElementById('career-test-view');
+    if (testEl) {
+      testEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function restartCareerTest() {
+    if (confirm('Deseja reiniciar o questionário e responder novamente?')) {
+      state.careerQuiz.currentStep = 0;
+      state.careerQuiz.answers = {};
+      state.careerQuiz.result = null;
+      try {
+        localStorage.removeItem('vpt_career_test_result');
+      } catch (e) {}
+      startCareerTest(true);
+      showToast('Questionário reiniciado com sucesso!', 'info');
+    }
+  }
+
+  function renderCurrentQuizStep() {
+    if (!window.CAREER_QUIZ) return;
+
+    const quiz = window.CAREER_QUIZ;
+    const currentIdx = Math.max(0, Math.min(state.careerQuiz.currentStep, quiz.questions.length - 1));
+    state.careerQuiz.currentStep = currentIdx;
+    const question = quiz.questions[currentIdx];
+    if (!question) return;
+
+    // 1. Atualizar indicadores de progresso
+    const stepIndicator = document.getElementById('quiz-step-indicator');
+    const categoryBadge = document.getElementById('quiz-category-text');
+    const progressBar = document.getElementById('quiz-progress-bar');
+    const progressText = document.getElementById('quiz-progress-text');
+    const titleEl = document.getElementById('quiz-question-title');
+    const subtitleEl = document.getElementById('quiz-question-subtitle');
+    const optionalTag = document.getElementById('quiz-optional-tag');
+    const validationAlert = document.getElementById('quiz-validation-alert');
+    const nextBtnText = document.getElementById('quiz-next-btn-text');
+    const prevBtn = document.getElementById('quiz-prev-btn');
+    const optionsContainer = document.getElementById('quiz-options-container');
+
+    if (stepIndicator) stepIndicator.textContent = `Pergunta ${question.id} de ${quiz.questions.length}`;
+    if (categoryBadge) categoryBadge.textContent = question.category || 'Vocacional';
+
+    const percent = Math.round((question.id / quiz.questions.length) * 100);
+    if (progressBar) {
+      progressBar.style.width = `${percent}%`;
+      progressBar.setAttribute('aria-valuenow', percent);
+    }
+    if (progressText) progressText.textContent = `Progresso: ${percent}%`;
+
+    if (titleEl) titleEl.textContent = question.title;
+    if (subtitleEl) subtitleEl.textContent = question.subtitle || '';
+
+    if (optionalTag) {
+      if (question.isOptional) optionalTag.classList.remove('hidden');
+      else optionalTag.classList.add('hidden');
+    }
+
+    if (validationAlert) validationAlert.classList.add('hidden');
+
+    if (prevBtn) {
+      prevBtn.disabled = currentIdx === 0;
+    }
+
+    if (nextBtnText) {
+      nextBtnText.textContent = currentIdx === quiz.questions.length - 1 ? 'Concluir e Ver Meu Resultado 🎉' : 'Avançar';
+    }
+
+    // 2. Renderizar opções em cartões grandes e acessíveis
+    const selectedOptId = state.careerQuiz.answers[question.id] || null;
+
+    if (optionsContainer) {
+      optionsContainer.innerHTML = question.options.map((opt) => {
+        const isSelected = selectedOptId === opt.id;
+        const letterBadgeColor = isSelected 
+          ? 'bg-[#009639] text-white border-transparent font-black' 
+          : 'bg-slate-100 text-slate-800 border-slate-300 font-bold';
+        const cardStyle = isSelected
+          ? 'border-4 border-[#009639] bg-emerald-50/80 shadow-md ring-2 ring-emerald-400'
+          : 'border-2 border-slate-200 bg-white hover:border-[#002776] hover:bg-slate-50/80 shadow-2xs';
+
+        return `
+          <button 
+            type="button"
+            data-option-id="${escapeHTML(opt.id)}"
+            role="radio"
+            aria-checked="${isSelected}"
+            class="quiz-option-btn w-full text-left p-4 sm:p-5 rounded-2xl ${cardStyle} transition-all duration-200 flex items-start gap-3.5 sm:gap-4 group cursor-pointer focus:outline-none"
+          >
+            <!-- Badge da Letra -->
+            <span class="w-8 h-8 rounded-xl text-xs sm:text-sm flex items-center justify-center border ${letterBadgeColor} flex-shrink-0 transition-colors shadow-2xs">
+              ${escapeHTML(opt.letter || '')}
+            </span>
+
+            <!-- Ícone e Conteúdo -->
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-1">
+                <i data-lucide="${escapeHTML(opt.icon || 'circle')}" class="w-4 h-4 ${isSelected ? 'text-[#009639]' : 'text-slate-500 group-hover:text-[#002776]'} transition-colors flex-shrink-0"></i>
+                <p class="font-bold text-sm sm:text-base text-slate-900 leading-snug">
+                  ${escapeHTML(opt.text)}
+                </p>
+              </div>
+              ${opt.description ? `
+                <p class="text-xs text-slate-600 font-medium pl-6 leading-relaxed">
+                  ${escapeHTML(opt.description)}
+                </p>
+              ` : ''}
+            </div>
+
+            <!-- Indicador Radio Check -->
+            <div class="w-6 h-6 rounded-full border-2 ${isSelected ? 'border-[#009639] bg-[#009639]' : 'border-slate-300 bg-white'} flex items-center justify-center flex-shrink-0 mt-0.5 transition-colors">
+              ${isSelected ? '<i data-lucide="check" class="w-3.5 h-3.5 text-white"></i>' : ''}
+            </div>
+          </button>
+        `;
+      }).join('');
+
+      // Adicionar listeners para clique nas opções
+      const optButtons = optionsContainer.querySelectorAll('.quiz-option-btn');
+      optButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const optId = btn.getAttribute('data-option-id');
+          state.careerQuiz.answers[question.id] = optId;
+          if (validationAlert) validationAlert.classList.add('hidden');
+          renderCurrentQuizStep();
+        });
+      });
+    }
+
+    const testView = document.getElementById('career-test-view');
+    if (window.lucide && testView) {
+      window.lucide.createIcons({ root: testView });
+    }
+  }
+
+  function nextQuizStep() {
+    if (!window.CAREER_QUIZ) return;
+    const quiz = window.CAREER_QUIZ;
+    const currentQ = quiz.questions[state.careerQuiz.currentStep];
+
+    // Se a pergunta não for opcional e não estiver respondida, exibe alerta
+    if (!currentQ.isOptional && !state.careerQuiz.answers[currentQ.id]) {
+      const alertEl = document.getElementById('quiz-validation-alert');
+      if (alertEl) {
+        alertEl.classList.remove('hidden');
+        alertEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return;
+    }
+
+    if (state.careerQuiz.currentStep < quiz.questions.length - 1) {
+      state.careerQuiz.currentStep++;
+      renderCurrentQuizStep();
+      const testView = document.getElementById('career-test-view');
+      if (testView) testView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      finishCareerTest();
+    }
+  }
+
+  function prevQuizStep() {
+    if (state.careerQuiz.currentStep > 0) {
+      state.careerQuiz.currentStep--;
+      renderCurrentQuizStep();
+      const testView = document.getElementById('career-test-view');
+      if (testView) testView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function finishCareerTest() {
+    if (!window.CAREER_QUIZ) return;
+    const results = window.CAREER_QUIZ.calculateResults(state.careerQuiz.answers, state.allCourses);
+    state.careerQuiz.result = results;
+    state.careerQuiz.activeResultArea = results.primary.areaKey;
+
+    try {
+      localStorage.setItem('vpt_career_test_result', JSON.stringify(results));
+    } catch (e) {}
+
+    trackAnalyticsEvent('career_test_completed', {
+      primary_area: results.primary.areaKey
+    });
+
+    state.viewMode = 'career-result';
+    updateViewModeButtons();
+    renderCareerResult();
+
+    showToast('Parabéns! Seu teste de perfil profissional foi concluído com sucesso.', 'success');
+
+    const resultEl = document.getElementById('career-result-view');
+    if (resultEl) {
+      resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function renderCareerResult(areaKeyOverride = null) {
+    if (!state.careerQuiz.result || !window.CAREER_QUIZ) return;
+
+    if (areaKeyOverride) {
+      state.careerQuiz.activeResultArea = areaKeyOverride;
+    }
+
+    const res = state.careerQuiz.result;
+    const activeAreaKey = state.careerQuiz.activeResultArea || res.primary.areaKey;
+    const activeArea = window.CAREER_QUIZ.areas[activeAreaKey] || res.primary.area;
+    const isPrimaryArea = activeAreaKey === res.primary.areaKey;
+
+    // 1. Atualizar Perfil Exibido
+    const headerBadge = document.getElementById('result-primary-header-badge');
+    const matchBadge = document.getElementById('result-primary-match-badge');
+    const iconBox = document.getElementById('result-primary-icon-box');
+    const titleEl = document.getElementById('result-primary-title');
+    const taglineEl = document.getElementById('result-primary-tagline');
+    const descEl = document.getElementById('result-primary-desc');
+    const reasonEl = document.getElementById('result-primary-reason');
+
+    const affinityObj = res.affinities.find(a => a.areaKey === activeAreaKey) || res.primary;
+
+    if (headerBadge) {
+      headerBadge.textContent = isPrimaryArea ? 'Seu Perfil Principal Sugerido' : 'Área Selecionada para Exploração';
+    }
+    if (matchBadge) {
+      matchBadge.textContent = `${affinityObj.percent}% de Afinidade`;
+    }
+    if (iconBox) {
+      iconBox.innerHTML = `<i data-lucide="${escapeHTML(activeArea.icon || 'star')}" class="w-7 h-7"></i>`;
+    }
+    if (titleEl) titleEl.textContent = activeArea.title;
+    if (taglineEl) taglineEl.textContent = activeArea.tagline || '';
+    if (descEl) descEl.textContent = activeArea.description || '';
+    if (reasonEl) {
+      reasonEl.textContent = isPrimaryArea 
+        ? 'Suas respostas demonstraram entusiasmo por resolver desafios práticos desta área, interesses alinhados às rotinas profissionais e curiosidade por desenvolver as competências exigidas pelo mercado.'
+        : `Você selecionou para conhecer os detalhes e cursos gratuitos da área de ${activeArea.title}. Você obteve ${affinityObj.percent}% de afinidade com este setor.`;
+    }
+
+    // 2. Segunda Área de Interesse (quando aplicável)
+    const secondaryCard = document.getElementById('result-secondary-card');
+    const secondaryTitle = document.getElementById('result-secondary-title');
+    const secondaryPercent = document.getElementById('result-secondary-percent');
+    const secondaryDesc = document.getElementById('result-secondary-desc');
+
+    if (secondaryCard) {
+      if (res.secondary && res.secondary.areaKey !== activeAreaKey) {
+        secondaryCard.classList.remove('hidden');
+        if (secondaryTitle) secondaryTitle.textContent = res.secondary.area.title;
+        if (secondaryPercent) secondaryPercent.textContent = `${res.secondary.percent}% de Afinidade Complementar`;
+        if (secondaryDesc) secondaryDesc.textContent = res.secondary.area.tagline || 'Área complementar de grande afinidade.';
+      } else {
+        secondaryCard.classList.add('hidden');
+      }
+    }
+
+    // 3. Preferências de Estudo Informadas
+    const prefDevice = document.getElementById('result-pref-device');
+    const prefHours = document.getElementById('result-pref-hours');
+    if (prefDevice) {
+      const devText = res.devicePreference === 'mobile' ? 'Apenas pelo Celular (priorizando cursos responsivos)' :
+                      res.devicePreference === 'pc' ? 'Computador / Notebook' : 'Celular e Computador';
+      prefDevice.innerHTML = `Estudando pelo: <strong>${escapeHTML(devText)}</strong>`;
+    }
+    if (prefHours) {
+      const hrsText = res.hoursPreference === 'short' ? 'Até 2h semanais (ritmo leve)' :
+                      res.hoursPreference === 'long' ? 'Mais de 5h semanais (ritmo intensivo)' : 'De 3 a 5h semanais (ritmo equilibrado)';
+      prefHours.innerHTML = `Dedicação semanal: <strong>${escapeHTML(hrsText)}</strong>`;
+    }
+
+    // 4. Gráfico de Afinidade Relativa das 8 Áreas
+    const affinitiesGrid = document.getElementById('result-affinities-grid');
+    if (affinitiesGrid) {
+      affinitiesGrid.innerHTML = res.affinities.map(aff => {
+        const isCurrentActive = aff.areaKey === activeAreaKey;
+        const barColor = isCurrentActive 
+          ? 'bg-gradient-to-r from-[#009639] via-[#ffcc29] to-[#002776]' 
+          : 'bg-gradient-to-r from-slate-400 to-slate-500';
+        return `
+          <div class="space-y-1 p-2 rounded-xl transition-colors ${isCurrentActive ? 'bg-emerald-50/70 border border-emerald-300' : 'hover:bg-slate-50'}">
+            <div class="flex items-center justify-between text-xs font-bold text-slate-800">
+              <span class="flex items-center gap-1.5">
+                <i data-lucide="${escapeHTML(aff.area.icon || 'circle')}" class="w-3.5 h-3.5 ${isCurrentActive ? 'text-[#009639]' : 'text-slate-400'}"></i>
+                <span class="${isCurrentActive ? 'text-[#002776] font-black' : 'text-slate-800'}">${escapeHTML(aff.area.title)}</span>
+                ${isCurrentActive ? '<span class="text-[9px] uppercase font-black px-1.5 py-0.2 rounded bg-emerald-100 text-[#00702a]">Exibindo</span>' : ''}
+              </span>
+              <span class="font-black ${isCurrentActive ? 'text-[#00702a] text-sm' : 'text-slate-600'}">
+                ${aff.percent}%
+              </span>
+            </div>
+            <div class="h-2.5 w-full bg-slate-200 rounded-full overflow-hidden">
+              <div class="h-full ${barColor} rounded-full transition-all duration-500" style="width: ${aff.percent}%;"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 5. TRILHA PERSONALIZADA COM ETAPAS ORGANIZADAS (CURSOS REAIS)
+    const trackTitleEl = document.getElementById('result-track-title');
+    if (trackTitleEl) trackTitleEl.textContent = activeArea.trackTitle || 'TRILHA DE APRENDIZAGEM RECOMENDADA';
+
+    const stepsContainer = document.getElementById('result-track-steps-container');
+    if (stepsContainer && activeArea.trackStepCourses) {
+      const stepsHtml = activeArea.trackStepCourses.map(stepDef => {
+        const course = (state.allCourses || []).find(c => c.id === stepDef.id) || {
+          id: stepDef.id,
+          title: stepDef.label,
+          provider: 'Instituição Parceira Oficial',
+          workloadHours: 20,
+          hasFreeCertificate: true,
+          certificateNote: 'Certificado 100% Gratuito',
+          url: 'https://vocepodetudo.com'
+        };
+
+        const certBadge = course.hasFreeCertificate 
+          ? '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-black bg-emerald-100 text-[#00702a] border border-emerald-300"><i data-lucide="award" class="w-3 h-3"></i> Certificado 100% Gratuito</span>'
+          : '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-black bg-blue-100 text-[#002776] border border-blue-200"><i data-lucide="book-open" class="w-3 h-3"></i> Modo Ouvinte Gratuito</span>';
+
+        return `
+          <div class="bg-white border-2 border-slate-200 hover:border-[#009639] rounded-2xl p-4 sm:p-5 shadow-xs transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div class="flex items-start gap-3.5 flex-1">
+              <span class="w-9 h-9 rounded-xl font-black text-xs sm:text-sm bg-[#002776] text-[#ffdf00] flex items-center justify-center flex-shrink-0 shadow-sm">
+                ${stepDef.step}º
+              </span>
+              <div class="space-y-1">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
+                    Etapa ${stepDef.step}: ${escapeHTML(stepDef.label)}
+                  </span>
+                  ${certBadge}
+                </div>
+                <h4 class="font-black text-base sm:text-lg text-slate-900 leading-tight">
+                  ${escapeHTML(course.title)}
+                </h4>
+                <div class="flex items-center gap-3 text-xs text-slate-500 font-semibold flex-wrap">
+                  <span class="flex items-center gap-1 text-[#002776]">
+                    <i data-lucide="building-2" class="w-3.5 h-3.5"></i>
+                    <span>${escapeHTML(course.provider)}</span>
+                  </span>
+                  <span>•</span>
+                  <span class="flex items-center gap-1">
+                    <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i>
+                    <span>${course.workloadHours} horas</span>
+                  </span>
+                  <span>•</span>
+                  <span class="text-[#009639] font-black flex items-center gap-1">
+                    <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                    <span>100% Gratuito</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 w-full md:w-auto flex-shrink-0 justify-end">
+              <a 
+                href="${escapeHTML(course.url)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-full md:w-auto px-5 py-2.5 rounded-xl font-black text-xs sm:text-sm bg-[#009639] hover:bg-[#00702a] text-white transition-all shadow-sm flex items-center justify-center gap-2"
+                data-course-id="${escapeHTML(course.id)}"
+                data-course-title="${escapeHTML(course.title)}"
+                data-course-provider="${escapeHTML(course.provider)}"
+                data-course-category="${escapeHTML(course.category || 'Geral')}"
+              >
+                <span>Acessar Curso Oficial</span>
+                <i data-lucide="external-link" class="w-4 h-4"></i>
+              </a>
+            </div>
+          </div>
+        `;
+      }).join('');
+      stepsContainer.innerHTML = stepsHtml;
+    }
+
+    // 6. Cursos Relacionados
+    const relatedContainer = document.getElementById('result-related-courses-grid');
+    const relatedTitle = document.getElementById('result-related-title');
+    if (relatedTitle) relatedTitle.textContent = `Mais Cursos Gratuitos de ${activeArea.shortName || activeArea.title}`;
+
+    if (relatedContainer) {
+      const stepCourseIds = (activeArea.trackStepCourses || []).map(s => s.id);
+      const matchingRelated = (state.allCourses || []).filter(c => {
+        if (stepCourseIds.includes(c.id)) return false;
+        const cat = (c.category || '').toLowerCase();
+        const text = (c.title + ' ' + (c.tags || []).join(' ')).toLowerCase();
+        if (activeAreaKey === 'tecnologia') return cat === 'tecnologia' || cat === 'ia' || cat === 'nuvem';
+        if (activeAreaKey === 'administracao') return cat === 'gestao' || cat === 'profissionalizacao' || text.includes('excel');
+        if (activeAreaKey === 'comunicacao') return cat === 'profissionalizacao' || cat === 'outros' || text.includes('comunicação');
+        if (activeAreaKey === 'criatividade') return cat === 'artes' || cat === 'negocios' || text.includes('vídeo');
+        if (activeAreaKey === 'vendas') return cat === 'empreendedorismo' || cat === 'negocios';
+        if (activeAreaKey === 'tecnica') return cat === 'saude' || cat === 'agro';
+        if (activeAreaKey === 'gestao') return cat === 'gestao' || cat === 'produtividade';
+        if (activeAreaKey === 'educacao') return cat === 'acessibilidade' || cat === 'educacao';
+        return false;
+      }).slice(0, 6);
+
+      if (matchingRelated.length === 0) {
+        relatedContainer.innerHTML = `<div class="col-span-full py-4 text-center text-xs text-slate-500 font-medium">Os 5 cursos oficiais acima compõem a seleção principal para esta área.</div>`;
+      } else {
+        relatedContainer.innerHTML = matchingRelated.map(c => `
+          <div class="bg-white border border-slate-200 hover:border-[#002776] rounded-2xl p-4 shadow-2xs transition-all flex flex-col justify-between">
+            <div class="space-y-2 mb-3">
+              <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-blue-50 text-[#002776] border border-blue-200 inline-block">
+                ${escapeHTML(c.provider)}
+              </span>
+              <h5 class="font-bold text-sm text-slate-900 leading-snug">
+                ${escapeHTML(c.title)}
+              </h5>
+              <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                ${escapeHTML(c.description || '')}
+              </p>
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+              <span class="font-bold text-[#009639]">${c.workloadHours}h • 100% Grátis</span>
+              <a 
+                href="${escapeHTML(c.url)}" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="font-black text-[#002776] hover:underline flex items-center gap-1"
+                data-course-id="${escapeHTML(c.id)}"
+                data-course-title="${escapeHTML(c.title)}"
+                data-course-provider="${escapeHTML(c.provider)}"
+              >
+                <span>Acessar</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              </a>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    const resultView = document.getElementById('career-result-view');
+    if (window.lucide && resultView) {
+      window.lucide.createIcons({ root: resultView });
+    }
+  }
+
+  function openReviewAnswersModal() {
+    if (!window.CAREER_QUIZ) return;
+    const modal = document.getElementById('career-review-modal');
+    const listEl = document.getElementById('career-review-list');
+    if (!modal || !listEl) return;
+
+    listEl.innerHTML = window.CAREER_QUIZ.questions.map((q, idx) => {
+      const chosenOptId = state.careerQuiz.answers[q.id];
+      const chosenOpt = chosenOptId ? q.options.find(o => o.id === chosenOptId) : null;
+      const isAnswered = Boolean(chosenOpt);
+
+      return `
+        <div class="p-3 rounded-xl border ${isAnswered ? 'border-slate-200 bg-white' : 'border-amber-200 bg-amber-50/50'} flex items-start justify-between gap-3">
+          <div class="space-y-0.5">
+            <div class="flex items-center gap-2">
+              <span class="w-5 h-5 rounded-md font-black text-[10px] bg-slate-100 text-slate-700 flex items-center justify-center">
+                ${q.id}
+              </span>
+              <span class="text-[10px] font-bold uppercase text-slate-500">${escapeHTML(q.category)}</span>
+            </div>
+            <p class="font-bold text-slate-800 text-xs">${escapeHTML(q.title)}</p>
+            <p class="text-xs ${isAnswered ? 'text-emerald-700 font-medium' : 'text-amber-800 italic'}">
+              ${isAnswered ? `Resposta: <strong>${escapeHTML(chosenOpt.text)}</strong>` : 'Ainda não respondida'}
+            </p>
+          </div>
+          <button 
+            type="button" 
+            class="px-2.5 py-1 rounded-lg text-xs font-bold text-[#002776] hover:bg-blue-50 border border-blue-200 flex-shrink-0 cursor-pointer"
+            onclick="window.careerQuizJumpToQuestion(${idx})"
+          >
+            Alterar
+          </button>
+        </div>
+      `;
+    }).join('');
+
+    modal.classList.remove('hidden');
+    if (window.lucide) window.lucide.createIcons({ root: modal });
+  }
+
+  function openCareerExploreModal() {
+    if (!window.CAREER_QUIZ) return;
+    const modal = document.getElementById('career-explore-modal');
+    const gridEl = document.getElementById('career-explore-grid');
+    if (!modal || !gridEl) return;
+
+    gridEl.innerHTML = Object.values(window.CAREER_QUIZ.areas).map(area => {
+      const isCurrentActive = state.careerQuiz.activeResultArea === area.id;
+      return `
+        <button 
+          type="button" 
+          class="p-4 rounded-2xl border-2 ${isCurrentActive ? 'border-[#009639] bg-emerald-50' : 'border-slate-200 bg-white hover:border-[#002776] hover:bg-slate-50'} text-left transition-all shadow-2xs flex items-start gap-3 cursor-pointer group"
+          onclick="window.careerQuizSelectExploreArea('${escapeHTML(area.id)}')"
+        >
+          <div class="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-[#002776] group-hover:text-white flex items-center justify-center flex-shrink-0 text-slate-700 transition-colors">
+            <i data-lucide="${escapeHTML(area.icon || 'star')}" class="w-5 h-5"></i>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between mb-0.5">
+              <h5 class="font-bold text-sm text-slate-900 leading-snug">${escapeHTML(area.title)}</h5>
+              ${isCurrentActive ? '<span class="text-[9px] font-black text-[#00702a] uppercase bg-emerald-100 px-1.5 py-0.2 rounded">Atual</span>' : ''}
+            </div>
+            <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed font-medium">${escapeHTML(area.tagline)}</p>
+          </div>
+        </button>
+      `;
+    }).join('');
+
+    modal.classList.remove('hidden');
+    if (window.lucide) window.lucide.createIcons({ root: modal });
+  }
+
+  // Funções globais utilitárias para saltos nos modais
+  window.careerQuizJumpToQuestion = function(qIndex) {
+    const modal = document.getElementById('career-review-modal');
+    if (modal) modal.classList.add('hidden');
+    state.viewMode = 'career-test';
+    updateViewModeButtons();
+    state.careerQuiz.currentStep = qIndex;
+    renderCurrentQuizStep();
+    const testView = document.getElementById('career-test-view');
+    if (testView) testView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  window.careerQuizSelectExploreArea = function(areaId) {
+    const modal = document.getElementById('career-explore-modal');
+    if (modal) modal.classList.add('hidden');
+    state.careerQuiz.activeResultArea = areaId;
+    renderCareerResult(areaId);
+    const trackSection = document.getElementById('result-track-section');
+    if (trackSection) trackSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (window.CAREER_QUIZ && window.CAREER_QUIZ.areas[areaId]) {
+      showToast(`Visualizando cursos recomendados de ${window.CAREER_QUIZ.areas[areaId].title}`, 'info');
+    }
+  };
 
   // Configuração dos Modais (Admin Login Seguro com MySQL, SHA-256 e Troca de Senha)
   function setupModals() {
@@ -1675,7 +2266,9 @@
           'admin-change-password-modal',
           'report-modal',
           'welcome-disclaimer-modal',
-          'share-course-modal'
+          'share-course-modal',
+          'career-review-modal',
+          'career-explore-modal'
         ];
         modals.forEach(id => {
           const el = document.getElementById(id);
@@ -1707,6 +2300,23 @@
         e.preventDefault();
         const search = document.getElementById('search-input');
         if (search) search.focus();
+      }
+
+      // Navegação por teclado no teste de perfil vocacional
+      if (state.viewMode === 'career-test') {
+        if (['1', '2', '3', '4'].includes(e.key) && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+          const optIndex = parseInt(e.key, 10) - 1;
+          const optButtons = document.querySelectorAll('#quiz-options-container .quiz-option-btn');
+          if (optButtons && optButtons[optIndex]) {
+            optButtons[optIndex].click();
+          }
+        } else if (e.key === 'Enter' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+          e.preventDefault();
+          nextQuizStep();
+        } else if (e.key === 'ArrowLeft' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+          e.preventDefault();
+          prevQuizStep();
+        }
       }
 
       if (e.altKey && e.key === '3') {
@@ -1876,6 +2486,110 @@
         renderCategories();
         updateViewModeButtons();
         renderCourses();
+      });
+    }
+
+    // ============================================================
+    // Eventos do Teste de Perfil Profissional
+    // ============================================================
+
+    // Destaque do Teste Vocacional na Página Inicial
+    const startTestHomeBtn = document.getElementById('start-career-test-home-btn');
+    if (startTestHomeBtn) {
+      startTestHomeBtn.addEventListener('click', () => {
+        startCareerTest();
+      });
+    }
+
+    // Aba de Navegação Superior do Teste Vocacional
+    const tabCareerBtn = document.getElementById('tab-career-test-btn');
+    if (tabCareerBtn) {
+      tabCareerBtn.addEventListener('click', () => {
+        if (state.careerQuiz.result) {
+          state.viewMode = 'career-result';
+          updateViewModeButtons();
+          renderCareerResult();
+          const resultEl = document.getElementById('career-result-view');
+          if (resultEl) resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          startCareerTest();
+        }
+      });
+    }
+
+    // Botões de Navegação do Questionário
+    const careerCancelBtn = document.getElementById('career-test-cancel-btn');
+    if (careerCancelBtn) {
+      careerCancelBtn.addEventListener('click', () => {
+        state.viewMode = 'catalog';
+        updateViewModeButtons();
+        trackAnalyticsEvent('pageview_home');
+        const catEl = document.getElementById('catalog-view');
+        if (catEl) catEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    const quizPrevBtn = document.getElementById('quiz-prev-btn');
+    if (quizPrevBtn) quizPrevBtn.addEventListener('click', prevQuizStep);
+
+    const quizNextBtn = document.getElementById('quiz-next-btn');
+    if (quizNextBtn) quizNextBtn.addEventListener('click', nextQuizStep);
+
+    const careerReviewBtn = document.getElementById('career-test-review-btn');
+    const careerReviewMobileBtn = document.getElementById('career-test-review-mobile-btn');
+    if (careerReviewBtn) careerReviewBtn.addEventListener('click', openReviewAnswersModal);
+    if (careerReviewMobileBtn) careerReviewMobileBtn.addEventListener('click', openReviewAnswersModal);
+
+    const closeReviewBtn = document.getElementById('close-career-review-btn');
+    const closeReviewActionBtn = document.getElementById('close-career-review-action-btn');
+    if (closeReviewBtn) {
+      closeReviewBtn.addEventListener('click', () => {
+        document.getElementById('career-review-modal')?.classList.add('hidden');
+      });
+    }
+    if (closeReviewActionBtn) {
+      closeReviewActionBtn.addEventListener('click', () => {
+        document.getElementById('career-review-modal')?.classList.add('hidden');
+      });
+    }
+
+    // Botões da Página de Resultados
+    const resultScrollBtn = document.getElementById('result-scroll-to-courses-btn');
+    if (resultScrollBtn) {
+      resultScrollBtn.addEventListener('click', () => {
+        document.getElementById('result-track-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    const resultPrintBtn = document.getElementById('result-print-btn');
+    if (resultPrintBtn) {
+      resultPrintBtn.addEventListener('click', () => {
+        window.print();
+      });
+    }
+
+    const exploreAreasBtn = document.getElementById('result-explore-other-areas-btn');
+    const exploreAreasTopBtn = document.getElementById('result-explore-other-areas-top-btn');
+    if (exploreAreasBtn) exploreAreasBtn.addEventListener('click', openCareerExploreModal);
+    if (exploreAreasTopBtn) exploreAreasTopBtn.addEventListener('click', openCareerExploreModal);
+
+    const closeExploreBtn = document.getElementById('close-career-explore-btn');
+    if (closeExploreBtn) {
+      closeExploreBtn.addEventListener('click', () => {
+        document.getElementById('career-explore-modal')?.classList.add('hidden');
+      });
+    }
+
+    const resultRestartBtn = document.getElementById('result-restart-test-btn');
+    if (resultRestartBtn) resultRestartBtn.addEventListener('click', restartCareerTest);
+
+    const resultBackCatalogBtn = document.getElementById('result-back-to-catalog-btn');
+    if (resultBackCatalogBtn) {
+      resultBackCatalogBtn.addEventListener('click', () => {
+        state.viewMode = 'catalog';
+        updateViewModeButtons();
+        trackAnalyticsEvent('pageview_home');
+        document.getElementById('catalog-view')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     }
   }
@@ -2848,6 +3562,12 @@
     setupModals();
     setupEventListeners();
     setupInfiniteScroll();
+
+    if (state.viewMode === 'career-test') {
+      renderCurrentQuizStep();
+    } else if (state.viewMode === 'career-result' && state.careerQuiz.result) {
+      renderCareerResult();
+    }
 
     // 3. Sincronizar catálogo diretamente com o MySQL do servidor
     syncCoursesWithMySQL();

@@ -288,18 +288,27 @@ switch ($action) {
             }
         }
 
-        // Obter Total de Alunos Cadastrados no Banco MySQL
+        // Obter Total de Alunos Cadastrados no Banco MySQL ou Arquivo Protegido
         $totalStudents = 0;
         try {
             if (file_exists(__DIR__ . '/config.php')) {
                 require_once __DIR__ . '/config.php';
-                $pdo = getDBConnection();
-                $stmtStudents = $pdo->query("SELECT COUNT(*) FROM students");
-                if ($stmtStudents) {
-                    $totalStudents = (int) $stmtStudents->fetchColumn();
+                $pdo = function_exists('tryGetDBConnection') ? tryGetDBConnection() : null;
+                if ($pdo) {
+                    $stmtStudents = $pdo->query("SELECT COUNT(*) FROM students");
+                    if ($stmtStudents) {
+                        $totalStudents = (int) $stmtStudents->fetchColumn();
+                    }
                 }
             }
         } catch (Exception $e) {}
+
+        if ($totalStudents === 0 && file_exists(__DIR__ . '/cache_students.json')) {
+            $studentData = @json_decode(@file_get_contents(__DIR__ . '/cache_students.json'), true);
+            if (!empty($studentData['students'])) {
+                $totalStudents = count($studentData['students']);
+            }
+        }
 
         $data['summary']['total_students'] = $totalStudents;
 
@@ -322,13 +331,22 @@ switch ($action) {
         try {
             if (file_exists(__DIR__ . '/config.php')) {
                 require_once __DIR__ . '/config.php';
-                $pdo = getDBConnection();
-                $stmtStudents = $pdo->query("SELECT COUNT(*) FROM students");
-                if ($stmtStudents) {
-                    $totalStudents = (int) $stmtStudents->fetchColumn();
+                $pdo = function_exists('tryGetDBConnection') ? tryGetDBConnection() : null;
+                if ($pdo) {
+                    $stmtStudents = $pdo->query("SELECT COUNT(*) FROM students");
+                    if ($stmtStudents) {
+                        $totalStudents = (int) $stmtStudents->fetchColumn();
+                    }
                 }
             }
         } catch (Exception $e) {}
+
+        if ($totalStudents === 0 && file_exists(__DIR__ . '/cache_students.json')) {
+            $studentData = @json_decode(@file_get_contents(__DIR__ . '/cache_students.json'), true);
+            if (!empty($studentData['students'])) {
+                $totalStudents = count($studentData['students']);
+            }
+        }
 
         $dateStr = date('d/m/Y H:i:s');
         $fileName = 'midia_kit_audiencia_vocepodetudo_' . date('Y_m_d') . '.csv';

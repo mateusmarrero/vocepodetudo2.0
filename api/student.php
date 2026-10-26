@@ -151,20 +151,23 @@ try {
                 $studentId = (int) $pdo->lastInsertId();
 
                 // Salvar teste inicial se houver
-                if (!empty($input['initial_test']) && is_array($input['initial_test'])) {
-                    $t = $input['initial_test'];
-                    $pArea = trim($t['primary_area'] ?? 'tecnologia');
-                    $sArea = trim($t['secondary_area'] ?? '');
-                    $scoresJson = is_string($t['scores'] ?? null) ? $t['scores'] : json_encode($t['scores'] ?? [], JSON_UNESCAPED_UNICODE);
-                    $track = trim($t['recommended_track'] ?? '');
+                $initialTestScores = !empty($input['initial_test']['scores']) ? $input['initial_test']['scores'] : (!empty($input['initial_scores']) ? json_decode($input['initial_scores'], true) : null);
+                $initialPrimary = !empty($input['initial_test']['primary_area']) ? $input['initial_test']['primary_area'] : ($input['initial_primary_area'] ?? '');
+
+                if (!empty($initialPrimary)) {
+                    $pArea = trim($initialPrimary);
+                    $sArea = trim($input['initial_test']['secondary_area'] ?? ($input['initial_secondary_area'] ?? ''));
+                    $scoresJson = is_string($initialTestScores) ? $initialTestScores : json_encode($initialTestScores ?? [], JSON_UNESCAPED_UNICODE);
+                    $track = trim($input['initial_test']['recommended_track'] ?? ($input['initial_track'] ?? ''));
                     $pdo->prepare("INSERT INTO student_career_tests (student_id, primary_area, secondary_area, scores_json, recommended_track) VALUES (?, ?, ?, ?, ?)")
                         ->execute([$studentId, $pArea, $sArea, $scoresJson, $track]);
                 }
 
                 // Salvar cursos favoritados prévios
-                if (!empty($input['initial_courses']) && is_array($input['initial_courses'])) {
+                $favCourses = !empty($input['initial_courses']) ? $input['initial_courses'] : (!empty($input['initial_courses_csv']) ? explode(',', $input['initial_courses_csv']) : []);
+                if (!empty($favCourses) && is_array($favCourses)) {
                     $stmtC = $pdo->prepare("INSERT IGNORE INTO student_courses (student_id, course_id, status, workload_hours) VALUES (?, ?, 'saved', ?)");
-                    foreach ($input['initial_courses'] as $c) {
+                    foreach ($favCourses as $c) {
                         $cId = is_array($c) ? ($c['id'] ?? '') : (string) $c;
                         $wHours = is_array($c) ? (int) ($c['workload_hours'] ?? 10) : 10;
                         if (!empty($cId)) $stmtC->execute([$studentId, $cId, $wHours]);
@@ -192,21 +195,24 @@ try {
                 ];
                 $fData['students'][] = $newStudent;
 
-                if (!empty($input['initial_test']) && is_array($input['initial_test'])) {
-                    $t = $input['initial_test'];
+                $initialTestScores = !empty($input['initial_test']['scores']) ? $input['initial_test']['scores'] : (!empty($input['initial_scores']) ? json_decode($input['initial_scores'], true) : null);
+                $initialPrimary = !empty($input['initial_test']['primary_area']) ? $input['initial_test']['primary_area'] : ($input['initial_primary_area'] ?? '');
+
+                if (!empty($initialPrimary)) {
                     $fData['career_tests'][] = [
                         'id' => count($fData['career_tests']) + 1,
                         'student_id' => $studentId,
-                        'primary_area' => trim($t['primary_area'] ?? 'tecnologia'),
-                        'secondary_area' => trim($t['secondary_area'] ?? ''),
-                        'scores' => is_array($t['scores'] ?? null) ? $t['scores'] : json_decode($t['scores'] ?? '{}', true),
-                        'recommended_track' => trim($t['recommended_track'] ?? ''),
+                        'primary_area' => trim($initialPrimary),
+                        'secondary_area' => trim($input['initial_test']['secondary_area'] ?? ($input['initial_secondary_area'] ?? '')),
+                        'scores' => is_array($initialTestScores) ? $initialTestScores : (json_decode($initialTestScores ?? '{}', true) ?: []),
+                        'recommended_track' => trim($input['initial_test']['recommended_track'] ?? ($input['initial_track'] ?? '')),
                         'created_at' => date('c')
                     ];
                 }
 
-                if (!empty($input['initial_courses']) && is_array($input['initial_courses'])) {
-                    foreach ($input['initial_courses'] as $c) {
+                $favCourses = !empty($input['initial_courses']) ? $input['initial_courses'] : (!empty($input['initial_courses_csv']) ? explode(',', $input['initial_courses_csv']) : []);
+                if (!empty($favCourses) && is_array($favCourses)) {
+                    foreach ($favCourses as $c) {
                         $cId = is_array($c) ? ($c['id'] ?? '') : (string) $c;
                         $wHours = is_array($c) ? (int) ($c['workload_hours'] ?? 10) : 10;
                         if (!empty($cId)) {

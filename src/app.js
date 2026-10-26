@@ -3735,19 +3735,15 @@
   async function saveStudentCareerTest(results) {
     if (!state.studentToken || !results) return;
     try {
-      await fetch('api/student.php?action=save_test', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${state.studentToken}`
-        },
-        body: JSON.stringify({
-          primary_area: results.primary?.areaKey || 'tecnologia',
-          secondary_area: results.secondary?.areaKey || '',
-          scores: results.scores || {},
-          recommended_track: results.primary?.recommendedTrack?.id || ''
-        })
+      const params = new URLSearchParams({
+        action: 'save_test',
+        token: state.studentToken,
+        primary_area: results.primary?.areaKey || 'tecnologia',
+        secondary_area: results.secondary?.areaKey || '',
+        recommended_track: results.primary?.recommendedTrack?.id || '',
+        scores: JSON.stringify(results.scores || {})
       });
+      await fetch(`api/student.php?${params.toString()}`);
     } catch (e) {}
   }
 
@@ -3759,11 +3755,7 @@
     }
 
     try {
-      const res = await fetchWithTimeout('api/student.php?action=me', 3500, {
-        headers: {
-          'Authorization': `Bearer ${state.studentToken}`
-        }
-      });
+      const res = await fetchWithTimeout(`api/student.php?action=me&token=${encodeURIComponent(state.studentToken)}`, 3500);
       if (res.ok) {
         const json = await res.json();
         if (json.success && json.student) {
@@ -3919,29 +3911,26 @@
 
         try {
           if (authMode === 'register') {
-            // Sincronização Mágica: Anexar último teste vocacional e favoritos locais
-            const initialTest = state.careerQuiz.result ? {
-              primary_area: state.careerQuiz.result.primary?.areaKey || 'tecnologia',
-              secondary_area: state.careerQuiz.result.secondary?.areaKey || '',
-              scores: state.careerQuiz.result.scores || {},
-              recommended_track: state.careerQuiz.result.primary?.recommendedTrack?.id || ''
-            } : null;
-
-            const initialCourses = Array.from(state.favorites);
-
-            const res = await fetch('api/student.php?action=register', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                name,
-                email,
-                password,
-                goal,
-                initial_test: initialTest,
-                initial_courses: initialCourses
-              })
+            const params = new URLSearchParams({
+              action: 'register',
+              name,
+              email,
+              password,
+              goal
             });
 
+            if (state.careerQuiz.result) {
+              params.append('initial_primary_area', state.careerQuiz.result.primary?.areaKey || 'tecnologia');
+              params.append('initial_secondary_area', state.careerQuiz.result.secondary?.areaKey || '');
+              params.append('initial_track', state.careerQuiz.result.primary?.recommendedTrack?.id || '');
+              params.append('initial_scores', JSON.stringify(state.careerQuiz.result.scores || {}));
+            }
+
+            if (state.favorites && state.favorites.size > 0) {
+              params.append('initial_courses_csv', Array.from(state.favorites).join(','));
+            }
+
+            const res = await fetch(`api/student.php?${params.toString()}`);
             const json = await res.json();
             if (!res.ok || json.error) {
               throw new Error(json.message || 'Erro ao criar conta.');
@@ -3957,11 +3946,13 @@
 
           } else {
             // Login
-            const res = await fetch('api/student.php?action=login', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email, password })
+            const params = new URLSearchParams({
+              action: 'login',
+              email,
+              password
             });
+
+            const res = await fetch(`api/student.php?${params.toString()}`);
 
             const json = await res.json();
             if (!res.ok || json.error) {
@@ -4062,9 +4053,7 @@
     if (!modal || !state.studentToken) return;
 
     try {
-      const res = await fetch('api/student.php?action=dashboard', {
-        headers: { 'Authorization': `Bearer ${state.studentToken}` }
-      });
+      const res = await fetch(`api/student.php?action=dashboard&token=${encodeURIComponent(state.studentToken)}`);
 
       if (!res.ok) {
         throw new Error('Falha ao carregar dados do aluno');
@@ -4333,19 +4322,15 @@
   async function updateStudentCourseStatus(courseId, status, certificateUrl = '', workloadHours = 10) {
     if (!state.studentToken) return;
     try {
-      const res = await fetch('api/student.php?action=update_course', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${state.studentToken}`
-        },
-        body: JSON.stringify({
-          course_id: courseId,
-          status,
-          certificate_url: certificateUrl,
-          workload_hours: workloadHours
-        })
+      const params = new URLSearchParams({
+        action: 'update_course',
+        token: state.studentToken,
+        course_id: courseId,
+        status,
+        certificate_url: certificateUrl,
+        workload_hours: workloadHours
       });
+      const res = await fetch(`api/student.php?${params.toString()}`);
 
       if (res.ok) {
         showToast('Progresso do curso atualizado!', 'success');
@@ -4360,14 +4345,12 @@
   async function removeStudentCourse(courseId) {
     if (!state.studentToken) return;
     try {
-      const res = await fetch('api/student.php?action=remove_course', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${state.studentToken}`
-        },
-        body: JSON.stringify({ course_id: courseId })
+      const params = new URLSearchParams({
+        action: 'remove_course',
+        token: state.studentToken,
+        course_id: courseId
       });
+      const res = await fetch(`api/student.php?${params.toString()}`);
 
       if (res.ok) {
         showToast('Curso removido da sua lista.', 'info');
@@ -4687,10 +4670,11 @@
       deleteAccountBtn.addEventListener('click', async () => {
         if (confirm('ATENÇÃO: Deseja realmente excluir permanentemente sua conta e todos os seus testes e cursos salvos? Esta ação não pode ser desfeita.')) {
           try {
-            const res = await fetch('api/student.php?action=delete_account', {
-              method: 'POST',
-              headers: { 'Authorization': `Bearer ${state.studentToken}` }
+            const params = new URLSearchParams({
+              action: 'delete_account',
+              token: state.studentToken
             });
+            const res = await fetch(`api/student.php?${params.toString()}`);
             if (res.ok) {
               localStorage.removeItem('vpt_student_token');
               state.studentToken = null;

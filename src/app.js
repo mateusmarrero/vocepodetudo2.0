@@ -323,18 +323,30 @@
       if (response.ok) {
         const data = await response.json();
         if (data && data.courses && Array.isArray(data.courses) && data.courses.length > 0) {
-          state.allCourses = data.courses;
+          // Blindagem: Garante que os 155 cursos oficiais nunca sumam da tela
+          if (data.courses.length >= state.allCourses.length) {
+            state.allCourses = data.courses;
+          } else {
+            const serverMap = new Map(data.courses.map(c => [c.id, c]));
+            const merged = state.allCourses.map(c => serverMap.get(c.id) || c);
+            for (const sc of data.courses) {
+              if (!state.allCourses.some(c => c.id === sc.id)) {
+                merged.push(sc);
+              }
+            }
+            state.allCourses = merged;
+          }
           renderCourses();
           renderTracksRoadmap();
           renderCategories();
           renderProviderOptions();
           updateHeaderStats();
-          console.log(`[Você Pode Tudo] Conectado ao MySQL ServerByte: ${data.courses.length} cursos sincronizados.`);
+          console.log(`[Você Pode Tudo] Catálogo sincronizado com sucesso: ${state.allCourses.length} cursos ativos.`);
         }
       }
     } catch (err) {
-      // Se a API estiver offline ou em ambiente sem PHP, os dados de fallback locais permanecem ativos
-      console.info('[Você Pode Tudo] Backend MySQL não detectado no momento. Utilizando catálogo integrado.', err);
+      // Se a API estiver offline ou em ambiente sem PHP, os 155 cursos locais oficiais permanecem 100% ativos
+      console.info('[Você Pode Tudo] Utilizando catálogo oficial completo de contingência.', err);
     }
   }
 

@@ -80,15 +80,31 @@ switch ($action) {
             }
         }
 
-        if (empty($courses)) {
+        // Se o banco retornar vazio ou tiver menos cursos que a base oficial, complementa com o catálogo completo
+        if (empty($courses) || count($courses) < 50) {
             $fileCourses = loadCourseFileData($cacheFile);
-            if ($isAdminRequest) {
-                $courses = $fileCourses;
-            } else {
-                $courses = array_values(array_filter($fileCourses, function($c) {
-                    return !isset($c['isActive']) || $c['isActive'] === true;
-                }));
+            if (empty($fileCourses) || count($fileCourses) < 50) {
+                $seedFile = __DIR__ . '/seed_courses.json';
+                $fileCourses = loadCourseFileData($seedFile);
+                if (!empty($fileCourses)) {
+                    saveCourseFileData($cacheFile, $fileCourses);
+                }
             }
+
+            if (!empty($fileCourses)) {
+                $existingIds = !empty($courses) ? array_flip(array_column($courses, 'id')) : [];
+                foreach ($fileCourses as $fc) {
+                    if (!isset($existingIds[$fc['id']])) {
+                        $courses[] = $fc;
+                    }
+                }
+            }
+        }
+
+        if (!$isAdminRequest) {
+            $courses = array_values(array_filter($courses, function($c) {
+                return !isset($c['isActive']) || $c['isActive'] === true;
+            }));
         }
 
         jsonResponse([

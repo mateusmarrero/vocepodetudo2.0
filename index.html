@@ -262,65 +262,65 @@
     </div>
   </nav>
 
-  <!-- Barra de Informações: Clima Local em Tempo Real & Giro de Notícias do Brasil -->
-  <aside id="top-utility-bar" aria-label="Informações do Dia, Clima e Notícias" class="bg-slate-900 text-slate-200 border-b border-slate-800 text-xs py-2 px-3 sm:px-4 select-none relative z-30 transition-colors">
+  <!-- Barra de Informações: Clima Local em Tempo Real & Giro de Notícias do Brasil (Tons da Bandeira do Brasil: Verde, Amarelo, Azul e Branco) -->
+  <aside id="top-utility-bar" aria-label="Informações do Dia, Clima e Notícias" class="bg-gradient-to-r from-[#005e24] via-[#008031] to-[#005e24] text-white border-b-2 border-[#ffcc29] text-xs py-2 px-3 sm:px-4 select-none relative z-30 shadow-sm transition-colors">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-3 sm:gap-4 flex-wrap sm:flex-nowrap">
       
       <!-- Widget de Clima e Localização -->
-      <div id="weather-widget" class="flex items-center gap-2 flex-shrink-0 cursor-pointer hover:text-emerald-400 transition-colors group" title="Clique para atualizar previsão ou permitir localização">
-        <div id="weather-icon-container" class="w-6 h-6 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-400 group-hover:scale-105 transition-transform flex-shrink-0">
+      <div id="weather-widget" class="flex items-center gap-2 flex-shrink-0 cursor-pointer hover:opacity-90 transition-opacity group" title="Clique para atualizar previsão ou permitir localização">
+        <div id="weather-icon-container" class="w-6 h-6 rounded-lg bg-[#00471b] border border-[#ffcc29]/60 flex items-center justify-center text-[#ffcc29] group-hover:scale-105 transition-transform flex-shrink-0 shadow-sm">
           <i data-lucide="sun" class="w-3.5 h-3.5"></i>
         </div>
-        <div class="flex items-center gap-1.5 font-semibold text-[11px] sm:text-xs">
-          <span id="weather-city" class="text-slate-300 flex items-center gap-1">
-            <i data-lucide="map-pin" class="w-3 h-3 text-emerald-400 flex-shrink-0"></i>
-            <span id="weather-city-name">Identificando cidade...</span>
+        <div class="flex items-center gap-1.5 font-bold text-[11px] sm:text-xs text-white">
+          <span id="weather-city" class="flex items-center gap-1">
+            <i data-lucide="map-pin" class="w-3 h-3 text-[#ffcc29] flex-shrink-0"></i>
+            <span id="weather-city-name">Brasil</span>
           </span>
-          <span class="text-slate-600">•</span>
-          <span id="weather-temp" class="text-white font-black">--°C</span>
-          <span id="weather-desc" class="text-slate-400 hidden md:inline truncate max-w-[130px]"></span>
+          <span class="text-[#ffcc29]">•</span>
+          <span id="weather-temp" class="text-[#ffdf00] font-black">--°C</span>
+          <span id="weather-desc" class="text-emerald-100 hidden md:inline truncate max-w-[130px] font-medium"></span>
         </div>
       </div>
 
       <!-- Divisor Vertical no Desktop -->
-      <div class="hidden sm:block h-3.5 w-px bg-slate-700/80"></div>
+      <div class="hidden sm:block h-3.5 w-px bg-white/30"></div>
 
       <!-- Ticker / Giro de Notícias do Brasil (Letreiro Rotativo Suave) -->
       <div id="news-ticker-container" class="flex-1 min-w-0 flex items-center gap-2 overflow-hidden">
-        <div class="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-[#009639]/20 text-[#00ff66] border border-[#009639]/40 text-[10px] font-black uppercase tracking-wider flex-shrink-0">
-          <span class="w-2 h-2 rounded-full bg-[#00ff66] animate-pulse flex-shrink-0"></span>
+        <div class="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-[#002776] text-[#ffdf00] border border-[#ffdf00]/50 text-[10px] font-black uppercase tracking-wider flex-shrink-0 shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-[#ffdf00] animate-pulse flex-shrink-0"></span>
           <span>Brasil</span>
         </div>
         
         <div id="news-ticker-viewport" class="flex-1 overflow-hidden relative h-5 flex items-center">
           <a 
             id="news-current-link" 
-            href="https://agenciabrasil.ebc.com.br" 
+            href="https://agenciabrasil.ebc.com.br/educacao" 
             target="_blank" 
             rel="noopener noreferrer" 
-            class="text-[11px] sm:text-xs text-slate-300 hover:text-white truncate font-medium flex items-center gap-1.5 transition-opacity duration-300"
+            class="text-[11px] sm:text-xs text-white hover:text-[#ffdf00] truncate font-medium flex items-center gap-1.5 transition-opacity duration-300"
             title="Clique para ler a notícia completa na Agência Brasil"
           >
-            <span id="news-current-title">Carregando notícias do Brasil em tempo real...</span>
-            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 flex-shrink-0"></i>
+            <span id="news-current-title">MCTI e RNP abrem milhares de vagas gratuitas em cibersegurança pelo Hackers do Bem</span>
+            <i data-lucide="external-link" class="w-3 h-3 text-[#ffdf00]/80 flex-shrink-0"></i>
           </a>
         </div>
 
         <!-- Botões de Navegação Manual do Ticker -->
         <div class="flex items-center gap-0.5 flex-shrink-0">
-          <button id="news-prev-btn" class="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-white transition-colors" title="Notícia anterior" aria-label="Notícia anterior">
+          <button id="news-prev-btn" class="p-1 rounded hover:bg-[#00471b] text-white hover:text-[#ffdf00] transition-colors" title="Notícia anterior" aria-label="Notícia anterior">
             <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
           </button>
-          <button id="news-next-btn" class="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-white transition-colors" title="Próxima notícia" aria-label="Próxima notícia">
+          <button id="news-next-btn" class="p-1 rounded hover:bg-[#00471b] text-white hover:text-[#ffdf00] transition-colors" title="Próxima notícia" aria-label="Próxima notícia">
             <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
           </button>
         </div>
       </div>
 
       <!-- Data de Hoje -->
-      <div class="hidden lg:flex items-center gap-1.5 text-[11px] text-slate-400 font-semibold flex-shrink-0">
-        <i data-lucide="calendar" class="w-3 h-3 text-slate-500"></i>
-        <span id="current-date-text"></span>
+      <div class="hidden lg:flex items-center gap-1.5 text-[11px] text-emerald-100 font-bold flex-shrink-0">
+        <i data-lucide="calendar" class="w-3 h-3 text-[#ffcc29]"></i>
+        <span id="current-date-text" class="text-white"></span>
       </div>
 
     </div>
@@ -628,31 +628,6 @@
         </div>
       </div>
 
-      <!-- Espaço Publicitário Superior (Google AdSense 728x90 Desktop / 320x100 Mobile) -->
-      <aside class="mb-6 w-full" aria-label="Espaço Publicitário">
-        <div id="ad-slot-leaderboard-top" class="ad-slot-container mx-auto max-w-5xl p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-amber-50/50 via-slate-50 to-emerald-50/40 border-2 border-dashed border-amber-300/80 text-center relative overflow-hidden transition-all hover:border-amber-400 group">
-          <span class="absolute top-2 right-3 text-[10px] uppercase font-bold text-amber-800/70 tracking-wider bg-amber-100/80 px-2 py-0.5 rounded">Publicidade</span>
-          <div class="py-1.5 flex flex-col sm:flex-row items-center justify-between gap-3 px-2">
-            <div class="flex items-center gap-3 text-left">
-              <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center flex-shrink-0 border border-amber-300">
-                <i data-lucide="sparkles" class="w-4 h-4"></i>
-              </div>
-              <div>
-                <strong class="text-xs sm:text-sm text-slate-800 block font-black leading-tight">Espaço Reservado para Anúncios & Parceiros</strong>
-                <span class="text-[11px] text-slate-500 font-medium leading-tight">Compatível com Google AdSense (728x90 Leaderboard / 320x100 Mobile Responsivo).</span>
-              </div>
-            </div>
-            <a 
-              href="mailto:contato.vocepodetudo@gmail.com?subject=Anunciar%20no%20Topo%20do%20Voce%20Pode%20Tudo" 
-              class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-amber-400 hover:bg-amber-500 text-slate-950 transition-colors shadow-sm flex-shrink-0"
-            >
-              <i data-lucide="megaphone" class="w-3.5 h-3.5"></i>
-              <span>Anuncie Aqui</span>
-            </a>
-          </div>
-        </div>
-      </aside>
-
       <!-- Contador de Resultados Encontrados -->
       <div class="flex items-center justify-between mb-5 px-1">
         <div id="results-count-text" class="text-sm font-semibold text-slate-600">
@@ -744,31 +719,6 @@
       </div>
     </section>
 
-    <!-- Espaço Publicitário Inferior (Google AdSense 970x90 ou 728x90 Billboard) -->
-    <aside class="mt-12 w-full" aria-label="Espaço Publicitário de Rodapé">
-      <div id="ad-slot-leaderboard-bottom" class="ad-slot-container mx-auto max-w-5xl p-4 sm:p-5 rounded-3xl bg-slate-50 border-2 border-dashed border-slate-300 text-center relative overflow-hidden transition-all hover:border-[#009639]">
-        <span class="absolute top-2 right-3 text-[10px] uppercase font-bold text-slate-400 tracking-wider bg-slate-100 px-2 py-0.5 rounded">Publicidade & Patrocínio</span>
-        <div class="py-2 flex flex-col sm:flex-row items-center justify-between gap-4 px-2">
-          <div class="text-left">
-            <span class="inline-flex items-center gap-1.5 text-xs font-black text-[#002776]">
-              <i data-lucide="award" class="w-4 h-4 text-[#009639]"></i>
-              <span>Espaço para Faculdades, Edtechs & Cursos Preparatórios</span>
-            </span>
-            <p class="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">
-              Banner horizontal 970x250 / 728x90 ou bloco responsivo para apoiar a educação gratuita.
-            </p>
-          </div>
-          <a 
-            href="mailto:contato.vocepodetudo@gmail.com?subject=Patrocinio%20Voce%20Pode%20Tudo" 
-            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-[#002776] hover:bg-[#001a4e] text-white flex-shrink-0 transition-colors shadow-sm"
-          >
-            <i data-lucide="mail" class="w-3.5 h-3.5"></i>
-            <span>Seja um Patrocinador</span>
-          </a>
-        </div>
-      </div>
-    </aside>
-
     <!-- Chamada para Ação Comunitária (Cores do Brasil) -->
     <section class="mt-14 bg-gradient-to-r from-[#009639] via-[#00702a] to-[#002776] rounded-3xl p-8 sm:p-12 text-white relative overflow-hidden shadow-xl border-4 border-[#ffcc29]">
       <div class="max-w-2xl relative z-10">
@@ -818,13 +768,21 @@
 
       <div class="flex flex-col sm:items-end gap-2 text-xs text-slate-500 font-medium">
         <div>Atalhos: [Alt+1] Conteúdo • [Alt+2] Busca • [Alt+4] Alto Contraste</div>
-        <div class="flex items-center gap-4 text-xs font-bold text-[#009639]">
+        <div class="flex items-center gap-3 text-xs font-bold text-[#009639] flex-wrap sm:flex-nowrap justify-center sm:justify-end">
           <button id="footer-admin-btn" class="hover:underline flex items-center gap-1 text-slate-600 hover:text-[#002776]">
             <i data-lucide="lock" class="w-3 h-3 text-slate-400"></i>
             <span>Acesso Administrativo</span>
           </button>
           <span>•</span>
-          <button class="open-report-modal-btn hover:underline">Reportar Link</button>
+          <button class="open-report-modal-btn hover:underline text-slate-600 hover:text-slate-900">Reportar Link</button>
+          <span>•</span>
+          <button id="footer-lgpd-btn" class="hover:underline flex items-center gap-1 text-[#009639] hover:text-[#00702a]">
+            <i data-lucide="shield-check" class="w-3 h-3 text-[#009639]"></i>
+            <span>Privacidade & LGPD</span>
+          </button>
+        </div>
+        <div class="text-[11px] text-slate-400 font-medium">
+          Em conformidade com a LGPD (Lei nº 13.709/2018) • Direitos do Titular Garantidos
         </div>
       </div>
     </div>
@@ -1322,6 +1280,160 @@
     </div>
   </div>
 
+  <!-- Banner de Consentimento LGPD (Lei Geral de Proteção de Dados - Lei 13.709/2018) -->
+  <aside 
+    id="lgpd-consent-banner" 
+    class="hidden fixed bottom-3 left-3 right-3 sm:bottom-4 sm:left-6 sm:right-auto sm:max-w-lg z-50 bg-slate-900/95 backdrop-blur-md text-white border-2 border-[#009639] rounded-2xl p-4 shadow-2xl animate-fade-in"
+    role="region"
+    aria-label="Consentimento de Privacidade e LGPD"
+  >
+    <div class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-xl bg-[#009639] text-[#ffdf00] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
+        <i data-lucide="shield-check" class="w-4 h-4"></i>
+      </div>
+      <div class="flex-1">
+        <h4 class="text-xs sm:text-sm font-black text-white flex items-center gap-1.5 mb-1">
+          <span>Privacidade & LGPD</span>
+          <span class="text-[10px] uppercase font-bold text-[#ffdf00] bg-[#002776] px-1.5 py-0.2 rounded border border-[#ffdf00]/30">Brasil</span>
+        </h4>
+        <p class="text-[11px] sm:text-xs text-slate-300 font-medium leading-relaxed mb-3">
+          Este portal segue rigorosamente a <strong>LGPD (Lei 13.709/2018)</strong>. Utilizamos apenas armazenamento local essencial (para salvar seus cursos favoritos) e consulta temporária de clima regional. Não rastreamos dados pessoais nem comercializamos informações.
+        </p>
+        <div class="flex items-center gap-2 flex-wrap">
+          <button 
+            id="lgpd-accept-all-btn"
+            class="px-3.5 py-1.5 rounded-xl text-xs font-black bg-[#009639] hover:bg-[#00702a] text-white transition-all shadow-sm flex items-center gap-1"
+          >
+            <i data-lucide="check" class="w-3.5 h-3.5 text-[#ffdf00]"></i>
+            <span>Aceitar e Continuar</span>
+          </button>
+          <button 
+            id="lgpd-essential-btn"
+            class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 transition-all"
+          >
+            Apenas Essenciais
+          </button>
+          <button 
+            id="lgpd-open-policy-btn"
+            class="text-[11px] font-bold text-[#ffdf00] hover:underline px-1 py-1"
+          >
+            Ler Termos & Direitos
+          </button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Modal Completo de Política de Privacidade & LGPD (Art. 18 da Lei Federal nº 13.709/2018) -->
+  <div 
+    id="lgpd-modal" 
+    class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="lgpd-modal-title"
+  >
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-5 sm:p-7 shadow-2xl border-4 border-[#009639] max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100 flex-shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-100 text-[#00702a] flex items-center justify-center flex-shrink-0">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 id="lgpd-modal-title" class="text-base sm:text-lg font-black text-slate-900 leading-tight">
+              Política de Privacidade e Proteção de Dados (LGPD)
+            </h3>
+            <span class="text-[11px] text-slate-500 font-semibold">Conformidade Integral com a Lei Federal nº 13.709/2018</span>
+          </div>
+        </div>
+        <button id="close-lgpd-modal-btn" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-xl hover:bg-slate-100 transition-colors" aria-label="Fechar janela">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="overflow-y-auto py-4 space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed pr-1 flex-1">
+        <div class="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-[#006024]">
+          <strong>Compromisso Você Pode Tudo:</strong> Este portal é uma iniciativa cidadã e educacional 100% gratuita. Não exigimos cadastro prévio obrigatório para navegar pelo catálogo e não comercializamos dados de usuários em hipótese alguma.
+        </div>
+
+        <div>
+          <h4 class="font-black text-slate-900 text-sm mb-1 flex items-center gap-1.5">
+            <i data-lucide="file-text" class="w-4 h-4 text-[#009639]"></i>
+            <span>1. Controlador e Finalidade do Tratamento</span>
+          </h4>
+          <p>
+            O <strong>Você Pode Tudo</strong> atua como catalisador e agregador aberto de cursos oficiais gratuitos. A finalidade do tratamento é exclusivamente técnica e operacional: viabilizar a navegação, catalogação, filtragem por carga horária e redirecionamento aos portais oficiais dos provedores de ensino (Fundação Bradesco, MEC, Microsoft, Oracle, etc.).
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-black text-slate-900 text-sm mb-1 flex items-center gap-1.5">
+            <i data-lucide="database" class="w-4 h-4 text-[#009639]"></i>
+            <span>2. Dados Utilizados e Tecnologias de Armazenamento</span>
+          </h4>
+          <ul class="list-disc pl-5 space-y-1">
+            <li><strong>Armazenamento Local (localStorage/sessionStorage):</strong> Armazenado estritamente no seu próprio navegador para salvar sua lista de cursos "Favoritos" e o seu status de consentimento. Nenhum desses dados é transmitido a terceiros.</li>
+            <li><strong>Geolocalização Aproximada (IP):</strong> Efetuada de forma temporária e anônima no lado do cliente apenas para consultar a previsão meteorológica regional do dia (Open-Meteo). Não rastreamos sua localização contínua nem associamos IP a qualquer dado pessoal.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-black text-slate-900 text-sm mb-1 flex items-center gap-1.5">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-[#009639]"></i>
+            <span>3. Bases Legais (Art. 7º da LGPD)</span>
+          </h4>
+          <p>
+            O tratamento de dados restringe-se ao <strong>Legítimo Interesse</strong> (para o fornecimento e estabilidade das funcionalidades educacionais da aplicação web) e ao <strong>Consentimento</strong> explícito do titular para o armazenamento de preferências locais.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-black text-slate-900 text-sm mb-1 flex items-center gap-1.5">
+            <i data-lucide="user-check" class="w-4 h-4 text-[#009639]"></i>
+            <span>4. Seus Direitos como Titular (Art. 18 da LGPD)</span>
+          </h4>
+          <p class="mb-2">
+            A qualquer momento, você pode exercer seus direitos de confirmação de tratamento, acesso, revogação de consentimento e eliminação completa dos dados armazenados no seu dispositivo.
+          </p>
+          <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div>
+              <strong class="text-xs text-slate-900 block font-bold">Gerenciamento de Dados Locais:</strong>
+              <span class="text-[11px] text-slate-500">Exclui favoritos salvos no navegador e reinicia suas preferências.</span>
+            </div>
+            <button 
+              id="lgpd-clear-my-data-btn"
+              type="button"
+              class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white transition-all flex items-center gap-1.5 flex-shrink-0"
+            >
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              <span>Excluir Meus Dados Locais</span>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-black text-slate-900 text-sm mb-1 flex items-center gap-1.5">
+            <i data-lucide="mail" class="w-4 h-4 text-[#009639]"></i>
+            <span>5. Contato do Encarregado de Proteção de Dados (DPO)</span>
+          </h4>
+          <p>
+            Dúvidas, requisições de titulares ou esclarecimentos sobre privacidade podem ser encaminhados diretamente ao nosso canal de privacidade: <a href="mailto:contato.vocepodetudo@gmail.com" class="text-[#002776] font-bold underline">contato.vocepodetudo@gmail.com</a>.
+          </p>
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-slate-100 flex items-center justify-between gap-3 flex-shrink-0">
+        <span class="text-[11px] text-slate-400 font-semibold">Atualizado conforme Resoluções da ANPD</span>
+        <button 
+          id="close-lgpd-modal-action-btn"
+          type="button"
+          class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black bg-[#009639] hover:bg-[#00702a] text-white shadow-sm transition-all"
+        >
+          Entendido e Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Container de Mensagens Toast -->
   <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm pointer-events-none" aria-live="polite"></div>
 
@@ -1339,8 +1451,8 @@
     }
   </script>
 
-  <!-- Carregamento dos Scripts da Aplicação -->
-  <script src="./src/data/courses.js"></script>
-  <script src="./src/app.js"></script>
+  <!-- Carregamento dos Scripts da Aplicação (com Cache-Busting v=2.2.0) -->
+  <script src="./src/data/courses.js?v=2.2.0"></script>
+  <script src="./src/app.js?v=2.2.0"></script>
 </body>
 </html>

@@ -668,44 +668,7 @@
     });
   }
 
-  // Gerador de Card de Anúncio Nativo In-Feed (Google AdSense 300x250 ou Patrocinador)
-  function createAdCardHtml() {
-    return `
-      <article class="course-card course-ad-card animate-fade-in-up flex flex-col justify-between bg-gradient-to-br from-amber-50/70 via-white to-emerald-50/40 border-2 border-dashed border-amber-300 rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-md transition-all relative" aria-label="Espaço Publicitário">
-        <div>
-          <div class="flex items-start justify-between gap-1.5 mb-2.5">
-            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-[11px] font-black bg-amber-100 text-amber-900 border border-amber-300">
-              <i data-lucide="tag" class="w-3 h-3 text-amber-700"></i>
-              <span>Publicidade</span>
-            </span>
-            <span class="text-[10px] text-slate-400 font-semibold">Anúncio Patrocinado</span>
-          </div>
-
-          <h3 class="text-base font-black text-slate-800 leading-snug mb-1.5">
-            Espaço para Parceiros & Apoiadores
-          </h3>
-
-          <p class="text-xs text-slate-600 leading-relaxed mb-3">
-            Alcance milhares de estudantes e trabalhadores qualificados em todo o Brasil. Espaço reservado para Google AdSense ou parceiros educacionais.
-          </p>
-        </div>
-
-        <div class="pt-3 border-t border-amber-200/60">
-          <div class="flex items-center justify-between text-[11px] text-slate-500 font-semibold mb-2.5">
-            <span>Formato: 300x250</span>
-            <span class="text-emerald-700 font-bold">AdSense Ready</span>
-          </div>
-          <a 
-            href="mailto:contato.vocepodetudo@gmail.com?subject=Anunciar%20no%20Portal%20Voce%20Pode%20Tudo" 
-            class="w-full inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl font-bold text-xs bg-amber-400 hover:bg-amber-500 text-slate-950 transition-colors shadow-sm"
-          >
-            <i data-lucide="megaphone" class="w-3.5 h-3.5"></i>
-            <span>Anuncie Aqui sua Marca</span>
-          </a>
-        </div>
-      </article>
-    `;
-  }
+  // Espaços publicitários desativados temporariamente conforme solicitação do usuário.
 
   // Abre o modal de compartilhamento com opções para redes sociais
   function openShareModal(title, provider, url) {
@@ -1007,13 +970,8 @@
       const grid = document.getElementById('courses-grid');
       if (grid && nextBatch.length > 0) {
         const cardsHtml = [];
-        nextBatch.forEach((course, index) => {
+        nextBatch.forEach((course) => {
           cardsHtml.push(createCourseCardHtml(course));
-          const currentCount = startIndex + index + 1;
-          // Inserir card de publicidade nativo a cada 6 cursos
-          if (currentCount % 6 === 0) {
-            cardsHtml.push(createAdCardHtml());
-          }
         });
 
         const tempContainer = document.createElement('div');
@@ -1103,12 +1061,8 @@
     if (emptyState) emptyState.classList.add('hidden');
 
     const cardsHtml = [];
-    visibleCourses.forEach((course, index) => {
+    visibleCourses.forEach((course) => {
       cardsHtml.push(createCourseCardHtml(course));
-      // Inserir card de publicidade nativo a cada 6 cursos
-      if ((index + 1) % 6 === 0) {
-        cardsHtml.push(createAdCardHtml());
-      }
     });
 
     grid.innerHTML = cardsHtml.join('');
@@ -1875,7 +1829,7 @@
   // BARRA DE UTILIDADES: CLIMA LOCAL EM TEMPO REAL & NOTÍCIAS DO BRASIL
   // ============================================================
 
-  // Atualizar data de hoje no topo
+  // Atualizar data de hoje no topo (Sincrono e Instantâneo)
   function updateTopBarDate() {
     const dateEl = document.getElementById('current-date-text');
     if (!dateEl) return;
@@ -1891,25 +1845,39 @@
 
   // Tabela WMO Weather Codes (Open-Meteo) para condições climáticas em português
   const WMO_WEATHER_MAP = {
-    0: { label: 'Céu Limpo', icon: 'sun', color: 'text-amber-400' },
-    1: { label: 'Tempo Aberto', icon: 'sun-medium', color: 'text-amber-400' },
-    2: { label: 'Parcialmente Nublado', icon: 'cloud-sun', color: 'text-amber-300' },
-    3: { label: 'Nublado', icon: 'cloud', color: 'text-slate-300' },
-    45: { label: 'Nevoeiro', icon: 'cloud-fog', color: 'text-slate-400' },
-    48: { label: 'Nevoeiro Úmido', icon: 'cloud-fog', color: 'text-slate-400' },
+    0: { label: 'Céu Limpo', icon: 'sun', color: 'text-[#ffdf00]' },
+    1: { label: 'Tempo Aberto', icon: 'sun-medium', color: 'text-[#ffdf00]' },
+    2: { label: 'Parc. Nublado', icon: 'cloud-sun', color: 'text-[#ffdf00]' },
+    3: { label: 'Nublado', icon: 'cloud', color: 'text-slate-200' },
+    45: { label: 'Nevoeiro', icon: 'cloud-fog', color: 'text-slate-200' },
+    48: { label: 'Nevoeiro Úmido', icon: 'cloud-fog', color: 'text-slate-200' },
     51: { label: 'Garoa Leve', icon: 'cloud-drizzle', color: 'text-sky-300' },
-    53: { label: 'Garoa Moderada', icon: 'cloud-drizzle', color: 'text-sky-400' },
-    55: { label: 'Garoa Densa', icon: 'cloud-drizzle', color: 'text-sky-400' },
-    61: { label: 'Chuva Leve', icon: 'cloud-rain', color: 'text-blue-400' },
-    63: { label: 'Chuva Moderada', icon: 'cloud-rain', color: 'text-blue-500' },
-    65: { label: 'Chuva Forte', icon: 'cloud-rain', color: 'text-blue-600' },
-    80: { label: 'Pancadas de Chuva', icon: 'cloud-rain', color: 'text-blue-400' },
-    81: { label: 'Pancadas Fortes', icon: 'cloud-rain', color: 'text-blue-500' },
-    82: { label: 'Chuva Torrencial', icon: 'cloud-lightning', color: 'text-amber-300' },
-    95: { label: 'Tempestade', icon: 'cloud-lightning', color: 'text-amber-400' },
-    96: { label: 'Tempestade com Granizo', icon: 'cloud-lightning', color: 'text-amber-400' },
-    99: { label: 'Tempestade Severa', icon: 'cloud-lightning', color: 'text-amber-500' }
+    53: { label: 'Garoa Moderada', icon: 'cloud-drizzle', color: 'text-sky-300' },
+    55: { label: 'Garoa Densa', icon: 'cloud-drizzle', color: 'text-sky-300' },
+    61: { label: 'Chuva Leve', icon: 'cloud-rain', color: 'text-sky-200' },
+    63: { label: 'Chuva Moderada', icon: 'cloud-rain', color: 'text-sky-300' },
+    65: { label: 'Chuva Forte', icon: 'cloud-rain', color: 'text-sky-400' },
+    80: { label: 'Pancadas', icon: 'cloud-rain', color: 'text-sky-300' },
+    81: { label: 'Pancadas Fortes', icon: 'cloud-rain', color: 'text-sky-400' },
+    82: { label: 'Chuva Torrencial', icon: 'cloud-lightning', color: 'text-[#ffdf00]' },
+    95: { label: 'Tempestade', icon: 'cloud-lightning', color: 'text-[#ffdf00]' },
+    96: { label: 'Temp. c/ Granizo', icon: 'cloud-lightning', color: 'text-[#ffdf00]' },
+    99: { label: 'Temp. Severa', icon: 'cloud-lightning', color: 'text-[#ffdf00]' }
   };
+
+  // Helper com timeout para evitar que chamadas externas travem a interface
+  async function fetchWithTimeout(url, timeoutMs = 3500) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(url, { signal: controller.signal });
+      clearTimeout(timer);
+      return res;
+    } catch (err) {
+      clearTimeout(timer);
+      throw err;
+    }
+  }
 
   // Renderizar dados do clima na interface
   function renderWeatherUI(weather) {
@@ -1921,7 +1889,7 @@
     if (cityEl) {
       const displayLocation = weather.region ? `${weather.city}, ${weather.region}` : weather.city;
       cityEl.textContent = displayLocation;
-      cityEl.title = `${displayLocation} (Clique para atualizar via GPS)`;
+      cityEl.title = `${displayLocation} (Clique para atualizar previsão)`;
     }
     if (tempEl) {
       tempEl.textContent = `${weather.temp}°C`;
@@ -1930,8 +1898,12 @@
       descEl.textContent = weather.label ? `• ${weather.label}` : '';
     }
     if (iconContainer && weather.icon) {
-      iconContainer.innerHTML = `<i data-lucide="${weather.icon}" class="w-3.5 h-3.5 ${weather.color || 'text-amber-400'}"></i>`;
-      if (window.lucide) window.lucide.createIcons({ root: iconContainer });
+      try {
+        iconContainer.innerHTML = `<i data-lucide="${weather.icon}" class="w-3.5 h-3.5 ${weather.color || 'text-[#ffdf00]'}"></i>`;
+        if (window.lucide && window.lucide.createIcons) {
+          window.lucide.createIcons({ root: iconContainer });
+        }
+      } catch (e) {}
     }
   }
 
@@ -1939,13 +1911,13 @@
   async function fetchOpenMeteoWeather(lat, lon, cityName, regionName) {
     try {
       const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('Falha ao obter clima da Open-Meteo');
+      const res = await fetchWithTimeout(url, 3500);
+      if (!res.ok) throw new Error('Falha Open-Meteo');
       const data = await res.json();
       const current = data.current || {};
       const temp = Math.round(current.temperature_2m ?? 24);
       const code = current.weather_code ?? 0;
-      const weatherInfo = WMO_WEATHER_MAP[code] || { label: 'Tempo Estável', icon: 'sun', color: 'text-amber-400' };
+      const weatherInfo = WMO_WEATHER_MAP[code] || { label: 'Tempo Estável', icon: 'sun', color: 'text-[#ffdf00]' };
 
       const weatherData = {
         city: cityName || 'Brasil',
@@ -1965,14 +1937,14 @@
       renderWeatherUI(weatherData);
       return weatherData;
     } catch (err) {
-      console.warn('[Weather] Erro Open-Meteo:', err);
+      console.warn('[Weather] Fallback Open-Meteo:', err);
       renderWeatherUI({
         city: cityName || 'Brasil',
         region: regionName || '',
         temp: 24,
         label: 'Tempo Estável',
         icon: 'sun',
-        color: 'text-amber-400'
+        color: 'text-[#ffdf00]'
       });
     }
   }
@@ -1998,8 +1970,9 @@
     let city = 'Brasília';
     let region = 'DF';
 
+    // 1ª Tentativa: GeoJS (muito rápido)
     try {
-      const geoRes = await fetch('https://get.geojs.io/v1/ip/geo.json');
+      const geoRes = await fetchWithTimeout('https://get.geojs.io/v1/ip/geo.json', 2800);
       if (geoRes.ok) {
         const geo = await geoRes.json();
         if (geo.latitude && geo.longitude) {
@@ -2010,7 +1983,21 @@
         }
       }
     } catch (geoErr) {
-      console.warn('[Weather] Falha GeoJS, usando localização padrão:', geoErr);
+      // 2ª Tentativa: ipwho.is (fallback seguro com CORS)
+      try {
+        const ipwhoRes = await fetchWithTimeout('https://ipwho.is/', 2500);
+        if (ipwhoRes.ok) {
+          const ipwho = await ipwhoRes.json();
+          if (ipwho.success && ipwho.latitude && ipwho.longitude) {
+            lat = parseFloat(ipwho.latitude);
+            lon = parseFloat(ipwho.longitude);
+            city = ipwho.city || city;
+            region = ipwho.region_code || '';
+          }
+        }
+      } catch (ipwhoErr) {
+        console.warn('[Weather] Usando coordenadas de contingência (Brasília):', ipwhoErr);
+      }
     }
 
     await fetchOpenMeteoWeather(lat, lon, city, region);
@@ -2029,12 +2016,12 @@
         navigator.geolocation.getCurrentPosition(
           async (position) => {
             const { latitude, longitude } = position.coords;
-            let cityName = 'Sua Localização';
+            let cityName = 'Sua Região';
             try {
-              const revRes = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=pt`);
+              const revRes = await fetchWithTimeout(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=pt`, 3000);
               if (revRes.ok) {
                 const revData = await revRes.json();
-                cityName = revData.locality || revData.city || 'Sua Localização';
+                cityName = revData.locality || revData.city || 'Sua Região';
               }
             } catch (e) {}
             await fetchOpenMeteoWeather(latitude, longitude, cityName, '');
@@ -2042,7 +2029,7 @@
           (error) => {
             fetchIPLocationAndWeather(true);
           },
-          { timeout: 7000 }
+          { timeout: 6000 }
         );
       } else {
         fetchIPLocationAndWeather(true);
@@ -2052,6 +2039,15 @@
 
   function initWeatherWidget() {
     updateTopBarDate();
+    // Renderiza estado inicial padrão imediatamente para nunca ficar em branco
+    renderWeatherUI({
+      city: 'Brasil',
+      region: '',
+      temp: 24,
+      label: 'Tempo Estável',
+      icon: 'sun',
+      color: 'text-[#ffdf00]'
+    });
     fetchIPLocationAndWeather();
     setupWeatherWidgetInteraction();
   }
@@ -2139,19 +2135,18 @@
 
   async function loadBrazilNews() {
     try {
-      const res = await fetch('api/news.php');
+      const res = await fetchWithTimeout('api/news.php', 3500);
       if (res.ok) {
         const json = await res.json();
         if (json.success && Array.isArray(json.items) && json.items.length > 0) {
           newsItems = json.items;
           currentNewsIndex = 0;
+          renderCurrentNews(true);
         }
       }
     } catch (e) {
-      // Mantém DEFAULT_BRAZIL_NEWS em fallback
+      // Mantém DEFAULT_BRAZIL_NEWS silenciosamente em fallback
     }
-    renderCurrentNews(false);
-    startNewsRotation();
   }
 
   function initNewsTicker() {
@@ -2180,11 +2175,105 @@
       });
     }
 
+    // Renderiza notícia padrão imediatamente
+    renderCurrentNews(false);
+    startNewsRotation();
+
+    // Carrega notícias ao vivo em background
     loadBrazilNews();
+  }
+
+  // ============================================================
+  // CONFORMIDADE COM A LGPD (LEI GERAL DE PROTEÇÃO DE DADOS - LEI 13.709/2018)
+  // ============================================================
+  function setupLGPD() {
+    const banner = document.getElementById('lgpd-consent-banner');
+    const acceptAllBtn = document.getElementById('lgpd-accept-all-btn');
+    const essentialBtn = document.getElementById('lgpd-essential-btn');
+    const openPolicyBtn = document.getElementById('lgpd-open-policy-btn');
+    const footerLgpdBtn = document.getElementById('footer-lgpd-btn');
+    const modal = document.getElementById('lgpd-modal');
+    const closeBtn = document.getElementById('close-lgpd-modal-btn');
+    const closeActionBtn = document.getElementById('close-lgpd-modal-action-btn');
+    const clearDataBtn = document.getElementById('lgpd-clear-my-data-btn');
+
+    // Verificar consentimento prévio
+    try {
+      const consent = localStorage.getItem('vpt_lgpd_consent');
+      if (!consent && banner) {
+        banner.classList.remove('hidden');
+        if (window.lucide && window.lucide.createIcons) {
+          window.lucide.createIcons({ root: banner });
+        }
+      }
+    } catch (e) {}
+
+    function saveConsent(type) {
+      try {
+        localStorage.setItem('vpt_lgpd_consent', type);
+      } catch (e) {}
+      if (banner) banner.classList.add('hidden');
+    }
+
+    if (acceptAllBtn) {
+      acceptAllBtn.addEventListener('click', () => {
+        saveConsent('all');
+        showToast('Preferências de privacidade salvas com sucesso!', 'success');
+      });
+    }
+
+    if (essentialBtn) {
+      essentialBtn.addEventListener('click', () => {
+        saveConsent('essential');
+        showToast('Apenas cookies essenciais ativados.', 'info');
+      });
+    }
+
+    function openModal() {
+      if (modal) {
+        modal.classList.remove('hidden');
+        if (window.lucide && window.lucide.createIcons) {
+          window.lucide.createIcons({ root: modal });
+        }
+      }
+    }
+
+    function closeModal() {
+      if (modal) modal.classList.add('hidden');
+    }
+
+    if (openPolicyBtn) openPolicyBtn.addEventListener('click', openModal);
+    if (footerLgpdBtn) footerLgpdBtn.addEventListener('click', openModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (closeActionBtn) closeActionBtn.addEventListener('click', closeModal);
+
+    // Direito do Titular: Eliminação completa dos dados locais (Art. 18 da LGPD)
+    if (clearDataBtn) {
+      clearDataBtn.addEventListener('click', () => {
+        if (confirm('Deseja realmente apagar todos os seus dados locais (cursos favoritos e preferências salvas)?')) {
+          try {
+            localStorage.clear();
+            sessionStorage.clear();
+          } catch (e) {}
+          state.favorites = [];
+          updateFavoritesBadge();
+          renderCourses();
+          closeModal();
+          if (banner) banner.classList.remove('hidden');
+          showToast('Seus dados foram completamente eliminados em conformidade com o Art. 18 da LGPD.', 'success');
+        }
+      });
+    }
   }
 
   // Inicialização Completa
   function init() {
+    // 1. Recursos essenciais e utilidades imediatas
+    try { setupLGPD(); } catch (e) { console.warn('[LGPD] Erro ao iniciar:', e); }
+    try { initWeatherWidget(); } catch (e) { console.warn('[Weather] Erro ao iniciar:', e); }
+    try { initNewsTicker(); } catch (e) { console.warn('[News] Erro ao iniciar:', e); }
+
+    // 2. Catálogo e preferências persistidas
     loadPersistedData();
     handleURLParameters();
     updateAdminUI();
@@ -2197,11 +2286,7 @@
     setupEventListeners();
     setupInfiniteScroll();
 
-    // Barra de Utilidades do Topo: Clima Local e Notícias do Brasil
-    initWeatherWidget();
-    initNewsTicker();
-
-    // Sincronizar catálogo diretamente com o MySQL do servidor
+    // 3. Sincronizar catálogo diretamente com o MySQL do servidor
     syncCoursesWithMySQL();
   }
 

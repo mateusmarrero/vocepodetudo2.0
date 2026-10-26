@@ -13,9 +13,7 @@
 
   const SECURITY = {
     MAX_ATTEMPTS: 5,
-    LOCKOUT_TIME_SECONDS: 300, // 5 minutos
-    DEFAULT_ADMIN_USER: 'admin',
-    DEFAULT_ADMIN_HASH: '394e24eb2ca9fb485f4fa7b7ae14561b36bb0ee68e987c69996d92cb6b4dcb89' // admin123
+    LOCKOUT_TIME_SECONDS: 300 // 5 minutos de bloqueio temporário
   };
 
   // Estado Geral do Painel Administrativo
@@ -92,14 +90,18 @@
   // ==========================================
   async function checkAuthSession() {
     const savedToken = localStorage.getItem('vpt_admin_token') || sessionStorage.getItem('vpt_auth_token');
-    const isLocalAdmin = sessionStorage.getItem('vpt_is_admin') === 'true';
 
-    if (savedToken || isLocalAdmin) {
-      state.token = savedToken || 'admin_session';
+    if (savedToken && !savedToken.startsWith('local_admin_jwt_')) {
+      state.token = savedToken;
       state.isAuthenticated = true;
       showPanelScreen();
       loadAllDashboardData();
     } else {
+      state.token = '';
+      state.isAuthenticated = false;
+      localStorage.removeItem('vpt_admin_token');
+      sessionStorage.removeItem('vpt_auth_token');
+      sessionStorage.removeItem('vpt_is_admin');
       showAuthScreen();
     }
   }
@@ -189,10 +191,14 @@
           return;
         }
 
-        // 1. Tentativa de Login no Servidor MySQL
+        // 1. Autenticação Segura no Servidor (POST no corpo com JSON - NUNCA expor na URL)
         let serverSuccess = false;
         try {
-          const res = await fetch(`${API_BASE}/auth.php?action=login&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+          const res = await fetch(`${API_BASE}/auth.php?action=login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+          });
           const data = await res.json();
 
           if (res.ok && data.success && data.token) {
@@ -205,24 +211,7 @@
             serverSuccess = true;
           }
         } catch (err) {
-          console.info('Tentando fallback local...', err);
-        }
-
-        // 2. Fallback de contingência local via SHA-256
-        if (!serverSuccess) {
-          const savedHash = localStorage.getItem('vpt_admin_hash') || SECURITY.DEFAULT_ADMIN_HASH;
-          const savedUser = localStorage.getItem('vpt_admin_user') || SECURITY.DEFAULT_ADMIN_USER;
-          const calculatedHash = await hashPassword(password);
-
-          if (username.toLowerCase() === savedUser.toLowerCase() && calculatedHash === savedHash) {
-            state.token = 'local_admin_jwt_' + Date.now();
-            state.isAuthenticated = true;
-            localStorage.setItem('vpt_admin_token', state.token);
-            sessionStorage.setItem('vpt_auth_token', state.token);
-            sessionStorage.setItem('vpt_is_admin', 'true');
-            clearFailedAttempts();
-            serverSuccess = true;
-          }
+          console.error('Falha de conexão com a API de autenticação:', err);
         }
 
         if (serverSuccess) {

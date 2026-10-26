@@ -1,0 +1,66 @@
+# ==============================================================================
+# Portal Você Pode Tudo (VCPDTD) — Configuração de Alta Segurança Apache / StackCP
+# ==============================================================================
+
+# 1. Desabilitar listagem de diretórios (Directory Browsing)
+Options -Indexes -MultiViews
+
+# 2. Forçar HTTPS (Redirecionamento 301 de HTTP para HTTPS)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# 3. Cabeçalhos Globais de Segurança (Security Headers)
+<IfModule mod_headers.c>
+  # Forçar conexão segura estrita (HSTS)
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  
+  # Bloquear detecção incorreta de tipo MIME (Anti-Sniffing)
+  Header always set X-Content-Type-Options "nosniff"
+  
+  # Proteger contra ataques de Clickjacking (iframes não autorizados)
+  Header always set X-Frame-Options "SAMEORIGIN"
+  
+  # Política de Referência Segura
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  
+  # Restrição de APIs sensíveis do navegador
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  
+  # Filtro XSS do Navegador
+  Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# 4. Bloqueio Total a Arquivos Sensíveis, Backups e Código-Fonte
+<FilesMatch "(^\.|\.env.*|\.sql$|\.zip$|\.7z$|\.tar$|\.gz$|\.log$|cache_.*\.json$|seed_.*\.json$|README\.md$|package\.json$|test_db.*\.php$|setup\.php$)">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+# 5. Proteger diretórios de versão e dados (.git, api/backups)
+<IfModule mod_rewrite.c>
+  RewriteRule ^\.git - [F,L]
+  RewriteRule ^backups/ - [F,L]
+</IfModule>
+
+# 6. Otimização de Cache e Desempenho para Recursos Estáticos
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 hour"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType application/json "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType image/x-icon "access plus 1 year"
+</IfModule>

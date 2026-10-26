@@ -41,17 +41,12 @@ function getDBConnection() {
         return $pdo;
     } catch (PDOException $e) {
         error_log("Erro de Conexão MySQL: " . $e->getMessage());
-        // Se for uma requisição de API JSON, responde em JSON
+        // Resposta segura em produção: NUNCA vazar detalhes de infraestrutura ou diagnóstico
         if (strpos($_SERVER['REQUEST_URI'] ?? '', 'setup.php') === false && strpos($_SERVER['REQUEST_URI'] ?? '', 'test_db.php') === false) {
             jsonResponse([
                 'error' => true,
-                'message' => 'Falha de conexão com o banco de dados MySQL: ' . $e->getMessage(),
-                'diagnostico' => [
-                    'servidor_usado' => DB_HOST,
-                    'banco_usado' => DB_NAME,
-                    'usuario_usado' => DB_USER
-                ]
-            ], 500);
+                'message' => 'Serviço temporariamente indisponível. Tente novamente mais tarde.'
+            ], 503);
         }
         throw $e;
     }
@@ -90,6 +85,10 @@ function jsonResponse($data, $statusCode = 200) {
     http_response_code($statusCode);
     header('Content-Type: application/json; charset=UTF-8');
     header('X-Content-Type-Options: nosniff');
+    header('X-Frame-Options: SAMEORIGIN');
+    header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
+    header('Referrer-Policy: strict-origin-when-cross-origin');
+    header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
     echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     exit;
 }

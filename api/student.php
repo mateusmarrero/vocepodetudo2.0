@@ -116,9 +116,15 @@ try {
         // 1. CADASTRO DE ALUNO (REGISTRO)
         // ==========================================
         case 'register':
-            $name = trim($input['name'] ?? '');
-            $email = strtolower(trim($input['email'] ?? ''));
-            $password = trim($input['password'] ?? '');
+            if ($method !== 'POST') {
+                jsonResponse(['error' => true, 'message' => 'Método inválido. O cadastro de alunos exige requisição POST.'], 405);
+            }
+
+            // Credenciais lidas estritamente do corpo da requisição
+            $bodyData = is_array($inputJson) ? $inputJson : $_POST;
+            $name = trim($bodyData['name'] ?? $input['name'] ?? '');
+            $email = strtolower(trim($bodyData['email'] ?? $input['email'] ?? ''));
+            $password = trim($bodyData['password'] ?? '');
 
             if (empty($name) || strlen($name) < 2) {
                 jsonResponse(['error' => true, 'message' => 'Por favor, informe seu nome completo.'], 400);
@@ -254,8 +260,14 @@ try {
         // 2. LOGIN DO ALUNO
         // ==========================================
         case 'login':
-            $email = strtolower(trim($input['email'] ?? ''));
-            $password = trim($input['password'] ?? '');
+            if ($method !== 'POST') {
+                jsonResponse(['error' => true, 'message' => 'Método inválido. O login de alunos exige requisição POST.'], 405);
+            }
+
+            // Credenciais lidas estritamente do corpo da requisição
+            $bodyData = is_array($inputJson) ? $inputJson : $_POST;
+            $email = strtolower(trim($bodyData['email'] ?? ''));
+            $password = trim($bodyData['password'] ?? '');
 
             if (empty($email) || empty($password)) {
                 jsonResponse(['error' => true, 'message' => 'Informe seu e-mail e senha cadastrados.'], 400);

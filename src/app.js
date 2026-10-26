@@ -6,12 +6,8 @@
   // Configuração da API do Servidor (ServerByte / cPanel)
   const API_BASE = './api';
 
-  // Configurações e Constantes de Segurança Criptográfica
+  // Configurações e Constantes de Segurança
   const SECURITY = {
-    SALT: 'vpt_brazil_secure_salt_2026',
-    // Hash SHA-256 de fallback (SALT + 'admin123')
-    DEFAULT_ADMIN_HASH: '1c6a7fb1921db4c75ab524113183912227cc3b6c00a780915c9646d3e73efbdb',
-    DEFAULT_ADMIN_USER: 'admin',
     MAX_ATTEMPTS: 5,
     LOCKOUT_DURATION_MS: 5 * 60 * 1000,    // 5 minutos de bloqueio temporário
     SESSION_MAX_AGE_MS: 2 * 60 * 60 * 1000 // 2 horas de inatividade máxima
@@ -251,8 +247,9 @@
   // Carregar dados salvos no LocalStorage / SessionStorage com Validação de Segurança
   function loadPersistedData() {
     try {
-      // 1. Verificação de Sessão com Expiração Automática
-      if (sessionStorage.getItem('vpt_is_admin') === 'true') {
+      // 1. Verificação de Sessão com Token Válido e Expiração Automática
+      const savedToken = sessionStorage.getItem('vpt_auth_token') || localStorage.getItem('vpt_admin_token');
+      if (savedToken && sessionStorage.getItem('vpt_is_admin') === 'true') {
         const loginTime = parseInt(sessionStorage.getItem('vpt_admin_login_time') || '0', 10);
         const now = Date.now();
         if (loginTime > 0 && (now - loginTime < SECURITY.SESSION_MAX_AGE_MS)) {
@@ -263,6 +260,10 @@
           sessionStorage.removeItem('vpt_auth_token');
           sessionStorage.removeItem('vpt_admin_login_time');
         }
+      } else {
+        state.isAdmin = false;
+        sessionStorage.removeItem('vpt_is_admin');
+        sessionStorage.removeItem('vpt_auth_token');
       }
 
       // 2. Favoritos Salvos
@@ -1917,7 +1918,7 @@
         const enteredUser = userInput ? userInput.value.trim() : '';
         const enteredPass = passInput ? passInput.value.trim() : '';
 
-        // 1. Tentar autenticação no Servidor MySQL
+        // Autenticação Segura no Servidor (POST com JSON)
         try {
           const res = await fetch(`${API_BASE}/auth.php?action=login`, {
             method: 'POST',
@@ -1936,35 +1937,10 @@
             updateAdminUI();
             if (adminLoginModal) adminLoginModal.classList.add('hidden');
             adminLoginForm.reset();
-            showToast('Login de administrador autenticado com sucesso no servidor MySQL!', 'success');
+            showToast('Login de administrador autenticado com sucesso no servidor!', 'success');
             return;
           }
 
-          if (res.status === 401) {
-            const lockedSecs = registerFailedLoginAttempt();
-            updateLockoutUI();
-            showToast('Usuário ou senha incorretos no servidor.', 'error');
-            return;
-          }
-        } catch (serverErr) {
-          console.info('Autenticação local de contingência:', serverErr);
-        }
-
-        // 2. Fallback Seguro Local caso a API PHP esteja sendo configurada
-        const savedHash = localStorage.getItem('vpt_admin_hash') || SECURITY.DEFAULT_ADMIN_HASH;
-        const savedUser = localStorage.getItem('vpt_admin_user') || SECURITY.DEFAULT_ADMIN_USER;
-        const calculatedHash = await hashPassword(enteredPass);
-
-        if (enteredUser.toLowerCase() === savedUser.toLowerCase() && calculatedHash === savedHash) {
-          state.isAdmin = true;
-          sessionStorage.setItem('vpt_is_admin', 'true');
-          sessionStorage.setItem('vpt_admin_login_time', Date.now().toString());
-          clearFailedLoginAttempts();
-          updateAdminUI();
-          if (adminLoginModal) adminLoginModal.classList.add('hidden');
-          adminLoginForm.reset();
-          showToast('Login de administrador realizado com sucesso!', 'success');
-        } else {
           const lockedSecs = registerFailedLoginAttempt();
           updateLockoutUI();
           if (lockedSecs > 0) {
@@ -1973,6 +1949,9 @@
             const currentAttempts = parseInt(localStorage.getItem('vpt_admin_failed_attempts') || '0', 10);
             showToast(`Usuário ou senha incorretos (${currentAttempts}/${SECURITY.MAX_ATTEMPTS} tentativas).`, 'error');
           }
+        } catch (serverErr) {
+          console.error('Erro ao conectar com servidor de autenticação:', serverErr);
+          showToast('Erro ao comunicar com o servidor de autenticação.', 'error');
         }
       });
     }
@@ -3928,26 +3907,29 @@
 
         try {
           if (authMode === 'register') {
-            const params = new URLSearchParams({
-              action: 'register',
+            const regPayload = {
               name,
               email,
               password,
               goal
-            });
+            };
 
             if (state.careerQuiz.result) {
-              params.append('initial_primary_area', state.careerQuiz.result.primary?.areaKey || 'tecnologia');
-              params.append('initial_secondary_area', state.careerQuiz.result.secondary?.areaKey || '');
-              params.append('initial_track', state.careerQuiz.result.primary?.recommendedTrack?.id || '');
-              params.append('initial_scores', JSON.stringify(state.careerQuiz.result.scores || {}));
+              regPayload.initial_primary_area = state.careerQuiz.result.primary?.areaKey || 'tecnologia';
+              regPayload.initial_secondary_area = state.careerQuiz.result.secondary?.areaKey || '';
+              regPayload.initial_track = state.careerQuiz.result.primary?.recommendedTrack?.id || '';
+              regPayload.initial_scores = JSON.stringify(state.careerQuiz.result.scores || {});
             }
 
             if (state.favorites && state.favorites.size > 0) {
-              params.append('initial_courses_csv', Array.from(state.favorites).join(','));
+              regPayload.initial_courses_csv = Array.from(state.favorites).join(',');
             }
 
-            const res = await fetch(`api/student.php?${params.toString()}`);
+            const res = await fetch(`api/student.php?action=register`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(regPayload)
+            });
             const json = await res.json();
             if (!res.ok || json.error) {
               throw new Error(json.message || 'Erro ao criar conta.');
@@ -3962,14 +3944,12 @@
             openStudentDashboard('courses');
 
           } else {
-            // Login
-            const params = new URLSearchParams({
-              action: 'login',
-              email,
-              password
+            // Login seguro via POST com JSON no corpo da requisição (nunca na URL)
+            const res = await fetch(`api/student.php?action=login`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, password })
             });
-
-            const res = await fetch(`api/student.php?${params.toString()}`);
 
             const json = await res.json();
             if (!res.ok || json.error) {

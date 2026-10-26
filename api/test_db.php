@@ -6,6 +6,13 @@
 
 header('Content-Type: text/html; charset=UTF-8');
 
+// Trava de segurança: Exige chave de autorização ou execução restrita
+$accessKey = $_GET['key'] ?? $_POST['key'] ?? '';
+if ($accessKey !== 'vpt_admin_setup_secure_2026') {
+    http_response_code(403);
+    die('<h2 style="color:red;font-family:sans-serif;">Acesso Restrito: Chave de segurança do banco de dados inválida ou ausente.</h2>');
+}
+
 $defaultHost = 'sdb-73.hosting.stackcp.net';
 $defaultDb   = 'voce_podetudo-35303633ebd7';
 $defaultUser = 'voce_podetudo';

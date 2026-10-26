@@ -11,6 +11,13 @@ $db   = 'voce_podetudo-35303633ebd7';
 $user = 'voce_podetudo';
 $pass = 'Rx178gpo2@1985!';
 
+// Trava de segurança: Exige chave de autorização ou execução restrita
+$setupKey = $_GET['key'] ?? '';
+if ($setupKey !== 'vpt_admin_setup_secure_2026') {
+    http_response_code(403);
+    die('<h2 style="color:red;font-family:sans-serif;">Acesso Restrito: Chave de segurança inválida ou ausente.</h2>');
+}
+
 // Tentar carregar de config.php se existir
 if (file_exists(__DIR__ . '/config.php')) {
     @include_once __DIR__ . '/config.php';

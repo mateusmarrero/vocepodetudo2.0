@@ -135,14 +135,18 @@ function verifyToken($token) {
  * Proteção de Rota: Exige autenticação de Administrador
  */
 function requireAuth() {
-    $headers = getallheaders();
-    $authHeader = $headers['Authorization'] ?? $headers['authorization'] ?? '';
+    $headers = function_exists('getallheaders') ? getallheaders() : [];
+    $authHeader = $headers['Authorization'] ?? $headers['authorization'] ?? $_SERVER['HTTP_AUTHORIZATION'] ?? '';
 
     $token = '';
     if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
         $token = $matches[1];
     } elseif (isset($_COOKIE['vpt_auth_token'])) {
         $token = $_COOKIE['vpt_auth_token'];
+    } elseif (!empty($_GET['token'])) {
+        $token = trim($_GET['token']);
+    } elseif (!empty($_POST['token'])) {
+        $token = trim($_POST['token']);
     }
 
     $userData = verifyToken($token);

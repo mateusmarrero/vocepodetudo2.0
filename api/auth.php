@@ -9,16 +9,15 @@ require_once __DIR__ . '/config.php';
 $action = $_GET['action'] ?? 'login';
 $method = $_SERVER['REQUEST_METHOD'];
 
-// Obter corpo da requisição (JSON ou POST Form)
+// Obter corpo da requisição (JSON, POST Form ou GET fallback)
 $inputRaw = file_get_contents('php://input');
 $inputData = json_decode($inputRaw, true) ?? $_POST;
+if (empty($inputData)) {
+    $inputData = $_GET;
+}
 
 switch ($action) {
     case 'login':
-        if ($method !== 'POST') {
-            jsonResponse(['error' => true, 'message' => 'Método inválido.'], 405);
-        }
-
         $username = trim($inputData['username'] ?? '');
         $password = trim($inputData['password'] ?? '');
 
@@ -60,10 +59,6 @@ switch ($action) {
         break;
 
     case 'change_password':
-        if ($method !== 'POST') {
-            jsonResponse(['error' => true, 'message' => 'Método inválido.'], 405);
-        }
-
         $userData = requireAuth();
         $currentPassword = trim($inputData['current_password'] ?? '');
         $newPassword = trim($inputData['new_password'] ?? '');

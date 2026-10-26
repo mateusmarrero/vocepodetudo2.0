@@ -354,23 +354,44 @@
     });
   }
 
+  // Abrir Painel Administrativo em Janela Separada (Popup Completa)
+  function openAdminPopup() {
+    const width = Math.min(1360, window.screen.availWidth - 40);
+    const height = Math.min(880, window.screen.availHeight - 60);
+    const left = Math.max(0, Math.floor((window.screen.availWidth - width) / 2));
+    const top = Math.max(0, Math.floor((window.screen.availHeight - height) / 2));
+    const popup = window.open('admin.html', 'vpt_admin_panel', `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=yes,status=no,toolbar=no,menubar=no`);
+    if (popup) {
+      try { popup.focus(); } catch (e) {}
+    } else {
+      window.open('admin.html', '_blank');
+    }
+  }
+
   // Atualização Visual do Painel de Administrador
   function updateAdminUI() {
-    const loggedOutContainer = document.getElementById('admin-logged-out-container');
-    const loggedInContainer = document.getElementById('admin-logged-in-container');
+    const adminBtn = document.getElementById('open-admin-login-btn');
+    const isLogged = state.isAdmin || !!localStorage.getItem('vpt_admin_token') || sessionStorage.getItem('vpt_is_admin') === 'true';
 
-    if (state.isAdmin) {
-      if (loggedOutContainer) loggedOutContainer.classList.add('hidden');
-      if (loggedInContainer) {
-        loggedInContainer.classList.remove('hidden');
-        loggedInContainer.classList.add('flex');
+    if (adminBtn) {
+      if (isLogged) {
+        adminBtn.innerHTML = `
+          <span class="w-2 h-2 rounded-full bg-[#009639] animate-pulse"></span>
+          <span class="text-emerald-900 font-black">Admin</span>
+          <i data-lucide="external-link" class="w-3 h-3 text-[#009639]"></i>
+        `;
+        adminBtn.className = 'inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-black text-emerald-900 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 transition-all cursor-pointer shadow-sm';
+        adminBtn.title = 'Painel Administrativo Conectado — Clique para abrir em nova janela';
+      } else {
+        adminBtn.innerHTML = `
+          <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-500"></i>
+          <span class="hidden xl:inline">Admin</span>
+          <i data-lucide="external-link" class="w-3 h-3 text-slate-400 hidden sm:inline"></i>
+        `;
+        adminBtn.className = 'inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-[#002776] bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-all cursor-pointer shadow-sm';
+        adminBtn.title = 'Abrir Painel de Administração em Janela Separada';
       }
-    } else {
-      if (loggedOutContainer) loggedOutContainer.classList.remove('hidden');
-      if (loggedInContainer) {
-        loggedInContainer.classList.add('hidden');
-        loggedInContainer.classList.remove('flex');
-      }
+      if (window.lucide) window.lucide.createIcons();
     }
   }
 
@@ -1864,13 +1885,9 @@
       }
     }, 1000);
 
-    const handleAdminAccess = () => {
-      if (state.isAdmin) {
-        if (adminCourseModal) adminCourseModal.classList.remove('hidden');
-      } else {
-        updateLockoutUI();
-        if (adminLoginModal) adminLoginModal.classList.remove('hidden');
-      }
+    const handleAdminAccess = (e) => {
+      if (e && e.preventDefault) e.preventDefault();
+      openAdminPopup();
     };
 
     if (openAdminLoginBtn) openAdminLoginBtn.addEventListener('click', handleAdminAccess);

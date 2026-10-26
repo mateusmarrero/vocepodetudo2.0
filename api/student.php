@@ -627,6 +627,76 @@ try {
             ]);
             break;
 
+        // ==========================================
+        // 9. LISTAGEM GERAL DE ALUNOS (PARA PAINEL DE ADMINISTRAÇÃO)
+        // ==========================================
+        case 'list_all':
+        case 'admin_list':
+            $studentsList = [];
+            if ($pdo) {
+                try {
+                    $stmt = $pdo->query("
+                        SELECT 
+                            s.id, s.name, s.email, s.avatar_color, s.goal, s.created_at, s.last_login_at,
+                            (SELECT COUNT(*) FROM student_courses sc WHERE sc.student_id = s.id) as enrolled_count,
+                            (SELECT COUNT(*) FROM student_courses sc WHERE sc.student_id = s.id AND sc.status = 'completed') as completed_count,
+                            (SELECT COALESCE(SUM(sc.workload_hours), 0) FROM student_courses sc WHERE sc.student_id = s.id AND sc.status = 'completed') as completed_hours,
+                            (SELECT primary_profile FROM student_career_tests ct WHERE ct.student_id = s.id ORDER BY ct.id DESC LIMIT 1) as latest_career_profile
+                        FROM students s
+                        ORDER BY s.id DESC
+                        LIMIT 200
+                    ");
+                    $studentsList = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                } catch (Exception $e) {
+                    $studentsList = [];
+                }
+            }
+
+            if (empty($studentsList)) {
+                $fData = loadStudentFileData($cacheFile);
+                foreach ($fData['students'] as $st) {
+                    $stId = (int)$st['id'];
+                    $stCourses = array_filter($fData['student_courses'] ?? [], function($c) use ($stId) {
+                        return (int)$c['student_id'] === $stId;
+                    });
+                    $completedCourses = array_filter($stCourses, function($c) {
+                        return ($c['status'] ?? '') === 'completed';
+                    });
+                    $completedHours = 0;
+                    foreach ($completedCourses as $cc) {
+                        $completedHours += (int)($cc['workload_hours'] ?? 0);
+                    }
+                    $stTests = array_filter($fData['career_tests'] ?? [], function($t) use ($stId) {
+                        return (int)$t['student_id'] === $stId;
+                    });
+                    $latestTest = !empty($stTests) ? end($stTests) : null;
+
+                    $studentsList[] = [
+                        'id' => $stId,
+                        'name' => $st['name'],
+                        'email' => $st['email'],
+                        'avatar_color' => $st['avatar_color'] ?? '#002776',
+                        'goal' => $st['goal'] ?? 'geral',
+                        'created_at' => $st['created_at'] ?? date('Y-m-d H:i:s'),
+                        'last_login_at' => $st['last_login_at'] ?? null,
+                        'enrolled_count' => count($stCourses),
+                        'completed_count' => count($completedCourses),
+                        'completed_hours' => $completedHours,
+                        'latest_career_profile' => $latestTest ? ($latestTest['primary_profile'] ?? null) : null
+                    ];
+                }
+                usort($studentsList, function($a, $b) {
+                    return $b['id'] <=> $a['id'];
+                });
+            }
+
+            jsonResponse([
+                'success' => true,
+                'count' => count($studentsList),
+                'students' => $studentsList
+            ]);
+            break;
+
         default:
             jsonResponse(['error' => true, 'message' => 'Ação não reconhecida.'], 404);
             break;

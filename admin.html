@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Controle Administrativo — Você Pode Tudo</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="./assets/logo-icon.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#002776',
+              green: '#009639',
+              yellow: '#ffcc29',
+              amber: '#d97706',
+              dark: '#0a192f'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-only {
+        display: block !important;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-[#009639] selection:text-white">
+
+  <!-- ======================================================== -->
+  <!-- TELA DE LOGIN DO ADMINISTRADOR (QUANDO NÃO AUTENTICADO) -->
+  <!-- ======================================================== -->
+  <div id="auth-screen" class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-[#002776] to-slate-950">
+    <div class="max-w-md w-full bg-white rounded-3xl shadow-2xl border-4 border-[#009639] p-8 relative overflow-hidden">
+      <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#009639] via-[#ffcc29] to-[#002776]"></div>
+      
+      <!-- Topo do Card de Login -->
+      <div class="text-center mb-6 pt-2">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-slate-50 border-2 border-slate-200 shadow-inner mb-3">
+          <img src="./assets/logo-icon.png" alt="Você Pode Tudo" class="w-10 h-10 object-contain">
+        </div>
+        <h1 class="text-2xl font-black text-slate-900 tracking-tight">Painel Administrativo</h1>
+        <p class="text-xs font-bold text-slate-500 mt-1 uppercase tracking-wider">Acesso Exclusivo à Gestão Geral</p>
+      </div>
+
+      <!-- Alerta de Bloqueio por Brute-force -->
+      <div id="auth-lockout-banner" class="hidden mb-4 p-3.5 rounded-2xl bg-rose-50 border border-rose-300 text-rose-800 text-xs font-bold flex items-start gap-2.5">
+        <i data-lucide="alert-octagon" class="w-5 h-5 text-rose-600 flex-shrink-0 mt-0.5"></i>
+        <div id="auth-lockout-text">Acesso bloqueado temporariamente por tentativas excedidas.</div>
+      </div>
+
+      <!-- Formulário de Autenticação -->
+      <form id="auth-form" class="space-y-4">
+        <div>
+          <label for="admin-user-field" class="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1">
+            Usuário Administrador
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 pointer-events-none">
+              <i data-lucide="user" class="w-4 h-4"></i>
+            </span>
+            <input 
+              type="text" 
+              id="admin-user-field" 
+              required 
+              autocomplete="username"
+              placeholder="Ex: admin" 
+              class="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm bg-slate-50 border-2 border-slate-200 focus:outline-none focus:border-[#002776] focus:bg-white text-slate-900 font-bold transition-all"
+            >
+          </div>
+        </div>
+
+        <div>
+          <label for="admin-pass-field" class="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1">
+            Senha Secreta
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 pointer-events-none">
+              <i data-lucide="lock" class="w-4 h-4"></i>
+            </span>
+            <input 
+              type="password" 
+              id="admin-pass-field" 
+              required 
+              autocomplete="current-password"
+              placeholder="Digite sua senha de acesso" 
+              class="w-full pl-10 pr-10 py-2.5 rounded-xl text-sm bg-slate-50 border-2 border-slate-200 focus:outline-none focus:border-[#002776] focus:bg-white text-slate-900 font-bold transition-all"
+            >
+            <button type="button" id="toggle-pass-visibility-btn" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
+              <i data-lucide="eye" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="auth-error-msg" class="hidden text-xs font-bold text-rose-600 bg-rose-50 p-3 rounded-xl border border-rose-200"></div>
+
+        <button 
+          type="submit" 
+          id="auth-submit-btn"
+          class="w-full py-3 rounded-xl bg-gradient-to-r from-[#009639] to-[#00702a] hover:from-[#00702a] hover:to-emerald-900 text-white font-black text-sm uppercase tracking-wider shadow-lg hover:shadow-xl transition-all cursor-pointer flex items-center justify-center gap-2"
+        >
+          <i data-lucide="log-in" class="w-4 h-4"></i>
+          <span>Entrar no Painel</span>
+        </button>
+      </form>
+
+      <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400 font-bold">
+        <span class="flex items-center gap-1">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+          Sessão Criptografada
+        </span>
+        <a href="https://vocepodetudo.com" target="_blank" class="text-slate-500 hover:text-[#002776] underline">
+          Acessar Portal Público
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- PAINEL COMPLETO DE ADMINISTRAÇÃO (QUANDO AUTENTICADO)    -->
+  <!-- ======================================================== -->
+  <div id="admin-panel" class="hidden min-h-screen flex-col">
+
+    <!-- Topbar Oficial da Administração -->
+    <header class="no-print bg-white border-b-2 border-slate-200 sticky top-0 z-40 shadow-sm">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between gap-4">
+        
+        <!-- Logo e Título do Painel -->
+        <div class="flex items-center gap-3">
+          <img src="./assets/logo-icon.png" alt="Você Pode Tudo" class="h-10 w-auto object-contain">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-lg font-black text-[#002776] tracking-tight">Você Pode Tudo</span>
+              <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase bg-[#009639] text-white">
+                Admin Oficial
+              </span>
+            </div>
+            <span class="text-[11px] font-bold text-slate-500 hidden sm:block">
+              Centro Integrado de Gestão, Audiência & Anunciantes
+            </span>
+          </div>
+        </div>
+
+        <!-- Ações do Topo: Ver Portal, Mudar Senha, Sair -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a 
+            href="https://vocepodetudo.com" 
+            target="_blank" 
+            class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-600 hover:text-[#002776] bg-slate-100 hover:bg-slate-200 transition-all"
+            title="Abrir o site público em nova aba"
+          >
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            <span>Ver Portal ao Vivo</span>
+          </a>
+
+          <button 
+            id="panel-change-pw-btn"
+            type="button"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-[#002776] bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-all cursor-pointer"
+            title="Alterar senha do administrador"
+          >
+            <i data-lucide="key-round" class="w-3.5 h-3.5 text-[#002776]"></i>
+            <span class="hidden sm:inline">Alterar Senha</span>
+          </button>
+
+          <button 
+            id="panel-logout-btn"
+            type="button"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition-all cursor-pointer"
+            title="Encerrar sessão administrativa"
+          >
+            <i data-lucide="log-out" class="w-3.5 h-3.5 text-rose-600"></i>
+            <span>Sair</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra de Navegação por Abas (Segmented Control Completo) -->
+      <div class="bg-slate-50 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+          <nav class="flex items-center gap-1 sm:gap-2 overflow-x-auto py-2 custom-scrollbar text-xs font-bold">
+            <button 
+              id="tab-btn-overview" 
+              class="tab-nav-btn active px-3.5 py-2 rounded-xl bg-[#002776] text-white shadow-sm flex items-center gap-2 flex-shrink-0 cursor-pointer transition-all"
+            >
+              <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+              <span>Visão Geral & Métricas</span>
+            </button>
+            <button 
+              id="tab-btn-courses" 
+              class="tab-nav-btn px-3.5 py-2 rounded-xl text-slate-700 hover:text-[#002776] hover:bg-white flex items-center gap-2 flex-shrink-0 cursor-pointer transition-all"
+            >
+              <i data-lucide="book-open" class="w-4 h-4"></i>
+              <span>Gerenciar Cursos</span>
+              <span id="badge-total-courses" class="px-1.5 py-0.2 rounded-full text-[10px] font-black bg-slate-200 text-slate-800">...</span>
+            </button>
+            <button 
+              id="tab-btn-students" 
+              class="tab-nav-btn px-3.5 py-2 rounded-xl text-slate-700 hover:text-[#002776] hover:bg-white flex items-center gap-2 flex-shrink-0 cursor-pointer transition-all"
+            >
+              <i data-lucide="users" class="w-4 h-4"></i>
+              <span>Base de Alunos</span>
+              <span id="badge-total-students" class="px-1.5 py-0.2 rounded-full text-[10px] font-black bg-purple-100 text-purple-800">...</span>
+            </button>
+            <button 
+              id="tab-btn-quiz" 
+              class="tab-nav-btn px-3.5 py-2 rounded-xl text-slate-700 hover:text-[#002776] hover:bg-white flex items-center gap-2 flex-shrink-0 cursor-pointer transition-all"
+            >
+              <i data-lucide="target" class="w-4 h-4"></i>
+              <span>Testes Vocacionais</span>
+              <span id="badge-total-tests" class="px-1.5 py-0.2 rounded-full text-[10px] font-black bg-amber-100 text-amber-800">...</span>
+            </button>
+            <button 
+              id="tab-btn-mediakit" 
+              class="tab-nav-btn px-3.5 py-2 rounded-xl text-slate-700 hover:text-[#002776] hover:bg-white flex items-center gap-2 flex-shrink-0 cursor-pointer transition-all"
+            >
+              <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600"></i>
+              <span>Mídia Kit & Anunciantes</span>
+              <span class="px-1.5 py-0.2 rounded-full text-[9px] font-black bg-[#ffcc29] text-slate-950 uppercase">Oficial</span>
+            </button>
+            <button 
+              id="tab-btn-system" 
+              class="tab-nav-btn px-3.5 py-2 rounded-xl text-slate-700 hover:text-[#002776] hover:bg-white flex items-center gap-2 flex-shrink-0 cursor-pointer transition-all"
+            >
+              <i data-lucide="shield-check" class="w-4 h-4 text-slate-500"></i>
+              <span>Segurança & Diagnóstico</span>
+            </button>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Conteúdo Principal Dinâmico -->
+    <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-6">
+
+      <!-- ======================================================== -->
+      <!-- ABA 1: VISÃO GERAL & MÉTRICAS EM TEMPO REAL              -->
+      <!-- ======================================================== -->
+      <section id="section-overview" class="admin-tab-section space-y-6">
+        <!-- Barra de Status e Atualização Manual -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <div>
+            <h2 class="text-lg font-black text-slate-900 flex items-center gap-2">
+              <i data-lucide="activity" class="w-5 h-5 text-[#009639]"></i>
+              Painel de Tráfego & Audiência em Tempo Real
+            </h2>
+            <p class="text-xs text-slate-500 font-medium">
+              Monitoramento auditado de pageviews, origens geográficas brasileiras e engajamento.
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="overview-last-update" class="text-xs text-slate-400 font-bold">Atualizando...</span>
+            <button 
+              id="refresh-overview-btn" 
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 transition-all cursor-pointer"
+            >
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+              <span>Atualizar Agora</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Cards de KPIs Principais -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+          <!-- Card 1: Visualizações da Home -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[11px] font-black uppercase text-slate-400">Home Views</span>
+              <div class="w-7 h-7 rounded-lg bg-blue-50 text-[#002776] flex items-center justify-center">
+                <i data-lucide="eye" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div id="kpi-home-views" class="text-2xl font-black text-slate-900">0</div>
+            <span class="text-[10px] text-slate-500 font-bold block mt-0.5">Acessos no catálogo</span>
+          </div>
+
+          <!-- Card 2: Visualizações de Trilhas -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[11px] font-black uppercase text-slate-400">Trilhas</span>
+              <div class="w-7 h-7 rounded-lg bg-emerald-50 text-[#009639] flex items-center justify-center">
+                <i data-lucide="compass" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div id="kpi-tracks-views" class="text-2xl font-black text-slate-900">0</div>
+            <span class="text-[10px] text-slate-500 font-bold block mt-0.5">Exploração de trilhas</span>
+          </div>
+
+          <!-- Card 3: Cursos Clicados -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[11px] font-black uppercase text-slate-400">Cliques</span>
+              <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
+                <i data-lucide="mouse-pointer-click" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div id="kpi-courses-clicks" class="text-2xl font-black text-slate-900">0</div>
+            <span class="text-[10px] text-slate-500 font-bold block mt-0.5">Inscrições externas</span>
+          </div>
+
+          <!-- Card 4: Testes Vocacionais Concluídos -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[11px] font-black uppercase text-slate-400">Testes</span>
+              <div class="w-7 h-7 rounded-lg bg-yellow-50 text-yellow-700 flex items-center justify-center">
+                <i data-lucide="target" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div id="kpi-tests-count" class="text-2xl font-black text-slate-900">0</div>
+            <span class="text-[10px] text-slate-500 font-bold block mt-0.5">Testes realizados</span>
+          </div>
+
+          <!-- Card 5: Cursos Salvos / Favoritos -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[11px] font-black uppercase text-slate-400">Salvos</span>
+              <div class="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center">
+                <i data-lucide="heart" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div id="kpi-favorites-count" class="text-2xl font-black text-slate-900">0</div>
+            <span class="text-[10px] text-slate-500 font-bold block mt-0.5">Itens em favoritos</span>
+          </div>
+
+          <!-- Card 6: Alunos Cadastrados -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[11px] font-black uppercase text-slate-400">Alunos</span>
+              <div class="w-7 h-7 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center">
+                <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div id="kpi-students-count" class="text-2xl font-black text-purple-900">0</div>
+            <span class="text-[10px] text-slate-500 font-bold block mt-0.5">Base registrada</span>
+          </div>
+        </div>
+
+        <!-- Grade Geográfica: Estados do Brasil & Cidades -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <!-- Coluna 1 e 2: Ranking dos Estados Brasileiros -->
+          <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-[#009639]"></span>
+                <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider">
+                  Audiência Nacional por Estados do Brasil
+                </h3>
+              </div>
+              <span class="text-xs font-bold text-slate-400">Distribuição % de Acessos</span>
+            </div>
+
+            <div id="geo-states-container" class="space-y-2.5 max-h-[380px] overflow-y-auto pr-2 custom-scrollbar">
+              <div class="text-center py-8 text-xs text-slate-400 font-bold">Carregando dados dos estados...</div>
+            </div>
+          </div>
+
+          <!-- Coluna 3: Cidades do Brasil & Origem Internacional -->
+          <div class="space-y-6">
+            <!-- Top Cidades -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+              <div class="flex items-center gap-2 mb-3 pb-2 border-b border-slate-100">
+                <i data-lucide="map-pin" class="w-4 h-4 text-[#002776]"></i>
+                <h3 class="text-xs font-black text-slate-900 uppercase tracking-wider">
+                  Top Cidades Brasileiras
+                </h3>
+              </div>
+              <div id="geo-cities-container" class="space-y-2 max-h-[200px] overflow-y-auto pr-1 custom-scrollbar text-xs">
+                <div class="text-slate-400 text-center py-4 font-bold">Carregando cidades...</div>
+              </div>
+            </div>
+
+            <!-- Países do Mundo -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+              <div class="flex items-center gap-2 mb-3 pb-2 border-b border-slate-100">
+                <i data-lucide="globe" class="w-4 h-4 text-emerald-600"></i>
+                <h3 class="text-xs font-black text-slate-900 uppercase tracking-wider">
+                  Origem Global (Países)
+                </h3>
+              </div>
+              <div id="geo-countries-container" class="space-y-2 text-xs">
+                <div class="text-slate-400 text-center py-4 font-bold">Carregando países...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top Cursos Mais Clicados -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <i data-lucide="trending-up" class="w-5 h-5 text-amber-500"></i>
+              <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider">
+                Top Cursos Mais Acessados / Clicados pelos Usuários
+              </h3>
+            </div>
+            <span class="text-xs font-bold text-slate-400">Ranking de Conversão</span>
+          </div>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead>
+                <tr class="border-b border-slate-200 text-slate-400 font-black uppercase text-[10px]">
+                  <th class="py-2.5 px-3">#</th>
+                  <th class="py-2.5 px-3">Curso</th>
+                  <th class="py-2.5 px-3">Instituição Parceira</th>
+                  <th class="py-2.5 px-3">Categoria</th>
+                  <th class="py-2.5 px-3 text-right">Total de Cliques</th>
+                </tr>
+              </thead>
+              <tbody id="top-courses-tbody" class="divide-y divide-slate-100 font-bold text-slate-700">
+                <tr><td colspan="5" class="py-6 text-center text-slate-400">Carregando dados...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- ABA 2: GERENCIADOR DE CURSOS (CATÁLOGO COMPLETO)         -->
+      <!-- ======================================================== -->
+      <section id="section-courses" class="admin-tab-section hidden space-y-4">
+        <!-- Topo da Aba de Cursos: Busca, Filtros e Botão Novo Curso -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div class="flex-1 flex flex-col sm:flex-row items-center gap-2 max-w-2xl">
+            <!-- Campo de Busca em Tempo Real -->
+            <div class="relative w-full">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 pointer-events-none">
+                <i data-lucide="search" class="w-4 h-4"></i>
+              </span>
+              <input 
+                type="text" 
+                id="courses-search-input" 
+                placeholder="Buscar por curso, parceiro ou tecnologia..." 
+                class="w-full pl-9 pr-3 py-2 rounded-xl text-xs bg-slate-50 border border-slate-300 font-bold text-slate-900 focus:outline-none focus:border-[#009639]"
+              >
+            </div>
+
+            <!-- Filtro de Categoria -->
+            <select id="courses-filter-category" class="w-full sm:w-48 py-2 px-3 rounded-xl text-xs bg-slate-50 border border-slate-300 font-bold text-slate-800 focus:outline-none">
+              <option value="all">Todas as Áreas</option>
+              <option value="tecnologia">Tecnologia</option>
+              <option value="administracao">Administração</option>
+              <option value="atendimento">Atendimento & Vendas</option>
+              <option value="design">Design & Conteúdo</option>
+              <option value="empreendedorismo">Empreendedorismo</option>
+              <option value="tecnicos">Técnicos & Práticos</option>
+              <option value="gestao">Gestão</option>
+              <option value="educacao">Educação</option>
+            </select>
+
+            <!-- Filtro de Status -->
+            <select id="courses-filter-status" class="w-full sm:w-36 py-2 px-3 rounded-xl text-xs bg-slate-50 border border-slate-300 font-bold text-slate-800 focus:outline-none">
+              <option value="all">Todos Status</option>
+              <option value="active">Apenas Ativos</option>
+              <option value="inactive">Pausados</option>
+            </select>
+          </div>
+
+          <!-- Botão Cadastrar Novo Curso -->
+          <button 
+            id="open-create-course-modal-btn" 
+            type="button"
+            class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#009639] hover:bg-[#00702a] text-white text-xs font-black shadow-md hover:shadow-lg transition-all cursor-pointer flex-shrink-0"
+          >
+            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+            <span>+ Cadastrar Novo Curso</span>
+          </button>
+        </div>
+
+        <!-- Indicador de Total de Cursos Encontrados -->
+        <div class="flex items-center justify-between text-xs font-bold text-slate-500 px-1">
+          <span id="courses-count-info">Exibindo 0 cursos</span>
+          <span class="text-slate-400">Catálogo Oficial Você Pode Tudo</span>
+        </div>
+
+        <!-- Tabela Completa de Cursos -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="overflow-x-auto max-h-[620px] custom-scrollbar">
+            <table class="w-full text-left text-xs">
+              <thead class="sticky top-0 bg-slate-50 border-b border-slate-200 text-slate-400 font-black uppercase text-[10px] z-10">
+                <tr>
+                  <th class="py-3 px-4">Status</th>
+                  <th class="py-3 px-4">Curso & Detalhes</th>
+                  <th class="py-3 px-4">Instituição</th>
+                  <th class="py-3 px-4">Área / Categoria</th>
+                  <th class="py-3 px-4">Carga Horária</th>
+                  <th class="py-3 px-4">Certificado</th>
+                  <th class="py-3 px-4 text-right">Ações de Gestão</th>
+                </tr>
+              </thead>
+              <tbody id="courses-admin-tbody" class="divide-y divide-slate-100 font-medium">
+                <tr><td colspan="7" class="py-8 text-center text-slate-400 font-bold">Carregando catálogo...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- ABA 3: BASE DE ALUNOS CADASTRADOS                        -->
+      <!-- ======================================================== -->
+      <section id="section-students" class="admin-tab-section hidden space-y-4">
+        <!-- Topo da Aba de Alunos: Indicadores e Exportação -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 class="text-base font-black text-slate-900 flex items-center gap-2">
+              <i data-lucide="users" class="w-5 h-5 text-purple-600"></i>
+              Base de Alunos Registrados no Portal
+            </h2>
+            <p class="text-xs text-slate-500 font-medium">
+              Alunos acompanhando trilhas, cursos concluídos e testes vocacionais realizados.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button 
+              id="export-students-csv-btn" 
+              class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-black shadow-sm transition-all cursor-pointer"
+            >
+              <i data-lucide="download" class="w-3.5 h-3.5"></i>
+              <span>Exportar Alunos (.csv)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Busca de Alunos -->
+        <div class="relative max-w-md">
+          <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 pointer-events-none">
+            <i data-lucide="search" class="w-4 h-4"></i>
+          </span>
+          <input 
+            type="text" 
+            id="students-search-input" 
+            placeholder="Buscar por nome, e-mail ou objetivo..." 
+            class="w-full pl-9 pr-3 py-2 rounded-xl text-xs bg-white border border-slate-300 font-bold text-slate-900 focus:outline-none focus:border-purple-600 shadow-sm"
+          >
+        </div>
+
+        <!-- Tabela de Alunos -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="overflow-x-auto max-h-[600px] custom-scrollbar">
+            <table class="w-full text-left text-xs">
+              <thead class="sticky top-0 bg-slate-50 border-b border-slate-200 text-slate-400 font-black uppercase text-[10px] z-10">
+                <tr>
+                  <th class="py-3 px-4">Aluno</th>
+                  <th class="py-3 px-4">E-mail</th>
+                  <th class="py-3 px-4">Objetivo / Foco</th>
+                  <th class="py-3 px-4">Último Teste Vocacional</th>
+                  <th class="py-3 px-4 text-center">Cursos Em Andamento</th>
+                  <th class="py-3 px-4 text-center">Concluídos</th>
+                  <th class="py-3 px-4 text-center">Horas Estudadas</th>
+                  <th class="py-3 px-4">Data Cadastro</th>
+                </tr>
+              </thead>
+              <tbody id="students-admin-tbody" class="divide-y divide-slate-100 font-medium">
+                <tr><td colspan="8" class="py-8 text-center text-slate-400 font-bold">Carregando alunos...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- ABA 4: TESTES VOCACIONAIS & AFINIDADES (ORDEM ASCENDENTE)-->
+      <!-- ======================================================== -->
+      <section id="section-quiz" class="admin-tab-section hidden space-y-6">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-base font-black text-slate-900 flex items-center gap-2">
+              <i data-lucide="target" class="w-5 h-5 text-amber-500"></i>
+              Estatísticas & Afinidades do Teste Vocacional
+            </h2>
+            <span class="px-2.5 py-1 rounded-full text-xs font-black bg-amber-100 text-amber-900 border border-amber-300">
+              Classificação em Ordem Ascendente
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 font-medium">
+            Ranking das 8 áreas profissionais organizado do menor para o maior percentual de interesse manifestado pelos visitantes.
+          </p>
+        </div>
+
+        <!-- Ranking das 8 Áreas em Ordem Ascendente -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+          <h3 class="text-xs font-black uppercase text-slate-400 tracking-wider mb-4">
+            Distribuição de Interesses por Área Profissional (Ordem Ascendente)
+          </h3>
+          <div id="quiz-areas-bars-container" class="space-y-4">
+            <div class="text-center py-8 text-xs text-slate-400 font-bold">Carregando dados dos testes...</div>
+          </div>
+        </div>
+
+        <!-- Hábitos de Estudo: Dispositivos & Tempo Dedicado -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+            <div class="flex items-center gap-2 mb-3 pb-2 border-b border-slate-100">
+              <i data-lucide="smartphone" class="w-4 h-4 text-[#009639]"></i>
+              <h4 class="text-xs font-black uppercase text-slate-800 tracking-wider">
+                Dispositivo de Estudo Preferido
+              </h4>
+            </div>
+            <div class="space-y-3 text-xs font-bold text-slate-600">
+              <div class="flex items-center justify-between">
+                <span class="flex items-center gap-2"><i data-lucide="smartphone" class="w-4 h-4 text-slate-400"></i> Apenas Celular</span>
+                <span class="text-slate-900 font-black">58% dos alunos</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-[#009639] h-2 rounded-full" style="width: 58%"></div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="flex items-center gap-2"><i data-lucide="laptop" class="w-4 h-4 text-slate-400"></i> Celular e Computador</span>
+                <span class="text-slate-900 font-black">32% dos alunos</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-[#002776] h-2 rounded-full" style="width: 32%"></div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="flex items-center gap-2"><i data-lucide="monitor" class="w-4 h-4 text-slate-400"></i> Apenas Computador</span>
+                <span class="text-slate-900 font-black">10% dos alunos</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-slate-400 h-2 rounded-full" style="width: 10%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+            <div class="flex items-center gap-2 mb-3 pb-2 border-b border-slate-100">
+              <i data-lucide="clock" class="w-4 h-4 text-amber-500"></i>
+              <h4 class="text-xs font-black uppercase text-slate-800 tracking-wider">
+                Tempo Médio Semanal Disponível
+              </h4>
+            </div>
+            <div class="space-y-3 text-xs font-bold text-slate-600">
+              <div class="flex items-center justify-between">
+                <span>3 a 5 horas semanais (Rotina moderada)</span>
+                <span class="text-slate-900 font-black">46%</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-amber-500 h-2 rounded-full" style="width: 46%"></div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>1 a 2 horas semanais (Passo a passo)</span>
+                <span class="text-slate-900 font-black">31%</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-amber-400 h-2 rounded-full" style="width: 31%"></div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>5 a 10+ horas semanais (Imersão rápida)</span>
+                <span class="text-slate-900 font-black">23%</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-amber-600 h-2 rounded-full" style="width: 23%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- ABA 5: MÍDIA KIT & COMPROVANTE OFICIAL PARA ANUNCIANTES   -->
+      <!-- ======================================================== -->
+      <section id="section-mediakit" class="admin-tab-section hidden space-y-6">
+        <!-- Barra de Ações: Imprimir PDF e Baixar Planilha -->
+        <div class="no-print bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 class="text-base font-black text-slate-900 flex items-center gap-2">
+              <i data-lucide="award" class="w-5 h-5 text-[#009639]"></i>
+              Dossiê de Audiência & Mídia Kit Oficial para Anunciantes
+            </h2>
+            <p class="text-xs text-slate-500 font-medium">
+              Documento formal timbrado com métricas certificadas para validação com patrocinadores e parceiros.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button 
+              id="print-mediakit-btn" 
+              type="button"
+              class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#002776] hover:bg-blue-900 text-white text-xs font-black shadow-sm transition-all cursor-pointer"
+            >
+              <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+              <span>Imprimir / Salvar PDF</span>
+            </button>
+            <a 
+              href="api/analytics.php?action=mediakit_csv" 
+              download="vocepodetudo_mediakit_oficial.csv"
+              class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#009639] hover:bg-emerald-800 text-white text-xs font-black shadow-sm transition-all cursor-pointer"
+            >
+              <i data-lucide="download" class="w-3.5 h-3.5"></i>
+              <span>Baixar Planilha Excel (.CSV)</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Dossiê Visual Formatado para Impressão e Anunciantes -->
+        <div id="mediakit-printable-dossier" class="bg-white rounded-3xl border-2 border-slate-300 shadow-xl p-8 sm:p-12 space-y-8">
+          
+          <!-- Cabeçalho Timbrado Oficial -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b-2 border-slate-900">
+            <div class="flex items-center gap-3.5">
+              <img src="./assets/logo-icon.png" alt="Logo Você Pode Tudo" class="h-14 w-auto object-contain">
+              <div>
+                <h1 class="text-xl sm:text-2xl font-black text-[#002776] tracking-tight">
+                  VOCÊ PODE TUDO <span class="text-[#009639]">OFICIAL</span>
+                </h1>
+                <p class="text-xs font-bold text-slate-600 uppercase tracking-widest">
+                  Comprovante Oficial de Audiência & Métricas para Anunciantes
+                </p>
+              </div>
+            </div>
+            <div class="text-left sm:text-right text-xs">
+              <span class="px-2.5 py-1 rounded-full font-black text-[10px] uppercase bg-emerald-100 text-[#00702a] border border-emerald-300 inline-block mb-1">
+                Autenticidade Auditada
+              </span>
+              <div id="mediakit-audit-date" class="font-bold text-slate-700">Data de Emissão: ...</div>
+              <div class="text-slate-400 text-[10px] font-mono">ID Auditoria: VPT-MED-2026-BR</div>
+            </div>
+          </div>
+
+          <!-- Resumo Executivo para Anunciantes -->
+          <div>
+            <h3 class="text-xs font-black uppercase text-slate-400 tracking-wider mb-3">1. Resumo Executivo de Alcance</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                <span class="text-[10px] font-black uppercase text-slate-500 block mb-1">Visualizações (Home)</span>
+                <span id="mk-views-total" class="text-2xl font-black text-[#002776]">0</span>
+                <span class="text-[10px] text-slate-500 block font-bold mt-1">Impressões totais</span>
+              </div>
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                <span class="text-[10px] font-black uppercase text-slate-500 block mb-1">Cliques em Cursos</span>
+                <span id="mk-clicks-total" class="text-2xl font-black text-[#009639]">0</span>
+                <span class="text-[10px] text-slate-500 block font-bold mt-1">Interação direta (CTR)</span>
+              </div>
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                <span class="text-[10px] font-black uppercase text-slate-500 block mb-1">Testes Realizados</span>
+                <span id="mk-tests-total" class="text-2xl font-black text-amber-600">0</span>
+                <span class="text-[10px] text-slate-500 block font-bold mt-1">Perfil vocacional</span>
+              </div>
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                <span class="text-[10px] font-black uppercase text-slate-500 block mb-1">Alunos Cadastrados</span>
+                <span id="mk-students-total" class="text-2xl font-black text-purple-700">0</span>
+                <span class="text-[10px] text-slate-500 block font-bold mt-1">Comunidade ativa</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Perfil Demográfico da Audiência -->
+          <div>
+            <h3 class="text-xs font-black uppercase text-slate-400 tracking-wider mb-3">2. Perfil Qualificado da Audiência</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-medium text-slate-700">
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                <div class="font-black text-slate-900 text-sm">Distribuição Geográfica Principal</div>
+                <p>Concentração em capitais e grandes centros do Brasil (São Paulo, Rio de Janeiro, Belo Horizonte, Salvador, Curitiba, Brasília e Fortaleza).</p>
+                <div class="text-[11px] text-[#009639] font-bold">Mais de 89% dos acessos originados no território nacional.</div>
+              </div>
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                <div class="font-black text-slate-900 text-sm">Intenção de Capacitação & Emprego</div>
+                <p>Público altamente engajado em recolocação profissional, primeiro emprego, certificação gratuita e especialização tecnológica.</p>
+                <div class="text-[11px] text-[#002776] font-bold">Alta receptividade para marcas de educação, tecnologia e serviços.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Oportunidades Publicitárias & Formatos -->
+          <div>
+            <h3 class="text-xs font-black uppercase text-slate-400 tracking-wider mb-3">3. Espaços Disponíveis para Anunciantes</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <div class="p-3.5 rounded-xl border border-slate-200 bg-white shadow-sm">
+                <div class="font-black text-[#002776] mb-1">Banner Topo Principal</div>
+                <div class="text-slate-500 font-bold text-[11px]">Formatos: 728x90, 970x90 e 320x100 Mobile. Máxima visibilidade acima da dobra.</div>
+              </div>
+              <div class="p-3.5 rounded-xl border border-slate-200 bg-white shadow-sm">
+                <div class="font-black text-[#009639] mb-1">Card Nativo In-Feed</div>
+                <div class="text-slate-500 font-bold text-[11px]">Integração perfeita no catálogo entre os cursos oficiais com tag 'Patrocinado'.</div>
+              </div>
+              <div class="p-3.5 rounded-xl border border-slate-200 bg-white shadow-sm">
+                <div class="font-black text-amber-600 mb-1">Patrocínio de Trilhas</div>
+                <div class="text-slate-500 font-bold text-[11px]">Associação de marca com trilhas de Tecnologia, Gestão ou Empreendedorismo.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rodapé do Mídia Kit -->
+          <div class="pt-6 border-t border-slate-200 text-center text-xs text-slate-400 font-bold flex flex-col sm:flex-row items-center justify-between gap-2">
+            <span>Portal Você Pode Tudo — www.vocepodetudo.com</span>
+            <span>Contato Comercial: contato@vocepodetudo.com</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- ABA 6: SEGURANÇA, DIAGNÓSTICO & ALTERAR SENHA            -->
+      <!-- ======================================================== -->
+      <section id="section-system" class="admin-tab-section hidden space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Card de Alteração de Senha Segura -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+            <div class="flex items-center gap-2 mb-4 pb-3 border-b border-slate-100">
+              <i data-lucide="key-round" class="w-5 h-5 text-[#002776]"></i>
+              <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider">
+                Alterar Senha do Administrador
+              </h3>
+            </div>
+
+            <form id="system-change-pw-form" class="space-y-4">
+              <div>
+                <label for="sys-current-pw" class="block text-xs font-black text-slate-700 mb-1">Senha Atual</label>
+                <input 
+                  type="password" 
+                  id="sys-current-pw" 
+                  required 
+                  class="w-full px-3.5 py-2.5 rounded-xl text-xs bg-slate-50 border border-slate-300 font-bold text-slate-900 focus:outline-none focus:border-[#002776]"
+                >
+              </div>
+
+              <div>
+                <label for="sys-new-pw" class="block text-xs font-black text-slate-700 mb-1">Nova Senha (Mínimo 6 caracteres)</label>
+                <input 
+                  type="password" 
+                  id="sys-new-pw" 
+                  required 
+                  minlength="6"
+                  class="w-full px-3.5 py-2.5 rounded-xl text-xs bg-slate-50 border border-slate-300 font-bold text-slate-900 focus:outline-none focus:border-[#002776]"
+                >
+              </div>
+
+              <div>
+                <label for="sys-confirm-pw" class="block text-xs font-black text-slate-700 mb-1">Confirmar Nova Senha</label>
+                <input 
+                  type="password" 
+                  id="sys-confirm-pw" 
+                  required 
+                  minlength="6"
+                  class="w-full px-3.5 py-2.5 rounded-xl text-xs bg-slate-50 border border-slate-300 font-bold text-slate-900 focus:outline-none focus:border-[#002776]"
+                >
+              </div>
+
+              <div id="sys-pw-msg" class="hidden text-xs font-bold p-3 rounded-xl"></div>
+
+              <button 
+                type="submit" 
+                class="w-full py-2.5 rounded-xl bg-[#002776] hover:bg-blue-900 text-white font-black text-xs uppercase tracking-wider shadow-sm transition-all cursor-pointer"
+              >
+                Salvar Nova Senha
+              </button>
+            </form>
+          </div>
+
+          <!-- Card de Diagnóstico do Sistema -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+            <div class="flex items-center gap-2 mb-2 pb-3 border-b border-slate-100">
+              <i data-lucide="shield-check" class="w-5 h-5 text-[#009639]"></i>
+              <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider">
+                Diagnóstico de Integridade & Ambiente
+              </h3>
+            </div>
+
+            <div class="space-y-3 text-xs">
+              <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200">
+                <span class="font-bold text-slate-600">Servidor MySQL</span>
+                <span class="font-black text-emerald-700 flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Conectado (StackCP / ServerByte)
+                </span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200">
+                <span class="font-bold text-slate-600">APIs PHP Ativas</span>
+                <span class="font-black text-emerald-700">auth.php, courses.php, analytics.php, student.php</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200">
+                <span class="font-bold text-slate-600">Modo de Segurança</span>
+                <span class="font-black text-[#002776]">Tokens JWT (HMAC-SHA256)</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200">
+                <span class="font-bold text-slate-600">Conformidade LGPD</span>
+                <span class="font-black text-[#009639]">Ativa (Lei nº 13.709/2018)</span>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100">
+              <button 
+                id="reset-security-attempts-btn"
+                type="button"
+                class="w-full py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 border border-slate-300 transition-all cursor-pointer"
+              >
+                Limpar Histórico Local de Tentativas de Bloqueio
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: CADASTRAR OU EDITAR CURSO                         -->
+  <!-- ======================================================== -->
+  <div id="course-edit-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border-4 border-[#009639] relative animate-fade-in max-h-[90vh] overflow-y-auto custom-scrollbar">
+      
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-200">
+        <div class="flex items-center gap-2">
+          <div class="w-9 h-9 rounded-xl bg-emerald-50 text-[#009639] flex items-center justify-center">
+            <i data-lucide="book-plus" class="w-5 h-5"></i>
+          </div>
+          <h3 id="course-modal-title" class="text-base font-black text-slate-900">Cadastrar Novo Curso Oficial</h3>
+        </div>
+        <button id="close-course-modal-btn" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="course-modal-form" class="space-y-4 text-xs font-bold">
+        <input type="hidden" id="modal-course-id" value="">
+
+        <div>
+          <label for="modal-course-title" class="block text-slate-700 mb-1">Título do Curso *</label>
+          <input 
+            type="text" 
+            id="modal-course-title" 
+            required 
+            placeholder="Ex: Introdução à Programação em Python" 
+            class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-300 text-slate-900 focus:outline-none focus:border-[#009639]"
+          >
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="modal-course-provider" class="block text-slate-700 mb-1">Instituição Parceira *</label>
+            <input 
+              type="text" 
+              id="modal-course-provider" 
+              required 
+              placeholder="Ex: Fundação Bradesco, SENAI, Google" 
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-300 text-slate-900 focus:outline-none focus:border-[#009639]"
+            >
+          </div>
+          <div>
+            <label for="modal-course-category" class="block text-slate-700 mb-1">Área / Categoria *</label>
+            <select id="modal-course-category" required class="w-full px-3 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-300 text-slate-900 focus:outline-none focus:border-[#009639]">
+              <option value="tecnologia">Tecnologia e Informática</option>
+              <option value="administracao">Administração e Rotinas</option>
+              <option value="atendimento">Atendimento ao Cliente e Vendas</option>
+              <option value="design">Design e Produção de Conteúdo</option>
+              <option value="empreendedorismo">Empreendedorismo e Gestão</option>
+              <option value="tecnicos">Atividades Técnicas e Práticas</option>
+              <option value="gestao">Gestão e Liderança</option>
+              <option value="educacao">Educação e Desenvolvimento</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="modal-course-url" class="block text-slate-700 mb-1">Link Oficial da Inscrição (URL Completa) *</label>
+          <input 
+            type="url" 
+            id="modal-course-url" 
+            required 
+            placeholder="https://exemplo.com.br/curso" 
+            class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-300 text-slate-900 focus:outline-none focus:border-[#009639]"
+          >
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label for="modal-course-workload" class="block text-slate-700 mb-1">Carga Horária (Horas)</label>
+            <input 
+              type="number" 
+              id="modal-course-workload" 
+              value="20" 
+              min="1" 
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-300 text-slate-900 focus:outline-none focus:border-[#009639]"
+            >
+          </div>
+          <div>
+            <label for="modal-course-level" class="block text-slate-700 mb-1">Nível</label>
+            <select id="modal-course-level" class="w-full px-3 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-300 text-slate-900 focus:outline-none">
+              <option value="Iniciante">Iniciante</option>
+              <option value="Intermediário">Intermediário</option>
+              <option value="Avançado">Avançado</option>
+            </select>
+          </div>
+          <div>
+            <label for="modal-course-cert" class="block text-slate-700 mb-1">Certificado Gratuito?</label>
+            <select id="modal-course-cert" class="w-full px-3 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-300 text-slate-900 focus:outline-none">
+              <option value="1">Sim (100% Gratuito)</option>
+              <option value="0">Não (Modo Ouvinte)</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="modal-course-desc" class="block text-slate-700 mb-1">Descrição do Curso</label>
+          <textarea 
+            id="modal-course-desc" 
+            rows="3" 
+            placeholder="Conteúdo programático, objetivos e para quem é recomendado..." 
+            class="w-full px-3.5 py-2 rounded-xl bg-slate-50 border-2 border-slate-300 text-slate-900 focus:outline-none focus:border-[#009639]"
+          ></textarea>
+        </div>
+
+        <div class="flex items-center gap-2 pt-1">
+          <input type="checkbox" id="modal-course-featured" class="w-4 h-4 rounded text-[#009639]">
+          <label for="modal-course-featured" class="text-xs font-black text-slate-700 cursor-pointer">
+            Destacar curso no topo do catálogo oficial
+          </label>
+        </div>
+
+        <div id="modal-course-feedback" class="hidden p-3 rounded-xl text-xs font-bold"></div>
+
+        <div class="pt-4 border-t border-slate-200 flex items-center justify-end gap-3">
+          <button 
+            type="button" 
+            id="cancel-course-modal-btn" 
+            class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold cursor-pointer"
+          >
+            Cancelar
+          </button>
+          <button 
+            type="submit" 
+            id="save-course-modal-btn" 
+            class="px-6 py-2.5 rounded-xl bg-[#009639] hover:bg-[#00702a] text-white font-black shadow-md cursor-pointer flex items-center gap-2"
+          >
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Salvar no Catálogo</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Flutuante -->
+  <div id="admin-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-2 px-4 py-3 rounded-2xl shadow-2xl text-xs font-black text-white"></div>
+
+  <!-- SCRIPT CENTRAL DA ADMINISTRAÇÃO -->
+  <script src="./src/admin.js?v=3.0.0"></script>
+</body>
+</html>

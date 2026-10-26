@@ -1871,6 +1871,318 @@
     }
   }
 
+  // ============================================================
+  // BARRA DE UTILIDADES: CLIMA LOCAL EM TEMPO REAL & NOTÍCIAS DO BRASIL
+  // ============================================================
+
+  // Atualizar data de hoje no topo
+  function updateTopBarDate() {
+    const dateEl = document.getElementById('current-date-text');
+    if (!dateEl) return;
+    try {
+      const now = new Date();
+      const options = { weekday: 'short', day: 'numeric', month: 'short' };
+      const str = now.toLocaleDateString('pt-BR', options);
+      dateEl.textContent = str.charAt(0).toUpperCase() + str.slice(1);
+    } catch (e) {
+      dateEl.textContent = 'Brasil';
+    }
+  }
+
+  // Tabela WMO Weather Codes (Open-Meteo) para condições climáticas em português
+  const WMO_WEATHER_MAP = {
+    0: { label: 'Céu Limpo', icon: 'sun', color: 'text-amber-400' },
+    1: { label: 'Tempo Aberto', icon: 'sun-medium', color: 'text-amber-400' },
+    2: { label: 'Parcialmente Nublado', icon: 'cloud-sun', color: 'text-amber-300' },
+    3: { label: 'Nublado', icon: 'cloud', color: 'text-slate-300' },
+    45: { label: 'Nevoeiro', icon: 'cloud-fog', color: 'text-slate-400' },
+    48: { label: 'Nevoeiro Úmido', icon: 'cloud-fog', color: 'text-slate-400' },
+    51: { label: 'Garoa Leve', icon: 'cloud-drizzle', color: 'text-sky-300' },
+    53: { label: 'Garoa Moderada', icon: 'cloud-drizzle', color: 'text-sky-400' },
+    55: { label: 'Garoa Densa', icon: 'cloud-drizzle', color: 'text-sky-400' },
+    61: { label: 'Chuva Leve', icon: 'cloud-rain', color: 'text-blue-400' },
+    63: { label: 'Chuva Moderada', icon: 'cloud-rain', color: 'text-blue-500' },
+    65: { label: 'Chuva Forte', icon: 'cloud-rain', color: 'text-blue-600' },
+    80: { label: 'Pancadas de Chuva', icon: 'cloud-rain', color: 'text-blue-400' },
+    81: { label: 'Pancadas Fortes', icon: 'cloud-rain', color: 'text-blue-500' },
+    82: { label: 'Chuva Torrencial', icon: 'cloud-lightning', color: 'text-amber-300' },
+    95: { label: 'Tempestade', icon: 'cloud-lightning', color: 'text-amber-400' },
+    96: { label: 'Tempestade com Granizo', icon: 'cloud-lightning', color: 'text-amber-400' },
+    99: { label: 'Tempestade Severa', icon: 'cloud-lightning', color: 'text-amber-500' }
+  };
+
+  // Renderizar dados do clima na interface
+  function renderWeatherUI(weather) {
+    const cityEl = document.getElementById('weather-city-name');
+    const tempEl = document.getElementById('weather-temp');
+    const descEl = document.getElementById('weather-desc');
+    const iconContainer = document.getElementById('weather-icon-container');
+
+    if (cityEl) {
+      const displayLocation = weather.region ? `${weather.city}, ${weather.region}` : weather.city;
+      cityEl.textContent = displayLocation;
+      cityEl.title = `${displayLocation} (Clique para atualizar via GPS)`;
+    }
+    if (tempEl) {
+      tempEl.textContent = `${weather.temp}°C`;
+    }
+    if (descEl) {
+      descEl.textContent = weather.label ? `• ${weather.label}` : '';
+    }
+    if (iconContainer && weather.icon) {
+      iconContainer.innerHTML = `<i data-lucide="${weather.icon}" class="w-3.5 h-3.5 ${weather.color || 'text-amber-400'}"></i>`;
+      if (window.lucide) window.lucide.createIcons({ root: iconContainer });
+    }
+  }
+
+  // Buscar previsão Open-Meteo por coordenadas
+  async function fetchOpenMeteoWeather(lat, lon, cityName, regionName) {
+    try {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Falha ao obter clima da Open-Meteo');
+      const data = await res.json();
+      const current = data.current || {};
+      const temp = Math.round(current.temperature_2m ?? 24);
+      const code = current.weather_code ?? 0;
+      const weatherInfo = WMO_WEATHER_MAP[code] || { label: 'Tempo Estável', icon: 'sun', color: 'text-amber-400' };
+
+      const weatherData = {
+        city: cityName || 'Brasil',
+        region: regionName || '',
+        temp: temp,
+        code: code,
+        label: weatherInfo.label,
+        icon: weatherInfo.icon,
+        color: weatherInfo.color,
+        timestamp: Date.now()
+      };
+
+      try {
+        sessionStorage.setItem('vpt_weather_cache', JSON.stringify(weatherData));
+      } catch (e) {}
+
+      renderWeatherUI(weatherData);
+      return weatherData;
+    } catch (err) {
+      console.warn('[Weather] Erro Open-Meteo:', err);
+      renderWeatherUI({
+        city: cityName || 'Brasil',
+        region: regionName || '',
+        temp: 24,
+        label: 'Tempo Estável',
+        icon: 'sun',
+        color: 'text-amber-400'
+      });
+    }
+  }
+
+  // Obter localização por IP (não intrusivo, sem pop-up chato) e depois buscar clima
+  async function fetchIPLocationAndWeather(forceRefresh = false) {
+    if (!forceRefresh) {
+      try {
+        const cached = sessionStorage.getItem('vpt_weather_cache');
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          // Válido por 15 minutos (900.000 ms)
+          if (Date.now() - parsed.timestamp < 15 * 60 * 1000) {
+            renderWeatherUI(parsed);
+            return;
+          }
+        }
+      } catch (e) {}
+    }
+
+    let lat = -15.7975;
+    let lon = -47.8919;
+    let city = 'Brasília';
+    let region = 'DF';
+
+    try {
+      const geoRes = await fetch('https://get.geojs.io/v1/ip/geo.json');
+      if (geoRes.ok) {
+        const geo = await geoRes.json();
+        if (geo.latitude && geo.longitude) {
+          lat = parseFloat(geo.latitude);
+          lon = parseFloat(geo.longitude);
+          city = geo.city || city;
+          region = geo.region || '';
+        }
+      }
+    } catch (geoErr) {
+      console.warn('[Weather] Falha GeoJS, usando localização padrão:', geoErr);
+    }
+
+    await fetchOpenMeteoWeather(lat, lon, city, region);
+  }
+
+  // Interação do Widget de Clima: Clique para refinar localização via GPS ou atualizar
+  function setupWeatherWidgetInteraction() {
+    const widget = document.getElementById('weather-widget');
+    if (!widget) return;
+
+    widget.addEventListener('click', () => {
+      if ('geolocation' in navigator) {
+        const citySpan = document.getElementById('weather-city-name');
+        if (citySpan) citySpan.textContent = 'Localizando via GPS...';
+
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+            let cityName = 'Sua Localização';
+            try {
+              const revRes = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=pt`);
+              if (revRes.ok) {
+                const revData = await revRes.json();
+                cityName = revData.locality || revData.city || 'Sua Localização';
+              }
+            } catch (e) {}
+            await fetchOpenMeteoWeather(latitude, longitude, cityName, '');
+          },
+          (error) => {
+            fetchIPLocationAndWeather(true);
+          },
+          { timeout: 7000 }
+        );
+      } else {
+        fetchIPLocationAndWeather(true);
+      }
+    });
+  }
+
+  function initWeatherWidget() {
+    updateTopBarDate();
+    fetchIPLocationAndWeather();
+    setupWeatherWidgetInteraction();
+  }
+
+  // --- Ticker / Letreiro Rotativo de Notícias do Brasil ---
+  const DEFAULT_BRAZIL_NEWS = [
+    {
+      title: "MCTI e RNP abrem milhares de vagas gratuitas em cibersegurança pelo Hackers do Bem",
+      link: "https://agenciabrasil.ebc.com.br/educacao"
+    },
+    {
+      title: "MEC expande incentivos e cursos técnicos gratuitos para jovens de todo o Brasil",
+      link: "https://agenciabrasil.ebc.com.br/educacao"
+    },
+    {
+      title: "Capes e universidades federais ampliam oferta de cursos EaD 100% gratuitos com certificado",
+      link: "https://agenciabrasil.ebc.com.br/educacao"
+    },
+    {
+      title: "Portal Você Pode Tudo consolida mais de 450 formações gratuitas de instituições líderes",
+      link: "https://www.vocepodetudo.com"
+    },
+    {
+      title: "Fundação Bradesco oferece formações online gratuitas em TI, finanças e administração",
+      link: "https://agenciabrasil.ebc.com.br/educacao"
+    },
+    {
+      title: "Mercado de tecnologia amplia demanda por profissionais qualificados no Brasil",
+      link: "https://agenciabrasil.ebc.com.br/economia"
+    }
+  ];
+
+  let newsItems = [...DEFAULT_BRAZIL_NEWS];
+  let currentNewsIndex = 0;
+  let newsTimer = null;
+  let isNewsPaused = false;
+
+  function renderCurrentNews(smooth = true) {
+    const titleEl = document.getElementById('news-current-title');
+    const linkEl = document.getElementById('news-current-link');
+    if (!titleEl || !linkEl || newsItems.length === 0) return;
+
+    const item = newsItems[currentNewsIndex];
+
+    if (smooth) {
+      linkEl.classList.add('opacity-0');
+      setTimeout(() => {
+        titleEl.textContent = item.title;
+        linkEl.href = item.link || 'https://agenciabrasil.ebc.com.br';
+        linkEl.classList.remove('opacity-0');
+      }, 250);
+    } else {
+      titleEl.textContent = item.title;
+      linkEl.href = item.link || 'https://agenciabrasil.ebc.com.br';
+    }
+  }
+
+  function nextNewsItem() {
+    if (newsItems.length === 0) return;
+    currentNewsIndex = (currentNewsIndex + 1) % newsItems.length;
+    renderCurrentNews(true);
+  }
+
+  function prevNewsItem() {
+    if (newsItems.length === 0) return;
+    currentNewsIndex = (currentNewsIndex - 1 + newsItems.length) % newsItems.length;
+    renderCurrentNews(true);
+  }
+
+  function startNewsRotation() {
+    stopNewsRotation();
+    newsTimer = setInterval(() => {
+      if (!isNewsPaused) {
+        nextNewsItem();
+      }
+    }, 5500);
+  }
+
+  function stopNewsRotation() {
+    if (newsTimer) {
+      clearInterval(newsTimer);
+      newsTimer = null;
+    }
+  }
+
+  async function loadBrazilNews() {
+    try {
+      const res = await fetch('api/news.php');
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success && Array.isArray(json.items) && json.items.length > 0) {
+          newsItems = json.items;
+          currentNewsIndex = 0;
+        }
+      }
+    } catch (e) {
+      // Mantém DEFAULT_BRAZIL_NEWS em fallback
+    }
+    renderCurrentNews(false);
+    startNewsRotation();
+  }
+
+  function initNewsTicker() {
+    const container = document.getElementById('news-ticker-container');
+    const prevBtn = document.getElementById('news-prev-btn');
+    const nextBtn = document.getElementById('news-next-btn');
+
+    if (container) {
+      container.addEventListener('mouseenter', () => { isNewsPaused = true; });
+      container.addEventListener('mouseleave', () => { isNewsPaused = false; });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        prevNewsItem();
+        startNewsRotation();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        nextNewsItem();
+        startNewsRotation();
+      });
+    }
+
+    loadBrazilNews();
+  }
+
   // Inicialização Completa
   function init() {
     loadPersistedData();
@@ -1884,6 +2196,10 @@
     setupModals();
     setupEventListeners();
     setupInfiniteScroll();
+
+    // Barra de Utilidades do Topo: Clima Local e Notícias do Brasil
+    initWeatherWidget();
+    initNewsTicker();
 
     // Sincronizar catálogo diretamente com o MySQL do servidor
     syncCoursesWithMySQL();

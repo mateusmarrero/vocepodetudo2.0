@@ -10,3 +10,5 @@ desktop.ini
 *.log
 npm-debug.log*
 .tmp/
+backups/
+package.zip

@@ -2428,18 +2428,11 @@
       let localStats = JSON.parse(localStorage.getItem('vpt_analytics_local') || '{}');
       if (!localStats.summary) {
         localStats = {
-          summary: { total_visits: 8940, home_views: 6280, tracks_views: 2660, course_clicks: 4120, total_favorites: 1050 },
-          locations_brazil_states: { 'SP': 2910, 'RJ': 1460, 'MG': 1240, 'BA': 690, 'RS': 610, 'PR': 560, 'DF': 440, 'CE': 360, 'PE': 320, 'SC': 280, 'GO': 250, 'ES': 190, 'PA': 160, 'Outros': 270 },
-          locations_brazil_cities: { 'São Paulo': 2240, 'Rio de Janeiro': 1280, 'Belo Horizonte': 810, 'Brasília': 440, 'Salvador': 420, 'Curitiba': 400, 'Porto Alegre': 380, 'Campinas': 340, 'Fortaleza': 320, 'Recife': 290 },
-          locations_world: { 'Brasil': 8600, 'Portugal': 150, 'Estados Unidos': 100, 'Angola': 45, 'Moçambique': 30, 'Outros': 15 },
-          top_courses: {
-            'hdb-ciber': { title: 'Hackers do Bem — Formação Completa em Cibersegurança', provider: 'Hackers do Bem (RNP/MCTI)', category: 'Cibersegurança', clicks: 1040 },
-            'fb-ti': { title: 'Fundamentos de TI e Inteligência Artificial', provider: 'Fundação Bradesco', category: 'Tecnologia', clicks: 860 },
-            'ms-ai': { title: 'Microsoft AI Classroom — Fundamentos de IA', provider: 'Microsoft Learn', category: 'Tecnologia', clicks: 730 },
-            'cisco-net': { title: 'Cisco Networking Academy — Redes e Internet', provider: 'Cisco', category: 'Cibersegurança', clicks: 580 },
-            'sebrae-mkt': { title: 'Marketing Digital para Empreendedores', provider: 'Sebrae', category: 'Negócios', clicks: 510 },
-            'mec-ingles': { title: 'Inglês Básico e Intermediário para Carreira', provider: 'Aprenda Mais (MEC)', category: 'Idiomas', clicks: 400 }
-          }
+          summary: { total_visits: 0, home_views: 0, tracks_views: 0, course_clicks: 0, total_favorites: 0 },
+          locations_brazil_states: {},
+          locations_brazil_cities: {},
+          locations_world: {},
+          top_courses: {}
         };
       }
 
@@ -2451,6 +2444,7 @@
         localStats.summary.total_visits++;
       } else if (eventType === 'course_click' && payload.course_id) {
         localStats.summary.course_clicks++;
+        if (!localStats.top_courses) localStats.top_courses = {};
         if (!localStats.top_courses[payload.course_id]) {
           localStats.top_courses[payload.course_id] = {
             title: payload.course_title || 'Curso',
@@ -2460,6 +2454,23 @@
           };
         }
         localStats.top_courses[payload.course_id].clicks++;
+      } else if (eventType === 'favorite') {
+        localStats.summary.total_favorites = (localStats.summary.total_favorites || 0) + 1;
+      }
+
+      // Atualizar localizações locais se disponíveis
+      if (body.region && body.region.length === 2) {
+        if (!localStats.locations_brazil_states) localStats.locations_brazil_states = {};
+        localStats.locations_brazil_states[body.region] = (localStats.locations_brazil_states[body.region] || 0) + 1;
+      }
+      if (body.city && !['Brasil', 'Identificando...', 'Sua Localização', 'Localizando...'].includes(body.city)) {
+        if (!localStats.locations_brazil_cities) localStats.locations_brazil_cities = {};
+        localStats.locations_brazil_cities[body.city] = (localStats.locations_brazil_cities[body.city] || 0) + 1;
+      }
+      if (body.country) {
+        const countryNorm = (body.country.toLowerCase().includes('brazil') || body.country.toLowerCase().includes('brasil')) ? 'Brasil' : body.country;
+        if (!localStats.locations_world) localStats.locations_world = {};
+        localStats.locations_world[countryNorm] = (localStats.locations_world[countryNorm] || 0) + 1;
       }
 
       localStorage.setItem('vpt_analytics_local', JSON.stringify(localStats));
@@ -2560,100 +2571,140 @@
     const totalFavsEl = document.getElementById('stat-total-favs');
     const lastUpdateEl = document.getElementById('analytics-last-update-time');
 
-    if (homeViewsEl) homeViewsEl.textContent = Number(data.summary.home_views).toLocaleString('pt-BR');
-    if (tracksViewsEl) tracksViewsEl.textContent = Number(data.summary.tracks_views).toLocaleString('pt-BR');
-    if (courseClicksEl) courseClicksEl.textContent = Number(data.summary.course_clicks).toLocaleString('pt-BR');
-    if (totalFavsEl) totalFavsEl.textContent = Number(data.summary.total_favorites || state.favorites.size || 0).toLocaleString('pt-BR');
+    if (homeViewsEl) homeViewsEl.textContent = Number(data.summary?.home_views || 0).toLocaleString('pt-BR');
+    if (tracksViewsEl) tracksViewsEl.textContent = Number(data.summary?.tracks_views || 0).toLocaleString('pt-BR');
+    if (courseClicksEl) courseClicksEl.textContent = Number(data.summary?.course_clicks || 0).toLocaleString('pt-BR');
+    if (totalFavsEl) totalFavsEl.textContent = Number(data.summary?.total_favorites || state.favorites.size || 0).toLocaleString('pt-BR');
     if (lastUpdateEl) {
-      const d = new Date(data.last_updated);
+      const d = new Date(data.last_updated || Date.now());
       lastUpdateEl.textContent = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     }
 
     // Renderizar Estados Brasileiros (com percentual e barra de progresso visual)
     const statesContainer = document.getElementById('analytics-states-list');
-    if (statesContainer && Array.isArray(data.locations_brazil_states)) {
-      const maxCount = Math.max(...data.locations_brazil_states.map(s => s.count), 1);
-      const statesHtml = data.locations_brazil_states.slice(0, 10).map((st) => {
-        const barWidth = Math.min(100, Math.round((st.count / maxCount) * 100));
-        return `
-          <div class="space-y-1">
-            <div class="flex items-center justify-between text-xs font-bold text-slate-800">
-              <span class="flex items-center gap-1.5">
-                <span class="w-7 text-center text-[10px] font-black uppercase px-1 py-0.5 rounded bg-emerald-100 text-[#00702a] border border-emerald-300">${escapeHTML(st.uf)}</span>
-                <span>${escapeHTML(st.name || st.uf)}</span>
-              </span>
-              <span class="text-slate-600 font-semibold">${st.count.toLocaleString('pt-BR')} acessos <span class="text-emerald-700 font-bold">(${st.percent}%)</span></span>
-            </div>
-            <div class="h-2 w-full bg-slate-200 rounded-full overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-[#009639] to-[#ffcc29] rounded-full transition-all duration-500" style="width: ${barWidth}%;"></div>
-            </div>
+    if (statesContainer) {
+      if (!Array.isArray(data.locations_brazil_states) || data.locations_brazil_states.length === 0) {
+        statesContainer.innerHTML = `
+          <div class="text-xs text-slate-500 py-6 text-center font-medium bg-white rounded-2xl border border-dashed border-slate-200 p-4">
+            <i data-lucide="map" class="w-6 h-6 mx-auto mb-2 text-slate-400"></i>
+            <p class="font-bold text-slate-700">Nenhum acesso por estado registrado ainda.</p>
+            <span class="text-[11px] text-slate-400">Os dados surgirão conforme os visitantes navegarem pelo site.</span>
           </div>
         `;
-      }).join('');
-      statesContainer.innerHTML = statesHtml;
+      } else {
+        const maxCount = Math.max(...data.locations_brazil_states.map(s => s.count), 1);
+        const statesHtml = data.locations_brazil_states.slice(0, 10).map((st) => {
+          const barWidth = Math.min(100, Math.round((st.count / maxCount) * 100));
+          return `
+            <div class="space-y-1">
+              <div class="flex items-center justify-between text-xs font-bold text-slate-800">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-7 text-center text-[10px] font-black uppercase px-1 py-0.5 rounded bg-emerald-100 text-[#00702a] border border-emerald-300">${escapeHTML(st.uf)}</span>
+                  <span>${escapeHTML(st.name || st.uf)}</span>
+                </span>
+                <span class="text-slate-600 font-semibold">${st.count.toLocaleString('pt-BR')} acessos <span class="text-emerald-700 font-bold">(${st.percent}%)</span></span>
+              </div>
+              <div class="h-2 w-full bg-slate-200 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-[#009639] to-[#ffcc29] rounded-full transition-all duration-500" style="width: ${barWidth}%;"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+        statesContainer.innerHTML = statesHtml;
+      }
     }
 
     // Renderizar Cidades Brasileiras
     const citiesContainer = document.getElementById('analytics-cities-list');
-    if (citiesContainer && Array.isArray(data.locations_brazil_cities)) {
-      const citiesHtml = data.locations_brazil_cities.slice(0, 6).map(c => `
-        <div class="flex items-center justify-between p-2 rounded-xl bg-white border border-slate-200 shadow-2xs">
-          <span class="font-bold text-slate-800 flex items-center gap-1.5">
-            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-rose-500 flex-shrink-0"></i>
-            <span class="truncate">${escapeHTML(c.city)}</span>
-          </span>
-          <span class="font-black text-slate-700 bg-slate-100 px-2 py-0.5 rounded text-[11px]">${c.count.toLocaleString('pt-BR')}</span>
-        </div>
-      `).join('');
-      citiesContainer.innerHTML = citiesHtml;
+    if (citiesContainer) {
+      if (!Array.isArray(data.locations_brazil_cities) || data.locations_brazil_cities.length === 0) {
+        citiesContainer.innerHTML = `
+          <div class="text-xs text-slate-500 py-4 text-center font-medium bg-white rounded-2xl border border-dashed border-slate-200 p-3">
+            Nenhuma cidade registrada ainda.
+          </div>
+        `;
+      } else {
+        const citiesHtml = data.locations_brazil_cities.slice(0, 6).map(c => `
+          <div class="flex items-center justify-between p-2 rounded-xl bg-white border border-slate-200 shadow-2xs">
+            <span class="font-bold text-slate-800 flex items-center gap-1.5">
+              <i data-lucide="map-pin" class="w-3.5 h-3.5 text-rose-500 flex-shrink-0"></i>
+              <span class="truncate">${escapeHTML(c.city)}</span>
+            </span>
+            <span class="font-black text-slate-700 bg-slate-100 px-2 py-0.5 rounded text-[11px]">${c.count.toLocaleString('pt-BR')}</span>
+          </div>
+        `).join('');
+        citiesContainer.innerHTML = citiesHtml;
+      }
     }
 
     // Renderizar Países do Mundo
     const worldContainer = document.getElementById('analytics-world-list');
-    if (worldContainer && Array.isArray(data.locations_world)) {
-      const worldHtml = data.locations_world.slice(0, 5).map(w => `
-        <div class="flex items-center justify-between p-2 rounded-xl bg-white border border-slate-200 shadow-2xs">
-          <span class="font-bold text-slate-800 flex items-center gap-1.5">
-            <span class="text-sm">${w.country === 'Brasil' ? '🇧🇷' : w.country === 'Portugal' ? '🇵🇹' : w.country === 'Estados Unidos' ? '🇺🇸' : '🌍'}</span>
-            <span>${escapeHTML(w.country)}</span>
-          </span>
-          <span class="font-bold text-slate-600 text-[11px]">${w.count.toLocaleString('pt-BR')} <span class="text-blue-700 font-bold">(${w.percent}%)</span></span>
-        </div>
-      `).join('');
-      worldContainer.innerHTML = worldHtml;
+    if (worldContainer) {
+      if (!Array.isArray(data.locations_world) || data.locations_world.length === 0) {
+        worldContainer.innerHTML = `
+          <div class="text-xs text-slate-500 py-4 text-center font-medium bg-white rounded-2xl border border-dashed border-slate-200 p-3">
+            Nenhum país registrado ainda.
+          </div>
+        `;
+      } else {
+        const worldHtml = data.locations_world.slice(0, 5).map(w => `
+          <div class="flex items-center justify-between p-2 rounded-xl bg-white border border-slate-200 shadow-2xs">
+            <span class="font-bold text-slate-800 flex items-center gap-1.5">
+              <span class="text-sm">${w.country === 'Brasil' ? '🇧🇷' : w.country === 'Portugal' ? '🇵🇹' : w.country === 'Estados Unidos' ? '🇺🇸' : '🌍'}</span>
+              <span>${escapeHTML(w.country)}</span>
+            </span>
+            <span class="font-bold text-slate-600 text-[11px]">${w.count.toLocaleString('pt-BR')} <span class="text-blue-700 font-bold">(${w.percent}%)</span></span>
+          </div>
+        `).join('');
+        worldContainer.innerHTML = worldHtml;
+      }
     }
 
     // Renderizar Tabela dos Cursos Mais Acessados
     const coursesTableBody = document.getElementById('analytics-courses-table-body');
-    if (coursesTableBody && Array.isArray(data.top_courses)) {
-      const maxClicks = Math.max(...data.top_courses.map(c => c.clicks), 1);
-      const rowsHtml = data.top_courses.map((course, idx) => {
-        const rankMedal = idx === 0 ? '🥇 1º' : idx === 1 ? '🥈 2º' : idx === 2 ? '🥉 3º' : `${idx + 1}º`;
-        const barWidth = Math.min(100, Math.round((course.clicks / maxClicks) * 100));
-        return `
-          <tr class="hover:bg-slate-100/70 transition-colors">
-            <td class="py-3 px-3 font-black text-xs text-slate-700 whitespace-nowrap">${rankMedal}</td>
-            <td class="py-3 px-3">
-              <strong class="font-bold text-slate-900 block leading-tight">${escapeHTML(course.title)}</strong>
-              <span class="text-[11px] text-slate-500 font-semibold">${escapeHTML(course.provider)}</span>
-            </td>
-            <td class="py-3 px-3">
-              <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase bg-blue-50 text-[#002776] border border-blue-200 whitespace-nowrap">
-                ${escapeHTML(course.category || 'Geral')}
-              </span>
-            </td>
-            <td class="py-3 px-3 text-right font-black text-slate-900 text-sm whitespace-nowrap">
-              ${course.clicks.toLocaleString('pt-BR')}
-            </td>
-            <td class="py-3 px-3">
-              <div class="w-24 mx-auto h-2 bg-slate-200 rounded-full overflow-hidden">
-                <div class="h-full bg-[#009639] rounded-full" style="width: ${barWidth}%;"></div>
+    if (coursesTableBody) {
+      if (!Array.isArray(data.top_courses) || data.top_courses.length === 0) {
+        coursesTableBody.innerHTML = `
+          <tr>
+            <td colspan="5" class="py-8 text-center text-slate-500 font-medium">
+              <div class="flex flex-col items-center justify-center gap-2 py-4">
+                <i data-lucide="inbox" class="w-8 h-8 text-slate-400"></i>
+                <p class="font-bold text-slate-700 text-sm">Nenhum clique em cursos registrado ainda.</p>
+                <span class="text-xs text-slate-400">O ranking será atualizado automaticamente quando os visitantes clicarem em "Acessar Curso Oficial".</span>
               </div>
             </td>
           </tr>
         `;
-      }).join('');
-      coursesTableBody.innerHTML = rowsHtml;
+      } else {
+        const maxClicks = Math.max(...data.top_courses.map(c => c.clicks), 1);
+        const rowsHtml = data.top_courses.map((course, idx) => {
+          const rankMedal = idx === 0 ? '🥇 1º' : idx === 1 ? '🥈 2º' : idx === 2 ? '🥉 3º' : `${idx + 1}º`;
+          const barWidth = Math.min(100, Math.round((course.clicks / maxClicks) * 100));
+          return `
+            <tr class="hover:bg-slate-100/70 transition-colors">
+              <td class="py-3 px-3 font-black text-xs text-slate-700 whitespace-nowrap">${rankMedal}</td>
+              <td class="py-3 px-3">
+                <strong class="font-bold text-slate-900 block leading-tight">${escapeHTML(course.title)}</strong>
+                <span class="text-[11px] text-slate-500 font-semibold">${escapeHTML(course.provider)}</span>
+              </td>
+              <td class="py-3 px-3">
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase bg-blue-50 text-[#002776] border border-blue-200 whitespace-nowrap">
+                  ${escapeHTML(course.category || 'Geral')}
+                </span>
+              </td>
+              <td class="py-3 px-3 text-right font-black text-slate-900 text-sm whitespace-nowrap">
+                ${course.clicks.toLocaleString('pt-BR')}
+              </td>
+              <td class="py-3 px-3">
+                <div class="w-24 mx-auto h-2 bg-slate-200 rounded-full overflow-hidden">
+                  <div class="h-full bg-[#009639] rounded-full" style="width: ${barWidth}%;"></div>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+        coursesTableBody.innerHTML = rowsHtml;
+      }
     }
 
     if (window.lucide && window.lucide.createIcons) {

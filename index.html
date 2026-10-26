@@ -332,6 +332,15 @@
 
         <div id="admin-logged-in-container" class="hidden items-center gap-2">
           <button 
+            id="admin-open-analytics-btn" 
+            type="button"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-black bg-[#ffcc29] hover:bg-[#ffdf00] text-slate-950 shadow-sm transition-all"
+            title="Painel de Controle de Acessos, Visualizações e Origens"
+          >
+            <i data-lucide="bar-chart-3" class="w-4 h-4 text-slate-950"></i>
+            <span>Métricas & Acessos</span>
+          </button>
+          <button 
             id="admin-add-course-btn" 
             class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-black bg-[#009639] hover:bg-[#00702a] text-white shadow-sm transition-all"
             title="Cadastrar novo curso oficial como administrador"
@@ -992,6 +1001,269 @@
     </div>
   </div>
 
+  <!-- Modal: Painel de Controle de Informações & Métricas de Acesso (Administração) -->
+  <div 
+    id="admin-analytics-modal" 
+    class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-analytics-title"
+  >
+    <div class="bg-white border-4 border-[#002776] rounded-3xl max-w-4xl w-full p-5 sm:p-7 shadow-2xl relative animate-fade-in max-h-[92vh] flex flex-col">
+      <!-- Cabeçalho do Painel de Métricas -->
+      <div class="flex items-center justify-between pb-4 border-b border-slate-200 flex-shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-[#002776] text-[#ffdf00] flex items-center justify-center flex-shrink-0 shadow-md">
+            <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 id="modal-analytics-title" class="text-base sm:text-lg font-black text-slate-900 leading-tight">
+                Painel de Controle de Métricas & Acessos
+              </h3>
+              <span class="inline-flex items-center gap-1 text-[10px] font-black uppercase px-2 py-0.5 rounded bg-emerald-100 text-[#00702a] border border-emerald-300">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#009639] animate-pulse"></span>
+                <span>Tempo Real</span>
+              </span>
+            </div>
+            <span class="text-xs text-slate-500 font-medium">Origens no Brasil e no Mundo • Visualizações da Home e Trilhas • Cursos Mais Acessados</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button 
+            id="admin-refresh-analytics-btn"
+            type="button"
+            class="p-2 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-600 hover:text-[#002776] transition-colors"
+            title="Atualizar métricas agora"
+            aria-label="Atualizar métricas"
+          >
+            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+          </button>
+          <button 
+            id="close-admin-analytics-btn"
+            type="button"
+            class="text-slate-400 hover:text-slate-700 p-2 rounded-xl hover:bg-slate-100 transition-colors"
+            aria-label="Fechar painel de métricas"
+          >
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Corpo com Rolagem -->
+      <div class="overflow-y-auto py-5 space-y-6 pr-1 flex-1">
+        
+        <!-- 1. KPIs / Cartões Resumo de Acessos -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <!-- Total Home Views -->
+          <div class="bg-gradient-to-br from-emerald-50 to-white border-2 border-emerald-200 rounded-2xl p-3.5 sm:p-4 shadow-sm">
+            <div class="flex items-center justify-between text-emerald-800 mb-1">
+              <span class="text-xs font-black uppercase tracking-wider">Home / Catálogo</span>
+              <i data-lucide="home" class="w-4 h-4 text-[#009639]"></i>
+            </div>
+            <div id="stat-home-views" class="text-2xl sm:text-3xl font-black text-slate-900 leading-none mb-1">--</div>
+            <span class="text-[11px] text-slate-500 font-semibold flex items-center gap-1">
+              <i data-lucide="eye" class="w-3 h-3 text-[#009639]"></i>
+              <span>Visualizações da Home</span>
+            </span>
+          </div>
+
+          <!-- Total Tracks Views -->
+          <div class="bg-gradient-to-br from-blue-50 to-white border-2 border-blue-200 rounded-2xl p-3.5 sm:p-4 shadow-sm">
+            <div class="flex items-center justify-between text-[#002776] mb-1">
+              <span class="text-xs font-black uppercase tracking-wider">Trilhas Guiadas</span>
+              <i data-lucide="compass" class="w-4 h-4 text-[#002776]"></i>
+            </div>
+            <div id="stat-tracks-views" class="text-2xl sm:text-3xl font-black text-slate-900 leading-none mb-1">--</div>
+            <span class="text-[11px] text-slate-500 font-semibold flex items-center gap-1">
+              <i data-lucide="layers" class="w-3 h-3 text-[#002776]"></i>
+              <span>Visualizações de Trilhas</span>
+            </span>
+          </div>
+
+          <!-- Total Course Clicks -->
+          <div class="bg-gradient-to-br from-amber-50 to-white border-2 border-amber-200 rounded-2xl p-3.5 sm:p-4 shadow-sm">
+            <div class="flex items-center justify-between text-amber-900 mb-1">
+              <span class="text-xs font-black uppercase tracking-wider">Cursos Clicados</span>
+              <i data-lucide="mouse-pointer-click" class="w-4 h-4 text-amber-600"></i>
+            </div>
+            <div id="stat-course-clicks" class="text-2xl sm:text-3xl font-black text-slate-900 leading-none mb-1">--</div>
+            <span class="text-[11px] text-slate-500 font-semibold flex items-center gap-1">
+              <i data-lucide="external-link" class="w-3 h-3 text-amber-600"></i>
+              <span>Acessos a Cursos Oficiais</span>
+            </span>
+          </div>
+
+          <!-- Total Favorites -->
+          <div class="bg-gradient-to-br from-rose-50 to-white border-2 border-rose-200 rounded-2xl p-3.5 sm:p-4 shadow-sm">
+            <div class="flex items-center justify-between text-rose-800 mb-1">
+              <span class="text-xs font-black uppercase tracking-wider">Cursos Salvos</span>
+              <i data-lucide="bookmark" class="w-4 h-4 text-rose-500"></i>
+            </div>
+            <div id="stat-total-favs" class="text-2xl sm:text-3xl font-black text-slate-900 leading-none mb-1">--</div>
+            <span class="text-[11px] text-slate-500 font-semibold flex items-center gap-1">
+              <i data-lucide="heart" class="w-3 h-3 text-rose-500"></i>
+              <span>Favoritados por Usuários</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- 2. Abas de Detalhamento: [Geolocalização Brasil & Mundo] e [Top Cursos Mais Acessados] -->
+        <div>
+          <!-- Seletor de Abas -->
+          <div class="flex items-center gap-2 border-b-2 border-slate-200 mb-4 pb-1">
+            <button 
+              id="analytics-tab-geo-btn"
+              type="button"
+              class="px-4 py-2 rounded-xl text-xs sm:text-sm font-black bg-[#002776] text-white shadow-sm flex items-center gap-2 transition-all cursor-pointer"
+            >
+              <i data-lucide="globe" class="w-4 h-4 text-[#ffdf00]"></i>
+              <span>Origens: Brasil & Mundo</span>
+            </button>
+            <button 
+              id="analytics-tab-courses-btn"
+              type="button"
+              class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2 transition-all cursor-pointer"
+            >
+              <i data-lucide="award" class="w-4 h-4 text-amber-500"></i>
+              <span>Cursos Mais Acessados</span>
+            </button>
+          </div>
+
+          <!-- Conteúdo da Aba 1: Brasil & Mundo -->
+          <div id="analytics-view-geo" class="space-y-5">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+              
+              <!-- Estados do Brasil (UF) -->
+              <div class="lg:col-span-2 bg-slate-50 border-2 border-slate-200 rounded-3xl p-4 sm:p-5">
+                <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-200">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#009639]"></span>
+                    <h4 class="font-black text-slate-900 text-sm">Estados do Brasil com Mais Acessos</h4>
+                  </div>
+                  <span class="text-[10px] font-bold text-slate-500 uppercase bg-slate-200 px-2 py-0.5 rounded">
+                    Ranking Nacional
+                  </span>
+                </div>
+
+                <div id="analytics-states-list" class="space-y-2.5">
+                  <!-- Injetado dinamicamente -->
+                  <div class="text-xs text-slate-500 py-4 text-center">Carregando dados dos estados...</div>
+                </div>
+              </div>
+
+              <!-- Países do Mundo & Cidades -->
+              <div class="space-y-5">
+                <!-- Países do Mundo -->
+                <div class="bg-slate-50 border-2 border-slate-200 rounded-3xl p-4 sm:p-5">
+                  <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-200">
+                    <div class="flex items-center gap-2">
+                      <i data-lucide="globe-2" class="w-4 h-4 text-[#002776]"></i>
+                      <h4 class="font-black text-slate-900 text-sm">Acessos pelo Mundo</h4>
+                    </div>
+                  </div>
+                  <div id="analytics-world-list" class="space-y-2">
+                    <!-- Injetado dinamicamente -->
+                    <div class="text-xs text-slate-500 py-3 text-center">Carregando países...</div>
+                  </div>
+                </div>
+
+                <!-- Cidades Líderes no Brasil -->
+                <div class="bg-slate-50 border-2 border-slate-200 rounded-3xl p-4 sm:p-5">
+                  <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-200">
+                    <div class="flex items-center gap-2">
+                      <i data-lucide="map-pin" class="w-4 h-4 text-rose-500"></i>
+                      <h4 class="font-black text-slate-900 text-sm">Top Cidades do Brasil</h4>
+                    </div>
+                  </div>
+                  <div id="analytics-cities-list" class="space-y-2 text-xs">
+                    <!-- Injetado dinamicamente -->
+                    <div class="text-xs text-slate-500 py-3 text-center">Carregando cidades...</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Conteúdo da Aba 2: Cursos Mais Acessados -->
+          <div id="analytics-view-courses" class="hidden space-y-4">
+            <div class="bg-slate-50 border-2 border-slate-200 rounded-3xl p-4 sm:p-5">
+              <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-200">
+                <div>
+                  <h4 class="font-black text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                    <i data-lucide="flame" class="w-4 h-4 text-amber-500"></i>
+                    <span>Ranking Oficial dos Cursos Mais Acessados pelos Visitantes</span>
+                  </h4>
+                  <span class="text-xs text-slate-500 font-medium">Contabiliza cliques reais no botão "Acessar Curso Oficial"</span>
+                </div>
+              </div>
+
+              <!-- Tabela / Lista de Cursos -->
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr class="border-b border-slate-200 text-[11px] font-black uppercase text-slate-500 tracking-wider">
+                      <th class="py-2.5 px-3">#</th>
+                      <th class="py-2.5 px-3">Curso & Instituição</th>
+                      <th class="py-2.5 px-3">Categoria</th>
+                      <th class="py-2.5 px-3 text-right">Total de Acessos</th>
+                      <th class="py-2.5 px-3 text-center">Popularidade</th>
+                    </tr>
+                  </thead>
+                  <tbody id="analytics-courses-table-body" class="text-xs divide-y divide-slate-100">
+                    <!-- Injetado dinamicamente -->
+                    <tr>
+                      <td colspan="5" class="py-6 text-center text-slate-500">Carregando ranking de cursos...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Rodapé do Modal com Ações Rápidas -->
+      <div class="pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3 flex-shrink-0">
+        <div class="text-[11px] text-slate-500 flex items-center gap-1.5">
+          <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i>
+          <span>Última atualização: <strong id="analytics-last-update-time" class="text-slate-700">agora</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button 
+            id="admin-export-analytics-btn"
+            type="button"
+            class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 transition-colors flex items-center gap-1.5 cursor-pointer"
+            title="Exportar dados consolidados em formato JSON"
+          >
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Exportar Relatório</span>
+          </button>
+          <button 
+            id="admin-reset-analytics-btn"
+            type="button"
+            class="px-3.5 py-2 rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 border border-rose-200 transition-colors flex items-center gap-1.5 cursor-pointer"
+            title="Reiniciar estatísticas de teste"
+          >
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            <span>Zerar Estatísticas</span>
+          </button>
+          <button 
+            id="close-admin-analytics-action-btn"
+            type="button"
+            class="px-5 py-2 rounded-xl text-xs font-black bg-[#002776] hover:bg-blue-900 text-white shadow-sm transition-all cursor-pointer"
+          >
+            Fechar Painel
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Modal: Reportar Link Quebrado -->
   <div id="report-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modal-report-title">
     <div class="bg-white border-4 border-rose-500 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative animate-fade-in">
@@ -1548,8 +1820,8 @@
     </div>
   </aside>
 
-  <!-- Carregamento dos Scripts da Aplicação (com Cache-Busting v=2.3.0) -->
-  <script src="./src/data/courses.js?v=2.3.0"></script>
-  <script src="./src/app.js?v=2.3.0"></script>
+  <!-- Carregamento dos Scripts da Aplicação (com Cache-Busting v=2.4.0) -->
+  <script src="./src/data/courses.js?v=2.4.0"></script>
+  <script src="./src/app.js?v=2.4.0"></script>
 </body>
 </html>

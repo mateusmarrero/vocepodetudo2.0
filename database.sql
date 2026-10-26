@@ -45,4 +45,21 @@ CREATE TABLE IF NOT EXISTS `courses` (
   INDEX `idx_featured` (`featured`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- 4. Tabela de Métricas & Controle de Acessos (Analytics)
+CREATE TABLE IF NOT EXISTS `analytics_events` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `event_type` VARCHAR(50) NOT NULL, -- 'pageview_home', 'pageview_tracks', 'course_click'
+  `course_id` VARCHAR(64) NULL,
+  `course_title` VARCHAR(255) NULL,
+  `course_provider` VARCHAR(100) NULL,
+  `city` VARCHAR(100) NULL,
+  `region` VARCHAR(10) NULL, -- UF (ex: SP, RJ, MG)
+  `country` VARCHAR(50) DEFAULT 'Brasil',
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX `idx_event_type` (`event_type`),
+  INDEX `idx_region` (`region`),
+  INDEX `idx_country` (`country`),
+  INDEX `idx_course_id` (`course_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 SET FOREIGN_KEY_CHECKS = 1;

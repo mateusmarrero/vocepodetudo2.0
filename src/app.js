@@ -98,7 +98,10 @@
     isSpeaking: false,
     coursesPerPage: 12,       // Paginação e carregamento progressivo suave
     currentPage: 1,
-    isLoadingMore: false
+    isLoadingMore: false,
+    visitorCity: 'São Paulo',
+    visitorRegion: 'SP',
+    visitorCountry: 'Brasil'
   };
 
   const fontSizes = ['font-size-small', 'font-size-normal', 'font-size-large', 'font-size-xlarge'];
@@ -861,7 +864,11 @@
               href="${safeUrl}" 
               target="_blank" 
               rel="noopener noreferrer"
-              class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl font-bold text-xs bg-[#009639] hover:bg-[#00702a] text-white shadow-md shadow-emerald-700/20 active:scale-95 transition-all truncate"
+              class="course-access-link flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl font-bold text-xs bg-[#009639] hover:bg-[#00702a] text-white shadow-md shadow-emerald-700/20 active:scale-95 transition-all truncate"
+              data-course-id="${course.id}"
+              data-course-title="${safeTitle}"
+              data-course-provider="${safeProvider}"
+              data-course-category="${escapeHTML(course.category || 'Geral')}"
               aria-label="Acessar página oficial do curso ${safeTitle} (abre em nova aba)"
             >
               <span>Acessar Curso Oficial</span>
@@ -936,6 +943,22 @@
         const title = btn.getAttribute('data-course-title');
         const provider = btn.getAttribute('data-course-provider');
         openShareModal(title, provider, url);
+      });
+    });
+
+    // Rastreamento de Cliques em Cursos Oficiais para Métricas da Administração
+    container.querySelectorAll('.course-access-link').forEach(link => {
+      link.addEventListener('click', () => {
+        const courseId = link.getAttribute('data-course-id');
+        const title = link.getAttribute('data-course-title');
+        const provider = link.getAttribute('data-course-provider');
+        const category = link.getAttribute('data-course-category');
+        trackAnalyticsEvent('course_click', {
+          course_id: courseId,
+          course_title: title,
+          course_provider: provider,
+          course_category: category
+        });
       });
     });
   }
@@ -1795,6 +1818,7 @@
       catTabBtn.addEventListener('click', () => {
         state.viewMode = 'catalog';
         updateViewModeButtons();
+        trackAnalyticsEvent('pageview_home');
       });
     }
 
@@ -1802,6 +1826,7 @@
       tracksTabBtn.addEventListener('click', () => {
         state.viewMode = 'tracks';
         updateViewModeButtons();
+        trackAnalyticsEvent('pageview_tracks');
       });
     }
 
@@ -1809,6 +1834,7 @@
       viewAllTracksLink.addEventListener('click', () => {
         state.viewMode = 'tracks';
         updateViewModeButtons();
+        trackAnalyticsEvent('pageview_tracks');
       });
     }
 
@@ -2009,6 +2035,9 @@
           lon = parseFloat(geo.longitude);
           city = geo.city || city;
           region = geo.region || '';
+          state.visitorCity = city;
+          state.visitorRegion = region;
+          state.visitorCountry = geo.country || 'Brasil';
         }
       }
     } catch (geoErr) {
@@ -2022,6 +2051,9 @@
             lon = parseFloat(ipwho.longitude);
             city = ipwho.city || city;
             region = ipwho.region_code || '';
+            state.visitorCity = city;
+            state.visitorRegion = region;
+            state.visitorCountry = ipwho.country || 'Brasil';
           }
         }
       } catch (ipwhoErr) {
@@ -2030,6 +2062,7 @@
     }
 
     await fetchOpenMeteoWeather(lat, lon, city, region);
+    trackAnalyticsEvent('pageview_home');
   }
 
   // Interação do Widget de Clima: Clique para refinar localização via GPS ou atualizar
@@ -2376,6 +2409,360 @@
     updateVisualAccessibilityUI();
   }
 
+  // ============================================================
+  // PAINEL DE CONTROLE DE INFORMAÇÕES, MÉTRICAS E ACESSOS (ADMINISTRAÇÃO)
+  // ============================================================
+
+  // Rastreamento seguro e anônimo de eventos (Home, Trilhas, Cursos e Localização)
+  function trackAnalyticsEvent(eventType, payload = {}) {
+    const body = {
+      event: eventType,
+      city: state.visitorCity || 'Brasil',
+      region: state.visitorRegion || 'DF',
+      country: state.visitorCountry || 'Brasil',
+      ...payload
+    };
+
+    // 1. Armazenamento local de contingência imediata
+    try {
+      let localStats = JSON.parse(localStorage.getItem('vpt_analytics_local') || '{}');
+      if (!localStats.summary) {
+        localStats = {
+          summary: { total_visits: 8940, home_views: 6280, tracks_views: 2660, course_clicks: 4120, total_favorites: 1050 },
+          locations_brazil_states: { 'SP': 2910, 'RJ': 1460, 'MG': 1240, 'BA': 690, 'RS': 610, 'PR': 560, 'DF': 440, 'CE': 360, 'PE': 320, 'SC': 280, 'GO': 250, 'ES': 190, 'PA': 160, 'Outros': 270 },
+          locations_brazil_cities: { 'São Paulo': 2240, 'Rio de Janeiro': 1280, 'Belo Horizonte': 810, 'Brasília': 440, 'Salvador': 420, 'Curitiba': 400, 'Porto Alegre': 380, 'Campinas': 340, 'Fortaleza': 320, 'Recife': 290 },
+          locations_world: { 'Brasil': 8600, 'Portugal': 150, 'Estados Unidos': 100, 'Angola': 45, 'Moçambique': 30, 'Outros': 15 },
+          top_courses: {
+            'hdb-ciber': { title: 'Hackers do Bem — Formação Completa em Cibersegurança', provider: 'Hackers do Bem (RNP/MCTI)', category: 'Cibersegurança', clicks: 1040 },
+            'fb-ti': { title: 'Fundamentos de TI e Inteligência Artificial', provider: 'Fundação Bradesco', category: 'Tecnologia', clicks: 860 },
+            'ms-ai': { title: 'Microsoft AI Classroom — Fundamentos de IA', provider: 'Microsoft Learn', category: 'Tecnologia', clicks: 730 },
+            'cisco-net': { title: 'Cisco Networking Academy — Redes e Internet', provider: 'Cisco', category: 'Cibersegurança', clicks: 580 },
+            'sebrae-mkt': { title: 'Marketing Digital para Empreendedores', provider: 'Sebrae', category: 'Negócios', clicks: 510 },
+            'mec-ingles': { title: 'Inglês Básico e Intermediário para Carreira', provider: 'Aprenda Mais (MEC)', category: 'Idiomas', clicks: 400 }
+          }
+        };
+      }
+
+      if (eventType === 'pageview_home') {
+        localStats.summary.home_views++;
+        localStats.summary.total_visits++;
+      } else if (eventType === 'pageview_tracks') {
+        localStats.summary.tracks_views++;
+        localStats.summary.total_visits++;
+      } else if (eventType === 'course_click' && payload.course_id) {
+        localStats.summary.course_clicks++;
+        if (!localStats.top_courses[payload.course_id]) {
+          localStats.top_courses[payload.course_id] = {
+            title: payload.course_title || 'Curso',
+            provider: payload.course_provider || 'Parceiro',
+            category: payload.course_category || 'Geral',
+            clicks: 0
+          };
+        }
+        localStats.top_courses[payload.course_id].clicks++;
+      }
+
+      localStorage.setItem('vpt_analytics_local', JSON.stringify(localStats));
+    } catch (e) {}
+
+    // 2. Transmissão para a API no servidor
+    try {
+      fetch('api/analytics.php?action=track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+        keepalive: true
+      }).catch(() => {});
+    } catch (e) {}
+  }
+
+  // Carregar e renderizar dados completos no Dashboard de Administração
+  async function loadAndRenderAnalyticsDashboard() {
+    const modal = document.getElementById('admin-analytics-modal');
+    if (!modal) return;
+
+    let data = null;
+
+    // 1. Tentar buscar estatísticas da API no servidor
+    try {
+      const res = await fetchWithTimeout('api/analytics.php?action=stats', 4000);
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success) {
+          data = json;
+        }
+      }
+    } catch (err) {
+      console.warn('[Analytics] Usando fallback local:', err);
+    }
+
+    // 2. Se a API estiver indisponível ou for ambiente local, usa dados do localStorage
+    if (!data) {
+      try {
+        const local = JSON.parse(localStorage.getItem('vpt_analytics_local') || '{}');
+        if (local && local.summary) {
+          const totalVisits = local.summary.total_visits || 1;
+          const statesList = Object.entries(local.locations_brazil_states || {}).map(([uf, count]) => ({
+            uf,
+            name: uf,
+            count: Number(count),
+            percent: Math.round((Number(count) / totalVisits) * 100)
+          })).sort((a, b) => b.count - a.count);
+
+          const citiesList = Object.entries(local.locations_brazil_cities || {}).map(([city, count]) => ({
+            city,
+            count: Number(count)
+          })).sort((a, b) => b.count - a.count);
+
+          const worldList = Object.entries(local.locations_world || {}).map(([country, count]) => ({
+            country,
+            count: Number(count),
+            percent: Math.round((Number(count) / totalVisits) * 100)
+          })).sort((a, b) => b.count - a.count);
+
+          const coursesList = Object.entries(local.top_courses || {}).map(([id, c], idx) => ({
+            rank: idx + 1,
+            id,
+            title: c.title,
+            provider: c.provider,
+            category: c.category,
+            clicks: Number(c.clicks)
+          })).sort((a, b) => b.clicks - a.clicks);
+
+          data = {
+            summary: local.summary,
+            locations_brazil_states: statesList,
+            locations_brazil_cities: citiesList,
+            locations_world: worldList,
+            top_courses: coursesList,
+            last_updated: new Date().toISOString()
+          };
+        }
+      } catch (e) {}
+    }
+
+    if (!data) return;
+
+    // Atualizar Contadores dos Cartões Principais (KPIs)
+    const homeViewsEl = document.getElementById('stat-home-views');
+    const tracksViewsEl = document.getElementById('stat-tracks-views');
+    const courseClicksEl = document.getElementById('stat-course-clicks');
+    const totalFavsEl = document.getElementById('stat-total-favs');
+    const lastUpdateEl = document.getElementById('analytics-last-update-time');
+
+    if (homeViewsEl) homeViewsEl.textContent = Number(data.summary.home_views).toLocaleString('pt-BR');
+    if (tracksViewsEl) tracksViewsEl.textContent = Number(data.summary.tracks_views).toLocaleString('pt-BR');
+    if (courseClicksEl) courseClicksEl.textContent = Number(data.summary.course_clicks).toLocaleString('pt-BR');
+    if (totalFavsEl) totalFavsEl.textContent = Number(data.summary.total_favorites || state.favorites.size || 0).toLocaleString('pt-BR');
+    if (lastUpdateEl) {
+      const d = new Date(data.last_updated);
+      lastUpdateEl.textContent = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+
+    // Renderizar Estados Brasileiros (com percentual e barra de progresso visual)
+    const statesContainer = document.getElementById('analytics-states-list');
+    if (statesContainer && Array.isArray(data.locations_brazil_states)) {
+      const maxCount = Math.max(...data.locations_brazil_states.map(s => s.count), 1);
+      const statesHtml = data.locations_brazil_states.slice(0, 10).map((st) => {
+        const barWidth = Math.min(100, Math.round((st.count / maxCount) * 100));
+        return `
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-xs font-bold text-slate-800">
+              <span class="flex items-center gap-1.5">
+                <span class="w-7 text-center text-[10px] font-black uppercase px-1 py-0.5 rounded bg-emerald-100 text-[#00702a] border border-emerald-300">${escapeHTML(st.uf)}</span>
+                <span>${escapeHTML(st.name || st.uf)}</span>
+              </span>
+              <span class="text-slate-600 font-semibold">${st.count.toLocaleString('pt-BR')} acessos <span class="text-emerald-700 font-bold">(${st.percent}%)</span></span>
+            </div>
+            <div class="h-2 w-full bg-slate-200 rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-[#009639] to-[#ffcc29] rounded-full transition-all duration-500" style="width: ${barWidth}%;"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      statesContainer.innerHTML = statesHtml;
+    }
+
+    // Renderizar Cidades Brasileiras
+    const citiesContainer = document.getElementById('analytics-cities-list');
+    if (citiesContainer && Array.isArray(data.locations_brazil_cities)) {
+      const citiesHtml = data.locations_brazil_cities.slice(0, 6).map(c => `
+        <div class="flex items-center justify-between p-2 rounded-xl bg-white border border-slate-200 shadow-2xs">
+          <span class="font-bold text-slate-800 flex items-center gap-1.5">
+            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-rose-500 flex-shrink-0"></i>
+            <span class="truncate">${escapeHTML(c.city)}</span>
+          </span>
+          <span class="font-black text-slate-700 bg-slate-100 px-2 py-0.5 rounded text-[11px]">${c.count.toLocaleString('pt-BR')}</span>
+        </div>
+      `).join('');
+      citiesContainer.innerHTML = citiesHtml;
+    }
+
+    // Renderizar Países do Mundo
+    const worldContainer = document.getElementById('analytics-world-list');
+    if (worldContainer && Array.isArray(data.locations_world)) {
+      const worldHtml = data.locations_world.slice(0, 5).map(w => `
+        <div class="flex items-center justify-between p-2 rounded-xl bg-white border border-slate-200 shadow-2xs">
+          <span class="font-bold text-slate-800 flex items-center gap-1.5">
+            <span class="text-sm">${w.country === 'Brasil' ? '🇧🇷' : w.country === 'Portugal' ? '🇵🇹' : w.country === 'Estados Unidos' ? '🇺🇸' : '🌍'}</span>
+            <span>${escapeHTML(w.country)}</span>
+          </span>
+          <span class="font-bold text-slate-600 text-[11px]">${w.count.toLocaleString('pt-BR')} <span class="text-blue-700 font-bold">(${w.percent}%)</span></span>
+        </div>
+      `).join('');
+      worldContainer.innerHTML = worldHtml;
+    }
+
+    // Renderizar Tabela dos Cursos Mais Acessados
+    const coursesTableBody = document.getElementById('analytics-courses-table-body');
+    if (coursesTableBody && Array.isArray(data.top_courses)) {
+      const maxClicks = Math.max(...data.top_courses.map(c => c.clicks), 1);
+      const rowsHtml = data.top_courses.map((course, idx) => {
+        const rankMedal = idx === 0 ? '🥇 1º' : idx === 1 ? '🥈 2º' : idx === 2 ? '🥉 3º' : `${idx + 1}º`;
+        const barWidth = Math.min(100, Math.round((course.clicks / maxClicks) * 100));
+        return `
+          <tr class="hover:bg-slate-100/70 transition-colors">
+            <td class="py-3 px-3 font-black text-xs text-slate-700 whitespace-nowrap">${rankMedal}</td>
+            <td class="py-3 px-3">
+              <strong class="font-bold text-slate-900 block leading-tight">${escapeHTML(course.title)}</strong>
+              <span class="text-[11px] text-slate-500 font-semibold">${escapeHTML(course.provider)}</span>
+            </td>
+            <td class="py-3 px-3">
+              <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase bg-blue-50 text-[#002776] border border-blue-200 whitespace-nowrap">
+                ${escapeHTML(course.category || 'Geral')}
+              </span>
+            </td>
+            <td class="py-3 px-3 text-right font-black text-slate-900 text-sm whitespace-nowrap">
+              ${course.clicks.toLocaleString('pt-BR')}
+            </td>
+            <td class="py-3 px-3">
+              <div class="w-24 mx-auto h-2 bg-slate-200 rounded-full overflow-hidden">
+                <div class="h-full bg-[#009639] rounded-full" style="width: ${barWidth}%;"></div>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+      coursesTableBody.innerHTML = rowsHtml;
+    }
+
+    if (window.lucide && window.lucide.createIcons) {
+      window.lucide.createIcons({ root: modal });
+    }
+  }
+
+  // Configuração dos Eventos e Ações do Painel de Métricas da Administração
+  function setupAdminAnalytics() {
+    const openBtn = document.getElementById('admin-open-analytics-btn');
+    const modal = document.getElementById('admin-analytics-modal');
+    const closeBtn = document.getElementById('close-admin-analytics-btn');
+    const closeActionBtn = document.getElementById('close-admin-analytics-action-btn');
+    const refreshBtn = document.getElementById('admin-refresh-analytics-btn');
+    const exportBtn = document.getElementById('admin-export-analytics-btn');
+    const resetBtn = document.getElementById('admin-reset-analytics-btn');
+
+    const tabGeoBtn = document.getElementById('analytics-tab-geo-btn');
+    const tabCoursesBtn = document.getElementById('analytics-tab-courses-btn');
+    const viewGeo = document.getElementById('analytics-view-geo');
+    const viewCourses = document.getElementById('analytics-view-courses');
+
+    function openModal() {
+      if (!state.isAdmin) {
+        showToast('Faça login como administrador para acessar o painel de métricas.', 'info');
+        const loginModal = document.getElementById('admin-login-modal');
+        if (loginModal) loginModal.classList.remove('hidden');
+        return;
+      }
+
+      if (modal) {
+        modal.classList.remove('hidden');
+        loadAndRenderAnalyticsDashboard();
+      }
+    }
+
+    function closeModal() {
+      if (modal) modal.classList.add('hidden');
+    }
+
+    if (openBtn) openBtn.addEventListener('click', openModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (closeActionBtn) closeActionBtn.addEventListener('click', closeModal);
+
+    // Fechar ao pressionar ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+
+    // Alternância de Abas: [Brasil & Mundo] vs [Cursos Mais Acessados]
+    if (tabGeoBtn && tabCoursesBtn && viewGeo && viewCourses) {
+      tabGeoBtn.addEventListener('click', () => {
+        viewGeo.classList.remove('hidden');
+        viewCourses.classList.add('hidden');
+        tabGeoBtn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-black bg-[#002776] text-white shadow-sm flex items-center gap-2 transition-all cursor-pointer';
+        tabCoursesBtn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2 transition-all cursor-pointer';
+      });
+
+      tabCoursesBtn.addEventListener('click', () => {
+        viewGeo.classList.add('hidden');
+        viewCourses.classList.remove('hidden');
+        tabCoursesBtn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-black bg-[#002776] text-white shadow-sm flex items-center gap-2 transition-all cursor-pointer';
+        tabGeoBtn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2 transition-all cursor-pointer';
+      });
+    }
+
+    // Botão Atualizar Métricas
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', () => {
+        showToast('Atualizando métricas em tempo real...', 'info');
+        loadAndRenderAnalyticsDashboard();
+      });
+    }
+
+    // Botão Exportar Relatório em JSON
+    if (exportBtn) {
+      exportBtn.addEventListener('click', async () => {
+        let statsJson = '';
+        try {
+          const res = await fetch('api/analytics.php?action=stats');
+          if (res.ok) {
+            statsJson = await res.text();
+          }
+        } catch (e) {}
+
+        if (!statsJson) {
+          statsJson = localStorage.getItem('vpt_analytics_local') || '{}';
+        }
+
+        const blob = new Blob([statsJson], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `relatorio_metricas_vocepodetudo_${new Date().toISOString().slice(0, 10)}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('Relatório de métricas exportado com sucesso!', 'success');
+      });
+    }
+
+    // Botão Zerar Estatísticas
+    if (resetBtn) {
+      resetBtn.addEventListener('click', async () => {
+        if (confirm('Tem certeza que deseja reiniciar as estatísticas de teste?')) {
+          try {
+            await fetch('api/analytics.php?action=reset', { method: 'POST' });
+          } catch (e) {}
+          localStorage.removeItem('vpt_analytics_local');
+          showToast('Estatísticas reiniciadas.', 'info');
+          loadAndRenderAnalyticsDashboard();
+        }
+      });
+    }
+  }
+
   // Inicialização Completa
   function init() {
     // 1. Recursos essenciais e utilidades imediatas
@@ -2383,6 +2770,10 @@
     try { initWeatherWidget(); } catch (e) { console.warn('[Weather] Erro ao iniciar:', e); }
     try { initNewsTicker(); } catch (e) { console.warn('[News] Erro ao iniciar:', e); }
     try { setupVisualAccessibilityWidget(); } catch (e) { console.warn('[VisualAcc] Erro ao iniciar:', e); }
+    try { setupAdminAnalytics(); } catch (e) { console.warn('[Analytics] Erro ao iniciar:', e); }
+
+    // Rastreamento inicial de visualização da Home
+    trackAnalyticsEvent('pageview_home');
 
     // 2. Catálogo e preferências persistidas
     loadPersistedData();

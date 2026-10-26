@@ -35,6 +35,18 @@ $brazilStateNames = [
     'AC' => 'Acre', 'AP' => 'Amapá', 'RR' => 'Roraima'
 ];
 
+// Nomes completos das 8 áreas profissionais do teste vocacional
+$careerAreaTitles = [
+    'tecnologia' => 'Tecnologia & Informática',
+    'administracao' => 'Administração & Rotinas de Escritório',
+    'comunicacao' => 'Atendimento ao Cliente & Comunicação',
+    'criatividade' => 'Design, Criatividade & Conteúdo Digital',
+    'vendas' => 'Empreendedorismo & Vendas',
+    'tecnica' => 'Atividades Técnicas & Práticas Operacionais',
+    'gestao' => 'Gestão, Liderança & Organização',
+    'educacao' => 'Educação & Desenvolvimento Humano'
+];
+
 /**
  * Retorna os dados padrão consolidados caso o arquivo de métricas ainda não exista
  */
@@ -45,12 +57,14 @@ function getDefaultAnalyticsData() {
             'home_views' => 0,
             'tracks_views' => 0,
             'course_clicks' => 0,
-            'total_favorites' => 0
+            'total_favorites' => 0,
+            'career_tests_count' => 0
         ],
         'locations_brazil_states' => [],
         'locations_brazil_cities' => [],
         'locations_world' => [],
         'top_courses' => [],
+        'career_test_areas' => [],
         'last_updated' => date('c')
     ];
 }
@@ -75,6 +89,12 @@ function loadAnalyticsData($cacheFile) {
                 }
                 if (!isset($data['top_courses']) || !is_array($data['top_courses'])) {
                     $data['top_courses'] = [];
+                }
+                if (!isset($data['career_test_areas']) || !is_array($data['career_test_areas'])) {
+                    $data['career_test_areas'] = [];
+                }
+                if (!isset($data['summary']['career_tests_count'])) {
+                    $data['summary']['career_tests_count'] = 0;
                 }
                 return $data;
             }
@@ -137,6 +157,18 @@ switch ($action) {
             }
         } elseif ($event === 'favorite') {
             $data['summary']['total_favorites']++;
+        } elseif ($event === 'career_test_completed' || $event === 'test_completed') {
+            if (!isset($data['summary']['career_tests_count'])) {
+                $data['summary']['career_tests_count'] = 0;
+            }
+            $data['summary']['career_tests_count']++;
+            $areaKey = trim($input['primary_area'] ?? $input['career_area'] ?? '');
+            if (!empty($areaKey)) {
+                if (!isset($data['career_test_areas'][$areaKey])) {
+                    $data['career_test_areas'][$areaKey] = 0;
+                }
+                $data['career_test_areas'][$areaKey]++;
+            }
         }
 
         // 2. Atualizar Geolocalização (Países)
@@ -237,6 +269,25 @@ switch ($action) {
             }
         }
 
+        // Formatar e ordenar Áreas do Teste Vocacional em ORDEM ASCENDENTE (menor para maior)
+        $quizAreasAscending = [];
+        if (!empty($data['career_test_areas']) && is_array($data['career_test_areas'])) {
+            $totalTests = (!empty($data['summary']['career_tests_count']) ? (int) $data['summary']['career_tests_count'] : array_sum($data['career_test_areas'])) ?: 1;
+            $sortedAreas = $data['career_test_areas'];
+            asort($sortedAreas); // ORDEM ASCENDENTE (do menor para o maior)
+
+            $order = 1;
+            foreach ($sortedAreas as $areaKey => $count) {
+                $quizAreasAscending[] = [
+                    'order' => $order++,
+                    'key' => $areaKey,
+                    'title' => $careerAreaTitles[$areaKey] ?? ucfirst($areaKey),
+                    'count' => (int) $count,
+                    'percent' => round(($count / $totalTests) * 100, 1)
+                ];
+            }
+        }
+
         echo json_encode([
             'success' => true,
             'summary' => $data['summary'],
@@ -244,6 +295,7 @@ switch ($action) {
             'locations_brazil_cities' => $citiesList,
             'locations_world' => $worldList,
             'top_courses' => $coursesList,
+            'career_test_areas_ascending' => $quizAreasAscending,
             'last_updated' => $data['last_updated'] ?? date('c')
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         exit;

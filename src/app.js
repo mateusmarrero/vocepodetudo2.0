@@ -3170,6 +3170,13 @@
         localStats.top_courses[payload.course_id].clicks++;
       } else if (eventType === 'favorite') {
         localStats.summary.total_favorites = (localStats.summary.total_favorites || 0) + 1;
+      } else if (eventType === 'career_test_completed' || eventType === 'test_completed') {
+        localStats.summary.career_tests_count = (localStats.summary.career_tests_count || 0) + 1;
+        const areaKey = payload.primary_area || payload.career_area || '';
+        if (areaKey) {
+          if (!localStats.career_test_areas) localStats.career_test_areas = {};
+          localStats.career_test_areas[areaKey] = (localStats.career_test_areas[areaKey] || 0) + 1;
+        }
       }
 
       // Atualizar localizações locais se disponíveis
@@ -3201,7 +3208,8 @@
         course_id: payload.course_id || '',
         course_title: payload.course_title || '',
         course_provider: payload.course_provider || '',
-        course_category: payload.course_category || ''
+        course_category: payload.course_category || '',
+        primary_area: payload.primary_area || payload.career_area || ''
       });
 
       fetch(`api/analytics.php?${params.toString()}`, {
@@ -3264,12 +3272,32 @@
             clicks: Number(c.clicks)
           })).sort((a, b) => b.clicks - a.clicks);
 
+          const careerAreaTitlesMap = {
+            'tecnologia': 'Tecnologia & Informática',
+            'administracao': 'Administração & Rotinas de Escritório',
+            'comunicacao': 'Atendimento ao Cliente & Comunicação',
+            'criatividade': 'Design, Criatividade & Conteúdo Digital',
+            'vendas': 'Empreendedorismo & Vendas',
+            'tecnica': 'Atividades Técnicas & Práticas Operacionais',
+            'gestao': 'Gestão, Liderança & Organização',
+            'educacao': 'Educação & Desenvolvimento Humano'
+          };
+          const totalTests = (local.summary.career_tests_count || 1);
+          const quizAreasAscending = Object.entries(local.career_test_areas || {}).map(([key, count], idx) => ({
+            order: idx + 1,
+            key,
+            title: careerAreaTitlesMap[key] || key,
+            count: Number(count),
+            percent: Math.round((Number(count) / totalTests) * 100)
+          })).sort((a, b) => a.count - b.count); // ORDEM ASCENDENTE (menor para o maior)
+
           data = {
             summary: local.summary,
             locations_brazil_states: statesList,
             locations_brazil_cities: citiesList,
             locations_world: worldList,
             top_courses: coursesList,
+            career_test_areas_ascending: quizAreasAscending,
             last_updated: new Date().toISOString()
           };
         }
@@ -3283,12 +3311,14 @@
     const tracksViewsEl = document.getElementById('stat-tracks-views');
     const courseClicksEl = document.getElementById('stat-course-clicks');
     const totalFavsEl = document.getElementById('stat-total-favs');
+    const careerTestsEl = document.getElementById('stat-career-tests');
     const lastUpdateEl = document.getElementById('analytics-last-update-time');
 
     if (homeViewsEl) homeViewsEl.textContent = Number(data.summary?.home_views || 0).toLocaleString('pt-BR');
     if (tracksViewsEl) tracksViewsEl.textContent = Number(data.summary?.tracks_views || 0).toLocaleString('pt-BR');
     if (courseClicksEl) courseClicksEl.textContent = Number(data.summary?.course_clicks || 0).toLocaleString('pt-BR');
     if (totalFavsEl) totalFavsEl.textContent = Number(data.summary?.total_favorites || state.favorites.size || 0).toLocaleString('pt-BR');
+    if (careerTestsEl) careerTestsEl.textContent = Number(data.summary?.career_tests_count || 0).toLocaleString('pt-BR');
     if (lastUpdateEl) {
       const d = new Date(data.last_updated || Date.now());
       lastUpdateEl.textContent = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
@@ -3421,6 +3451,45 @@
       }
     }
 
+    // Renderizar Áreas Vocacionais Mais Direcionadas em ORDEM ASCENDENTE (da menor para a maior)
+    const quizAreasContainer = document.getElementById('analytics-quiz-areas-list');
+    if (quizAreasContainer) {
+      if (!Array.isArray(data.career_test_areas_ascending) || data.career_test_areas_ascending.length === 0) {
+        quizAreasContainer.innerHTML = `
+          <div class="text-xs text-slate-500 py-6 text-center font-medium bg-white rounded-2xl border border-dashed border-slate-200 p-4">
+            <i data-lucide="target" class="w-6 h-6 mx-auto mb-2 text-purple-400"></i>
+            <p class="font-bold text-slate-700">Nenhum teste de perfil concluído ainda.</p>
+            <span class="text-[11px] text-slate-400">As áreas aparecerão aqui em ordem ascendente conforme os visitantes finalizarem o teste.</span>
+          </div>
+        `;
+      } else {
+        const maxAreaCount = Math.max(...data.career_test_areas_ascending.map(a => a.count), 1);
+        const quizHtml = data.career_test_areas_ascending.map((area, idx) => {
+          const barWidth = Math.min(100, Math.round((area.count / maxAreaCount) * 100));
+          return `
+            <div class="space-y-1.5 p-3 rounded-2xl bg-white border border-slate-200 shadow-2xs hover:border-purple-300 transition-colors">
+              <div class="flex items-center justify-between text-xs font-bold text-slate-800 gap-2 flex-wrap">
+                <span class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-lg bg-purple-100 text-purple-800 font-black text-[11px] flex items-center justify-center flex-shrink-0 border border-purple-200">
+                    ${idx + 1}º
+                  </span>
+                  <span class="font-bold text-slate-900">${escapeHTML(area.title || area.key)}</span>
+                </span>
+                <span class="text-slate-600 font-semibold text-[11px]">
+                  <strong class="text-purple-700 font-black text-xs">${area.count.toLocaleString('pt-BR')}</strong> direcionamento${area.count === 1 ? '' : 's'} 
+                  <span class="text-slate-400 font-medium">(${area.percent}%)</span>
+                </span>
+              </div>
+              <div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-purple-500 to-[#002776] rounded-full transition-all duration-500" style="width: ${barWidth}%;"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+        quizAreasContainer.innerHTML = quizHtml;
+      }
+    }
+
     if (window.lucide && window.lucide.createIcons) {
       window.lucide.createIcons({ root: modal });
     }
@@ -3438,8 +3507,10 @@
 
     const tabGeoBtn = document.getElementById('analytics-tab-geo-btn');
     const tabCoursesBtn = document.getElementById('analytics-tab-courses-btn');
+    const tabQuizBtn = document.getElementById('analytics-tab-quiz-btn');
     const viewGeo = document.getElementById('analytics-view-geo');
     const viewCourses = document.getElementById('analytics-view-courses');
+    const viewQuiz = document.getElementById('analytics-view-quiz');
 
     function openModal() {
       if (!state.isAdmin) {
@@ -3470,22 +3541,23 @@
       }
     });
 
-    // Alternância de Abas: [Brasil & Mundo] vs [Cursos Mais Acessados]
-    if (tabGeoBtn && tabCoursesBtn && viewGeo && viewCourses) {
-      tabGeoBtn.addEventListener('click', () => {
-        viewGeo.classList.remove('hidden');
-        viewCourses.classList.add('hidden');
-        tabGeoBtn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-black bg-[#002776] text-white shadow-sm flex items-center gap-2 transition-all cursor-pointer';
-        tabCoursesBtn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2 transition-all cursor-pointer';
-      });
+    // Alternância entre as 3 Abas: [Brasil & Mundo] vs [Cursos Mais Acessados] vs [Áreas Vocacionais]
+    function switchAnalyticsTab(activeTab) {
+      const activeClass = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-black bg-[#002776] text-white shadow-sm flex items-center gap-2 transition-all cursor-pointer';
+      const inactiveClass = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2 transition-all cursor-pointer';
 
-      tabCoursesBtn.addEventListener('click', () => {
-        viewGeo.classList.add('hidden');
-        viewCourses.classList.remove('hidden');
-        tabCoursesBtn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-black bg-[#002776] text-white shadow-sm flex items-center gap-2 transition-all cursor-pointer';
-        tabGeoBtn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2 transition-all cursor-pointer';
-      });
+      if (viewGeo) viewGeo.classList.toggle('hidden', activeTab !== 'geo');
+      if (viewCourses) viewCourses.classList.toggle('hidden', activeTab !== 'courses');
+      if (viewQuiz) viewQuiz.classList.toggle('hidden', activeTab !== 'quiz');
+
+      if (tabGeoBtn) tabGeoBtn.className = activeTab === 'geo' ? activeClass : inactiveClass;
+      if (tabCoursesBtn) tabCoursesBtn.className = activeTab === 'courses' ? activeClass : inactiveClass;
+      if (tabQuizBtn) tabQuizBtn.className = activeTab === 'quiz' ? activeClass : inactiveClass;
     }
+
+    if (tabGeoBtn) tabGeoBtn.addEventListener('click', () => switchAnalyticsTab('geo'));
+    if (tabCoursesBtn) tabCoursesBtn.addEventListener('click', () => switchAnalyticsTab('courses'));
+    if (tabQuizBtn) tabQuizBtn.addEventListener('click', () => switchAnalyticsTab('quiz'));
 
     // Botão Atualizar Métricas
     if (refreshBtn) {

@@ -157,14 +157,9 @@ function saveAnalyticsData($cacheFile, $data) {
 
 switch ($action) {
     case 'track':
-        if ($method !== 'POST') {
-            http_response_code(405);
-            echo json_encode(['error' => true, 'message' => 'Método inválido. Utilize POST.']);
-            exit;
-        }
-
         $inputRaw = file_get_contents('php://input');
-        $input = json_decode($inputRaw, true) ?? $_POST;
+        $inputJson = json_decode($inputRaw, true);
+        $input = is_array($inputJson) ? array_merge($_GET, $inputJson) : array_merge($_GET, $_POST);
 
         $event = trim($input['event'] ?? 'pageview_home');
         $city = trim($input['city'] ?? '');
@@ -306,12 +301,6 @@ switch ($action) {
         exit;
 
     case 'reset':
-        if ($method !== 'POST') {
-            http_response_code(405);
-            echo json_encode(['error' => true, 'message' => 'Método inválido.']);
-            exit;
-        }
-
         $fresh = getDefaultAnalyticsData();
         saveAnalyticsData($cacheFile, $fresh);
         echo json_encode(['success' => true, 'message' => 'Métricas reiniciadas com sucesso.', 'data' => $fresh]);

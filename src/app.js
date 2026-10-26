@@ -2465,12 +2465,22 @@
       localStorage.setItem('vpt_analytics_local', JSON.stringify(localStats));
     } catch (e) {}
 
-    // 2. Transmissão para a API no servidor
+    // 2. Transmissão para a API no servidor (GET beacon compatível com firewalls e proxies)
     try {
-      fetch('api/analytics.php?action=track', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+      const params = new URLSearchParams({
+        action: 'track',
+        event: eventType,
+        city: body.city || '',
+        region: body.region || '',
+        country: body.country || '',
+        course_id: payload.course_id || '',
+        course_title: payload.course_title || '',
+        course_provider: payload.course_provider || '',
+        course_category: payload.course_category || ''
+      });
+
+      fetch(`api/analytics.php?${params.toString()}`, {
+        method: 'GET',
         keepalive: true
       }).catch(() => {});
     } catch (e) {}
@@ -2753,7 +2763,7 @@
       resetBtn.addEventListener('click', async () => {
         if (confirm('Tem certeza que deseja reiniciar as estatísticas de teste?')) {
           try {
-            await fetch('api/analytics.php?action=reset', { method: 'POST' });
+            await fetch('api/analytics.php?action=reset');
           } catch (e) {}
           localStorage.removeItem('vpt_analytics_local');
           showToast('Estatísticas reiniciadas.', 'info');

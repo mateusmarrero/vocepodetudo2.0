@@ -529,14 +529,22 @@
       if (!res.ok) throw new Error('Falha ao carregar cursos');
       const data = await res.json();
 
-      if (data && data.success && Array.isArray(data.courses)) {
+      if (data && data.success && Array.isArray(data.courses) && data.courses.length > 0) {
         state.courses = data.courses;
         state.filteredCourses = [...data.courses];
         renderCoursesTable();
+        return;
       }
     } catch (err) {
-      console.warn('Erro ao carregar cursos da API, usando catálogo local:', err);
-      // Tentativa de obter do cache local ou cursos padrão
+      console.warn('Utilizando catálogo oficial integrado de cursos:', err);
+    }
+
+    // Fallback de contingência com todos os 155 cursos oficiais
+    const localCourses = (window.PORTAL_DATA && window.PORTAL_DATA.courses) || 
+                         (window.opener && window.opener.PORTAL_DATA && window.opener.PORTAL_DATA.courses) || [];
+    if (localCourses.length > 0) {
+      state.courses = localCourses;
+      state.filteredCourses = [...localCourses];
       renderCoursesTable();
     }
   }

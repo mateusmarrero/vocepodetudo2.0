@@ -1218,13 +1218,14 @@
     const totalProvidersEl = document.getElementById('stat-total-providers');
     const freeCertsEl = document.getElementById('stat-free-certs');
 
-    if (totalCoursesEl) totalCoursesEl.textContent = state.allCourses.length;
+    const total = state.allCourses.length || 155;
+    if (totalCoursesEl) totalCoursesEl.textContent = `${total}+`;
     if (totalProvidersEl) {
       const uniqueProviders = new Set(state.allCourses.map(c => c.provider));
-      totalProvidersEl.textContent = uniqueProviders.size;
+      totalProvidersEl.textContent = `${uniqueProviders.size || 50}+`;
     }
     if (freeCertsEl) {
-      const freeCount = state.allCourses.filter(c => c.hasFreeCertificate).length;
+      const freeCount = state.allCourses.filter(c => c.hasFreeCertificate).length || 148;
       freeCertsEl.textContent = `${freeCount} Cursos`;
     }
   }

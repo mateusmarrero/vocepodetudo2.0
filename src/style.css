@@ -130,23 +130,74 @@ html.high-contrast textarea {
   animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* ==============================================================
+   ESTILOS DE ACESSIBILIDADE & SEPARAÇÃO TOTAL DE WIDGETS
+   ============================================================== */
 /* Ajustes no posicionamento do VLibras */
 [vw] {
   z-index: 99999 !important;
 }
 
-/* Widget Flutuante de Acessibilidade Visual (Posicionado abaixo do VLibras) */
+/* Widget Flutuante de Acessibilidade Visual */
 #visual-accessibility-widget {
   position: fixed;
-  right: 0;
-  top: calc(50% + 28px);
   z-index: 99998;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* No Mobile (< 768px): Posicionado na lateral ESQUERDA da tela para NÃO colidir com o VLibras que fica na DIREITA */
+@media (max-width: 767px) {
+  #visual-accessibility-widget {
+    left: 0 !important;
+    right: auto !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+
+  #visual-accessibility-toggle-btn {
+    border-radius: 0 1rem 1rem 0 !important;
+    border-left: 0 !important;
+    border-right: 2px solid #ffcc29 !important;
+    border-top: 2px solid #ffcc29 !important;
+    border-bottom: 2px solid #ffcc29 !important;
+    padding: 0.5rem 0.55rem 0.5rem 0.4rem !important;
+    box-shadow: 2px 4px 16px rgba(0, 39, 118, 0.28) !important;
+  }
+
+  #visual-accessibility-toggle-btn:hover {
+    padding-left: 0.4rem !important;
+    padding-right: 0.85rem !important;
+  }
+}
+
+/* No Desktop (>= 768px): Posicionado na lateral DIREITA, com margem vertical garantida abaixo do VLibras */
+@media (min-width: 768px) {
+  #visual-accessibility-widget {
+    right: 0 !important;
+    left: auto !important;
+    top: calc(50vh + 35px) !important;
+    transform: none !important;
+  }
+
+  #visual-accessibility-toggle-btn {
+    border-radius: 1rem 0 0 1rem !important;
+    border-right: 0 !important;
+    border-left: 2px solid #ffcc29 !important;
+    border-top: 2px solid #ffcc29 !important;
+    border-bottom: 2px solid #ffcc29 !important;
+  }
+}
+
+#visual-accessibility-backdrop {
+  z-index: 2147483640;
 }
 
 #visual-accessibility-panel {
-  box-shadow: 0 20px 45px -10px rgba(0, 39, 118, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  z-index: 2147483645;
+  box-shadow: 0 25px 50px -12px rgba(0, 39, 118, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.08);
 }
 
+/* Garante alto contraste em todos os elementos de acessibilidade */
 html.high-contrast #visual-accessibility-widget button {
   background-color: #000000 !important;
   color: #ffff00 !important;
@@ -159,7 +210,8 @@ html.high-contrast #visual-accessibility-panel {
   color: #ffffff !important;
 }
 
-html.high-contrast #visual-accessibility-panel div {
+html.high-contrast #visual-accessibility-panel div,
+html.high-contrast #visual-accessibility-panel button {
   background-color: #000000 !important;
   border-color: #ffff00 !important;
   color: #ffffff !important;

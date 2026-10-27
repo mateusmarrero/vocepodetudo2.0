@@ -3138,19 +3138,23 @@
   }
 
   // ============================================================
-  // WIDGET FLUTUANTE DE ACESSIBILIDADE VISUAL (ABAIXO DO VLIBRAS)
+  // WIDGET FLUTUANTE DE ACESSIBILIDADE VISUAL
   // ============================================================
   function setupVisualAccessibilityWidget() {
     const widget = document.getElementById('visual-accessibility-widget');
     const toggleBtn = document.getElementById('visual-accessibility-toggle-btn');
     const panel = document.getElementById('visual-accessibility-panel');
+    const backdrop = document.getElementById('visual-accessibility-backdrop');
+    const topBarBtn = document.getElementById('top-bar-accessibility-btn');
     const closeBtn = document.getElementById('close-visual-accessibility-btn');
 
-    if (!widget || !toggleBtn || !panel) return;
+    if (!panel) return;
 
     function openPanel() {
       panel.classList.remove('hidden');
-      toggleBtn.setAttribute('aria-expanded', 'true');
+      if (backdrop) backdrop.classList.remove('hidden');
+      if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+      if (topBarBtn) topBarBtn.setAttribute('aria-expanded', 'true');
       updateVisualAccessibilityUI();
       if (window.lucide && window.lucide.createIcons) {
         window.lucide.createIcons({ root: panel });
@@ -3159,7 +3163,9 @@
 
     function closePanel() {
       panel.classList.add('hidden');
-      toggleBtn.setAttribute('aria-expanded', 'false');
+      if (backdrop) backdrop.classList.add('hidden');
+      if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+      if (topBarBtn) topBarBtn.setAttribute('aria-expanded', 'false');
     }
 
     function togglePanel() {
@@ -3170,10 +3176,19 @@
       }
     }
 
-    toggleBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      togglePanel();
-    });
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        togglePanel();
+      });
+    }
+
+    if (topBarBtn) {
+      topBarBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        togglePanel();
+      });
+    }
 
     if (closeBtn) {
       closeBtn.addEventListener('click', (e) => {
@@ -3182,9 +3197,19 @@
       });
     }
 
+    if (backdrop) {
+      backdrop.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closePanel();
+      });
+    }
+
     // Fechar ao clicar fora do painel
     document.addEventListener('click', (e) => {
-      if (!panel.classList.contains('hidden') && !panel.contains(e.target) && !toggleBtn.contains(e.target)) {
+      if (!panel.classList.contains('hidden') && 
+          !panel.contains(e.target) && 
+          (!toggleBtn || !toggleBtn.contains(e.target)) &&
+          (!topBarBtn || !topBarBtn.contains(e.target))) {
         closePanel();
       }
     });
@@ -3196,17 +3221,43 @@
       }
     });
 
-    // Alinhamento dinâmico automático com a posição exata do VLibras
+    // Alinhamento dinâmico automático com a posição do VLibras
     function alignWithVLibras() {
-      const vlibrasBtn = document.querySelector('[vw-access-button], .vw-access-button, [vw] div[vw-access-button]');
-      if (vlibrasBtn) {
-        const rect = vlibrasBtn.getBoundingClientRect();
-        if (rect && rect.height > 0 && rect.bottom > 0) {
-          widget.style.top = `${Math.round(rect.bottom + 8)}px`;
-          return;
+      if (!widget) return;
+      // No Mobile (< 768px): posicionado na lateral esquerda via CSS. Limpa estilos inline.
+      if (window.innerWidth < 768) {
+        widget.style.top = '';
+        widget.style.right = '';
+        widget.style.left = '';
+        return;
+      }
+
+      // No Desktop: lateral direita com folga vertical garantida abaixo do VLibras
+      let foundTop = null;
+      const vlibrasWrapper = document.getElementById('vlibras-access-wrapper') || document.querySelector('[vw]');
+      if (vlibrasWrapper && vlibrasWrapper.shadowRoot) {
+        const innerBtn = vlibrasWrapper.shadowRoot.querySelector('#vlibras-access');
+        if (innerBtn) {
+          const rect = innerBtn.getBoundingClientRect();
+          if (rect && rect.bottom > 0) {
+            foundTop = Math.round(rect.bottom + 12);
+          }
         }
       }
-      widget.style.top = 'calc(50% + 28px)';
+      if (!foundTop) {
+        const vlibrasBtn = document.querySelector('[vw-access-button], .vw-access-button, [vw] div[vw-access-button]');
+        if (vlibrasBtn) {
+          const rect = vlibrasBtn.getBoundingClientRect();
+          if (rect && rect.height > 0 && rect.bottom > 0) {
+            foundTop = Math.round(rect.bottom + 12);
+          }
+        }
+      }
+      if (foundTop) {
+        widget.style.top = `${foundTop}px`;
+      } else {
+        widget.style.top = 'calc(50vh + 35px)';
+      }
     }
 
     alignWithVLibras();

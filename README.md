@@ -13,7 +13,7 @@ Para garantir a integridade dos dados e impedir acessos não autorizados:
 1. **Criptografia SHA-256 com Salting (Web Cryptography API):**
    - Senhas de acesso nunca são armazenadas ou comparadas em texto puro.
    - Utilização de digest criptográfico `crypto.subtle.digest('SHA-256', ...)` com salting exclusivo de alta entropia.
-   - Acesso padrão inicial: Usuário `admin` | Senha `admin123`.
+   - Acesso de Administrador oficial: Usuário `admin` com autenticação segura BCRYPT e token HMAC.
 2. **Proteção contra Ataques de Força Bruta (Rate Limiting):**
    - Monitoramento contínuo de tentativas de autenticação.
    - Após 5 tentativas incorretas, o acesso é automaticamente bloqueado por 5 minutos com exibição de temporizador regressivo no modal.

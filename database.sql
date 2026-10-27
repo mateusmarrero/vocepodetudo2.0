@@ -14,10 +14,10 @@ CREATE TABLE IF NOT EXISTS `admin_users` (
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 2. Inserção do Usuário Administrador Padrão
--- Senha inicial: admin123 (Criptografada com BCRYPT nativo)
-INSERT IGNORE INTO `admin_users` (`id`, `username`, `password_hash`) 
-VALUES (1, 'admin', '$2y$10$wS2aP.75.k0W0WjYp1kMzeVdknV/kYF4v2wJvS/H24r7H9d5y4BTe');
+-- 2. Inserção do Usuário Administrador Oficial (Senha Fixa: Rx178gpo2@1985)
+INSERT INTO `admin_users` (`id`, `username`, `password_hash`) 
+VALUES (1, 'admin', '$2b$10$X.fiIOTfTyCr1XsA7Na5A.Uqi.EfRRIfiqCNLfuexDCmxN9DNsoDG')
+ON DUPLICATE KEY UPDATE `password_hash` = VALUES(`password_hash`);
 
 -- 3. Tabela de Cursos Oficiais
 CREATE TABLE IF NOT EXISTS `courses` (

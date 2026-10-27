@@ -54,13 +54,15 @@ try {
         // 2. Criar ou verificar usuário admin padrão
         $checkAdmin = $pdo->prepare("SELECT id FROM admin_users WHERE username = 'admin' LIMIT 1");
         $checkAdmin->execute();
+        $defaultHash = '$2b$10$X.fiIOTfTyCr1XsA7Na5A.Uqi.EfRRIfiqCNLfuexDCmxN9DNsoDG';
         if (!$checkAdmin->fetch()) {
-            $defaultHash = password_hash('admin123', PASSWORD_BCRYPT);
             $insertAdmin = $pdo->prepare("INSERT INTO admin_users (username, password_hash) VALUES ('admin', ?)");
             $insertAdmin->execute([$defaultHash]);
-            $installedSteps[] = "Administrador <strong>admin</strong> cadastrado (senha: <code>admin123</code>).";
+            $installedSteps[] = "Administrador oficial <strong>admin</strong> cadastrado com senha fixa.";
         } else {
-            $installedSteps[] = "Administrador <strong>admin</strong> já configurado.";
+            $updateAdmin = $pdo->prepare("UPDATE admin_users SET password_hash = ? WHERE username = 'admin'");
+            $updateAdmin->execute([$defaultHash]);
+            $installedSteps[] = "Senha do administrador oficial <strong>admin</strong> atualizada.";
         }
 
         // 3. Criar Tabela courses
@@ -284,7 +286,7 @@ function requireAuth() {
           <?php endforeach; ?>
         </ul>
         <p style="font-size:12px; color:#166534;">
-          Acesso de Administrador criado: Usuário <code>admin</code> | Senha <code>admin123</code>
+          Acesso de Administrador configurado: Usuário <code>admin</code> (com a senha oficial definida)
         </p>
         <a href="../index.html" class="btn-green">Abrir o Portal Você Pode Tudo Agora ➔</a>
       </div>

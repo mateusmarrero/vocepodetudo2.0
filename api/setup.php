@@ -70,16 +70,18 @@ try {
     ");
     echo "<div class='step success'>✓ Tabela <code>admin_users</code> criada/verificada.</div>";
 
-    // 2. Criar ou verificar usuário admin padrão
+    // 2. Criar ou atualizar usuário admin oficial (Senha Fixa: Rx178gpo2@1985)
+    $defaultHash = '$2b$10$X.fiIOTfTyCr1XsA7Na5A.Uqi.EfRRIfiqCNLfuexDCmxN9DNsoDG';
     $checkAdmin = $pdo->prepare("SELECT id FROM admin_users WHERE username = 'admin' LIMIT 1");
     $checkAdmin->execute();
     if (!$checkAdmin->fetch()) {
-        $defaultHash = password_hash('admin123', PASSWORD_BCRYPT);
         $insertAdmin = $pdo->prepare("INSERT INTO admin_users (username, password_hash) VALUES ('admin', ?)");
         $insertAdmin->execute([$defaultHash]);
-        echo "<div class='step success'>✓ Administrador inicial <strong>admin</strong> cadastrado com hash BCRYPT seguro (senha: <code>admin123</code>).</div>";
+        echo "<div class='step success'>✓ Administrador oficial <strong>admin</strong> cadastrado com hash BCRYPT seguro (senha fixa definida).</div>";
     } else {
-        echo "<div class='step success'>✓ Usuário administrador já existe no banco.</div>";
+        $updateAdmin = $pdo->prepare("UPDATE admin_users SET password_hash = ? WHERE username = 'admin'");
+        $updateAdmin->execute([$defaultHash]);
+        echo "<div class='step success'>✓ Senha do administrador oficial <strong>admin</strong> atualizada no banco de dados.</div>";
     }
 
     // 3. Criar Tabela courses
@@ -208,7 +210,7 @@ try {
     echo "
       <div class='info-box'>
         <strong>Parabéns! Seu banco de dados MySQL está 100% pronto.</strong><br>
-        - Acesso de Administrador: usuário <code>admin</code> | senha <code>admin123</code><br>
+        - Acesso de Administrador: usuário <code>admin</code> (com a sua senha oficial definida)<br>
         - Por questões de segurança, você já pode acessar o site.
       </div>
       <a href='../index.html' class='btn'>Acessar o Portal Você Pode Tudo →</a>

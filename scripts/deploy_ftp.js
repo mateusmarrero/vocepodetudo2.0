@@ -25,6 +25,8 @@ async function deploy() {
       { local: 'src/app.js', remote: 'public_html/src/app.js' },
       { local: 'src/admin.js', remote: 'public_html/src/admin.js' },
       { local: 'src/style.css', remote: 'public_html/src/style.css' },
+      { local: 'src/data/courses.js', remote: 'public_html/src/data/courses.js' },
+      { local: 'src/data/career_quiz.js', remote: 'public_html/src/data/career_quiz.js' },
       { local: 'api/auth.php', remote: 'public_html/api/auth.php' },
       { local: 'api/config.php', remote: 'public_html/api/config.php' },
       { local: 'api/courses.php', remote: 'public_html/api/courses.php' },

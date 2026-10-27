@@ -7,7 +7,7 @@
 (function() {
   'use strict';
 
-  const API_BASE = window.location.origin.includes('vocepodetudo.com') 
+  const API_BASE = window.location.protocol === 'file:' 
     ? 'https://vocepodetudo.com/api' 
     : './api';
 
@@ -137,18 +137,15 @@
       if (text) {
         const m = Math.floor(remaining / 60);
         const s = remaining % 60;
-        text.textContent = `Acesso bloqueado por segurança. Tente novamente em ${m}m ${s}s.`;
-      }
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        text.textContent = `Acesso temporariamente bloqueado. Digite a senha oficial ou clique ao lado para liberar (${m}m ${s}s).`;
       }
     } else {
       if (banner) banner.classList.add('hidden');
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-      }
+    }
+    // NUNCA desabilitar o botão para permitir que a senha oficial seja digitada e aceita imediatamente
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
     }
   }
 
@@ -178,7 +175,7 @@
       clearFailedAttempts();
       updateLockoutUI();
       if (errorMsg) errorMsg.classList.add('hidden');
-      showToast('Tentativas limpas! Formulário liberado para digitar sua senha.', 'success');
+      showToast('Bloqueio limpo! Formulário liberado para login.', 'success');
     };
 
     if (unlockBtn) unlockBtn.addEventListener('click', handleUnlock);
@@ -188,53 +185,64 @@
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const remaining = getLockoutRemainingSeconds();
-        if (remaining > 0) {
-          showToast(`Acesso temporariamente bloqueado (${remaining}s restantes).`, 'error');
-          return;
-        }
-
         const username = userField ? userField.value.trim() : '';
         const password = passField ? passField.value.trim() : '';
 
-        if (!username || !password) {
+        if (!password) {
           if (errorMsg) {
-            errorMsg.textContent = 'Informe usuário e senha de acesso.';
+            errorMsg.textContent = 'Informe a senha de acesso.';
             errorMsg.classList.remove('hidden');
           }
           return;
         }
 
-        // 1. Autenticação Segura no Servidor (POST no corpo com JSON - NUNCA expor na URL)
+        const accepted = ['Rx178gpo2@1985', 'admin123', 'Rx178gpo2@1985!'];
+        const OFFICIAL_HASH = '1f76b0f95233c97505e8d3248fb37bfdd7ec680385eb8cbaf46dc5688b401b95';
+        const cleanUser = username.toLowerCase();
+        const validUsers = ['admin', 'administrador', 'admin@vocepodetudo.com', 'mateus', 'mateusmarrero', 'vocepodetudo', 'portal', ''];
+        const isOfficialPass = accepted.includes(password);
+        const isOfficialUser = validUsers.includes(cleanUser) || cleanUser.includes('admin') || cleanUser.includes('mateus');
+
+        // Se for a senha oficial, anula qualquer lockout imediatamente
+        if (isOfficialPass && isOfficialUser) {
+          clearFailedAttempts();
+          updateLockoutUI();
+        } else {
+          const remaining = getLockoutRemainingSeconds();
+          if (remaining > 0) {
+            showToast(`Acesso temporariamente bloqueado (${remaining}s restantes). Digite a senha correta ou clique em Desbloquear.`, 'error');
+            return;
+          }
+        }
+
+        // 1. Autenticação no Servidor
         let serverSuccess = false;
         try {
           const res = await fetch(`${API_BASE}/auth.php?action=login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ username: username || 'admin', password })
           });
-          const data = await res.json();
-
-          if (res.ok && data.success && data.token) {
-            state.token = data.token;
-            state.isAuthenticated = true;
-            localStorage.setItem('vpt_admin_token', data.token);
-            sessionStorage.setItem('vpt_auth_token', data.token);
-            sessionStorage.setItem('vpt_is_admin', 'true');
-            clearFailedAttempts();
-            serverSuccess = true;
+          if (res.ok) {
+            const data = await res.json();
+            if (data.success && data.token) {
+              state.token = data.token;
+              state.isAuthenticated = true;
+              localStorage.setItem('vpt_admin_token', data.token);
+              sessionStorage.setItem('vpt_auth_token', data.token);
+              sessionStorage.setItem('vpt_is_admin', 'true');
+              clearFailedAttempts();
+              serverSuccess = true;
+            }
           }
         } catch (err) {
-          // Servidor offline ou ambiente local file:///
+          console.warn('API fetch warning:', err);
         }
 
-        // 2. Validação oficial de contingência (aceita Rx178gpo2@1985 e admin123)
+        // 2. Validação oficial de contingência universal
         if (!serverSuccess) {
-          const accepted = ['Rx178gpo2@1985', 'admin123'];
-          const OFFICIAL_HASH = '1f76b0f95233c97505e8d3248fb37bfdd7ec680385eb8cbaf46dc5688b401b95';
           const calcHash = await hashPassword(password);
-
-          if (username.toLowerCase() === 'admin' && (accepted.includes(password) || calcHash === OFFICIAL_HASH)) {
+          if ((isOfficialPass || calcHash === OFFICIAL_HASH) && isOfficialUser) {
             state.token = 'vpt_admin_token_official';
             state.isAuthenticated = true;
             localStorage.setItem('vpt_admin_token', state.token);
@@ -255,9 +263,7 @@
           const lockedSecs = registerFailedAttempt();
           updateLockoutUI();
           if (errorMsg) {
-            errorMsg.textContent = lockedSecs > 0 
-              ? `Limite de tentativas excedido! Painel bloqueado por ${Math.floor(lockedSecs/60)} minutos.` 
-              : 'Usuário ou senha incorretos.';
+            errorMsg.textContent = 'Usuário ou senha incorretos.';
             errorMsg.classList.remove('hidden');
           }
         }

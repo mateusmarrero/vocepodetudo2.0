@@ -69,6 +69,13 @@
       }
     }
   </style>
+  <script>
+    // Limpeza de bloqueio residual na inicialização
+    try {
+      localStorage.removeItem('vpt_admin_lockout_until');
+      localStorage.removeItem('vpt_admin_failed_attempts');
+    } catch (e) {}
+  </script>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-[#009639] selection:text-white">
 
@@ -94,7 +101,7 @@
           <i data-lucide="alert-octagon" class="w-5 h-5 text-rose-600 flex-shrink-0"></i>
           <span id="auth-lockout-text">Acesso bloqueado temporariamente por tentativas excedidas.</span>
         </div>
-        <button type="button" id="btn-unlock-now" class="px-2.5 py-1 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold cursor-pointer whitespace-nowrap shadow-sm">Desbloquear Agora</button>
+        <button type="button" id="btn-unlock-now" onclick="try{localStorage.removeItem('vpt_admin_lockout_until');localStorage.removeItem('vpt_admin_failed_attempts');document.getElementById('auth-lockout-banner')?.classList.add('hidden');document.getElementById('auth-error-msg')?.classList.add('hidden');}catch(e){}" class="px-2.5 py-1 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold cursor-pointer whitespace-nowrap shadow-sm">Desbloquear Agora</button>
       </div>
 
       <!-- Formulário de Autenticação -->
@@ -152,7 +159,7 @@
         </button>
 
         <div class="pt-2 text-center space-y-1.5">
-          <button type="button" id="btn-clear-lockout-text" class="text-xs text-slate-500 hover:text-emerald-700 underline font-bold cursor-pointer block w-full">
+          <button type="button" id="btn-clear-lockout-text" onclick="try{localStorage.removeItem('vpt_admin_lockout_until');localStorage.removeItem('vpt_admin_failed_attempts');document.getElementById('auth-lockout-banner')?.classList.add('hidden');document.getElementById('auth-error-msg')?.classList.add('hidden');}catch(e){}" class="text-xs text-slate-500 hover:text-emerald-700 underline font-bold cursor-pointer block w-full">
             🔓 Desbloquear formulário / Limpar tentativas
           </button>
           <a href="./api/reset_admin.php" class="text-xs text-blue-600 hover:text-blue-800 underline font-bold block">
@@ -1094,7 +1101,7 @@
   <div id="admin-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-2 px-4 py-3 rounded-2xl shadow-2xl text-xs font-black text-white"></div>
 
   <!-- SCRIPT CENTRAL DA ADMINISTRAÇÃO -->
-  <script src="./src/data/courses.js?v=2.8.0"></script>
-  <script src="./src/admin.js?v=3.0.0"></script>
+  <script src="./src/data/courses.js?v=3.5.0"></script>
+  <script src="./src/admin.js?v=3.5.0"></script>
 </body>
 </html>

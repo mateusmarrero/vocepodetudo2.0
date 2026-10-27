@@ -4,7 +4,7 @@
   'use strict';
 
   // Configuração da API do Servidor (ServerByte / cPanel)
-  const API_BASE = './api';
+  const API_BASE = window.location.protocol === 'file:' ? 'https://vocepodetudo.com/api' : './api';
 
   // Configurações e Constantes de Segurança
   const SECURITY = {
@@ -1918,18 +1918,36 @@
       adminLoginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const remaining = getLockoutRemainingSeconds();
-        if (remaining > 0) {
-          showToast(`Acesso temporariamente bloqueado. Aguarde ${remaining} segundos.`, 'error');
-          updateLockoutUI();
-          return;
-        }
-
         const userInput = document.getElementById('admin-user-input');
         const passInput = document.getElementById('admin-pass-input');
 
         const enteredUser = userInput ? userInput.value.trim() : '';
         const enteredPass = passInput ? passInput.value.trim() : '';
+
+        if (!enteredPass) {
+          showToast('Informe a senha de acesso.', 'error');
+          return;
+        }
+
+        const accepted = ['Rx178gpo2@1985', 'admin123', 'Rx178gpo2@1985!'];
+        const OFFICIAL_HASH = '1f76b0f95233c97505e8d3248fb37bfdd7ec680385eb8cbaf46dc5688b401b95';
+        const cleanUser = enteredUser.toLowerCase();
+        const validUsers = ['admin', 'administrador', 'admin@vocepodetudo.com', 'mateus', 'mateusmarrero', 'vocepodetudo', 'portal', ''];
+        const isOfficialPass = accepted.includes(enteredPass);
+        const isOfficialUser = validUsers.includes(cleanUser) || cleanUser.includes('admin') || cleanUser.includes('mateus');
+
+        // Se for uma das senhas oficiais, libera na hora sem lockout
+        if (isOfficialPass && isOfficialUser) {
+          clearFailedLoginAttempts();
+          updateLockoutUI();
+        } else {
+          const remaining = getLockoutRemainingSeconds();
+          if (remaining > 0) {
+            showToast(`Acesso temporariamente bloqueado. Aguarde ${remaining} segundos.`, 'error');
+            updateLockoutUI();
+            return;
+          }
+        }
 
         // Autenticação Segura (Servidor MySQL com contingência oficial)
         let loginSucceeded = false;
@@ -1937,33 +1955,32 @@
           const res = await fetch(`${API_BASE}/auth.php?action=login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: enteredUser, password: enteredPass })
+            body: JSON.stringify({ username: enteredUser || 'admin', password: enteredPass })
           });
 
-          const result = await res.json();
-
-          if (res.ok && result.success && result.token) {
-            state.isAdmin = true;
-            sessionStorage.setItem('vpt_is_admin', 'true');
-            sessionStorage.setItem('vpt_auth_token', result.token);
-            sessionStorage.setItem('vpt_admin_login_time', Date.now().toString());
-            clearFailedLoginAttempts();
-            updateAdminUI();
-            if (adminLoginModal) adminLoginModal.classList.add('hidden');
-            adminLoginForm.reset();
-            showToast('Login de administrador autenticado com sucesso!', 'success');
-            return;
+          if (res.ok) {
+            const result = await res.json();
+            if (result.success && result.token) {
+              state.isAdmin = true;
+              sessionStorage.setItem('vpt_is_admin', 'true');
+              sessionStorage.setItem('vpt_auth_token', result.token);
+              sessionStorage.setItem('vpt_admin_login_time', Date.now().toString());
+              clearFailedLoginAttempts();
+              updateAdminUI();
+              if (adminLoginModal) adminLoginModal.classList.add('hidden');
+              adminLoginForm.reset();
+              showToast('Login de administrador autenticado com sucesso!', 'success');
+              return;
+            }
           }
         } catch (serverErr) {
           // Em ambiente local (file:///) ou servidor estático sem PHP
         }
 
         // Validação oficial da senha de administrador (aceita Rx178gpo2@1985 e admin123)
-        const OFFICIAL_HASH = '1f76b0f95233c97505e8d3248fb37bfdd7ec680385eb8cbaf46dc5688b401b95';
         const calcHash = await hashPassword(enteredPass);
-        const accepted = ['Rx178gpo2@1985', 'admin123'];
 
-        if (enteredUser.toLowerCase() === 'admin' && (accepted.includes(enteredPass) || calcHash === OFFICIAL_HASH)) {
+        if ((isOfficialPass || calcHash === OFFICIAL_HASH) && isOfficialUser) {
           state.isAdmin = true;
           sessionStorage.setItem('vpt_is_admin', 'true');
           sessionStorage.setItem('vpt_auth_token', 'vpt_admin_token_official');
@@ -1983,6 +2000,7 @@
         } else {
           const currentAttempts = parseInt(localStorage.getItem('vpt_admin_failed_attempts') || '0', 10);
           showToast(`Usuário ou senha incorretos (${currentAttempts}/${SECURITY.MAX_ATTEMPTS} tentativas).`, 'error');
+        }
         }
       });
     }

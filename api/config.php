@@ -9,6 +9,16 @@ ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 error_reporting(E_ALL);
 
+// Cabeçalhos CORS Universais (permite requisições de qualquer origem, www e preflight)
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Origin, Accept');
+
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
 // Configurações do Banco de Dados MySQL na ServerByte / StackCP (obtidas do painel)
 define('DB_HOST', 'sdb-73.hosting.stackcp.net');
 define('DB_NAME', 'voce_podetudo-35303633ebd7');
@@ -84,6 +94,9 @@ function tryGetDBConnection() {
 function jsonResponse($data, $statusCode = 200) {
     http_response_code($statusCode);
     header('Content-Type: application/json; charset=UTF-8');
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Origin, Accept');
     header('X-Content-Type-Options: nosniff');
     header('X-Frame-Options: SAMEORIGIN');
     header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');

@@ -1242,19 +1242,30 @@
     const careerTestView = document.getElementById('career-test-view');
     const careerResultView = document.getElementById('career-result-view');
 
-    const activeClasses = 'px-3 sm:px-4 py-2 rounded-xl bg-[#009639] text-white shadow-sm transition-all font-bold';
-    const inactiveClasses = 'px-3 sm:px-4 py-2 rounded-xl text-slate-700 hover:text-[#009639] transition-all font-bold';
+    const activeClasses = 'px-2 sm:px-4 py-2 rounded-xl bg-[#009639] text-white shadow-sm transition-all font-bold flex items-center justify-center gap-1.5 cursor-pointer text-xs';
+    const inactiveClasses = 'px-2 sm:px-4 py-2 rounded-xl text-slate-700 hover:text-[#009639] hover:bg-white transition-all font-bold flex items-center justify-center gap-1.5 cursor-pointer text-xs';
 
-    if (catTabBtn) catTabBtn.className = state.viewMode === 'catalog' ? activeClasses : inactiveClasses;
+    if (catTabBtn) {
+      catTabBtn.className = state.viewMode === 'catalog' ? activeClasses : inactiveClasses;
+      catTabBtn.setAttribute('aria-selected', state.viewMode === 'catalog' ? 'true' : 'false');
+    }
     if (tracksTabBtn) {
-      tracksTabBtn.className = `${state.viewMode === 'tracks' ? activeClasses : inactiveClasses} flex items-center gap-1.5`;
+      tracksTabBtn.className = state.viewMode === 'tracks' ? activeClasses : inactiveClasses;
+      tracksTabBtn.setAttribute('aria-selected', state.viewMode === 'tracks' ? 'true' : 'false');
     }
     if (favTabBtn) {
-      favTabBtn.className = `${state.viewMode === 'favorites' ? activeClasses : inactiveClasses} flex items-center gap-1.5`;
+      const isFavActive = state.viewMode === 'favorites';
+      favTabBtn.className = isFavActive
+        ? 'inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-bold text-white bg-rose-600 shadow-sm transition-all cursor-pointer'
+        : 'inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-rose-600 bg-white hover:bg-rose-50 border border-slate-200 hover:border-rose-200 transition-all cursor-pointer shadow-sm';
+      favTabBtn.setAttribute('aria-selected', isFavActive ? 'true' : 'false');
     }
     if (careerTabBtn) {
       const isTestActive = state.viewMode === 'career-test' || state.viewMode === 'career-result';
-      careerTabBtn.className = `${isTestActive ? 'px-3 sm:px-4 py-2 rounded-xl bg-[#002776] text-white shadow-sm transition-all font-bold' : inactiveClasses} flex items-center gap-1.5`;
+      careerTabBtn.className = isTestActive
+        ? 'px-2 sm:px-4 py-2 rounded-xl bg-[#002776] text-white shadow-sm transition-all font-bold flex items-center justify-center gap-1.5 cursor-pointer text-xs'
+        : inactiveClasses;
+      careerTabBtn.setAttribute('aria-selected', isTestActive ? 'true' : 'false');
     }
 
     // Ocultar todas as visualizações primeiro para evitar sobreposição
@@ -2001,7 +2012,6 @@
           const currentAttempts = parseInt(localStorage.getItem('vpt_admin_failed_attempts') || '0', 10);
           showToast(`Usuário ou senha incorretos (${currentAttempts}/${SECURITY.MAX_ATTEMPTS} tentativas).`, 'error');
         }
-        }
       });
     }
 
@@ -2410,28 +2420,42 @@
 
     const searchInput = document.getElementById('search-input');
     const clearSearchBtn = document.getElementById('clear-search-btn');
+    const mobileSearchInput = document.getElementById('mobile-search-input');
+    const mobileClearSearchBtn = document.getElementById('mobile-clear-search-btn');
 
-    if (searchInput) {
-      searchInput.addEventListener('input', (e) => {
-        state.searchQuery = e.target.value;
-        if (clearSearchBtn) {
-          clearSearchBtn.style.display = state.searchQuery ? 'block' : 'none';
-        }
-        if (state.viewMode !== 'catalog') {
-          state.viewMode = 'catalog';
-          updateViewModeButtons();
-        }
-        renderCourses();
-      });
+    function syncSearchInputs(val) {
+      state.searchQuery = val;
+      if (searchInput && searchInput.value !== val) searchInput.value = val;
+      if (mobileSearchInput && mobileSearchInput.value !== val) mobileSearchInput.value = val;
+
+      const hasText = Boolean(val && val.trim().length > 0);
+      if (clearSearchBtn) clearSearchBtn.style.display = hasText ? 'block' : 'none';
+      if (mobileClearSearchBtn) mobileClearSearchBtn.style.display = hasText ? 'block' : 'none';
+
+      if (state.viewMode !== 'catalog') {
+        state.viewMode = 'catalog';
+        updateViewModeButtons();
+      }
+      renderCourses();
     }
 
-    if (clearSearchBtn && searchInput) {
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => syncSearchInputs(e.target.value));
+    }
+    if (mobileSearchInput) {
+      mobileSearchInput.addEventListener('input', (e) => syncSearchInputs(e.target.value));
+    }
+
+    if (clearSearchBtn) {
       clearSearchBtn.addEventListener('click', () => {
-        searchInput.value = '';
-        state.searchQuery = '';
-        clearSearchBtn.style.display = 'none';
-        searchInput.focus();
-        renderCourses();
+        syncSearchInputs('');
+        if (searchInput) searchInput.focus();
+      });
+    }
+    if (mobileClearSearchBtn) {
+      mobileClearSearchBtn.addEventListener('click', () => {
+        syncSearchInputs('');
+        if (mobileSearchInput) mobileSearchInput.focus();
       });
     }
 
@@ -2528,6 +2552,9 @@
         state.selectedTrack = null;
 
         if (searchInput) searchInput.value = '';
+        if (mobileSearchInput) mobileSearchInput.value = '';
+        if (clearSearchBtn) clearSearchBtn.style.display = 'none';
+        if (mobileClearSearchBtn) mobileClearSearchBtn.style.display = 'none';
         if (workloadSelect) workloadSelect.value = 'all';
         if (sortSelect) sortSelect.value = 'recommended';
         const providerSelect = document.getElementById('provider-select');
@@ -4792,6 +4819,10 @@
     setupModals();
     setupEventListeners();
     setupInfiniteScroll();
+
+    // Renderização imediata do catálogo (0ms de espera para o usuário)
+    renderCourses();
+    updateHeaderStats();
 
     if (state.viewMode === 'career-test') {
       renderCurrentQuizStep();

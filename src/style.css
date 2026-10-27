@@ -166,6 +166,45 @@ html.high-contrast #visual-accessibility-panel div {
 }
 
 /* ==============================================================
+   RESPONSIVIDADE MOBILE & REFINAMENTOS DE LAYOUT (PORTAL VCPDTD)
+   ============================================================== */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw;
+  width: 100%;
+}
+
+/* Touch targets ergonômicos e acessíveis em dispositivos móveis */
+@media (max-width: 640px) {
+  button, 
+  a.course-access-link, 
+  select, 
+  input {
+    min-height: 42px;
+  }
+
+  /* Melhor aproveitamento da grade de cursos em smartphones */
+  #courses-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .course-card {
+    padding: 1rem;
+  }
+}
+
+/* Rolagem horizontal suave para barra de categorias */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* ==============================================================
    FOLHA DE ESTILO PARA IMPRESSÃO LIMPA DO RESULTADO VOCACIONAL
    ============================================================== */
 @media print {

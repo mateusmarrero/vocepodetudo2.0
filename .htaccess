@@ -1,11 +1,8 @@
 # ==============================================================================
-# Portal Você Pode Tudo (VCPDTD) — Configuração de Alta Segurança Apache / StackCP
+# Portal Você Pode Tudo (VCPDTD) — Configuração Apache / StackCP
 # ==============================================================================
 
-# 1. Desabilitar listagem de diretórios (Directory Browsing)
-Options -Indexes -MultiViews
-
-# 2. Forçar HTTPS (Redirecionamento 301 de HTTP para HTTPS)
+# 1. Forçar HTTPS (Redirecionamento 301 de HTTP para HTTPS)
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteCond %{HTTPS} off
@@ -13,7 +10,7 @@ Options -Indexes -MultiViews
   RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 </IfModule>
 
-# 3. Cabeçalhos Globais de Segurança (Security Headers)
+# 2. Cabeçalhos Globais de Segurança (Security Headers)
 <IfModule mod_headers.c>
   # Forçar conexão segura estrita (HSTS)
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
@@ -29,29 +26,21 @@ Options -Indexes -MultiViews
   
   # Restrição de APIs sensíveis do navegador
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
-  
-  # Filtro XSS do Navegador
-  Header set X-XSS-Protection "1; mode=block"
 </IfModule>
 
-# 4. Bloqueio Total a Arquivos Sensíveis, Backups e Código-Fonte (permitindo RFC 9116 .well-known)
-<FilesMatch "(^\.(?!well-known)|\.env.*|\.sql$|\.zip$|\.7z$|\.tar$|\.gz$|\.log$|cache_.*\.json$|seed_.*\.json$|README\.md$|package\.json$|test_db.*\.php$|setup\.php$)">
-  <IfModule mod_authz_core.c>
-    Require all denied
-  </IfModule>
-  <IfModule !mod_authz_core.c>
-    Order allow,deny
-    Deny from all
-  </IfModule>
+# 3. Bloqueio a Arquivos Sensíveis e Backups
+<FilesMatch "\.(env|sql|zip|7z|tar|gz|log)$">
+  Require all denied
 </FilesMatch>
 
-# 5. Proteger diretórios de versão e dados (.git, api/backups)
+# 4. Proteger arquivos de dados e backups
 <IfModule mod_rewrite.c>
-  RewriteRule ^\.git - [F,L]
   RewriteRule ^backups/ - [F,L]
+  RewriteRule ^api/cache_ - [F,L]
+  RewriteRule ^api/seed_ - [F,L]
 </IfModule>
 
-# 6. Otimização de Cache e Desempenho para Recursos Estáticos
+# 5. Otimização de Cache e Desempenho para Recursos Estáticos
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresDefault "access plus 1 hour"

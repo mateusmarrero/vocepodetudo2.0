@@ -2695,11 +2695,11 @@
   };
 
   // Helper com timeout para evitar que chamadas externas travem a interface
-  async function fetchWithTimeout(url, timeoutMs = 3500) {
+  async function fetchWithTimeout(url, timeoutMs = 3500, options = {}) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeoutMs);
     try {
-      const res = await fetch(url, { signal: controller.signal });
+      const res = await fetch(url, { ...options, signal: controller.signal });
       clearTimeout(timer);
       return res;
     } catch (err) {
@@ -2875,8 +2875,15 @@
 
   function initWeatherWidget() {
     updateTopBarDate();
-    // Renderiza estado inicial padrão imediatamente para nunca ficar em branco
-    renderWeatherUI({
+    // Renderiza clima a partir do cache da sessão ou valor padrão limpo (LGPD compliance: sem vazamento de IP no page load)
+    const cached = (function() {
+      try {
+        const c = sessionStorage.getItem('vpt_weather_cache');
+        return c ? JSON.parse(c) : null;
+      } catch (e) { return null; }
+    })();
+
+    renderWeatherUI(cached || {
       city: 'Brasil',
       region: '',
       temp: 24,
@@ -2884,7 +2891,8 @@
       icon: 'sun',
       color: 'text-[#ffdf00]'
     });
-    fetchIPLocationAndWeather();
+
+    // Configura interação do widget: busca geolocalização somente quando o usuário interagir
     setupWeatherWidgetInteraction();
   }
 
@@ -3776,23 +3784,27 @@
   // MÓDULO DA ÁREA DO ALUNO & ACOMPANHAMENTO
   // ==========================================
 
-  // Salvar teste vocacional automaticamente na conta do aluno
+  // Salvar teste vocacional automaticamente na conta do aluno (POST com token no header)
   async function saveStudentCareerTest(results) {
     if (!state.studentToken || !results) return;
     try {
-      const params = new URLSearchParams({
-        action: 'save_test',
-        token: state.studentToken,
-        primary_area: results.primary?.areaKey || 'tecnologia',
-        secondary_area: results.secondary?.areaKey || '',
-        recommended_track: results.primary?.recommendedTrack?.id || '',
-        scores: JSON.stringify(results.scores || {})
+      await fetch(`api/student.php?action=save_test`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${state.studentToken}`
+        },
+        body: JSON.stringify({
+          primary_area: results.primary?.areaKey || 'tecnologia',
+          secondary_area: results.secondary?.areaKey || '',
+          recommended_track: results.primary?.recommendedTrack?.id || '',
+          scores: results.scores || {}
+        })
       });
-      await fetch(`api/student.php?${params.toString()}`);
     } catch (e) {}
   }
 
-  // Inicializar sessão do aluno persistida no token
+  // Inicializar sessão do aluno persistida no token (sem token na URL)
   async function initStudentSession() {
     if (!state.studentToken) {
       updateStudentUI();
@@ -3800,7 +3812,11 @@
     }
 
     try {
-      const res = await fetchWithTimeout(`api/student.php?action=me&token=${encodeURIComponent(state.studentToken)}`, 3500);
+      const res = await fetchWithTimeout(`api/student.php?action=me`, 3500, {
+        headers: {
+          'Authorization': `Bearer ${state.studentToken}`
+        }
+      });
       if (res.ok) {
         const json = await res.json();
         if (json.success && json.student) {
@@ -4099,7 +4115,11 @@
     if (!modal || !state.studentToken) return;
 
     try {
-      const res = await fetch(`api/student.php?action=dashboard&token=${encodeURIComponent(state.studentToken)}`);
+      const res = await fetch(`api/student.php?action=dashboard`, {
+        headers: {
+          'Authorization': `Bearer ${state.studentToken}`
+        }
+      });
 
       if (!res.ok) {
         throw new Error('Falha ao carregar dados do aluno');
@@ -4368,15 +4388,19 @@
   async function updateStudentCourseStatus(courseId, status, certificateUrl = '', workloadHours = 10) {
     if (!state.studentToken) return;
     try {
-      const params = new URLSearchParams({
-        action: 'update_course',
-        token: state.studentToken,
-        course_id: courseId,
-        status,
-        certificate_url: certificateUrl,
-        workload_hours: workloadHours
+      const res = await fetch(`api/student.php?action=update_course`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${state.studentToken}`
+        },
+        body: JSON.stringify({
+          course_id: courseId,
+          status,
+          certificate_url: certificateUrl,
+          workload_hours: workloadHours
+        })
       });
-      const res = await fetch(`api/student.php?${params.toString()}`);
 
       if (res.ok) {
         showToast('Progresso do curso atualizado!', 'success');
@@ -4391,12 +4415,14 @@
   async function removeStudentCourse(courseId) {
     if (!state.studentToken) return;
     try {
-      const params = new URLSearchParams({
-        action: 'remove_course',
-        token: state.studentToken,
-        course_id: courseId
+      const res = await fetch(`api/student.php?action=remove_course`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${state.studentToken}`
+        },
+        body: JSON.stringify({ course_id: courseId })
       });
-      const res = await fetch(`api/student.php?${params.toString()}`);
 
       if (res.ok) {
         showToast('Curso removido da sua lista.', 'info');
@@ -4711,16 +4737,18 @@
       });
     }
 
-    // Excluir Conta (LGPD)
+    // Excluir Conta (LGPD) - Método POST com Token em Header contra CSRF
     if (deleteAccountBtn) {
       deleteAccountBtn.addEventListener('click', async () => {
         if (confirm('ATENÇÃO: Deseja realmente excluir permanentemente sua conta e todos os seus testes e cursos salvos? Esta ação não pode ser desfeita.')) {
           try {
-            const params = new URLSearchParams({
-              action: 'delete_account',
-              token: state.studentToken
+            const res = await fetch(`api/student.php?action=delete_account`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${state.studentToken}`
+              }
             });
-            const res = await fetch(`api/student.php?${params.toString()}`);
             if (res.ok) {
               localStorage.removeItem('vpt_student_token');
               state.studentToken = null;

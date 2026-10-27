@@ -155,8 +155,6 @@ function requireAuth() {
         $token = $matches[1];
     } elseif (isset($_COOKIE['vpt_auth_token'])) {
         $token = $_COOKIE['vpt_auth_token'];
-    } elseif (!empty($_GET['token'])) {
-        $token = trim($_GET['token']);
     } elseif (!empty($_POST['token'])) {
         $token = trim($_POST['token']);
     }
@@ -201,8 +199,8 @@ function requireStudentAuth() {
         $token = $matches[1];
     } elseif (isset($_COOKIE['vpt_student_token'])) {
         $token = $_COOKIE['vpt_student_token'];
-    } elseif (isset($_GET['token'])) {
-        $token = $_GET['token'];
+    } elseif (!empty($_POST['token'])) {
+        $token = trim($_POST['token']);
     }
 
     $tokenData = verifyToken($token);

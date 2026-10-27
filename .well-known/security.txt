@@ -1,0 +1,6 @@
+Contact: mailto:contato@vocepodetudo.com
+Expires: 2027-10-26T23:00:00.000Z
+Preferred-Languages: pt-BR, en
+Canonical: https://vocepodetudo.com/.well-known/security.txt
+Policy: https://vocepodetudo.com/termos.html
+Acknowledgments: https://vocepodetudo.com/

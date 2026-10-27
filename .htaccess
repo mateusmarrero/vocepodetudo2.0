@@ -27,6 +27,9 @@ Options -Indexes -MultiViews
   # Política de Referência Segura
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   
+  # Conteúdo e Segurança (Content-Security-Policy - Proteção robusta contra XSS, data injection e supply-chain)
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com https://pagead2.googlesyndication.com https://*.google.com https://*.googlesyndication.com https://vlibras.gov.br https://*.vlibras.gov.br; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://vocepodetudo.com https://www.vocepodetudo.com https://pagead2.googlesyndication.com https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://vlibras.gov.br https://*.vlibras.gov.br https://api.open-meteo.com https://get.geojs.io https://ipwho.is https://api.bigdatacloud.net; frame-src 'self' https://googleads.g.doubleclick.net https://*.google.com https://*.googlesyndication.com https://vlibras.gov.br https://*.vlibras.gov.br; frame-ancestors 'self'; base-uri 'self'; form-action 'self';"
+
   # Restrição de APIs sensíveis do navegador
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
   
@@ -34,8 +37,8 @@ Options -Indexes -MultiViews
   Header set X-XSS-Protection "1; mode=block"
 </IfModule>
 
-# 4. Bloqueio Total a Arquivos Sensíveis, Backups e Código-Fonte
-<FilesMatch "(^\.|\.env.*|\.sql$|\.zip$|\.7z$|\.tar$|\.gz$|\.log$|cache_.*\.json$|seed_.*\.json$|README\.md$|package\.json$|test_db.*\.php$|setup\.php$)">
+# 4. Bloqueio Total a Arquivos Sensíveis, Backups e Código-Fonte (permitindo RFC 9116 .well-known)
+<FilesMatch "(^\.(?!well-known)|\.env.*|\.sql$|\.zip$|\.7z$|\.tar$|\.gz$|\.log$|cache_.*\.json$|seed_.*\.json$|README\.md$|package\.json$|test_db.*\.php$|setup\.php$)">
   <IfModule mod_authz_core.c>
     Require all denied
   </IfModule>

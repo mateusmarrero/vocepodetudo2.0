@@ -721,7 +721,14 @@
       btn.addEventListener('click', async () => {
         const id = btn.getAttribute('data-id');
         try {
-          const res = await fetch(`${API_BASE}/courses.php?action=toggle&id=${encodeURIComponent(id)}&token=${encodeURIComponent(state.token)}`);
+          const res = await fetch(`${API_BASE}/courses.php?action=toggle`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${state.token}`
+            },
+            body: JSON.stringify({ id })
+          });
           const data = await res.json();
           if (data && data.success) {
             showToast(data.message, 'success');
@@ -745,7 +752,14 @@
         }
 
         try {
-          const res = await fetch(`${API_BASE}/courses.php?action=delete&id=${encodeURIComponent(id)}&token=${encodeURIComponent(state.token)}`);
+          const res = await fetch(`${API_BASE}/courses.php?action=delete`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${state.token}`
+            },
+            body: JSON.stringify({ id })
+          });
           const data = await res.json();
           if (data && data.success) {
             showToast('Curso removido com sucesso!', 'success');
@@ -838,23 +852,26 @@
         const isEdit = !!state.editingCourseId;
         const action = isEdit ? 'update' : 'create';
 
-        const params = new URLSearchParams({
-          action,
-          token: state.token,
-          id: id || '',
-          title,
-          provider,
-          category,
-          url,
-          workloadHours: workloadHours.toString(),
-          level,
-          hasFreeCertificate: hasFreeCertificate ? '1' : '0',
-          description,
-          featured: featured.toString()
-        });
-
         try {
-          const res = await fetch(`${API_BASE}/courses.php?${params.toString()}`);
+          const res = await fetch(`${API_BASE}/courses.php?action=${action}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${state.token}`
+            },
+            body: JSON.stringify({
+              id: id || '',
+              title,
+              provider,
+              category,
+              url,
+              workloadHours,
+              level,
+              hasFreeCertificate,
+              description,
+              featured
+            })
+          });
           const data = await res.json();
 
           if (res.ok && data.success) {
@@ -881,7 +898,11 @@
   // ==========================================
   async function fetchStudentsData() {
     try {
-      const res = await fetch(`${API_BASE}/student.php?action=list_all&token=${encodeURIComponent(state.token)}&t=${Date.now()}`);
+      const res = await fetch(`${API_BASE}/student.php?action=list_all`, {
+        headers: {
+          'Authorization': `Bearer ${state.token}`
+        }
+      });
       if (!res.ok) throw new Error('Falha ao carregar alunos');
       const data = await res.json();
 
@@ -1025,7 +1046,17 @@
 
         // 1. Servidor MySQL
         try {
-          const res = await fetch(`${API_BASE}/auth.php?action=change_password&token=${encodeURIComponent(state.token)}&current_password=${encodeURIComponent(curPass)}&new_password=${encodeURIComponent(newPass)}`);
+          const res = await fetch(`${API_BASE}/auth.php?action=change_password`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${state.token}`
+            },
+            body: JSON.stringify({
+              current_password: curPass,
+              new_password: newPass
+            })
+          });
           const data = await res.json();
           if (res.ok && data.success) {
             updated = true;

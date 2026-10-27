@@ -487,6 +487,9 @@ try {
         // 5. SALVAR NOVO RESULTADO DE TESTE VOCACIONAL
         // ==========================================
         case 'save_test':
+            if ($method !== 'POST') {
+                jsonResponse(['error' => true, 'message' => 'Método inválido. Salvar teste exige requisição POST.'], 405);
+            }
             $auth = requireStudentAuth();
             $studentId = (int) $auth['sub'];
 
@@ -523,6 +526,9 @@ try {
         // 6. ATUALIZAR STATUS DE UM CURSO DO ALUNO
         // ==========================================
         case 'update_course':
+            if ($method !== 'POST') {
+                jsonResponse(['error' => true, 'message' => 'Método inválido. Atualização de cursos exige requisição POST.'], 405);
+            }
             $auth = requireStudentAuth();
             $studentId = (int) $auth['sub'];
 
@@ -588,6 +594,9 @@ try {
         // 7. REMOVER CURSO DA LISTA DO ALUNO
         // ==========================================
         case 'remove_course':
+            if ($method !== 'POST') {
+                jsonResponse(['error' => true, 'message' => 'Método inválido. Remoção de cursos exige requisição POST.'], 405);
+            }
             $auth = requireStudentAuth();
             $studentId = (int) $auth['sub'];
             $courseId = trim($input['course_id'] ?? '');
@@ -612,6 +621,9 @@ try {
         // 8. EXCLUIR CONTA & DIREITO AO ESQUECIMENTO (LGPD)
         // ==========================================
         case 'delete_account':
+            if ($method !== 'POST') {
+                jsonResponse(['error' => true, 'message' => 'Método inválido. A exclusão de conta exige requisição POST para prevenir ataques CSRF.'], 405);
+            }
             $auth = requireStudentAuth();
             $studentId = (int) $auth['sub'];
 
@@ -640,10 +652,11 @@ try {
             break;
 
         // ==========================================
-        // 9. LISTAGEM GERAL DE ALUNOS (PARA PAINEL DE ADMINISTRAÇÃO)
+        // 9. LISTAGEM GERAL DE ALUNOS (RESTRITO AO ADMINISTRADOR)
         // ==========================================
         case 'list_all':
         case 'admin_list':
+            requireAuth();
             $studentsList = [];
             if ($pdo) {
                 try {

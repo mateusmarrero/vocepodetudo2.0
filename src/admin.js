@@ -939,7 +939,10 @@
             </span>
             <span class="font-black text-slate-900">${st.name}</span>
           </td>
-          <td class="py-3 px-4 font-bold text-slate-600">${st.email}</td>
+          <td class="py-3 px-4">
+            <div class="font-bold text-slate-800">${st.email}</div>
+            ${st.phone ? `<div class="text-[11px] font-semibold text-emerald-700 flex items-center gap-1 mt-0.5"><i data-lucide="phone" class="w-3 h-3 text-emerald-600"></i><span>${st.phone}</span></div>` : '<span class="text-[10px] text-slate-400">Sem telefone</span>'}
+          </td>
           <td class="py-3 px-4">
             <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase bg-purple-50 text-purple-800">
               ${st.goal || 'Geral'}
@@ -967,6 +970,7 @@
         state.filteredStudents = state.students.filter(st => 
           st.name.toLowerCase().includes(val) || 
           st.email.toLowerCase().includes(val) ||
+          (st.phone && st.phone.includes(val)) ||
           (st.goal && st.goal.toLowerCase().includes(val))
         );
         renderStudentsTable();
@@ -982,11 +986,12 @@
           return;
         }
 
-        const headers = ['ID', 'Nome', 'Email', 'Objetivo', 'Ultimo_Perfil_Vocacional', 'Cursos_Inscritos', 'Cursos_Concluidos', 'Horas_Estudadas', 'Data_Cadastro'];
+        const headers = ['ID', 'Nome', 'Email', 'Telefone', 'Objetivo', 'Ultimo_Perfil_Vocacional', 'Cursos_Inscritos', 'Cursos_Concluidos', 'Horas_Estudadas', 'Data_Cadastro'];
         const rows = state.students.map(st => [
           st.id,
           `"${(st.name || '').replace(/"/g, '""')}"`,
           `"${(st.email || '').replace(/"/g, '""')}"`,
+          `"${(st.phone || '').replace(/"/g, '""')}"`,
           `"${(st.goal || '').replace(/"/g, '""')}"`,
           `"${(st.latest_career_profile || '').replace(/"/g, '""')}"`,
           st.enrolled_count || 0,

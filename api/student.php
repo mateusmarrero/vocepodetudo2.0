@@ -69,6 +69,7 @@ if ($pdo) {
                 `id` INT AUTO_INCREMENT PRIMARY KEY,
                 `name` VARCHAR(100) NOT NULL,
                 `email` VARCHAR(150) NOT NULL UNIQUE,
+                `phone` VARCHAR(30) NULL,
                 `password_hash` VARCHAR(255) NOT NULL,
                 `avatar_color` VARCHAR(20) DEFAULT '#002776',
                 `goal` VARCHAR(50) DEFAULT 'primeiro_emprego',
@@ -104,6 +105,14 @@ if ($pdo) {
                 INDEX `idx_student_status` (`student_id`, `status`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
         ");
+
+        // Migração suave: adiciona a coluna phone se a tabela já existir sem ela
+        try {
+            $colCheck = $pdo->query("SHOW COLUMNS FROM `students` LIKE 'phone'");
+            if ($colCheck && $colCheck->rowCount() === 0) {
+                $pdo->exec("ALTER TABLE `students` ADD COLUMN `phone` VARCHAR(30) NULL AFTER `email`");
+            }
+        } catch (Exception $eCol) {}
     } catch (Exception $e) {
         // Se der erro de criação de tabela, desativa PDO temporariamente
         $pdo = null;
@@ -124,6 +133,7 @@ try {
             $bodyData = is_array($inputJson) ? $inputJson : $_POST;
             $name = trim($bodyData['name'] ?? $input['name'] ?? '');
             $email = strtolower(trim($bodyData['email'] ?? $input['email'] ?? ''));
+            $phone = trim($bodyData['phone'] ?? $input['phone'] ?? '');
             $password = trim($bodyData['password'] ?? '');
 
             if (empty($name) || strlen($name) < 2) {
@@ -132,6 +142,16 @@ try {
             if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 jsonResponse(['error' => true, 'message' => 'Por favor, informe um e-mail válido.'], 400);
             }
+
+            // Validação de Telefone Celular (com DDD)
+            $phoneDigits = preg_replace('/\D/', '', $phone);
+            if (empty($phoneDigits) || strlen($phoneDigits) < 10 || strlen($phoneDigits) > 11) {
+                jsonResponse(['error' => true, 'message' => 'Por favor, informe um número de telefone celular válido com DDD (ex: (11) 98765-4321).'], 400);
+            }
+            $formattedPhone = strlen($phoneDigits) === 11 
+                ? preg_replace('/^(\d{2})(\d{5})(\d{4})$/', '($1) $2-$3', $phoneDigits)
+                : preg_replace('/^(\d{2})(\d{4})(\d{4})$/', '($1) $2-$3', $phoneDigits);
+
             if (empty($password) || strlen($password) < 6) {
                 jsonResponse(['error' => true, 'message' => 'A senha deve ter pelo menos 6 caracteres.'], 400);
             }
@@ -150,10 +170,10 @@ try {
                 }
 
                 $insert = $pdo->prepare("
-                    INSERT INTO students (name, email, password_hash, avatar_color, goal, last_login_at)
-                    VALUES (?, ?, ?, ?, ?, NOW())
+                    INSERT INTO students (name, email, phone, password_hash, avatar_color, goal, last_login_at)
+                    VALUES (?, ?, ?, ?, ?, ?, NOW())
                 ");
-                $insert->execute([$name, $email, $hash, $avatarColor, $goal]);
+                $insert->execute([$name, $email, $formattedPhone, $hash, $avatarColor, $goal]);
                 $studentId = (int) $pdo->lastInsertId();
 
                 // Salvar teste inicial se houver
@@ -193,6 +213,7 @@ try {
                     'id' => $studentId,
                     'name' => $name,
                     'email' => $email,
+                    'phone' => $formattedPhone,
                     'password_hash' => $hash,
                     'avatar_color' => $avatarColor,
                     'goal' => $goal,
@@ -250,6 +271,7 @@ try {
                     'id' => $studentId,
                     'name' => $name,
                     'email' => $email,
+                    'phone' => $formattedPhone,
                     'avatar_color' => $avatarColor,
                     'goal' => $goal
                 ]
@@ -275,7 +297,7 @@ try {
 
             $student = null;
             if ($pdo) {
-                $stmt = $pdo->prepare("SELECT id, name, email, password_hash, avatar_color, goal FROM students WHERE email = ? LIMIT 1");
+                $stmt = $pdo->prepare("SELECT id, name, email, phone, password_hash, avatar_color, goal FROM students WHERE email = ? LIMIT 1");
                 $stmt->execute([$email]);
                 $student = $stmt->fetch();
                 if ($student) {
@@ -308,6 +330,7 @@ try {
                     'id' => (int) $student['id'],
                     'name' => $student['name'],
                     'email' => $student['email'],
+                    'phone' => $student['phone'] ?? '',
                     'avatar_color' => $student['avatar_color'] ?? '#002776',
                     'goal' => $student['goal'] ?? 'primeiro_emprego'
                 ]
@@ -323,7 +346,7 @@ try {
 
             $student = null;
             if ($pdo) {
-                $stmt = $pdo->prepare("SELECT id, name, email, avatar_color, goal, created_at FROM students WHERE id = ? LIMIT 1");
+                $stmt = $pdo->prepare("SELECT id, name, email, phone, avatar_color, goal, created_at FROM students WHERE id = ? LIMIT 1");
                 $stmt->execute([$studentId]);
                 $student = $stmt->fetch();
             } else {
@@ -334,6 +357,7 @@ try {
                             'id' => (int) $st['id'],
                             'name' => $st['name'],
                             'email' => $st['email'],
+                            'phone' => $st['phone'] ?? '',
                             'avatar_color' => $st['avatar_color'],
                             'goal' => $st['goal'],
                             'created_at' => $st['created_at']
@@ -365,7 +389,7 @@ try {
             $courses = [];
 
             if ($pdo) {
-                $stmt = $pdo->prepare("SELECT id, name, email, avatar_color, goal, created_at FROM students WHERE id = ? LIMIT 1");
+                $stmt = $pdo->prepare("SELECT id, name, email, phone, avatar_color, goal, created_at FROM students WHERE id = ? LIMIT 1");
                 $stmt->execute([$studentId]);
                 $student = $stmt->fetch();
 
@@ -406,6 +430,7 @@ try {
                             'id' => (int) $st['id'],
                             'name' => $st['name'],
                             'email' => $st['email'],
+                            'phone' => $st['phone'] ?? '',
                             'avatar_color' => $st['avatar_color'] ?? '#002776',
                             'goal' => $st['goal'] ?? 'primeiro_emprego',
                             'created_at' => $st['created_at']
@@ -662,7 +687,7 @@ try {
                 try {
                     $stmt = $pdo->query("
                         SELECT 
-                            s.id, s.name, s.email, s.avatar_color, s.goal, s.created_at, s.last_login_at,
+                            s.id, s.name, s.email, s.phone, s.avatar_color, s.goal, s.created_at, s.last_login_at,
                             (SELECT COUNT(*) FROM student_courses sc WHERE sc.student_id = s.id) as enrolled_count,
                             (SELECT COUNT(*) FROM student_courses sc WHERE sc.student_id = s.id AND sc.status = 'completed') as completed_count,
                             (SELECT COALESCE(SUM(sc.workload_hours), 0) FROM student_courses sc WHERE sc.student_id = s.id AND sc.status = 'completed') as completed_hours,
@@ -700,6 +725,7 @@ try {
                         'id' => $stId,
                         'name' => $st['name'],
                         'email' => $st['email'],
+                        'phone' => $st['phone'] ?? '',
                         'avatar_color' => $st['avatar_color'] ?? '#002776',
                         'goal' => $st['goal'] ?? 'geral',
                         'created_at' => $st['created_at'] ?? date('Y-m-d H:i:s'),

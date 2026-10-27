@@ -3932,7 +3932,13 @@
         avatarBadge.style.backgroundColor = state.student.avatar_color || '#002776';
       }
       if (nameDisplay) nameDisplay.textContent = firstName;
-      if (dropdownEmail) dropdownEmail.textContent = state.student.email;
+      if (dropdownEmail) {
+        if (state.student.phone) {
+          dropdownEmail.innerHTML = `<span>${state.student.email}</span><span class="block text-[10px] text-purple-200 font-semibold">${state.student.phone}</span>`;
+        } else {
+          dropdownEmail.textContent = state.student.email;
+        }
+      }
       if (quizBanner) quizBanner.classList.add('hidden');
     } else {
       if (openBtn) openBtn.classList.remove('hidden');
@@ -3960,6 +3966,8 @@
     const nameField = document.getElementById('student-name-field');
     const nameInput = document.getElementById('student-name-input');
     const emailInput = document.getElementById('student-email-input');
+    const phoneField = document.getElementById('student-phone-field');
+    const phoneInput = document.getElementById('student-phone-input');
     const passwordInput = document.getElementById('student-password-input');
     const goalField = document.getElementById('student-goal-field');
     const goalSelect = document.getElementById('student-goal-select');
@@ -3968,6 +3976,22 @@
     const syncHint = document.getElementById('student-auth-sync-hint');
     const alertBox = document.getElementById('student-auth-alert');
     const authForm = document.getElementById('student-auth-form');
+
+    // Máscara dinâmica de Telefone Celular Brasileiro ((XX) XXXXX-XXXX)
+    if (phoneInput) {
+      phoneInput.addEventListener('input', (e) => {
+        let val = e.target.value.replace(/\D/g, '');
+        if (val.length > 11) val = val.slice(0, 11);
+        if (val.length > 6) {
+          val = `(${val.slice(0, 2)}) ${val.slice(2, 7)}-${val.slice(7)}`;
+        } else if (val.length > 2) {
+          val = `(${val.slice(0, 2)}) ${val.slice(2)}`;
+        } else if (val.length > 0) {
+          val = `(${val}`;
+        }
+        e.target.value = val;
+      });
+    }
 
     const profileToggleBtn = document.getElementById('student-profile-toggle-btn');
     const dropdownMenu = document.getElementById('student-dropdown-menu');
@@ -3986,18 +4010,22 @@
         if (tabRegisterBtn) tabRegisterBtn.className = 'py-2 text-xs font-black rounded-xl bg-purple-900 text-white shadow-sm transition-all cursor-pointer';
         if (tabLoginBtn) tabLoginBtn.className = 'py-2 text-xs font-bold rounded-xl text-slate-600 hover:text-slate-900 transition-all cursor-pointer';
         if (nameField) nameField.classList.remove('hidden');
+        if (phoneField) phoneField.classList.remove('hidden');
         if (goalField) goalField.classList.remove('hidden');
         if (syncHint) syncHint.classList.remove('hidden');
         if (btnText) btnText.textContent = 'Criar Minha Conta Gratuita';
         if (nameInput) nameInput.required = true;
+        if (phoneInput) phoneInput.required = true;
       } else {
         if (tabLoginBtn) tabLoginBtn.className = 'py-2 text-xs font-black rounded-xl bg-purple-900 text-white shadow-sm transition-all cursor-pointer';
         if (tabRegisterBtn) tabRegisterBtn.className = 'py-2 text-xs font-bold rounded-xl text-slate-600 hover:text-slate-900 transition-all cursor-pointer';
         if (nameField) nameField.classList.add('hidden');
+        if (phoneField) phoneField.classList.add('hidden');
         if (goalField) goalField.classList.add('hidden');
         if (syncHint) syncHint.classList.add('hidden');
         if (btnText) btnText.textContent = 'Entrar na Conta';
         if (nameInput) nameInput.required = false;
+        if (phoneInput) phoneInput.required = false;
       }
     }
 
@@ -4029,6 +4057,7 @@
       authForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = emailInput ? emailInput.value.trim() : '';
+        const phone = phoneInput ? phoneInput.value.trim() : '';
         const password = passwordInput ? passwordInput.value.trim() : '';
         const name = nameInput ? nameInput.value.trim() : '';
         const goal = goalSelect ? goalSelect.value : 'primeiro_emprego';
@@ -4045,9 +4074,15 @@
 
         try {
           if (authMode === 'register') {
+            const digits = phone.replace(/\D/g, '');
+            if (digits.length < 10) {
+              throw new Error('Por favor, informe seu telefone celular com DDD (ex: (11) 98765-4321).');
+            }
+
             const regPayload = {
               name,
               email,
+              phone,
               password,
               goal
             };
@@ -4219,6 +4254,19 @@
 
       if (nameEl) nameEl.textContent = `Olá, ${data.student.name}!`;
       if (emailEl) emailEl.textContent = data.student.email;
+
+      const phoneValEl = document.getElementById('student-dash-phone-val');
+      const phoneSepEl = document.getElementById('student-dash-phone-sep');
+      const phoneEl = document.getElementById('student-dash-phone');
+
+      if (data.student.phone) {
+        if (phoneValEl) phoneValEl.textContent = data.student.phone;
+        if (phoneEl) phoneEl.classList.remove('hidden');
+        if (phoneSepEl) phoneSepEl.classList.remove('hidden');
+      } else {
+        if (phoneEl) phoneEl.classList.add('hidden');
+        if (phoneSepEl) phoneSepEl.classList.add('hidden');
+      }
       if (goalBadge) goalBadge.textContent = goalNames[data.student.goal] || 'Aluno Dedicado';
       if (avatarEl) {
         avatarEl.textContent = data.student.name.trim().charAt(0).toUpperCase();

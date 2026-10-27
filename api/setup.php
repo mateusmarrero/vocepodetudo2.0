@@ -119,6 +119,7 @@ try {
         `id` INT AUTO_INCREMENT PRIMARY KEY,
         `name` VARCHAR(100) NOT NULL,
         `email` VARCHAR(150) NOT NULL UNIQUE,
+        `phone` VARCHAR(30) NULL,
         `password_hash` VARCHAR(255) NOT NULL,
         `avatar_color` VARCHAR(20) DEFAULT '#002776',
         `goal` VARCHAR(50) DEFAULT 'primeiro_emprego',
@@ -129,6 +130,13 @@ try {
         INDEX `idx_email` (`email`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     ");
+
+    try {
+      $colCheck = $pdo->query("SHOW COLUMNS FROM `students` LIKE 'phone'");
+      if ($colCheck && $colCheck->rowCount() === 0) {
+        $pdo->exec("ALTER TABLE `students` ADD COLUMN `phone` VARCHAR(30) NULL AFTER `email`");
+      }
+    } catch (Exception $eCol) {}
     echo "<div class='step success'>✓ Tabela <code>students</code> (Alunos) criada/verificada.</div>";
 
     $pdo->exec("

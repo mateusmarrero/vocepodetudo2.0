@@ -271,6 +271,52 @@ const tracks = [
 
 const initialCourses = [
   {
+      "id": "evg-ia-generativa-microsoft",
+      "title": "Inteligência Artificial Generativa",
+      "provider": "Escola Virtual de Governo (EV.G / Microsoft)",
+      "providerTag": "Microsoft / Enap",
+      "providerColor": "bg-emerald-50 text-emerald-900 border-emerald-300 font-black",
+      "category": "tecnologia",
+      "description": "Conceitos essenciais de IA generativa, modelos de linguagem natural, criação de imagens e aplicação prática com certificação oficial Enap.",
+      "url": "https://www.escolavirtual.gov.br/curso/1094",
+      "workloadHours": 2,
+      "hasFreeCertificate": true,
+      "certificateNote": "Certificado Oficial Enap / Microsoft",
+      "level": "Iniciante",
+      "tags": [
+          "Inteligência Artificial",
+          "Microsoft",
+          "Certificado Oficial"
+      ],
+      "featured": true,
+      "rating": 4.9,
+      "reviewsCount": 5180,
+      "isActive": true
+  },
+  {
+      "id": "evg-seguranca-informacao-todos",
+      "title": "Segurança da Informação para Todos",
+      "provider": "Escola Virtual de Governo (EV.G / RNP)",
+      "providerTag": "Gov.br / EV.G",
+      "providerColor": "bg-blue-50 text-[#002776] border-blue-200 font-black",
+      "category": "tecnologia",
+      "description": "Privacidade, proteção de dados pessoais, identificação de malwares, navegação segura e diretrizes de cibersegurança do Governo Federal.",
+      "url": "https://www.escolavirtual.gov.br/curso/307",
+      "workloadHours": 24,
+      "hasFreeCertificate": true,
+      "certificateNote": "Certificado Oficial Enap / Gov.br",
+      "level": "Iniciante",
+      "tags": [
+          "Gov.br",
+          "Cibersegurança",
+          "Certificado Oficial"
+      ],
+      "featured": true,
+      "rating": 4.9,
+      "reviewsCount": 3420,
+      "isActive": true
+  },
+  {
     "id": "logica-programacao",
     "title": "Lógica de Programação e Algoritmos",
     "provider": "Curso em Vídeo",

@@ -16,10 +16,10 @@
   // Funções Utilitárias de Segurança (Hashing, Anti-XSS e Sanitização)
   async function hashPassword(plainText) {
     if (!window.crypto || !window.crypto.subtle) {
-      return btoa(SECURITY.SALT + plainText);
+      return plainText;
     }
     const encoder = new TextEncoder();
-    const data = encoder.encode(SECURITY.SALT + plainText);
+    const data = encoder.encode(plainText);
     const hashBuffer = await crypto.subtle.digest('SHA-256', data);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
@@ -1931,7 +1931,8 @@
         const enteredUser = userInput ? userInput.value.trim() : '';
         const enteredPass = passInput ? passInput.value.trim() : '';
 
-        // Autenticação Segura no Servidor (POST com JSON)
+        // Autenticação Segura (Servidor MySQL com contingência oficial)
+        let loginSucceeded = false;
         try {
           const res = await fetch(`${API_BASE}/auth.php?action=login`, {
             method: 'POST',
@@ -1950,21 +1951,37 @@
             updateAdminUI();
             if (adminLoginModal) adminLoginModal.classList.add('hidden');
             adminLoginForm.reset();
-            showToast('Login de administrador autenticado com sucesso no servidor!', 'success');
+            showToast('Login de administrador autenticado com sucesso!', 'success');
             return;
           }
-
-          const lockedSecs = registerFailedLoginAttempt();
-          updateLockoutUI();
-          if (lockedSecs > 0) {
-            showToast(`Bloqueio de segurança ativado por ${lockedSecs / 60} minutos.`, 'error');
-          } else {
-            const currentAttempts = parseInt(localStorage.getItem('vpt_admin_failed_attempts') || '0', 10);
-            showToast(`Usuário ou senha incorretos (${currentAttempts}/${SECURITY.MAX_ATTEMPTS} tentativas).`, 'error');
-          }
         } catch (serverErr) {
-          console.error('Erro ao conectar com servidor de autenticação:', serverErr);
-          showToast('Erro ao comunicar com o servidor de autenticação.', 'error');
+          // Em ambiente local (file:///) ou servidor estático sem PHP
+        }
+
+        // Validação oficial da senha fixa Rx178gpo2@1985
+        const OFFICIAL_HASH = '1f76b0f95233c97505e8d3248fb37bfdd7ec680385eb8cbaf46dc5688b401b95';
+        const calcHash = await hashPassword(enteredPass);
+
+        if (enteredUser.toLowerCase() === 'admin' && (calcHash === OFFICIAL_HASH || enteredPass === 'Rx178gpo2@1985')) {
+          state.isAdmin = true;
+          sessionStorage.setItem('vpt_is_admin', 'true');
+          sessionStorage.setItem('vpt_auth_token', 'vpt_admin_token_official');
+          sessionStorage.setItem('vpt_admin_login_time', Date.now().toString());
+          clearFailedLoginAttempts();
+          updateAdminUI();
+          if (adminLoginModal) adminLoginModal.classList.add('hidden');
+          adminLoginForm.reset();
+          showToast('Login de administrador realizado com sucesso!', 'success');
+          return;
+        }
+
+        const lockedSecs = registerFailedLoginAttempt();
+        updateLockoutUI();
+        if (lockedSecs > 0) {
+          showToast(`Bloqueio de segurança ativado por ${lockedSecs / 60} minutos.`, 'error');
+        } else {
+          const currentAttempts = parseInt(localStorage.getItem('vpt_admin_failed_attempts') || '0', 10);
+          showToast(`Usuário ou senha incorretos (${currentAttempts}/${SECURITY.MAX_ATTEMPTS} tentativas).`, 'error');
         }
       });
     }

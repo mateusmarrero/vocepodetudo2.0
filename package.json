@@ -4,7 +4,8 @@
   "description": "Você Pode Tudo — Portal Oficial de Cursos Gratuitos com Certificado no Brasil",
   "main": "index.html",
   "scripts": {
-    "start": "npx serve ."
+    "start": "npx serve .",
+    "deploy": "node scripts/deploy_ftp.js"
   },
   "keywords": [
     "cursos-gratuitos",
@@ -13,5 +14,8 @@
     "certificado-gratis"
   ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "basic-ftp": "^6.2.3"
+  }
 }

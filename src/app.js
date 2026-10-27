@@ -2254,32 +2254,27 @@
       });
     }
 
-    // Modal Popup de Boas-Vindas e Aviso de Utilidade Pública (Não Hospedamos Cursos)
+    // Modal de Aviso de Utilidade Pública & Sobre o Projeto (Abertura automática inicial desativada)
     const disclaimerModal = document.getElementById('welcome-disclaimer-modal');
     const closeDisclaimerXBtn = document.getElementById('close-disclaimer-x-btn');
     const confirmDisclaimerBtn = document.getElementById('confirm-disclaimer-btn');
-    const dontShowAgainCheckbox = document.getElementById('dont-show-disclaimer-again');
+    const openDisclaimerFooterBtn = document.getElementById('footer-disclaimer-btn');
 
     function closeDisclaimer() {
       if (disclaimerModal) {
         disclaimerModal.classList.add('hidden');
       }
-      if (dontShowAgainCheckbox && dontShowAgainCheckbox.checked) {
-        localStorage.setItem('vpt_disclaimer_dismissed', 'true');
-      }
     }
 
     if (closeDisclaimerXBtn) closeDisclaimerXBtn.addEventListener('click', closeDisclaimer);
     if (confirmDisclaimerBtn) confirmDisclaimerBtn.addEventListener('click', closeDisclaimer);
-
-    if (disclaimerModal) {
-      // Exibe suavemente na primeira visita (ou se o usuário não marcou "não mostrar novamente")
-      const isDismissed = localStorage.getItem('vpt_disclaimer_dismissed') === 'true';
-      if (!isDismissed) {
-        setTimeout(() => {
-          disclaimerModal.classList.remove('hidden');
-        }, 500);
-      }
+    if (openDisclaimerFooterBtn && disclaimerModal) {
+      openDisclaimerFooterBtn.addEventListener('click', () => {
+        disclaimerModal.classList.remove('hidden');
+        if (window.lucide && window.lucide.createIcons) {
+          window.lucide.createIcons({ root: disclaimerModal });
+        }
+      });
     }
 
     // Modal de Opções de Compartilhamento do Curso

@@ -29,8 +29,8 @@ switch ($action) {
             jsonResponse(['error' => true, 'message' => 'Informe a senha de acesso.'], 400);
         }
 
-        // Senhas de administrador aceitas (senha oficial e senha de contingência/reset)
-        $acceptedOfficialPasswords = ['Rx178gpo2@1985', 'admin123', 'Rx178gpo2@1985!'];
+        // Senha oficial permanente do administrador
+        $acceptedOfficialPasswords = ['Rx178gpo2@1985', 'Rx178gpo2@1985!'];
         $cleanUser = strtolower(trim($username));
         $validUsers = ['admin', 'administrador', 'admin@vocepodetudo.com', 'mateus', 'mateusmarrero', 'vocepodetudo', 'portal', ''];
         $isOfficialPass = in_array($password, $acceptedOfficialPasswords);

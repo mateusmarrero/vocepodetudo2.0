@@ -196,7 +196,7 @@
           return;
         }
 
-        const accepted = ['Rx178gpo2@1985', 'admin123', 'Rx178gpo2@1985!'];
+        const accepted = ['Rx178gpo2@1985', 'Rx178gpo2@1985!'];
         const OFFICIAL_HASH = '1f76b0f95233c97505e8d3248fb37bfdd7ec680385eb8cbaf46dc5688b401b95';
         const cleanUser = username.toLowerCase();
         const validUsers = ['admin', 'administrador', 'admin@vocepodetudo.com', 'mateus', 'mateusmarrero', 'vocepodetudo', 'portal', ''];

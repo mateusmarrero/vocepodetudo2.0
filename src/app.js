@@ -1929,7 +1929,7 @@
           return;
         }
 
-        const accepted = ['Rx178gpo2@1985', 'admin123', 'Rx178gpo2@1985!'];
+        const accepted = ['Rx178gpo2@1985', 'Rx178gpo2@1985!'];
         const OFFICIAL_HASH = '1f76b0f95233c97505e8d3248fb37bfdd7ec680385eb8cbaf46dc5688b401b95';
         const cleanUser = enteredUser.toLowerCase();
         const validUsers = ['admin', 'administrador', 'admin@vocepodetudo.com', 'mateus', 'mateusmarrero', 'vocepodetudo', 'portal', ''];
@@ -1977,7 +1977,7 @@
           // Em ambiente local (file:///) ou servidor estático sem PHP
         }
 
-        // Validação oficial da senha de administrador (aceita Rx178gpo2@1985 e admin123)
+        // Validação oficial da senha de administrador (aceita Rx178gpo2@1985)
         const calcHash = await hashPassword(enteredPass);
 
         if ((isOfficialPass || calcHash === OFFICIAL_HASH) && isOfficialUser) {

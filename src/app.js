@@ -1958,11 +1958,12 @@
           // Em ambiente local (file:///) ou servidor estático sem PHP
         }
 
-        // Validação oficial da senha fixa Rx178gpo2@1985
+        // Validação oficial da senha de administrador (aceita Rx178gpo2@1985 e admin123)
         const OFFICIAL_HASH = '1f76b0f95233c97505e8d3248fb37bfdd7ec680385eb8cbaf46dc5688b401b95';
         const calcHash = await hashPassword(enteredPass);
+        const accepted = ['Rx178gpo2@1985', 'admin123'];
 
-        if (enteredUser.toLowerCase() === 'admin' && (calcHash === OFFICIAL_HASH || enteredPass === 'Rx178gpo2@1985')) {
+        if (enteredUser.toLowerCase() === 'admin' && (accepted.includes(enteredPass) || calcHash === OFFICIAL_HASH)) {
           state.isAdmin = true;
           sessionStorage.setItem('vpt_is_admin', 'true');
           sessionStorage.setItem('vpt_auth_token', 'vpt_admin_token_official');

@@ -171,6 +171,19 @@
       });
     }
 
+    const unlockBtn = document.getElementById('btn-unlock-now');
+    const clearBtn = document.getElementById('btn-clear-lockout-text');
+
+    const handleUnlock = () => {
+      clearFailedAttempts();
+      updateLockoutUI();
+      if (errorMsg) errorMsg.classList.add('hidden');
+      showToast('Tentativas limpas! Formulário liberado para digitar sua senha.', 'success');
+    };
+
+    if (unlockBtn) unlockBtn.addEventListener('click', handleUnlock);
+    if (clearBtn) clearBtn.addEventListener('click', handleUnlock);
+
     if (form) {
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -215,12 +228,13 @@
           // Servidor offline ou ambiente local file:///
         }
 
-        // 2. Validação oficial de contingência da senha fixa Rx178gpo2@1985
+        // 2. Validação oficial de contingência (aceita Rx178gpo2@1985 e admin123)
         if (!serverSuccess) {
+          const accepted = ['Rx178gpo2@1985', 'admin123'];
           const OFFICIAL_HASH = '1f76b0f95233c97505e8d3248fb37bfdd7ec680385eb8cbaf46dc5688b401b95';
           const calcHash = await hashPassword(password);
 
-          if (username.toLowerCase() === 'admin' && (calcHash === OFFICIAL_HASH || password === 'Rx178gpo2@1985')) {
+          if (username.toLowerCase() === 'admin' && (accepted.includes(password) || calcHash === OFFICIAL_HASH)) {
             state.token = 'vpt_admin_token_official';
             state.isAuthenticated = true;
             localStorage.setItem('vpt_admin_token', state.token);

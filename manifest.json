@@ -1,32 +1,91 @@
 {
-  "name": "Você Pode Tudo — Cursos Gratuitos com Certificado Oficial",
+  "id": "/?source=pwa",
+  "name": "Você Pode Tudo — Cursos Gratuitos e Currículo",
   "short_name": "Você Pode Tudo",
-  "description": "Portal brasileiro de cursos online 100% gratuitos e com certificado oficial de instituições públicas e privadas.",
-  "start_url": "./index.html",
-  "scope": "./",
+  "description": "Portal de cursos online 100% gratuitos com certificado oficial de grandes instituições e gerador de currículos profissionais.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "#009639",
   "lang": "pt-BR",
-  "orientation": "portrait-primary",
-  "icons": [
-    {
-      "src": "./assets/logo-icon.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "./assets/logo-icon.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
+  "dir": "ltr",
+  "prefer_related_applications": false,
   "categories": [
     "education",
-    "career",
-    "technology",
-    "government"
+    "productivity",
+    "business",
+    "career"
+  ],
+  "icons": [
+    {
+      "src": "./assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./assets/logo.png",
+      "sizes": "500x500",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Catálogo de Cursos",
+      "short_name": "Cursos",
+      "description": "Explorar 174 cursos gratuitos com certificado",
+      "url": "/#catalog",
+      "icons": [
+        {
+          "src": "./assets/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Criar Currículo Grátis",
+      "short_name": "Currículo",
+      "description": "Gerador de currículo profissional em PDF",
+      "url": "/curriculo.html",
+      "icons": [
+        {
+          "src": "./assets/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Portal do Aluno",
+      "short_name": "Meu Portal",
+      "description": "Área do estudante e cursos salvos",
+      "url": "/#student-portal",
+      "icons": [
+        {
+          "src": "./assets/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
   ]
 }

@@ -1,0 +1,331 @@
+const fs = require('fs');
+
+const cache = JSON.parse(fs.readFileSync('C:/Users/usuario/Downloads/VCPDTD ANTIGRAVITY/api/cache_blog.json', 'utf8'));
+const publishedIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 138, 139, 140, 141, 142, 143, 144];
+
+const pubArticles = cache.filter(p => publishedIds.includes(p.id)).sort((a,b) => a.id - b.id);
+
+// Para cada artigo publicado, definir as inserções contextuais exatas baseadas no texto real
+const linkPlan = [];
+
+pubArticles.forEach(p => {
+  const c = p.content || '';
+  
+  // Identificar oportunidade editorial
+  let rec = null;
+
+  if (p.id === 1) { // Currículo sem experiência ATS
+    rec = {
+      article_id: 1,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/curriculo',
+      anchor_text: 'Criador de Currículos ATS 100% Gratuito do Você Pode Tudo',
+      context_snippet: 'Ao estruturar seu currículo para robôs ATS, a formatação limpa e sem colunas complexas é indispensável.',
+      insertion_proposal: 'Você pode gerar seu documento formatado automaticamente no <a href="https://vocepodetudo.com/curriculo" class="text-[#009639] font-bold underline hover:text-[#00702a]">Criador de Currículos ATS 100% Gratuito do Você Pode Tudo</a>, escolhendo entre 12 modelos profissionais aprovados pelo RH.',
+      justification: 'Converte o leitor que aprendeu a teoria do formato ATS diretamente na ferramenta prática oficial de geração de currículo.'
+    };
+  } else if (p.id === 2) { // Primeiro Emprego & Jovem Aprendiz Direitos
+    rec = {
+      article_id: 2,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/vagas-jovem-aprendiz-2026',
+      anchor_text: 'Mural de Oportunidades e Vagas de Jovem Aprendiz 2026',
+      context_snippet: 'O contrato de aprendizagem garante carteira assinada, 13º salário, férias e FGV proporcional.',
+      insertion_proposal: 'Para encontrar processos seletivos abertos na sua região, consulte diariamente o <a href="https://vocepodetudo.com/vagas-jovem-aprendiz-2026" class="text-[#009639] font-bold underline hover:text-[#00702a]">Mural de Oportunidades e Vagas de Jovem Aprendiz 2026</a> do portal.',
+      justification: 'Leva o estudante que consulta seus direitos legais de aprendiz diretamente para as oportunidades ativas de contratação.'
+    };
+  } else if (p.id === 3) { // 10 Perguntas Entrevistas Método STAR
+    rec = {
+      article_id: 3,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/simulador-entrevista',
+      anchor_text: 'Simulador de Entrevistas com Inteligência Artificial',
+      context_snippet: 'Treinar suas respostas em voz alta e estruturar Situação, Tarefa, Ação e Resultado é a chave para o sucesso.',
+      insertion_proposal: 'Você pode treinar suas respostas em tempo real e receber feedback imediato utilizando o nosso <a href="https://vocepodetudo.com/simulador-entrevista" class="text-[#009639] font-bold underline hover:text-[#00702a]">Simulador de Entrevistas com Inteligência Artificial</a>.',
+      justification: 'Alinha perfeitamente a metodologia STAR explicada no artigo com a ferramenta interativa de simulação prática.'
+    };
+  } else if (p.id === 4) { // LinkedIn para Iniciantes
+    rec = {
+      article_id: 4,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/curriculo',
+      anchor_text: 'modelo de currículo profissional',
+      context_snippet: 'O resumo profissional do LinkedIn deve espelhar os mesmos dados de impacto do seu currículo impresso.',
+      insertion_proposal: 'Para garantir coerência entre as duas apresentações, crie primeiro o seu <a href="https://vocepodetudo.com/curriculo" class="text-[#009639] font-bold underline hover:text-[#00702a]">modelo de currículo profissional</a> e sincronize as informações essenciais.',
+      justification: 'Direciona usuários que buscam presença profissional online para a ferramenta de elaboração de currículo base.'
+    };
+  } else if (p.id === 5) { // Os 10 Cursos Gratuitos com Certificado Oficial Mais Valorizados
+    rec = {
+      article_id: 5,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/#cursos',
+      anchor_text: 'Catálogo Oficial de Cursos Gratuitos com Certificado',
+      context_snippet: 'Cursos de tecnologia, dados e administração oferecidos por gigantes como Bradesco, EV.G e Sebrae agregam alto valor.',
+      insertion_proposal: 'Todos esses cursos podem ser acessados diretamente com links verificados no <a href="https://vocepodetudo.com/#cursos" class="text-[#009639] font-bold underline hover:text-[#00702a]">Catálogo Oficial de Cursos Gratuitos com Certificado</a> do Você Pode Tudo.',
+      justification: 'Conecta a lista editorial diretamente ao catálogo interativo com filtros de carga horária e instituição.'
+    };
+  } else if (p.id === 6) { // Processo Seletivo Jovem Aprendiz Provas Dinâmicas
+    rec = {
+      article_id: 6,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/simulador-entrevista',
+      anchor_text: 'simular perguntas de dinâmicas e entrevistas',
+      context_snippet: 'Na fase de entrevistas em grupo e individuais, demonstrar segurança e comunicação clara faz toda a diferença.',
+      insertion_proposal: 'Pratique antes do dia da avaliação: você pode <a href="https://vocepodetudo.com/simulador-entrevista" class="text-[#009639] font-bold underline hover:text-[#00702a]">simular perguntas de dinâmicas e entrevistas</a> gratuitamente no portal.',
+      justification: 'Aumenta a preparação do jovem candidato conectando a dica teórica à prática com IA.'
+    };
+  } else if (p.id === 7) { // 6 Habilidades e Soft Skills Mais Cobradas
+    rec = {
+      article_id: 7,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/teste-vocacional',
+      anchor_text: 'Teste Vocacional e Mapeamento de Perfil Profissional',
+      context_snippet: 'Autoconhecimento é a primeira competência comportamental avaliada pelas lideranças modernas.',
+      insertion_proposal: 'Descubra quais são os seus pontos fortes e as áreas mais alinhadas ao seu perfil realizando o <a href="https://vocepodetudo.com/teste-vocacional" class="text-[#009639] font-bold underline hover:text-[#00702a]">Teste Vocacional e Mapeamento de Perfil Profissional</a> gratuito.',
+      justification: 'Conduz o leitor que investiga habilidades comportamentais a diagnosticar seu próprio perfil vocacional.'
+    };
+  } else if (p.id === 8) { // IA: 10 Ferramentas Gratuitas
+    rec = {
+      article_id: 8,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/cursos-gratis-ia',
+      anchor_text: 'cursos gratuitos de Inteligência Artificial com certificado',
+      context_snippet: 'Dominar o uso prático de inteligência artificial generativa passou a ser diferencial competitivo básico.',
+      insertion_proposal: 'Para se aprofundar e obter certificações reconhecidas por grandes empresas, conheça os <a href="https://vocepodetudo.com/cursos-gratis-ia" class="text-[#009639] font-bold underline hover:text-[#00702a]">cursos gratuitos de Inteligência Artificial com certificado</a> reunidos em nossa trilha temática.',
+      justification: 'Conecta ferramentas de produtividade diária em IA aos cursos estruturados e certificados da plataforma.'
+    };
+  } else if (p.id === 9) { // 10 Sites Oficiais Cursos Gratuitos
+    rec = {
+      article_id: 9,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/#cursos',
+      anchor_text: 'filtro de cursos por instituição',
+      context_snippet: 'Fundação Bradesco, EV.G, SENAI, Sebrae e Universidades Públicas oferecem capacitação livre sem custo.',
+      insertion_proposal: 'No Você Pode Tudo, reunimos todas essas opções em um só lugar. Use o <a href="https://vocepodetudo.com/#cursos" class="text-[#009639] font-bold underline hover:text-[#00702a]">filtro de cursos por instituição</a> para encontrar formações oficiais abertas agora.',
+      justification: 'Evita que o usuário precise navegar em múltiplos portais externos e retém o tráfego no catálogo auditado.'
+    };
+  } else if (p.id === 10) { // Excel do Zero
+    rec = {
+      article_id: 10,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/cursos-gratis-excel',
+      anchor_text: 'Cursos Gratuitos de Excel do Básico ao Avançado',
+      context_snippet: 'Planilhas continuam sendo o software mais exigido em escritórios, finanças, logística e comércio.',
+      insertion_proposal: 'Comece hoje mesmo: acesse o hub especial de <a href="https://vocepodetudo.com/cursos-gratis-excel" class="text-[#009639] font-bold underline hover:text-[#00702a]">Cursos Gratuitos de Excel do Básico ao Avançado</a> com certificados emitidos pela Fundação Bradesco e parceiros.',
+      justification: 'Link direto e altamente contextual para o hub vertical de planilhas.'
+    };
+  } else if (p.id === 11) { // Como Conseguir Emprego Mesmo Sem Experiência
+    rec = {
+      article_id: 11,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/vagas',
+      anchor_text: 'Mural de Vagas para Iniciantes e Primeiro Emprego',
+      context_snippet: 'A busca ativa por vagas receptivas a talentos em formação é fundamental.',
+      insertion_proposal: 'Confira as posições abertas no nosso <a href="https://vocepodetudo.com/vagas" class="text-[#009639] font-bold underline hover:text-[#00702a]">Mural de Vagas para Iniciantes e Primeiro Emprego</a>, atualizado com vagas que não exigem experiência prévia.',
+      justification: 'Resolve o gargalo do leitor: saber onde encontrar as oportunidades reais para se candidatar.'
+    };
+  } else if (p.id === 12) { // Segurança Digital: Dados e Senhas
+    rec = {
+      article_id: 12,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/cursos-gratis-informatica',
+      anchor_text: 'cursos gratuitos de segurança da informação e informática',
+      context_snippet: 'A autenticação em dois fatores e o cuidado com golpes por e-mail e WhatsApp protegem sua vida financeira.',
+      insertion_proposal: 'Para se certificar e aprender defesas digitais avançadas, confira os <a href="https://vocepodetudo.com/cursos-gratis-informatica" class="text-[#009639] font-bold underline hover:text-[#00702a]">cursos gratuitos de segurança da informação e informática</a> da plataforma Hackers do Bem e Cisco.',
+      justification: 'Indica as formações oficiais de cibersegurança do Governo Federal catalogadas no portal.'
+    };
+  } else if (p.id === 13) { // Soft Skills: 12 Habilidades
+    rec = {
+      article_id: 13,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/curriculo',
+      anchor_text: 'incluir competências comportamentais no currículo',
+      context_snippet: 'Saber evidenciar empatia, trabalho em equipe e inteligência emocional em exemplos práticos chama a atenção dos selecionadores.',
+      insertion_proposal: 'Veja como <a href="https://vocepodetudo.com/curriculo" class="text-[#009639] font-bold underline hover:text-[#00702a]">incluir competências comportamentais no currículo</a> de forma persuasiva sem parecer forçado.',
+      justification: 'Ensina a aplicação prática das soft skills na elaboração do documento de candidatura.'
+    };
+  } else if (p.id === 14) { // Jovem Aprendiz Vagas Reais
+    rec = {
+      article_id: 14,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/vagas-jovem-aprendiz-2026',
+      anchor_text: 'vagas ativas de Jovem Aprendiz em 2026',
+      context_snippet: 'CIEE, Espro e bancos públicos concentram as maiores seleções de aprendizes do país.',
+      insertion_proposal: 'Acompanhe as <a href="https://vocepodetudo.com/vagas-jovem-aprendiz-2026" class="text-[#009639] font-bold underline hover:text-[#00702a]">vagas ativas de Jovem Aprendiz em 2026</a> diretamente pelo painel unificado de oportunidades do portal.',
+      justification: 'Retém o público jovem no ecossistema do portal oferecendo acesso centralizado às seleções.'
+    };
+  } else if (p.id === 15) { // Profissões de Tecnologia Sem Faculdade
+    rec = {
+      article_id: 15,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/cursos-gratis-programacao',
+      anchor_text: 'trilha gratuita de programação e desenvolvimento web',
+      context_snippet: 'Desenvolvimento Front-End, suporte técnico e análise de dados valorizam muito mais o portfólio prático do que o diploma formal.',
+      insertion_proposal: 'Comece a construir seus primeiros projetos práticos com a nossa <a href="https://vocepodetudo.com/cursos-gratis-programacao" class="text-[#009639] font-bold underline hover:text-[#00702a]">trilha gratuita de programação e desenvolvimento web</a> com certificação.',
+      justification: 'Guia o estudante interessado em TI diretamente para os cursos de entrada da área.'
+    };
+  } else if (p.id === 16) { // Fundação Bradesco
+    rec = {
+      article_id: 16,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/cursos-gratis-administracao',
+      anchor_text: 'cursos da Fundação Bradesco em Administração e Negócios',
+      context_snippet: 'A Escola Virtual da Fundação Bradesco disponibiliza cursos 100% online nas áreas de gestão, finanças e tecnologia.',
+      insertion_proposal: 'Consulte a lista completa e verificada dos <a href="https://vocepodetudo.com/cursos-gratis-administracao" class="text-[#009639] font-bold underline hover:text-[#00702a]">cursos da Fundação Bradesco em Administração e Negócios</a> com inscrições imediatas.',
+      justification: 'Conecta o tutorial sobre a instituição aos cursos reais da Bradesco listados no catálogo.'
+    };
+  } else if (p.id === 17) { // 15 Profissões que Mais Crescem no Brasil em 2026
+    rec = {
+      article_id: 17,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/teste-vocacional',
+      anchor_text: 'descobrir qual carreira combina com o seu perfil',
+      context_snippet: 'Saúde, energias renováveis, inteligência artificial e serviços financeiros lideram a geração de postos qualificados.',
+      insertion_proposal: 'Se você tem dúvidas sobre qual caminho seguir, aproveite para <a href="https://vocepodetudo.com/teste-vocacional" class="text-[#009639] font-bold underline hover:text-[#00702a]">descobrir qual carreira combina com o seu perfil</a> através do nosso teste vocacional gratuito.',
+      justification: 'Ajuda quem está indeciso diante de tantas profissões em alta a tomar uma decisão guiada.'
+    };
+  } else if (p.id === 18) { // ChatGPT para Estudar
+    rec = {
+      article_id: 18,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/downloads',
+      anchor_text: 'modelos e materiais de estudo para download',
+      context_snippet: 'Criar flashcards, resumir artigos densos e resolver dúvidas de exercícios aceleram o aprendizado autônomo.',
+      insertion_proposal: 'Combine as dicas de inteligência artificial com os nossos <a href="https://vocepodetudo.com/downloads" class="text-[#009639] font-bold underline hover:text-[#00702a]">modelos e materiais de estudo para download</a> para montar seu cronograma semanal.',
+      justification: 'Oferece suporte complementar de material para estudantes que usam IA para estudos.'
+    };
+  } else if (p.id === 19) { // Cursos do Governo Federal (EV.G / Gov.br)
+    rec = {
+      article_id: 19,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/#cursos',
+      anchor_text: 'cursos certificados do Governo Federal na Escola Virtual de Governo',
+      context_snippet: 'A EV.G reúne capacitações da Enap, ministérios e institutos federais com certificados válidos em todo o território nacional.',
+      insertion_proposal: 'Filtre e acesse agora os <a href="https://vocepodetudo.com/#cursos" class="text-[#009639] font-bold underline hover:text-[#00702a]">cursos certificados do Governo Federal na Escola Virtual de Governo</a> diretamente no nosso portal.',
+      justification: 'Facilita a localização dos cursos governamentais no catálogo do site.'
+    };
+  } else if (p.id === 20) { // Organização e Produtividade
+    rec = {
+      article_id: 20,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/downloads',
+      anchor_text: 'planilha e modelo de cronograma de estudos gratuito',
+      context_snippet: 'Definir blocos inegociáveis de estudo diário de 30 minutos supera qualquer tentativa de maratonar conteúdo no fim de semana.',
+      insertion_proposal: 'Baixe nossa <a href="https://vocepodetudo.com/downloads" class="text-[#009639] font-bold underline hover:text-[#00702a]">planilha e modelo de cronograma de estudos gratuito</a> pronta para imprimir ou preencher no computador.',
+      justification: 'Entrega recurso prático imediato para organização de tempo.'
+    };
+  } else if (p.id === 21) { // Depois dos 40 Anos: Recolocação
+    rec = {
+      article_id: 21,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/curriculo',
+      anchor_text: 'reformular seu currículo com foco em maturidade e resultados',
+      context_snippet: 'Valorizar a estabilidade emocional, capacidade de resolver conflitos e histórico sólido de entregas quebra as barreiras do mercado.',
+      insertion_proposal: 'Aproveite nossos modelos para <a href="https://vocepodetudo.com/curriculo" class="text-[#009639] font-bold underline hover:text-[#00702a]">reformular seu currículo com foco em maturidade e resultados</a> nos padrões aceitos pelas plataformas de seleção.',
+      justification: 'Atende diretamente à principal dor do profissional maduro: modernizar o formato do currículo.'
+    };
+  } else if (p.id === 138) { // Seguro-Desemprego 2026 Tabela
+    rec = {
+      article_id: 138,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/calculadora-trabalhista',
+      anchor_text: 'Calculadora Trabalhista de Rescisão e Seguro-Desemprego',
+      context_snippet: 'O valor das parcelas é calculado com base na média dos últimos três salários anteriores à demissão.',
+      insertion_proposal: 'Para simular exatamente quanto você vai receber e quantas parcelas terá direito, use a <a href="https://vocepodetudo.com/calculadora-trabalhista" class="text-[#009639] font-bold underline hover:text-[#00702a]">Calculadora Trabalhista de Rescisão e Seguro-Desemprego</a> gratuita.',
+      justification: 'Direciona a busca por valores e cálculos para a ferramenta interativa de simulação financeira CLT.'
+    };
+  } else if (p.id === 139) { // Carta de Apresentação
+    rec = {
+      article_id: 139,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/curriculo',
+      anchor_text: 'Assistente Inteligente de Carta de Apresentação e Currículo',
+      context_snippet: 'Uma boa carta de apresentação deve ter no máximo três parágrafos e ser personalizada para a empresa.',
+      insertion_proposal: 'Gere sua carta formatada automaticamente junto com o seu documento no nosso <a href="https://vocepodetudo.com/curriculo" class="text-[#009639] font-bold underline hover:text-[#00702a]">Assistente Inteligente de Carta de Apresentação e Currículo</a>.',
+      justification: 'A ferramenta do portal já possui módulo integrado de carta de apresentação, sendo a conversão perfeita.'
+    };
+  } else if (p.id === 140) { // Concursos Federais e Bancários
+    rec = {
+      article_id: 140,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/#cursos',
+      anchor_text: 'cursos preparatórios gratuitos para concursos públicos',
+      context_snippet: 'Caixa Econômica, Banco do Brasil e Correios exigem domínio estrito de língua portuguesa, informática e raciocínio lógico.',
+      insertion_proposal: 'Reforce sua base teórica sem pagar nada acessando os <a href="https://vocepodetudo.com/#cursos" class="text-[#009639] font-bold underline hover:text-[#00702a]">cursos preparatórios gratuitos para concursos públicos</a> catalogados no Você Pode Tudo.',
+      justification: 'Alimenta o fluxo de concurseiros para o catálogo de cursos focados em edital.'
+    };
+  } else if (p.id === 141) { // 12 Melhores Softwares Gratuitos
+    rec = {
+      article_id: 141,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/downloads',
+      anchor_text: 'Central de Downloads e Materiais Educacionais',
+      context_snippet: 'Programas de código aberto permitem estudar com alta performance sem gastar com licenças caras.',
+      insertion_proposal: 'Confira também a nossa <a href="https://vocepodetudo.com/downloads" class="text-[#009639] font-bold underline hover:text-[#00702a]">Central de Downloads e Materiais Educacionais</a> para encontrar e-books, modelos e guias complementares.',
+      justification: 'Oferece continuidade de valor ao estudante através de materiais prontos do portal.'
+    };
+  } else if (p.id === 142) { // Jovem Aprendiz 2026 Regras
+    rec = {
+      article_id: 142,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/vagas-jovem-aprendiz-2026',
+      anchor_text: 'Página Oficial de Vagas de Jovem Aprendiz 2026',
+      context_snippet: 'A remuneração do aprendiz tem como base o salário mínimo hora e a jornada não pode prejudicar os estudos escolares.',
+      insertion_proposal: 'Para cadastrar seu currículo nas oportunidades disponíveis do seu estado, visite a <a href="https://vocepodetudo.com/vagas-jovem-aprendiz-2026" class="text-[#009639] font-bold underline hover:text-[#00702a]">Página Oficial de Vagas de Jovem Aprendiz 2026</a>.',
+      justification: 'Conexão contextual de alta conversão entre a regulamentação do programa e a inscrição na vaga.'
+    };
+  } else if (p.id === 143) { // Primeiro Emprego sem Experiência 2026 Guia Definitivo
+    rec = {
+      article_id: 143,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/curriculo',
+      anchor_text: 'gerar seu primeiro currículo no modelo ATS profissional',
+      context_snippet: 'Destaque seus cursos extracurriculares, projetos voluntários e domínio de ferramentas básicas.',
+      insertion_proposal: 'Não sabe por onde começar a formatação? Você pode <a href="https://vocepodetudo.com/curriculo" class="text-[#009639] font-bold underline hover:text-[#00702a]">gerar seu primeiro currículo no modelo ATS profissional</a> gratuitamente e em menos de 5 minutos.',
+      justification: 'Resolve o principal obstáculo de quem busca o primeiro emprego: criar o currículo inicial.'
+    };
+  } else if (p.id === 144) { // Cursos SENAI, SESI e Fundação Bradesco
+    rec = {
+      article_id: 144,
+      title: p.title,
+      slug: p.slug,
+      destination_url: 'https://vocepodetudo.com/#cursos',
+      anchor_text: 'catálogo completo de cursos gratuitos verificados com certificado',
+      context_snippet: 'As instituições do Sistema S e fundações corporativas mantêm turmas abertas o ano inteiro na modalidade EaD.',
+      insertion_proposal: 'Navegue pelo <a href="https://vocepodetudo.com/#cursos" class="text-[#009639] font-bold underline hover:text-[#00702a]">catálogo completo de cursos gratuitos verificados com certificado</a> e filtre por carga horária ou área de interesse.',
+      justification: 'Conduz o leitor diretamente para a inscrição nos cursos mencionados no artigo.'
+    };
+  }
+
+  if (rec) linkPlan.push(rec);
+});
+
+fs.writeFileSync('C:/Users/usuario/Downloads/VCPDTD ANTIGRAVITY/scripts/link_plan_published_28.json', JSON.stringify(linkPlan, null, 2), 'utf8');
+console.log('Generated contextual link plan for all 28 published articles!');

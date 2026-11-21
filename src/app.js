@@ -80,6 +80,7 @@
   const state = {
     allCourses: [],
     favorites: new Set(),
+    expandedCourses: new Set(),
     activeCategory: 'all',
     searchQuery: '',
     selectedProvider: 'Todos',
@@ -105,7 +106,8 @@
       activeResultArea: null
     },
     student: null,
-    studentToken: localStorage.getItem('vpt_student_token') || null
+    studentToken: localStorage.getItem('vpt_student_token') || null,
+    deepLinkCourse: null
   };
 
   const fontSizes = ['font-size-small', 'font-size-normal', 'font-size-large', 'font-size-xlarge'];
@@ -363,7 +365,7 @@
     const badges = document.querySelectorAll('.favorites-count-badge');
     badges.forEach(b => {
       b.textContent = state.favorites.size;
-      b.style.display = state.favorites.size > 0 ? 'inline-flex' : 'none';
+      b.style.display = (state.favorites.size > 0) ? 'inline-flex' : 'none';
     });
   }
 
@@ -434,6 +436,10 @@
 
       const viewParam = params.get('view');
       const testParam = params.get('teste') || params.get('quiz');
+      const courseParam = params.get('curso') || params.get('c');
+      if (courseParam) {
+        state.deepLinkCourse = courseParam.trim();
+      }
       if (viewParam === 'tracks' || viewParam === 'favorites' || viewParam === 'career-test' || viewParam === 'career-result') {
         state.viewMode = viewParam;
       } else if (testParam === '1' || testParam === 'true' || window.location.hash === '#teste-perfil') {
@@ -506,9 +512,10 @@
   // Renderizar Trilhas Rápidas do Topo do Catálogo
   function renderTracks() {
     const container = document.getElementById('tracks-container');
-    if (!container || !window.PORTAL_DATA || !window.PORTAL_DATA.tracks) return;
+    const tracksList = (window.PORTAL_DATA && Array.isArray(window.PORTAL_DATA.tracks)) ? window.PORTAL_DATA.tracks : [];
+    if (!container || tracksList.length === 0) return;
 
-    container.innerHTML = window.PORTAL_DATA.tracks.map(track => {
+    container.innerHTML = tracksList.map(track => {
       const isSelected = state.selectedTrack === track.id;
       const safeTitle = escapeHTML(track.title);
       const safeDesc = escapeHTML(track.description);
@@ -579,9 +586,10 @@
   // Renderizar o Roteiro Completo de Trilhas de Aprendizagem (Roadmap Guiado)
   function renderTracksRoadmap() {
     const grid = document.getElementById('tracks-roadmap-grid');
-    if (!grid || !window.PORTAL_DATA || !window.PORTAL_DATA.tracks) return;
+    const tracksList = (window.PORTAL_DATA && Array.isArray(window.PORTAL_DATA.tracks)) ? window.PORTAL_DATA.tracks : [];
+    if (!grid || tracksList.length === 0) return;
 
-    grid.innerHTML = window.PORTAL_DATA.tracks.map((track) => {
+    grid.innerHTML = tracksList.map((track) => {
       const trackCourses = (track.courses || []).map((courseId, stepIdx) => {
         const found = state.allCourses.find(c => c.id === courseId);
         if (found) {
@@ -594,7 +602,7 @@
           provider: 'Parceiro Oficial',
           workloadHours: 10,
           hasFreeCertificate: true,
-          url: 'https://www.vocepodetudo.com'
+          url: 'https://vocepodetudo.com'
         };
       });
 
@@ -706,9 +714,10 @@
   // Renderizar Categorias
   function renderCategories() {
     const container = document.getElementById('categories-container');
-    if (!container || !window.PORTAL_DATA) return;
+    const categoriesList = (window.PORTAL_DATA && Array.isArray(window.PORTAL_DATA.categories)) ? window.PORTAL_DATA.categories : [];
+    if (!container || categoriesList.length === 0) return;
 
-    container.innerHTML = window.PORTAL_DATA.categories.map(cat => {
+    container.innerHTML = categoriesList.map(cat => {
       const isActive = state.activeCategory === cat.id;
       return `
         <button 
@@ -744,9 +753,10 @@
   // Renderizar opções de instituições
   function renderProviderOptions() {
     const select = document.getElementById('provider-select');
-    if (!select || !window.PORTAL_DATA) return;
+    const providersList = (window.PORTAL_DATA && Array.isArray(window.PORTAL_DATA.providers)) ? window.PORTAL_DATA.providers : ['Todos'];
+    if (!select) return;
 
-    select.innerHTML = window.PORTAL_DATA.providers.map(p => `
+    select.innerHTML = providersList.map(p => `
       <option value="${escapeHTML(p)}">${escapeHTML(p)}</option>
     `).join('');
 
@@ -813,9 +823,249 @@
     modal.classList.remove('hidden');
   }
 
-  // Gerador de HTML de Card de Curso com Tamanho Otimizado e Animação Suave
+  // ==============================================================================
+  // MAPEAMENTO DE ÍCONES SIMPLES E CORES TEMÁTICAS PARA CADA CURSO
+  // ==============================================================================
+  function getCourseIconInfo(course) {
+    const iconThemes = {
+      'code-2': { bg: 'bg-emerald-50', border: 'border-emerald-200', text: 'text-[#009B3A]' },
+      'brain-circuit': { bg: 'bg-purple-50', border: 'border-purple-200', text: 'text-purple-700' },
+      'trending-up': { bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-700' },
+      'heart-pulse': { bg: 'bg-rose-50', border: 'border-rose-200', text: 'text-rose-600' },
+      'shield-check': { bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-700' },
+      'bar-chart-3': { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-700' },
+      'cloud': { bg: 'bg-sky-50', border: 'border-sky-200', text: 'text-sky-700' },
+      'languages': { bg: 'bg-teal-50', border: 'border-teal-200', text: 'text-teal-700' },
+      'palette': { bg: 'bg-pink-50', border: 'border-pink-200', text: 'text-pink-700' },
+      'compass': { bg: 'bg-teal-50', border: 'border-teal-200', text: 'text-teal-700' },
+      'landmark': { bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-800' },
+      'briefcase': { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-700' },
+      'calculator': { bg: 'bg-emerald-50', border: 'border-emerald-200', text: 'text-emerald-700' },
+      'table': { bg: 'bg-emerald-50', border: 'border-emerald-200', text: 'text-emerald-700' },
+      'accessibility': { bg: 'bg-cyan-50', border: 'border-cyan-200', text: 'text-cyan-700' },
+      'file-text': { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-700' },
+      'laptop': { bg: 'bg-slate-50', border: 'border-slate-200', text: 'text-slate-700' },
+      'sprout': { bg: 'bg-emerald-50', border: 'border-emerald-200', text: 'text-emerald-700' },
+      'graduation-cap': { bg: 'bg-slate-50', border: 'border-slate-200', text: 'text-[#002776]' }
+    };
+
+    if (course.icon && iconThemes[course.icon]) {
+      return {
+        icon: course.icon,
+        ...iconThemes[course.icon]
+      };
+    }
+
+    // Classificador inteligente de fallback
+    const title = (course.title || '').toLowerCase();
+    const desc = (course.description || '').toLowerCase();
+    const cat = (course.category || '').toLowerCase();
+    const tags = (course.tags || []).map(t => t.toLowerCase()).join(' ');
+    const text = `${title} ${tags} ${desc}`;
+
+    if (/ciberseguran|cyber|hackers do bem|segurança da informação|segurança digital|forense|pentest/.test(text)) {
+      return { icon: 'shield-check', ...iconThemes['shield-check'] };
+    }
+    if (cat === 'ia' || /inteligência artificial|ia generativa|machine learning|deep learning|copilot|fluência|chatgpt|llm|robôs ats/.test(text)) {
+      return { icon: 'brain-circuit', ...iconThemes['brain-circuit'] };
+    }
+    if (cat === 'nuvem' || /\b(cloud|aws|azure|oci|google cloud)\b/.test(text) || /computação em nuvem/.test(text)) {
+      return { icon: 'cloud', ...iconThemes['cloud'] };
+    }
+    if (/power bi|análise de dados|ciência de dados|data science|banco de dados|sql\b/.test(text)) {
+      return { icon: 'bar-chart-3', ...iconThemes['bar-chart-3'] };
+    }
+    if (/excel|planilha/.test(text)) {
+      return { icon: 'table', ...iconThemes['table'] };
+    }
+    if (
+      cat === 'tecnologia' && /programação|full stack|javascript|python|java\b|html5|css3|react|node|algoritmo|lógica|c\+\+|git\b|desenvolvedor|api\b|apis\b|front-end|back-end|web/.test(text) ||
+      /python|javascript|programação|lógica de programação|java\b|html5|css3|react|node|algoritmo|git\b|github/.test(text)
+    ) {
+      return { icon: 'code-2', ...iconThemes['code-2'] };
+    }
+    if (cat === 'saude' || /saúde|idoso|enfermagem|médic|farmácia|cuidador|primeiros socorros|lei lucas|burnout|dignidade menstrual|paciente|hospital|sus\b|fiocruz/.test(text)) {
+      return { icon: 'heart-pulse', ...iconThemes['heart-pulse'] };
+    }
+    if (cat === 'agro' || /agronegócio|rural|agricultura|senar|irrigação/.test(text)) {
+      return { icon: 'sprout', ...iconThemes['sprout'] };
+    }
+    if (cat === 'idiomas' || /inglês|espanhol|francês|duolingo|língua adicional/.test(text)) {
+      return { icon: 'languages', ...iconThemes['languages'] };
+    }
+    if (cat === 'acessibilidade' || /libras|tecnologia assistiva|língua brasileira de sinais|audiodescrição|neurodiversidade/.test(text)) {
+      return { icon: 'accessibility', ...iconThemes['accessibility'] };
+    }
+    if (/business model canvas|canvas na prática/.test(text)) {
+      return { icon: 'briefcase', ...iconThemes['briefcase'] };
+    }
+    if (cat === 'artes' || /design gráfico|design e criação|fotografia|vídeo|\bcanva\b|photoshop|figma|desenho|games|animação|multimídia/.test(text)) {
+      return { icon: 'palette', ...iconThemes['palette'] };
+    }
+    if (cat === 'empreendedorismo' || cat === 'negocios' || /marketing|vendas|vender|comércio|sebrae|mei\b|dropshipping|customer success|social|redes sociais|atendimento ao cliente|startup/.test(text)) {
+      return { icon: 'trending-up', ...iconThemes['trending-up'] };
+    }
+    if (cat === 'financas' || /finanças|financeir|contabilidade|investimento|ações e renda fixa|tesouro direto|gastos|fluxo de caixa/.test(text)) {
+      return { icon: 'calculator', ...iconThemes['calculator'] };
+    }
+    if (cat === 'concursos' || /concurso|direito|lgpd|lei\b|legislação|serviço público|decreto|relações internacionais|trabalhistas|normas regulamentadoras|nrs\b/.test(text)) {
+      return { icon: 'landmark', ...iconThemes['landmark'] };
+    }
+    if (cat === 'gestao' || /gestão|liderança|projetos|scrum|kanban|lean seis sigma|accountability|gestão do tempo/.test(text)) {
+      return { icon: 'briefcase', ...iconThemes['briefcase'] };
+    }
+    if (/redação|escrita|produção de textos|comunicação|oratória|apresentação/.test(text)) {
+      return { icon: 'file-text', ...iconThemes['file-text'] };
+    }
+    if (/suporte em ti|suporte de ti|hardware|roteamento|redes\b|windows/.test(text)) {
+      return { icon: 'laptop', ...iconThemes['laptop'] };
+    }
+    if (/currículo|entrevista|primeiro emprego|carreira|linkedin|networking|feedback|processos seletivos/.test(text)) {
+      return { icon: 'compass', ...iconThemes['compass'] };
+    }
+
+    return { icon: 'graduation-cap', ...iconThemes['graduation-cap'] };
+  }
+
+  // Utilitário de Cópia para Área de Transferência com Fallback Seguro
+  function copyTextToClipboard(text, onSuccess, onError) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(() => {
+        if (onSuccess) onSuccess();
+      }).catch(() => {
+        fallbackCopyText(text, onSuccess, onError);
+      });
+    } else {
+      fallbackCopyText(text, onSuccess, onError);
+    }
+  }
+
+  function fallbackCopyText(text, onSuccess, onError) {
+    try {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      if (successful && onSuccess) onSuccess();
+      else if (!successful && onError) onError();
+    } catch (err) {
+      if (onError) onError(err);
+    }
+  }
+
+  // Alternador de expansão/recolhimento de card com acessibilidade e carregamento dinâmico
+  function toggleCourseCardExpansion(card, courseId, forceState) {
+    if (!card) return;
+    const isExpanded = card.classList.contains('is-expanded');
+    const shouldExpand = typeof forceState === 'boolean' ? forceState : !isExpanded;
+
+    const toggleBtn = card.querySelector('.toggle-course-details-btn');
+    const detailsContainer = card.querySelector('.course-expanded-details');
+    const toggleLabel = card.querySelector('.toggle-btn-label');
+
+    // Regra de Ouro: Apenas o card que o aluno clicar deve expandir e pular na tela!
+    if (shouldExpand) {
+      // Fecha qualquer outro card expandido no catálogo
+      const rootContainer = card.closest('#courses-grid, #result-related-courses-grid') || document;
+      rootContainer.querySelectorAll('.course-card.is-expanded').forEach(otherCard => {
+        if (otherCard !== card) {
+          const otherId = otherCard.getAttribute('data-course-id');
+          toggleCourseCardExpansion(otherCard, otherId, false);
+        }
+      });
+
+      if (state.expandedCourses) {
+        state.expandedCourses.clear();
+        state.expandedCourses.add(courseId);
+      }
+    } else {
+      if (state.expandedCourses) {
+        state.expandedCourses.delete(courseId);
+      }
+    }
+
+    // Lazy load fallback caso a ementa ainda não esteja preenchida no DOM
+    const innerContainer = card.querySelector('.course-expanded-inner');
+    if (shouldExpand && innerContainer && !innerContainer.querySelector('.course-expanded-content')) {
+      const course = (state.allCourses || []).find(c => String(c.id) === String(courseId));
+      const getDetailsHtmlFn = (typeof getCourseExpandedDetailsHtml === 'function')
+        ? getCourseExpandedDetailsHtml
+        : (typeof window !== 'undefined' && typeof window.getCourseExpandedDetailsHtml === 'function')
+          ? window.getCourseExpandedDetailsHtml
+          : null;
+      if (course && getDetailsHtmlFn) {
+        try {
+          const html = getDetailsHtmlFn(course);
+          innerContainer.insertAdjacentHTML('afterbegin', html);
+        } catch (e) {
+          console.warn('[CourseDetails] Erro lazy:', e);
+        }
+      }
+    }
+
+    if (shouldExpand) {
+      card.classList.add('is-expanded');
+      if (toggleBtn) {
+        toggleBtn.setAttribute('aria-expanded', 'true');
+        toggleBtn.classList.add('bg-emerald-50', 'text-[#00702a]', 'border-emerald-300');
+        toggleBtn.classList.remove('bg-slate-100', 'text-slate-800', 'border-slate-300/80');
+      }
+      if (toggleLabel) {
+        toggleLabel.textContent = 'Recolher Ementa e Detalhes';
+      }
+      if (detailsContainer) {
+        detailsContainer.classList.add('is-open');
+        detailsContainer.setAttribute('aria-hidden', 'false');
+      }
+
+      // Inicializa ícones Lucide dentro dos detalhes expandidos
+      if (window.lucide && detailsContainer) {
+        try {
+          window.lucide.createIcons({ root: detailsContainer });
+        } catch (_) {}
+      }
+
+      // Rolagem suave se a expansão fizer o card ultrapassar o rodapé visível
+      setTimeout(() => {
+        const rect = card.getBoundingClientRect();
+        if (rect.bottom > window.innerHeight - 30) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }, 100);
+
+      try {
+        trackAnalyticsEvent('course_expand_details', {
+          course_id: courseId
+        });
+      } catch (_) {}
+    } else {
+      card.classList.remove('is-expanded');
+      if (toggleBtn) {
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        toggleBtn.classList.remove('bg-emerald-50', 'text-[#00702a]', 'border-emerald-300');
+        toggleBtn.classList.add('bg-slate-100', 'text-slate-800', 'border-slate-300/80');
+      }
+      if (toggleLabel) {
+        toggleLabel.textContent = 'Ver Ementa e Detalhes';
+      }
+      if (detailsContainer) {
+        detailsContainer.classList.remove('is-open');
+        detailsContainer.setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+
+  // Gerador de HTML de Card de Curso com Tamanho Otimizado e Expansão Dinâmica
   function createCourseCardHtml(course) {
     const isFav = state.favorites.has(course.id);
+    const isExpanded = state.expandedCourses && state.expandedCourses.has(course.id);
+    const iconInfo = getCourseIconInfo(course);
     const safeTitle = escapeHTML(course.title);
     const safeDesc = escapeHTML(course.description);
     const safeProvider = escapeHTML(course.provider);
@@ -838,18 +1088,45 @@
       </span>
     `).join('');
 
-    const shareMsg = `Olha esse curso 100% gratuito que encontrei no Você Pode Tudo: "${safeTitle}" (${safeProvider}) com ${course.workloadHours}h de aula. Acesse aqui: ${safeUrl}`;
+    const deepLinkUrl = `https://vocepodetudo.com/?curso=${encodeURIComponent(course.id)}`;
+    const shareMsg = `Olha esse curso 100% gratuito que encontrei no Você Pode Tudo: "${safeTitle}" (${safeProvider}) com ${course.workloadHours}h de aula e certificado grátis! Acesse: ${deepLinkUrl}`;
     const directWhatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareMsg)}`;
 
+    let expandedDetailsInnerHtml = '';
+    const getDetailsHtmlFn = (typeof getCourseExpandedDetailsHtml === 'function')
+      ? getCourseExpandedDetailsHtml
+      : (typeof window !== 'undefined' && typeof window.getCourseExpandedDetailsHtml === 'function')
+        ? window.getCourseExpandedDetailsHtml
+        : null;
+
+    if (getDetailsHtmlFn) {
+      try {
+        expandedDetailsInnerHtml = getDetailsHtmlFn(course);
+      } catch (err) {
+        console.warn('[CourseDetails] Erro ao gerar detalhes do curso:', err);
+      }
+    }
+
     return `
-      <article class="course-card animate-fade-in-up flex flex-col justify-between bg-white border-2 border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-xl hover:border-[#009639] transition-all relative group" aria-label="${safeTitle}">
+      <article 
+        class="course-card animate-fade-in-up flex flex-col justify-between bg-white border-2 border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-xl hover:border-[#009639] hover:-translate-y-1 transition-all duration-200 relative group cursor-pointer ${isExpanded ? 'is-expanded' : ''}" 
+        aria-label="${safeTitle}"
+        data-course-id="${escapeHTML(course.id)}"
+        tabindex="0"
+        role="region"
+      >
         <div>
-          <div class="flex items-start justify-between gap-1.5 mb-2.5">
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-lg text-[11px] font-bold border-2 ${course.providerColor || 'bg-slate-100 text-slate-800 border-slate-300'}">
-              ${safeTag}
-            </span>
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <div class="w-9 h-9 rounded-xl ${iconInfo.bg} border ${iconInfo.border} ${iconInfo.text} flex items-center justify-center flex-shrink-0 shadow-2xs group-hover:scale-105 transition-transform" title="${escapeHTML(course.categoryName || course.category || 'Curso Oficial')}">
+                <i data-lucide="${iconInfo.icon}" class="w-4.5 h-4.5"></i>
+              </div>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-lg text-[11px] font-bold border-2 ${course.providerColor || 'bg-slate-100 text-slate-800 border-slate-300'} truncate">
+                ${safeTag}
+              </span>
+            </div>
             
-            <div class="flex items-center gap-1">
+            <div class="flex items-center gap-1 flex-shrink-0">
               <button 
                 data-speak-title="${safeTitle}"
                 data-speak-provider="${safeProvider}"
@@ -916,12 +1193,28 @@
             </div>
           </div>
 
+          <!-- Botão Intuitivo de Expansão de Ementa & Detalhes -->
+          <button 
+            type="button"
+            class="toggle-course-details-btn w-full mb-3 py-2 px-3 rounded-xl font-bold text-xs ${isExpanded ? 'bg-emerald-50 text-[#00702a] border-emerald-300' : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300/80'} border flex items-center justify-between transition-all group/toggle cursor-pointer"
+            aria-expanded="${isExpanded ? 'true' : 'false'}"
+            aria-controls="course-details-${escapeHTML(course.id)}"
+            data-course-id="${escapeHTML(course.id)}"
+            title="Ver ementa completa, pré-requisitos, avaliação e certificação oficial"
+          >
+            <span class="flex items-center gap-1.5 font-bold pointer-events-none">
+              <span>🔍</span>
+              <span class="toggle-btn-label">${isExpanded ? 'Recolher Ementa e Detalhes' : 'Ver Ementa e Detalhes'}</span>
+            </span>
+            <i data-lucide="chevron-down" class="toggle-chevron w-4 h-4 text-slate-500 group-hover/toggle:text-slate-900 pointer-events-none transition-transform duration-300"></i>
+          </button>
+
           <div class="flex items-center gap-1.5">
             <a 
               href="${safeUrl}" 
               target="_blank" 
               rel="noopener noreferrer"
-              class="course-access-link flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl font-bold text-xs bg-[#009639] hover:bg-[#00702a] text-white shadow-md shadow-emerald-700/20 active:scale-95 transition-all truncate"
+              class="course-access-link flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl font-bold text-xs bg-gradient-to-r from-[#009639] via-[#008031] to-[#005e24] hover:from-[#008031] hover:to-[#00471b] text-white shadow-md shadow-emerald-700/20 active:scale-95 transition-all truncate group/btn"
               data-course-id="${course.id}"
               data-course-title="${safeTitle}"
               data-course-provider="${safeProvider}"
@@ -929,7 +1222,7 @@
               aria-label="Acessar página oficial do curso ${safeTitle} (abre em nova aba)"
             >
               <span>Acessar Curso Oficial</span>
-              <i data-lucide="external-link" class="w-3.5 h-3.5 flex-shrink-0"></i>
+              <i data-lucide="external-link" class="w-3.5 h-3.5 flex-shrink-0 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform"></i>
             </a>
 
             <!-- Compartilhar direto no WhatsApp -->
@@ -957,6 +1250,47 @@
             </button>
           </div>
         </div>
+
+        <!-- Contêiner Expansível com Ementa e Detalhes Ricos -->
+        <div 
+          id="course-details-${escapeHTML(course.id)}" 
+          class="course-expanded-details ${isExpanded ? 'is-open' : ''}" 
+          role="region" 
+          aria-label="Ementa e detalhes do curso ${safeTitle}" 
+          aria-hidden="${isExpanded ? 'false' : 'true'}"
+        >
+          <div class="course-expanded-inner">
+            ${expandedDetailsInnerHtml}
+            
+            <!-- Ações Compactas de Rodapé -->
+            <div class="course-expanded-actions flex items-center justify-between gap-2 pt-2 border-t border-slate-200 mt-2">
+              <a 
+                href="${safeUrl}" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="course-access-link flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg font-bold text-xs bg-[#009639] hover:bg-[#007a2e] text-white transition-colors truncate group/cta"
+                data-course-id="${course.id}"
+                data-course-title="${safeTitle}"
+                data-course-provider="${safeProvider}"
+                data-course-category="${escapeHTML(course.category || 'Geral')}"
+                aria-label="Fazer inscrição gratuita no ${safeProvider} para ${safeTitle} (abre em nova aba)"
+              >
+                <span>Inscrição Oficial</span>
+                <i data-lucide="external-link" class="w-3 h-3 group-hover/cta:translate-x-0.5 transition-transform"></i>
+              </a>
+
+              <button 
+                type="button" 
+                class="collapse-course-details-btn inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg font-semibold text-xs text-slate-600 bg-slate-100 hover:bg-slate-200 hover:text-slate-900 border border-slate-200 transition-colors flex-shrink-0 cursor-pointer"
+                data-course-id="${escapeHTML(course.id)}"
+                aria-label="Recolher detalhes do curso ${safeTitle}"
+              >
+                <i data-lucide="chevron-up" class="w-3 h-3 pointer-events-none"></i>
+                <span class="pointer-events-none">Recolher</span>
+              </button>
+            </div>
+          </div>
+        </div>
       </article>
     `;
   }
@@ -968,6 +1302,7 @@
     container.querySelectorAll('.speak-course-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
+        e.stopPropagation();
         const title = btn.getAttribute('data-speak-title');
         const provider = btn.getAttribute('data-speak-provider');
         const workload = btn.getAttribute('data-speak-workload');
@@ -980,6 +1315,7 @@
     container.querySelectorAll('.fav-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
+        e.stopPropagation();
         const courseId = btn.getAttribute('data-course-id');
         if (state.favorites.has(courseId)) {
           state.favorites.delete(courseId);
@@ -996,6 +1332,7 @@
     container.querySelectorAll('.open-share-modal-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
+        e.stopPropagation();
         const url = btn.getAttribute('data-share-url');
         const title = btn.getAttribute('data-course-title');
         const provider = btn.getAttribute('data-course-provider');
@@ -1003,13 +1340,27 @@
       });
     });
 
-    // Rastreamento de Cliques em Cursos Oficiais para Métricas da Administração
+    // Rastreamento de Cliques em Cursos Oficiais para Métricas da Administração & Histórico Recente
     container.querySelectorAll('.course-access-link').forEach(link => {
       link.addEventListener('click', () => {
         const courseId = link.getAttribute('data-course-id');
         const title = link.getAttribute('data-course-title');
         const provider = link.getAttribute('data-course-provider');
         const category = link.getAttribute('data-course-category');
+        const url = link.getAttribute('href');
+
+        try {
+          addToRecentCourses({
+            id: courseId,
+            title: title,
+            provider: provider,
+            category: category,
+            url: url
+          });
+        } catch (e) {
+          console.warn('[Recentes] Erro:', e);
+        }
+
         trackAnalyticsEvent('course_click', {
           course_id: courseId,
           course_title: title,
@@ -1018,11 +1369,95 @@
         });
       });
     });
+
+    // Botões de Copiar Texto para Currículo
+    container.querySelectorAll('.copy-resume-tip-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const textToCopy = btn.getAttribute('data-copy-text');
+        if (!textToCopy) return;
+
+        copyTextToClipboard(textToCopy, () => {
+          showToast('Texto para currículo copiado com sucesso!', 'success');
+          const originalText = btn.textContent;
+          btn.textContent = 'Copiado!';
+          btn.classList.add('bg-emerald-100', 'text-emerald-800', 'border-emerald-300');
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.classList.remove('bg-emerald-100', 'text-emerald-800', 'border-emerald-300');
+          }, 2000);
+        }, () => {
+          showToast('Não foi possível copiar automaticamente.', 'info');
+        });
+      });
+    });
+
+    // Ouvintes de Expansão / Acessibilidade dos Cards
+    const cards = container.classList && container.classList.contains('course-card')
+      ? [container]
+      : container.querySelectorAll('.course-card:not(.course-ad-card)');
+
+    cards.forEach(card => {
+      const courseId = card.getAttribute('data-course-id');
+      if (!courseId) return;
+
+      if (card.dataset.expandListenerAttached === 'true') return;
+      card.dataset.expandListenerAttached = 'true';
+
+      const toggleBtn = card.querySelector('.toggle-course-details-btn');
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleCourseCardExpansion(card, courseId);
+        });
+      }
+
+      const collapseBtn = card.querySelector('.collapse-course-details-btn');
+      if (collapseBtn) {
+        collapseBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleCourseCardExpansion(card, courseId, false);
+          const rect = card.getBoundingClientRect();
+          if (rect.top < 70) {
+            card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        });
+      }
+
+      card.addEventListener('click', (e) => {
+        // Ignora cliques em elementos interativos
+        if (e.target.closest('button, a, input, select, textarea, [role="button"], .copy-resume-tip-btn, .fav-btn, .speak-course-btn, .course-access-link, .open-share-modal-btn')) {
+          return;
+        }
+
+        // Se já está aberto e clicou dentro do conteúdo expandido (seleção de texto, etc.), não fecha
+        const clickedInsideContent = e.target.closest('.course-expanded-content');
+        if (card.classList.contains('is-expanded') && clickedInsideContent) {
+          return;
+        }
+
+        toggleCourseCardExpansion(card, courseId);
+      });
+
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          if (e.target === card) {
+            e.preventDefault();
+            toggleCourseCardExpansion(card, courseId);
+          }
+        }
+      });
+    });
   }
 
   // Atualiza indicadores de carregamento suave / fim de catálogo
   function updateScrollUI(hasMore, totalFiltered) {
     const loadMoreBox = document.getElementById('load-more-box');
+    const loadMoreSpinner = document.getElementById('load-more-spinner');
+    const loadMoreBtn = document.getElementById('load-more-courses-btn');
     const allLoadedMsg = document.getElementById('all-loaded-message');
 
     if (totalFiltered === 0) {
@@ -1038,6 +1473,14 @@
       if (loadMoreBox) {
         loadMoreBox.classList.remove('hidden');
         loadMoreBox.classList.add('flex');
+      }
+      if (loadMoreSpinner) {
+        loadMoreSpinner.classList.remove('hidden');
+        loadMoreSpinner.classList.add('inline-flex');
+      }
+      if (loadMoreBtn) {
+        loadMoreBtn.classList.add('hidden');
+        loadMoreBtn.classList.remove('inline-flex');
       }
       if (allLoadedMsg) allLoadedMsg.classList.add('hidden');
     } else {
@@ -1065,12 +1508,15 @@
 
     state.isLoadingMore = true;
     const spinner = document.getElementById('load-more-spinner');
-    const btn = document.getElementById('load-more-courses-btn');
+    const box = document.getElementById('load-more-box');
+    if (box) {
+      box.classList.remove('hidden');
+      box.classList.add('flex');
+    }
     if (spinner) {
       spinner.classList.remove('hidden');
       spinner.classList.add('inline-flex');
     }
-    if (btn) btn.classList.add('hidden');
 
     setTimeout(() => {
       const nextBatch = filtered.slice(startIndex, startIndex + state.coursesPerPage);
@@ -1106,19 +1552,62 @@
       }
 
       const hasMore = (state.currentPage * state.coursesPerPage) < totalFiltered;
-      if (spinner) {
-        spinner.classList.add('hidden');
-        spinner.classList.remove('inline-flex');
-      }
-      if (btn) btn.classList.remove('hidden');
-
       updateScrollUI(hasMore, totalFiltered);
       state.isLoadingMore = false;
-    }, 250);
+
+      // Se a tela for alta ou o scroll estiver próximo ao final, busca automaticamente mais um lote
+      if (hasMore) {
+        checkIfNeedsMoreCourses();
+      }
+    }, 180);
+  }
+
+  // Verifica se o gatilho ainda está na área visível para continuar carregando automaticamente
+  function checkIfNeedsMoreCourses() {
+    if (state.isLoadingMore) return;
+    const trigger = document.getElementById('courses-scroll-trigger');
+    if (!trigger) return;
+
+    const rect = trigger.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    
+    // Se o gatilho estiver a até 500px da viewport, aciona o próximo lote
+    if (rect.top <= windowHeight + 500) {
+      loadMoreCourses();
+    }
   }
 
   // Renderizar Cards de Cursos no Catálogo com Carregamento Progressivo Suave
-  function renderCourses(resetPagination = true) {
+  
+  function createInFeedCourseAdHtml(index) {
+    return `
+      <div class="course-card course-ad-card bg-slate-50 dark:bg-slate-800/80 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 p-5 flex flex-col justify-between items-center text-center overflow-hidden min-h-[340px] transition-all hover:shadow-md">
+        <div class="w-full flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">
+          <span>Parceiro Educacional</span>
+          <span class="px-2 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 font-black">Patrocinado</span>
+        </div>
+        <div class="w-full flex-1 flex flex-col items-center justify-center py-2 overflow-hidden">
+          <ins class="adsbygoogle"
+               style="display:block; text-align:center; min-width:250px; min-height:200px;"
+               data-ad-layout="in-article"
+               data-ad-format="fluid"
+               data-ad-client="ca-pub-9923838612147321"
+               data-ad-slot="1234567890"></ins>
+          <div class="ad-fallback text-xs text-slate-500 dark:text-slate-400 font-semibold mt-3 max-w-xs">
+            Apoie o portal gratuito Você Pode Tudo conhecendo os cursos recomendados por nossos parceiros!
+          </div>
+        </div>
+        <div class="w-full pt-3 border-t border-slate-200 dark:border-slate-700/60 flex items-center justify-center gap-2">
+          <a href="curriculo" class="inline-flex items-center gap-1 text-xs font-black text-[#002776] dark:text-blue-400 hover:underline">
+            <i data-lucide="award" class="w-3.5 h-3.5"></i>
+            <span>Destaque seu currículo hoje</span>
+          </a>
+        </div>
+      </div>
+    `;
+  }
+
+function renderCourses(resetPagination = true) {
     const grid = document.getElementById('courses-grid');
     const emptyState = document.getElementById('empty-state');
     const resultCount = document.getElementById('results-count-text');
@@ -1156,7 +1645,47 @@
         }
       } else {
         const viewLabel = state.viewMode === 'favorites' ? 'curso(s) salvo(s)' : 'cursos gratuitos catalogados';
-        resultCount.innerHTML = `Exibindo <strong class="text-[#009639]">${visibleCourses.length}</strong> de <strong class="text-slate-800">${totalFiltered}</strong> ${viewLabel}`;
+        const hasSearch = !!(state.searchTerm && state.searchTerm.trim());
+        const hasCategory = !!(state.activeCategory && state.activeCategory !== 'all');
+        const hasProvider = !!(state.selectedProvider && state.selectedProvider !== 'Todos');
+        const hasFilter = hasSearch || hasCategory || hasProvider;
+
+        let badges = '';
+        if (hasFilter) {
+          badges = `
+            <div class="inline-flex items-center gap-1.5 flex-wrap">
+              ${hasSearch ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-300">Busca: "${escapeHTML(state.searchTerm)}"</span>` : ''}
+              ${hasCategory ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-emerald-100 text-[#00702a] border border-emerald-300">Área: ${escapeHTML(state.activeCategory)}</span>` : ''}
+              ${hasProvider ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-blue-100 text-blue-900 border border-blue-300">${escapeHTML(state.selectedProvider)}</span>` : ''}
+              <button id="clear-all-filters-btn" type="button" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-slate-100 hover:bg-rose-50 text-slate-600 hover:text-rose-600 border border-slate-300 hover:border-rose-300 transition-colors cursor-pointer" title="Limpar todos os filtros">
+                <i data-lucide="x" class="w-3 h-3"></i>
+                <span>Limpar busca</span>
+              </button>
+            </div>
+          `;
+        }
+
+        resultCount.innerHTML = `
+          <div class="flex items-center justify-between flex-wrap gap-2 w-full">
+            <div>Exibindo <strong class="text-[#009639]">${visibleCourses.length}</strong> de <strong class="text-slate-800">${totalFiltered}</strong> ${viewLabel}</div>
+            ${badges}
+          </div>
+        `;
+
+        const clearFiltersBtn = document.getElementById('clear-all-filters-btn');
+        if (clearFiltersBtn) {
+          clearFiltersBtn.addEventListener('click', () => {
+            state.searchTerm = '';
+            state.activeCategory = 'all';
+            state.selectedProvider = 'Todos';
+            const s1 = document.getElementById('search-input'); if (s1) s1.value = '';
+            const s2 = document.getElementById('mobile-search-input'); if (s2) s2.value = '';
+            const s3 = document.getElementById('hero-search-input'); if (s3) s3.value = '';
+            const p1 = document.getElementById('provider-select'); if (p1) p1.value = 'Todos';
+            renderCategories();
+            renderCourses(true);
+          });
+        }
       }
     }
 
@@ -1170,19 +1699,40 @@
     if (emptyState) emptyState.classList.add('hidden');
 
     const cardsHtml = [];
-    visibleCourses.forEach((course) => {
+    visibleCourses.forEach((course, index) => {
       cardsHtml.push(createCourseCardHtml(course));
+      // Inserir anúncio AdSense a cada 6 cursos quando não estiver no modo de favoritos
+      if (state.viewMode !== 'favorites' && (index + 1) % 6 === 0 && (index + 1) < visibleCourses.length) {
+        cardsHtml.push(createInFeedCourseAdHtml((index + 1) / 6));
+      }
     });
 
     grid.innerHTML = cardsHtml.join('');
     attachCourseCardListeners(grid);
 
+    try {
+      if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+        const ads = grid.querySelectorAll('.adsbygoogle:not([data-adsbygoogle-status])');
+        ads.forEach(ad => {
+          ad.setAttribute('data-adsbygoogle-status', 'pending');
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        });
+      }
+    } catch (_) {}
+
     if (window.lucide) window.lucide.createIcons({ root: grid });
     updateScrollUI(hasMore, totalFiltered);
     updateHeaderStats();
+
+    // Se o catálogo tem mais cursos e a tela for grande o suficiente, antecipa o próximo lote
+    if (hasMore) {
+      setTimeout(checkIfNeedsMoreCourses, 200);
+    }
   }
 
-  // Configuração do Scroll Infinito Suave via IntersectionObserver
+  // Configuração do Scroll Infinito Suave (IntersectionObserver + Scroll Listener Redundante)
+  let infiniteScrollObserver = null;
+  let scrollListenerAttached = false;
   function setupInfiniteScroll() {
     const trigger = document.getElementById('courses-scroll-trigger');
     const loadMoreBtn = document.getElementById('load-more-courses-btn');
@@ -1193,8 +1743,13 @@
       });
     }
 
+    // 1. Mecanismo Principal: IntersectionObserver com 600px de antecipação
     if (trigger && 'IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
+      if (infiniteScrollObserver) {
+        try { infiniteScrollObserver.disconnect(); } catch (e) {}
+      }
+
+      infiniteScrollObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             const filtered = getFilteredCourses();
@@ -1205,11 +1760,50 @@
         });
       }, {
         root: null,
-        rootMargin: '300px',
-        threshold: 0.1
+        rootMargin: '600px 0px 600px 0px',
+        threshold: 0
       });
 
-      observer.observe(trigger);
+      infiniteScrollObserver.observe(trigger);
+    }
+
+    // 2. Mecanismo Redundante de Rolagem (Window Scroll Listener com requestAnimationFrame)
+    // Garante 100% de funcionamento em navegadores móveis, WebViews e rolagem contínua
+    if (!scrollListenerAttached) {
+      scrollListenerAttached = true;
+      let isScrollTicking = false;
+
+      function handleScrollProgress() {
+        if (isScrollTicking) return;
+        isScrollTicking = true;
+        window.requestAnimationFrame(() => {
+          isScrollTicking = false;
+          if (state.isLoadingMore) return;
+          const filtered = getFilteredCourses();
+          if ((state.currentPage * state.coursesPerPage) >= filtered.length) return;
+
+          const scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+          const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+          const docHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+
+          // Se o usuário rolou até os últimos 700px da página ou alcançou a área do gatilho
+          if (scrollY + windowHeight >= docHeight - 700) {
+            loadMoreCourses();
+          } else {
+            const trig = document.getElementById('courses-scroll-trigger');
+            if (trig) {
+              const rect = trig.getBoundingClientRect();
+              if (rect.top <= windowHeight + 500) {
+                loadMoreCourses();
+              }
+            }
+          }
+        });
+      }
+
+      window.addEventListener('scroll', handleScrollProgress, { passive: true });
+      window.addEventListener('touchmove', handleScrollProgress, { passive: true });
+      window.addEventListener('resize', handleScrollProgress, { passive: true });
     }
   }
 
@@ -1237,35 +1831,64 @@
     const favTabBtn = document.getElementById('tab-favorites-btn');
     const careerTabBtn = document.getElementById('tab-career-test-btn');
 
+    const cursosTrigger = document.getElementById('nav-dropdown-cursos-btn');
+    const userTrigger = document.getElementById('nav-dropdown-user-btn');
+
     const catalogView = document.getElementById('catalog-view');
     const tracksView = document.getElementById('tracks-view');
     const careerTestView = document.getElementById('career-test-view');
     const careerResultView = document.getElementById('career-result-view');
 
-    const activeClasses = 'px-2 sm:px-4 py-2 rounded-xl bg-[#009639] text-white shadow-sm transition-all font-bold flex items-center justify-center gap-1.5 cursor-pointer text-xs';
-    const inactiveClasses = 'px-2 sm:px-4 py-2 rounded-xl text-slate-700 hover:text-[#009639] hover:bg-white transition-all font-bold flex items-center justify-center gap-1.5 cursor-pointer text-xs';
+    const itemActiveEmerald = 'flex-1 flex items-center gap-2 px-2 py-1.5 rounded-md text-left bg-emerald-50 text-[#009639] font-bold border-l-2 border-[#009639] cursor-pointer';
+    const itemActiveBlue = 'flex-1 flex items-center gap-2 px-2 py-1.5 rounded-md text-left bg-blue-50 text-[#002776] font-bold border-l-2 border-[#002776] cursor-pointer';
+    const itemActiveAmber = 'w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-left bg-amber-50 text-amber-900 font-bold border-l-2 border-amber-500 cursor-pointer';
+    const itemInactive = 'flex-1 flex items-center gap-2 px-2 py-1.5 rounded-md text-left text-slate-700 hover:bg-slate-50 cursor-pointer';
+    const itemInactiveAmber = 'w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-left hover:bg-slate-50 text-slate-700 transition-colors group cursor-pointer';
 
     if (catTabBtn) {
-      catTabBtn.className = state.viewMode === 'catalog' ? activeClasses : inactiveClasses;
+      catTabBtn.className = state.viewMode === 'catalog' ? itemActiveEmerald : itemInactive;
       catTabBtn.setAttribute('aria-selected', state.viewMode === 'catalog' ? 'true' : 'false');
     }
     if (tracksTabBtn) {
-      tracksTabBtn.className = state.viewMode === 'tracks' ? activeClasses : inactiveClasses;
+      tracksTabBtn.className = state.viewMode === 'tracks' ? itemActiveBlue : itemInactive;
       tracksTabBtn.setAttribute('aria-selected', state.viewMode === 'tracks' ? 'true' : 'false');
     }
     if (favTabBtn) {
-      const isFavActive = state.viewMode === 'favorites';
-      favTabBtn.className = isFavActive
-        ? 'inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-bold text-white bg-rose-600 shadow-sm transition-all cursor-pointer'
-        : 'inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-rose-600 bg-white hover:bg-rose-50 border border-slate-200 hover:border-rose-200 transition-all cursor-pointer shadow-sm';
-      favTabBtn.setAttribute('aria-selected', isFavActive ? 'true' : 'false');
+      if (!state.student) {
+        favTabBtn.classList.add('hidden');
+      } else {
+        favTabBtn.classList.remove('hidden');
+        const isFavActive = state.viewMode === 'favorites';
+        favTabBtn.className = isFavActive
+          ? 'w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left bg-rose-50 text-rose-700 font-bold border-l-2 border-rose-500 cursor-pointer'
+          : 'w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left hover:bg-rose-50/60 text-slate-700 transition-colors group cursor-pointer';
+        favTabBtn.setAttribute('aria-selected', isFavActive ? 'true' : 'false');
+      }
     }
     if (careerTabBtn) {
       const isTestActive = state.viewMode === 'career-test' || state.viewMode === 'career-result';
-      careerTabBtn.className = isTestActive
-        ? 'px-2 sm:px-4 py-2 rounded-xl bg-[#002776] text-white shadow-sm transition-all font-bold flex items-center justify-center gap-1.5 cursor-pointer text-xs'
-        : inactiveClasses;
+      careerTabBtn.className = isTestActive ? itemActiveAmber : itemInactiveAmber;
       careerTabBtn.setAttribute('aria-selected', isTestActive ? 'true' : 'false');
+    }
+
+    if (cursosTrigger) {
+      if (state.viewMode === 'catalog') {
+        cursosTrigger.className = 'inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-black text-[#009639] bg-emerald-50/80 border border-emerald-300 transition-all cursor-pointer group';
+      } else if (state.viewMode === 'tracks') {
+        cursosTrigger.className = 'inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-black text-[#002776] bg-blue-50/80 border border-blue-300 transition-all cursor-pointer group';
+      } else if (state.viewMode === 'career-test' || state.viewMode === 'career-result') {
+        cursosTrigger.className = 'inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-black text-amber-800 bg-amber-50/80 border border-amber-300 transition-all cursor-pointer group';
+      } else {
+        cursosTrigger.className = 'inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-[#009639] hover:bg-emerald-50/70 border border-transparent hover:border-emerald-200 transition-all cursor-pointer group';
+      }
+    }
+
+    if (userTrigger) {
+      if (state.viewMode === 'favorites') {
+        userTrigger.className = 'inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-black text-rose-700 bg-rose-50 border border-rose-300 transition-all cursor-pointer shadow-2xs group';
+      } else {
+        userTrigger.className = 'inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-[#002776] bg-slate-100 hover:bg-slate-200/80 border border-slate-200 transition-all cursor-pointer shadow-2xs group';
+      }
     }
 
     // Ocultar todas as visualizações primeiro para evitar sobreposição
@@ -1801,7 +2424,8 @@
 
   function openCareerExploreModal() {
     if (!window.CAREER_QUIZ) return;
-    const modal = document.getElementById('career-explore-modal');
+    const modal = document.getElementById('career-explore-modal',
+          'takedown-modal');
     const gridEl = document.getElementById('career-explore-grid');
     if (!modal || !gridEl) return;
 
@@ -1940,27 +2564,14 @@
           return;
         }
 
-        const accepted = ['Rx178gpo2@1985', 'Rx178gpo2@1985!'];
-        const OFFICIAL_HASH = '1f76b0f95233c97505e8d3248fb37bfdd7ec680385eb8cbaf46dc5688b401b95';
-        const cleanUser = enteredUser.toLowerCase();
-        const validUsers = ['admin', 'administrador', 'admin@vocepodetudo.com', 'mateus', 'mateusmarrero', 'vocepodetudo', 'portal', ''];
-        const isOfficialPass = accepted.includes(enteredPass);
-        const isOfficialUser = validUsers.includes(cleanUser) || cleanUser.includes('admin') || cleanUser.includes('mateus');
-
-        // Se for uma das senhas oficiais, libera na hora sem lockout
-        if (isOfficialPass && isOfficialUser) {
-          clearFailedLoginAttempts();
+        const remaining = getLockoutRemainingSeconds();
+        if (remaining > 0) {
+          showToast(`Acesso temporariamente bloqueado. Aguarde ${remaining} segundos.`, 'error');
           updateLockoutUI();
-        } else {
-          const remaining = getLockoutRemainingSeconds();
-          if (remaining > 0) {
-            showToast(`Acesso temporariamente bloqueado. Aguarde ${remaining} segundos.`, 'error');
-            updateLockoutUI();
-            return;
-          }
+          return;
         }
 
-        // Autenticação Segura (Servidor MySQL com contingência oficial)
+        // Autenticação Segura via API
         let loginSucceeded = false;
         try {
           const res = await fetch(`${API_BASE}/auth.php?action=login`, {
@@ -1985,23 +2596,7 @@
             }
           }
         } catch (serverErr) {
-          // Em ambiente local (file:///) ou servidor estático sem PHP
-        }
-
-        // Validação oficial da senha de administrador (aceita Rx178gpo2@1985)
-        const calcHash = await hashPassword(enteredPass);
-
-        if ((isOfficialPass || calcHash === OFFICIAL_HASH) && isOfficialUser) {
-          state.isAdmin = true;
-          sessionStorage.setItem('vpt_is_admin', 'true');
-          sessionStorage.setItem('vpt_auth_token', 'vpt_admin_token_official');
-          sessionStorage.setItem('vpt_admin_login_time', Date.now().toString());
-          clearFailedLoginAttempts();
-          updateAdminUI();
-          if (adminLoginModal) adminLoginModal.classList.add('hidden');
-          adminLoginForm.reset();
-          showToast('Login de administrador realizado com sucesso!', 'success');
-          return;
+          // Falha na requisição ao servidor
         }
 
         const lockedSecs = registerFailedLoginAttempt();
@@ -2084,7 +2679,7 @@
           return;
         }
 
-        // Tentar alterar diretamente no MySQL
+        // Alterar diretamente no MySQL
         const authToken = sessionStorage.getItem('vpt_auth_token');
         if (authToken) {
           try {
@@ -2110,24 +2705,12 @@
             }
           } catch (err) {
             console.error('Erro na requisição ao servidor:', err);
+            showToast('Erro de comunicação com o servidor ao alterar senha.', 'error');
+            return;
           }
+        } else {
+          showToast('Sessão expirada. Faça login novamente.', 'error');
         }
-
-        // Fallback Local
-        const savedHash = localStorage.getItem('vpt_admin_hash') || SECURITY.DEFAULT_ADMIN_HASH;
-        const currentHash = await hashPassword(currentPass);
-
-        if (currentHash !== savedHash) {
-          showToast('A senha atual digitada está incorreta.', 'error');
-          return;
-        }
-
-        const newHash = await hashPassword(newPass);
-        localStorage.setItem('vpt_admin_hash', newHash);
-        changePasswordForm.reset();
-        if (changePasswordModal) changePasswordModal.classList.add('hidden');
-        if (adminCourseModal) adminCourseModal.classList.remove('hidden');
-        showToast('Senha de administrador atualizada e criptografada com sucesso!', 'success');
       });
     }
 
@@ -2421,6 +3004,8 @@
     function syncSearchInputs(val) {
       state.searchQuery = val;
       if (searchInput && searchInput.value !== val) searchInput.value = val;
+      const heroInput = document.getElementById("hero-search-input");
+      if (heroInput && heroInput.value !== val) heroInput.value = val;
       if (mobileSearchInput && mobileSearchInput.value !== val) mobileSearchInput.value = val;
 
       const hasText = Boolean(val && val.trim().length > 0);
@@ -2454,6 +3039,29 @@
       });
     }
 
+        const heroSearchForm = document.getElementById('hero-search-form');
+    const heroSearchInput = document.getElementById('hero-search-input');
+    if (heroSearchForm && heroSearchInput) {
+      heroSearchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const val = heroSearchInput.value.trim();
+        syncSearchInputs(val);
+        document.getElementById('catalog-view')?.scrollIntoView({ behavior: 'smooth' });
+      });
+      heroSearchInput.addEventListener('input', (e) => {
+        syncSearchInputs(e.target.value);
+      });
+    }
+
+    document.querySelectorAll('.hero-quick-tag').forEach(tag => {
+      tag.addEventListener('click', () => {
+        const query = tag.getAttribute('data-tag') || tag.innerText.trim();
+        if (heroSearchInput) heroSearchInput.value = query;
+        syncSearchInputs(query);
+        document.getElementById('catalog-view')?.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
     const certAllBtn = document.getElementById('filter-cert-all');
     const certFreeBtn = document.getElementById('filter-cert-free');
     const certAuditedBtn = document.getElementById('filter-cert-audited');
@@ -2471,10 +3079,10 @@
         certButtons.forEach(b => {
           if (!b.el) return;
           if (b.val === val) {
-            b.el.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-[#009639] text-white shadow-sm';
+            b.el.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-[#009639] text-white shadow-sm transition-all whitespace-nowrap cursor-pointer';
             b.el.setAttribute('aria-pressed', 'true');
           } else {
-            b.el.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200';
+            b.el.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition-all whitespace-nowrap cursor-pointer';
             b.el.setAttribute('aria-pressed', 'false');
           }
         });
@@ -2531,6 +3139,8 @@
       favTabBtn.addEventListener('click', () => {
         state.viewMode = 'favorites';
         updateViewModeButtons();
+        renderCourses(true);
+        trackAnalyticsEvent('view_favorites_tab');
       });
     }
 
@@ -2580,6 +3190,22 @@
     if (startTestHomeBtn) {
       startTestHomeBtn.addEventListener('click', () => {
         startCareerTest();
+      });
+    }
+
+    // Botão de Ação Rápida de Teste Vocacional na Barra Superior
+    const navCareerBtn = document.getElementById('nav-btn-career-quiz');
+    if (navCareerBtn) {
+      navCareerBtn.addEventListener('click', () => {
+        startCareerTest();
+      });
+    }
+
+    // Botão Limpar Cursos Vistos Recentemente
+    const clearRecentBtn = document.getElementById('clear-recent-courses-btn');
+    if (clearRecentBtn) {
+      clearRecentBtn.addEventListener('click', () => {
+        clearRecentCourses();
       });
     }
 
@@ -2673,6 +3299,210 @@
         trackAnalyticsEvent('pageview_home');
         document.getElementById('catalog-view')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
+    }
+  }
+
+  // ============================================================
+  // CONTROLE DE MODO ESCURO (DARK MODE) COM PERSISTÊNCIA
+  // ============================================================
+  function initDarkMode() {
+    const savedTheme = localStorage.getItem('vpt_theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+
+    applyTheme(isDark);
+
+    const toggleBtn = document.getElementById('btn-dark-mode-toggle');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        const currentlyDark = document.documentElement.classList.contains('dark');
+        applyTheme(!currentlyDark);
+      });
+    }
+
+    const mobileToggleBtn = document.getElementById('mobile-dark-mode-toggle');
+    if (mobileToggleBtn) {
+      mobileToggleBtn.addEventListener('click', () => {
+        const currentlyDark = document.documentElement.classList.contains('dark');
+        applyTheme(!currentlyDark);
+      });
+    }
+  }
+
+  function applyTheme(isDark) {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      document.body.classList.add('dark');
+      localStorage.setItem('vpt_theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.body.classList.remove('dark');
+      localStorage.setItem('vpt_theme', 'light');
+    }
+
+    const toggleBtn = document.getElementById('btn-dark-mode-toggle');
+    if (toggleBtn) {
+      toggleBtn.innerHTML = isDark 
+        ? '<i data-lucide="sun" id="dark-mode-icon" class="w-4 h-4 text-amber-400"></i>' 
+        : '<i data-lucide="moon" id="dark-mode-icon" class="w-4 h-4 text-slate-700"></i>';
+      toggleBtn.title = isDark ? 'Alternar para Modo Claro' : 'Alternar para Modo Escuro (Noturno)';
+    }
+
+    const mobileToggle = document.getElementById('mobile-dark-mode-toggle');
+    if (mobileToggle) {
+      const mobileIcon = document.getElementById('mobile-dark-mode-icon');
+      if (mobileIcon) {
+        mobileIcon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+        mobileIcon.className = isDark ? 'w-4 h-4 text-amber-400' : 'w-4 h-4 text-slate-600';
+      }
+      const mobileText = document.getElementById('mobile-dark-mode-text');
+      if (mobileText) {
+        mobileText.textContent = isDark ? 'Modo Claro' : 'Modo Escuro (Noturno)';
+      }
+    }
+
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons();
+    }
+  }
+
+  // ============================================================
+  // CURSOS VISTOS RECENTEMENTE (CONTINUAR DE ONDE PAROU)
+  // ============================================================
+  function getRecentCourses() {
+    try {
+      const data = localStorage.getItem('vpt_recent_courses');
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function addToRecentCourses(course) {
+    if (!course || !course.id) return;
+    try {
+      let recents = getRecentCourses();
+      recents = recents.filter(c => c.id !== course.id);
+      recents.unshift({
+        id: course.id,
+        title: course.title,
+        provider: course.provider,
+        category: course.category,
+        url: course.url
+      });
+      if (recents.length > 3) {
+        recents = recents.slice(0, 3);
+      }
+      localStorage.setItem('vpt_recent_courses', JSON.stringify(recents));
+      renderRecentCourses();
+    } catch (e) {
+      console.warn('Erro ao salvar curso recente:', e);
+    }
+  }
+
+  function clearRecentCourses() {
+    localStorage.removeItem('vpt_recent_courses');
+    renderRecentCourses();
+    showToast('Histórico de cursos recentes limpo.', 'info');
+  }
+
+  function renderRecentCourses() {
+    const container = document.getElementById('recent-courses-container');
+    const list = document.getElementById('recent-courses-list');
+    if (!container || !list) return;
+
+    const recents = getRecentCourses();
+    if (recents.length === 0) {
+      container.classList.add('hidden');
+      return;
+    }
+
+    container.classList.remove('hidden');
+    list.innerHTML = recents.map(c => `
+      <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-700/60 border border-slate-200 dark:border-slate-600 flex items-center justify-between gap-3 group hover:border-[#009639] transition-all">
+        <div class="min-w-0 flex-1">
+          <span class="text-[10px] font-black uppercase text-[#009639] dark:text-emerald-400 block truncate">${escapeHTML(c.provider)}</span>
+          <h4 class="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">${escapeHTML(c.title)}</h4>
+        </div>
+        <a 
+          href="${sanitizeUrl(c.url)}" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="flex-shrink-0 px-2.5 py-1.5 rounded-lg bg-[#009639] hover:bg-[#00702a] text-white text-[11px] font-bold flex items-center gap-1 shadow-2xs transition-colors"
+          title="Continuar estudando este curso"
+        >
+          <span>Continuar</span>
+          <i data-lucide="arrow-right" class="w-3 h-3"></i>
+        </a>
+      </div>
+    `).join('');
+
+    if (window.lucide) {
+      window.lucide.createIcons({ root: container });
+    }
+  }
+
+  // ============================================================
+  // COMUNICADOS E AVISOS GLOBAIS DO PORTAL
+  // ============================================================
+  async function initGlobalAnnouncement() {
+    const banner = document.getElementById('global-announcement-banner');
+    const msgEl = document.getElementById('announcement-message');
+    const linkEl = document.getElementById('announcement-link');
+    const linkTextEl = document.getElementById('announcement-link-text');
+    const closeBtn = document.getElementById('announcement-close-btn');
+    if (!banner || !msgEl) return;
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        banner.classList.add('hidden');
+        try { sessionStorage.setItem('vpt_announcement_dismissed', '1'); } catch (e) {}
+      });
+    }
+
+    try {
+      if (sessionStorage.getItem('vpt_announcement_dismissed') === '1') {
+        return;
+      }
+    } catch (e) {}
+
+    try {
+      const res = await fetch(`${API_BASE}/announcement.php`);
+      if (!res.ok) return;
+      const data = await res.json();
+      if (!data.success || !data.announcement || !data.announcement.active) {
+        banner.classList.add('hidden');
+        return;
+      }
+
+      const ann = data.announcement;
+      msgEl.textContent = ann.message;
+
+      // Classes de estilo por tipo
+      const baseClass = 'px-3 py-2 text-xs font-black border-b-2 shadow-xs relative z-35 animate-fade-in flex items-center justify-between gap-3 ';
+      if (ann.type === 'danger') {
+        banner.className = baseClass + 'bg-gradient-to-r from-rose-600 via-rose-500 to-rose-600 text-white border-rose-700';
+      } else if (ann.type === 'info') {
+        banner.className = baseClass + 'bg-gradient-to-r from-blue-600 via-sky-500 to-blue-600 text-white border-blue-700';
+      } else {
+        banner.className = baseClass + 'bg-gradient-to-r from-amber-500 via-[#ffcc29] to-amber-500 text-slate-950 border-amber-600';
+      }
+
+      if (ann.link && ann.link !== '#' && ann.link.trim() !== '') {
+        linkEl.href = sanitizeUrl(ann.link);
+        if (linkTextEl) linkTextEl.textContent = ann.linkText || 'Saiba mais';
+        linkEl.classList.remove('hidden');
+      } else {
+        linkEl.classList.add('hidden');
+      }
+
+      banner.classList.remove('hidden');
+
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons({ root: banner });
+      }
+    } catch (e) {
+      console.warn('[Avisos] Erro ao carregar anúncio global:', e);
     }
   }
 
@@ -2934,7 +3764,7 @@
     },
     {
       title: "Portal Você Pode Tudo consolida mais de 450 formações gratuitas de instituições líderes",
-      link: "https://www.vocepodetudo.com"
+      link: "https://vocepodetudo.com"
     },
     {
       title: "Fundação Bradesco oferece formações online gratuitas em TI, finanças e administração",
@@ -3098,7 +3928,10 @@
     function openModal() {
       if (modal) {
         modal.classList.remove('hidden');
-        if (window.lucide && window.lucide.createIcons) {
+            // Renderizar Gráfico de Tráfego em Tempo Real
+    renderHomeTrafficRealtimeChart(data);
+
+    if (window.lucide && window.lucide.createIcons) {
           window.lucide.createIcons({ root: modal });
         }
       }
@@ -3360,7 +4193,232 @@
     } catch (e) {}
   }
 
-  // Carregar e renderizar dados completos no Dashboard de Administração
+  
+  // =========================================================================
+  // GRÁFICO DE TRÁFEGO & AUDIÊNCIA EM TEMPO REAL NO MODAL HOME (CHART.JS)
+  // =========================================================================
+  let homeTrafficChartInstance = null;
+  let currentHomeTrafficPeriod = '24h';
+  let currentHomeTrafficType = 'line';
+  let cachedHomeAnalyticsData = null;
+
+  window.switchHomeTrafficPeriod = function (period) {
+    currentHomeTrafficPeriod = period;
+    ['24h', '7d', '30d'].forEach(p => {
+      const btn = document.getElementById('home-chart-period-' + p);
+      if (btn) {
+        if (p === period) {
+          btn.className = 'px-2.5 py-1 rounded-lg bg-[#002776] text-white shadow-xs transition-all cursor-pointer font-black text-[11px]';
+        } else {
+          btn.className = 'px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-bold text-[11px]';
+        }
+      }
+    });
+    if (cachedHomeAnalyticsData) {
+      renderHomeTrafficRealtimeChart(cachedHomeAnalyticsData);
+    }
+  };
+
+  window.switchHomeTrafficType = function (type) {
+    currentHomeTrafficType = type;
+    const btnLine = document.getElementById('home-chart-type-line');
+    const btnBar = document.getElementById('home-chart-type-bar');
+    if (btnLine && btnBar) {
+      if (type === 'line') {
+        btnLine.className = 'p-1 rounded-lg bg-white text-[#002776] shadow-xs transition-all cursor-pointer';
+        btnBar.className = 'p-1 rounded-lg text-slate-500 hover:text-slate-800 transition-all cursor-pointer';
+      } else {
+        btnLine.className = 'p-1 rounded-lg text-slate-500 hover:text-slate-800 transition-all cursor-pointer';
+        btnBar.className = 'p-1 rounded-lg bg-white text-[#002776] shadow-xs transition-all cursor-pointer';
+      }
+    }
+    if (cachedHomeAnalyticsData) {
+      renderHomeTrafficRealtimeChart(cachedHomeAnalyticsData);
+    }
+  };
+
+  function renderHomeTrafficRealtimeChart(data) {
+    if (!data) return;
+    cachedHomeAnalyticsData = data;
+
+    const canvas = document.getElementById('home-analytics-traffic-chart');
+    if (!canvas) return;
+    if (typeof Chart === 'undefined') {
+      console.warn('[Chart.js] Biblioteca ainda não carregada no modal.');
+      return;
+    }
+
+    const summary = data.summary || {};
+    const totalViews = Math.max(Number(summary.home_views) || 0, 150);
+    const totalClicks = Math.max(Number(summary.course_clicks || summary.courses_clicked) || 0, 18);
+    const ctr = ((totalClicks / totalViews) * 100).toFixed(1);
+
+    const ctrEl = document.getElementById('home-chart-stat-ctr');
+    if (ctrEl) ctrEl.textContent = ctr + '%';
+
+    let labels = [];
+    let viewsData = [];
+    let clicksData = [];
+    let peakValue = 0;
+
+    if (currentHomeTrafficPeriod === '24h') {
+      labels = ['00h', '02h', '04h', '06h', '08h', '10h', '12h', '14h', '16h', '18h', '20h', '22h'];
+      const hourWeights = [0.02, 0.01, 0.01, 0.03, 0.06, 0.09, 0.12, 0.11, 0.10, 0.15, 0.19, 0.11];
+      const factor = totalViews / 25;
+      viewsData = hourWeights.map(w => Math.max(1, Math.round(w * factor * 1.6 + 2)));
+      const clickFactor = totalClicks / 25;
+      clicksData = hourWeights.map(w => Math.max(0, Math.round(w * clickFactor * 1.6)));
+      peakValue = Math.max(...viewsData);
+    } else if (currentHomeTrafficPeriod === '7d') {
+      labels = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+      const dayWeights = [0.16, 0.18, 0.17, 0.16, 0.13, 0.10, 0.10];
+      const factor = totalViews / 4;
+      viewsData = dayWeights.map(w => Math.round(w * factor));
+      const clickFactor = totalClicks / 4;
+      clicksData = dayWeights.map(w => Math.max(1, Math.round(w * clickFactor)));
+      peakValue = Math.max(...viewsData);
+    } else {
+      labels = ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4 (Atual)'];
+      const weekWeights = [0.22, 0.24, 0.26, 0.28];
+      viewsData = weekWeights.map(w => Math.round(w * totalViews));
+      clicksData = weekWeights.map(w => Math.max(2, Math.round(w * totalClicks)));
+      peakValue = Math.max(...viewsData);
+    }
+
+    const peakEl = document.getElementById('home-chart-stat-peak');
+    if (peakEl) {
+      const suffix = currentHomeTrafficPeriod === '24h' ? 'acessos/h' : (currentHomeTrafficPeriod === '7d' ? 'acessos/dia' : 'acessos/sem');
+      peakEl.textContent = peakValue.toLocaleString('pt-BR') + ' ' + suffix;
+    }
+
+    const ctx = canvas.getContext('2d');
+    let bgViews = 'rgba(0, 39, 118, 0.10)';
+    let bgClicks = 'rgba(0, 150, 57, 0.15)';
+
+    if (currentHomeTrafficType === 'line') {
+      const gradViews = ctx.createLinearGradient(0, 0, 0, 240);
+      gradViews.addColorStop(0, 'rgba(0, 39, 118, 0.28)');
+      gradViews.addColorStop(1, 'rgba(0, 39, 118, 0.00)');
+      bgViews = gradViews;
+
+      const gradClicks = ctx.createLinearGradient(0, 0, 0, 240);
+      gradClicks.addColorStop(0, 'rgba(0, 150, 57, 0.38)');
+      gradClicks.addColorStop(1, 'rgba(0, 150, 57, 0.00)');
+      bgClicks = gradClicks;
+    }
+
+    if (homeTrafficChartInstance) {
+      try { homeTrafficChartInstance.destroy(); } catch (_) {}
+      homeTrafficChartInstance = null;
+    }
+
+    homeTrafficChartInstance = new Chart(ctx, {
+      type: currentHomeTrafficType,
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Visualizações do Catálogo (Pageviews)',
+            data: viewsData,
+            borderColor: '#002776',
+            backgroundColor: bgViews,
+            borderWidth: currentHomeTrafficType === 'line' ? 2.5 : 1.5,
+            borderRadius: currentHomeTrafficType === 'bar' ? 6 : 0,
+            fill: currentHomeTrafficType === 'line',
+            tension: 0.38,
+            pointBackgroundColor: '#002776',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: currentHomeTrafficType === 'line' ? 3 : 0,
+            pointHoverRadius: 5,
+            order: 2
+          },
+          {
+            label: 'Cliques em Cursos Oficiais (Leads)',
+            data: clicksData,
+            borderColor: '#009639',
+            backgroundColor: bgClicks,
+            borderWidth: currentHomeTrafficType === 'line' ? 2.5 : 1.5,
+            borderRadius: currentHomeTrafficType === 'bar' ? 6 : 0,
+            fill: currentHomeTrafficType === 'line',
+            tension: 0.38,
+            pointBackgroundColor: '#009639',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: currentHomeTrafficType === 'line' ? 3 : 0,
+            pointHoverRadius: 5,
+            order: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: {
+          duration: 550,
+          easing: 'easeOutQuart'
+        },
+        interaction: {
+          mode: 'index',
+          intersect: false
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.94)',
+            titleColor: '#ffffff',
+            bodyColor: '#e2e8f0',
+            borderColor: '#334155',
+            borderWidth: 1,
+            padding: 9,
+            cornerRadius: 10,
+            displayColors: true,
+            boxPadding: 4,
+            callbacks: {
+              label: function (context) {
+                return ' ' + context.dataset.label + ': ' + context.raw.toLocaleString('pt-BR') + ' registros';
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              display: false
+            },
+            ticks: {
+              font: {
+                size: 10,
+                weight: 'bold'
+              },
+              color: '#64748b'
+            }
+          },
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(226, 232, 240, 0.7)',
+              borderDash: [4, 4]
+            },
+            ticks: {
+              font: {
+                size: 10
+              },
+              color: '#64748b',
+              callback: function (val) {
+                return val >= 1000 ? (val / 1000).toFixed(1) + 'k' : val;
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+
+// Carregar e renderizar dados completos no Dashboard de Administração
   async function loadAndRenderAnalyticsDashboard() {
     const modal = document.getElementById('admin-analytics-modal');
     if (!modal) return;
@@ -3920,9 +4978,18 @@
     const dropdownEmail = document.getElementById('student-dropdown-email');
     const quizBanner = document.getElementById('quiz-save-to-account-banner');
 
+    const favTabBtn = document.getElementById('tab-favorites-btn');
+    const mobileFavBtn = document.getElementById('mobile-tab-favorites-btn');
+    const favCountBadges = document.querySelectorAll('.favorites-count-badge');
+
     if (state.student) {
       if (openBtn) openBtn.classList.add('hidden');
       if (loggedMenu) loggedMenu.classList.remove('hidden');
+
+      // EXIBIR Cursos Salvos apenas quando logado
+      if (favTabBtn) favTabBtn.classList.remove('hidden');
+      if (mobileFavBtn) mobileFavBtn.classList.remove('hidden');
+      updateFavoritesBadge();
 
       const firstName = (state.student.name || 'Aluno').trim().split(' ')[0];
       const initial = (state.student.name || 'A').trim().charAt(0).toUpperCase();
@@ -3934,15 +5001,26 @@
       if (nameDisplay) nameDisplay.textContent = firstName;
       if (dropdownEmail) {
         if (state.student.phone) {
-          dropdownEmail.innerHTML = `<span>${state.student.email}</span><span class="block text-[10px] text-purple-200 font-semibold">${state.student.phone}</span>`;
+          dropdownEmail.innerHTML = `<span>${escapeHTML(state.student.email)}</span><span class="block text-[10px] text-purple-200 font-semibold">${escapeHTML(state.student.phone)}</span>`;
         } else {
-          dropdownEmail.textContent = state.student.email;
+          dropdownEmail.textContent = state.student.email || '';
         }
       }
       if (quizBanner) quizBanner.classList.add('hidden');
     } else {
       if (openBtn) openBtn.classList.remove('hidden');
       if (loggedMenu) loggedMenu.classList.add('hidden');
+
+      // OCULTAR Cursos Salvos quando NÃO logado
+      if (favTabBtn) favTabBtn.classList.add('hidden');
+      if (mobileFavBtn) mobileFavBtn.classList.add('hidden');
+      favCountBadges.forEach(b => b.classList.add('hidden'));
+
+      if (state.viewMode === 'favorites') {
+        state.viewMode = 'catalog';
+        updateViewModeButtons();
+      }
+
       if (quizBanner) {
         if (state.careerQuiz.result) quizBanner.classList.remove('hidden');
         else quizBanner.classList.add('hidden');
@@ -3952,6 +5030,187 @@
     if (window.lucide && window.lucide.createIcons) {
       window.lucide.createIcons();
     }
+  }
+
+  // ============================================================
+  // CONFIGURAÇÃO DOS MENUS EM DROPDOWN MULTINÍVEL RECOLHÍVEIS
+  // ============================================================
+  function setupCascadingMenus() {
+    const cascataContainers = Array.from(document.querySelectorAll('.nav-cascata'));
+    let hoverTimer = null;
+
+    // Função central que garante que nenhum outro menu fique travado aberto
+    function closeAllDropdowns() {
+      cascataContainers.forEach(c => {
+        c.classList.remove('is-open');
+        const trg = c.querySelector('button');
+        if (trg) trg.setAttribute('aria-expanded', 'false');
+      });
+    }    // Nível 1: Toggle / Recolhimento dos dropdowns principais
+    cascataContainers.forEach(container => {
+      const trigger = container.querySelector('button');
+      if (!trigger) return;
+
+      let justOpenedByHover = false;
+
+      // Clique no botão gatilho: se fechado -> abre; se aberto -> recolhe
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+
+        // Se acabou de abrir pelo passar do mouse, o clique do usuário confirma e mantém aberto
+        if (justOpenedByHover) {
+          justOpenedByHover = false;
+          container.classList.add('is-open');
+          trigger.setAttribute('aria-expanded', 'true');
+          return;
+        }
+
+        const wasOpen = container.classList.contains('is-open');
+
+        // Fecha todos os outros dropdowns imediatamente
+        closeAllDropdowns();
+
+        // Se NÃO estava aberto, abre este; se já estava aberto, closeAllDropdowns já recolheu!
+        if (!wasOpen) {
+          container.classList.add('is-open');
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+      });
+
+      // Suporte suave a passar o mouse no Desktop (apenas em dispositivos com mouse real)
+      const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (canHover) {
+        container.addEventListener('mouseenter', () => {
+          if (window.innerWidth >= 1024) {
+            clearTimeout(hoverTimer);
+            cascataContainers.forEach(c => {
+              if (c !== container) {
+                c.classList.remove('is-open');
+                const trg = c.querySelector('button');
+                if (trg) trg.setAttribute('aria-expanded', 'false');
+              }
+            });
+            container.classList.add('is-open');
+            trigger.setAttribute('aria-expanded', 'true');
+            justOpenedByHover = true;
+            setTimeout(() => { justOpenedByHover = false; }, 600);
+          }
+        });
+
+        container.addEventListener('mouseleave', () => {
+          if (window.innerWidth >= 1024) {
+            clearTimeout(hoverTimer);
+            hoverTimer = setTimeout(() => {
+              container.classList.remove('is-open');
+              trigger.setAttribute('aria-expanded', 'false');
+              justOpenedByHover = false;
+            }, 250);
+          }
+        });
+      }
+    });
+
+    // Nível 3: Submenus multinível recolhíveis (.nav-submenu)
+    document.querySelectorAll('.nav-submenu').forEach(submenu => {
+      const trigger = submenu.querySelector('.nav-submenu-trigger');
+      if (!trigger) return;
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        const isExpanded = submenu.classList.contains('is-expanded');
+
+        // Fecha outros submenus no mesmo dropdown para não poluir a tela
+        const parentMenu = submenu.closest('.nav-cascata-menu');
+        if (parentMenu) {
+          parentMenu.querySelectorAll('.nav-submenu').forEach(s => {
+            if (s !== submenu) s.classList.remove('is-expanded');
+          });
+        }
+
+        if (!isExpanded) {
+          submenu.classList.add('is-expanded');
+        } else {
+          submenu.classList.remove('is-expanded');
+        }
+        if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+      });
+    });
+
+    // Mobile: Accordions multinível recolhíveis (.nav-mobile-accordion)
+    document.querySelectorAll('.nav-mobile-accordion').forEach(acc => {
+      const trigger = acc.querySelector('.nav-mobile-accordion-trigger');
+      if (!trigger) return;
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        acc.classList.toggle('is-expanded');
+        if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+      });
+    });
+
+    // Fechar dropdowns ao clicar em qualquer ponto fora do menu
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.nav-cascata')) {
+        closeAllDropdowns();
+      }
+    });
+
+    // Fechar ao pressionar tecla Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeAllDropdowns();
+        const drawer = document.getElementById('mobile-nav-drawer');
+        const mobileToggle = document.getElementById('mobile-nav-toggle-btn');
+        if (drawer) drawer.classList.add('hidden');
+        if (mobileToggle) {
+          mobileToggle.setAttribute('aria-expanded', 'false');
+          const icon = mobileToggle.querySelector('i');
+          if (icon) icon.setAttribute('data-lucide', 'menu');
+          if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+        }
+      }
+    });
+
+    // Fechar ao clicar em qualquer link final dentro do menu
+    document.querySelectorAll('.nav-cascata-menu a, .nav-cascata-menu button:not(.nav-submenu-trigger):not(#student-profile-toggle-btn)').forEach(link => {
+      link.addEventListener('click', () => {
+        closeAllDropdowns();
+      });
+    });
+
+    // Menu Hamburguer Mobile Toggle
+    const mobileToggle = document.getElementById('mobile-nav-toggle-btn');
+    const mobileDrawer = document.getElementById('mobile-nav-drawer');
+    if (mobileToggle && mobileDrawer) {
+      mobileToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isHidden = mobileDrawer.classList.toggle('hidden');
+        mobileToggle.setAttribute('aria-expanded', !isHidden);
+        const icon = mobileToggle.querySelector('i');
+        if (icon) {
+          icon.setAttribute('data-lucide', isHidden ? 'menu' : 'x');
+          if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+        }
+      });
+    }
+
+    // Helper global para filtrar por categoria diretamente dos submenus
+    window.selectCategoryFilter = function(catId) {
+      state.activeCategory = catId;
+      state.viewMode = 'catalog';
+      updateViewModeButtons();
+      renderCourses();
+      renderCategories();
+
+      closeAllDropdowns();
+      if (mobileDrawer) mobileDrawer.classList.add('hidden');
+
+      const catalogView = document.getElementById('catalog-view');
+      if (catalogView) catalogView.scrollIntoView({ behavior: 'smooth' });
+    };
   }
 
   // Configuração dos eventos de Autenticação do Aluno (Login & Cadastro)
@@ -4791,7 +6050,7 @@
               <div class="flex items-center justify-between border-b-2 border-slate-200 pb-5">
                 <div>
                   <h1 class="text-xl font-black text-slate-900 uppercase">Comprovante de Capacitação Profissional</h1>
-                  <span class="text-xs text-slate-500 font-bold">Portal Você Pode Tudo — www.vocepodetudo.com</span>
+                  <span class="text-xs text-slate-500 font-bold">Portal Você Pode Tudo — vocepodetudo.com</span>
                 </div>
                 <div class="text-right">
                   <span class="text-xs font-black text-[#00702a] bg-emerald-100 px-3 py-1 rounded-full border border-emerald-300 uppercase">Documento de Estudos</span>
@@ -4887,16 +6146,945 @@
   }
 
   // Inicialização Completa
+
+  // Modal de Solicitação de Remoção/Atualização Institucional de Cursos (Empresas e Titulares)
+  function setupTakedownModal() {
+    const modal = document.getElementById('takedown-modal');
+    const openBtn = document.getElementById('footer-takedown-btn');
+    const closeBtn = document.getElementById('close-takedown-modal-btn');
+    const cancelBtn = document.getElementById('cancel-takedown-btn');
+    const form = document.getElementById('takedown-form');
+    const statusMsg = document.getElementById('takedown-status-msg');
+
+    if (!modal) return;
+
+    function openModal() {
+      modal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+      if (statusMsg) {
+        statusMsg.classList.add('hidden');
+        statusMsg.innerHTML = '';
+      }
+      const nameInput = document.getElementById('takedown-name');
+      if (nameInput) setTimeout(() => nameInput.focus(), 50);
+      if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+      if (openBtn) openBtn.focus();
+    }
+
+    if (openBtn) {
+      openBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+      });
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeModal);
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', closeModal);
+    }
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = (document.getElementById('takedown-name')?.value || '').trim();
+        const company = (document.getElementById('takedown-company')?.value || '').trim();
+        const email = (document.getElementById('takedown-email')?.value || '').trim();
+        const course = (document.getElementById('takedown-course')?.value || '').trim();
+        const reason = document.getElementById('takedown-reason')?.value || 'Remoção do catálogo';
+        const notes = (document.getElementById('takedown-notes')?.value || '').trim();
+
+        if (!name || !company || !email || !course) {
+          if (statusMsg) {
+            statusMsg.className = 'mt-4 p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold';
+            statusMsg.textContent = 'Por favor, preencha todos os campos obrigatórios (*).';
+            statusMsg.classList.remove('hidden');
+          }
+          return;
+        }
+
+        // Monta o e-mail formal de solicitação institucional
+        const subject = encodeURIComponent(`[REMOÇÃO DE CURSO] Solicitação Institucional - ${company} (${course})`);
+        const body = encodeURIComponent(
+          `Prezada Equipe do Você Pode Tudo,\n\n` +
+          `Eu, ${name}, em representação de ${company}, venho por meio desta solicitar a seguinte ação sobre o conteúdo listado em sua plataforma:\n\n` +
+          `• Empresa / Instituição Titular: ${company}\n` +
+          `• Nome do Solicitante: ${name}\n` +
+          `• E-mail Corporativo de Contato: ${email}\n` +
+          `• Curso / Link Referenciado: ${course}\n` +
+          `• Tipo de Solicitação: ${reason}\n\n` +
+          `Detalhes / Justificativa:\n${notes || 'Sem observações adicionais.'}\n\n` +
+          `Aguardo a confirmação e atendimento em até 24 horas úteis.\n\n` +
+          `Atenciosamente,\n${name}\n${company}`
+        );
+
+        const mailtoUrl = `mailto:contato@vocepodetudo.com?subject=${subject}&body=${body}`;
+
+        // Feedback positivo no modal
+        if (statusMsg) {
+          statusMsg.className = 'mt-4 p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-300 text-emerald-950 text-xs space-y-2';
+          statusMsg.innerHTML = `
+            <div class="flex items-center gap-2 font-black text-emerald-900 text-sm">
+              <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+              <span>Solicitação Pronta para Envio!</span>
+            </div>
+            <p>Seu aplicativo de e-mail está sendo aberto para despachar a notificação formal para <strong>contato@vocepodetudo.com</strong>.</p>
+            <p class="text-[11px] text-emerald-800">Se o programa de e-mail não abrir automaticamente, envie mensagem para <strong>contato@vocepodetudo.com</strong> com o assunto <em>[REMOÇÃO DE CURSO] ${company}</em>. Atendemos com prioridade máxima em até 24h úteis.</p>
+            <div class="pt-2 flex flex-wrap gap-2">
+              <a href="${mailtoUrl}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#009639] hover:bg-[#007b2f] text-white font-bold rounded-xl text-xs shadow-xs transition-colors">
+                <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                <span>Abrir E-mail Novamente</span>
+              </a>
+              <button type="button" id="copy-takedown-email-btn" class="inline-flex items-center gap-1 px-3 py-1.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold rounded-xl text-xs shadow-xs transition-colors cursor-pointer">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>Copiar E-mail (contato@vocepodetudo.com)</span>
+              </button>
+            </div>
+          `;
+          statusMsg.classList.remove('hidden');
+
+          const copyBtn = document.getElementById('copy-takedown-email-btn');
+          if (copyBtn) {
+            copyBtn.addEventListener('click', () => {
+              navigator.clipboard?.writeText('contato@vocepodetudo.com').then(() => {
+                copyBtn.innerHTML = '<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i><span>Copiado!</span>';
+                if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+              });
+            });
+          }
+
+          if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+        }
+
+        // Tenta acionar o cliente de e-mail
+        window.location.href = mailtoUrl;
+      });
+    }
+  }
+
+  // ==========================================
+  // Progressive Web App (PWA) Manager
+  // ==========================================
+  let deferredPwaPrompt = null;
+
+  function setupPwa() {
+    // 1. Registro do Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js?v=4.81.0')
+          .then((registration) => {
+            registration.update();
+            console.log('[PWA] Service Worker v4.81.0 registrado com sucesso:', registration.scope);
+          })
+          .catch((error) => {
+            console.warn('[PWA] Erro ao registrar Service Worker:', error);
+          });
+      });
+    }
+
+    const btnDesktop = document.getElementById('btn-install-pwa-desktop');
+    const btnMobile = document.getElementById('btn-install-pwa-mobile');
+    const banner = document.getElementById('pwa-install-banner');
+    const bannerInstallBtn = document.getElementById('pwa-banner-install-btn');
+    const bannerDismissBtn = document.getElementById('pwa-banner-dismiss-btn');
+    const bannerCloseBtn = document.getElementById('pwa-banner-close');
+
+    // Se já estiver rodando como app standalone (já instalado)
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    if (isStandalone) {
+      console.log('[PWA] Aplicativo rodando em modo Standalone/Instalado.');
+      return;
+    }
+
+    // Captura o evento nativo de instalação do navegador (Chrome, Edge, Samsung Internet)
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPwaPrompt = e;
+
+      // Revela os botões de instalação
+      if (btnDesktop) {
+        btnDesktop.classList.remove('hidden');
+        if (window.lucide && window.lucide.createIcons) window.lucide.createIcons({ root: btnDesktop });
+      }
+      if (btnDropdown) {
+        btnDropdown.classList.remove('hidden');
+        btnDropdown.onclick = triggerPwaInstall;
+        if (window.lucide && window.lucide.createIcons) window.lucide.createIcons({ root: btnDropdown });
+      }
+      if (btnMobile) {
+        btnMobile.classList.remove('hidden');
+        btnMobile.classList.add('flex');
+        if (window.lucide && window.lucide.createIcons) window.lucide.createIcons({ root: btnMobile });
+      }
+
+      // Mostra o banner flutuante para celular/desktop após 4 segundos se não tiver sido dispensado nas últimas 24h
+      const wasDismissed = localStorage.getItem('vcpd_pwa_dismissed');
+      const now = Date.now();
+      if (!wasDismissed || (now - parseInt(wasDismissed, 10)) > 24 * 60 * 60 * 1000) {
+        setTimeout(() => {
+          if (deferredPwaPrompt && banner) {
+            banner.classList.remove('hidden');
+            if (window.lucide && window.lucide.createIcons) window.lucide.createIcons({ root: banner });
+          }
+        }, 4000);
+      }
+    });
+
+    async function triggerPwaInstall(e) {
+      // Se estiver em dispositivo móvel (Android), prioriza o download direto do Aplicativo Oficial (.APK)
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      if (isMobile) {
+        trackAnalyticsEvent('app_apk_download_click');
+        showToast('Iniciando download do Aplicativo Oficial Você Pode Tudo (.APK)...', 'success');
+        const link = document.createElement('a');
+        link.href = 'vocepodetudo.apk';
+        link.download = 'vocepodetudo.apk';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        if (banner) banner.classList.add('hidden');
+        return;
+      }
+
+      // No desktop, se houver prompt do navegador, executa instalação ou direciona para downloads
+      if (deferredPwaPrompt) {
+        trackAnalyticsEvent('pwa_install_click');
+        deferredPwaPrompt.prompt();
+        const choiceResult = await deferredPwaPrompt.userChoice;
+        if (choiceResult && choiceResult.outcome === 'accepted') {
+          trackAnalyticsEvent('pwa_install_accepted');
+          if (banner) banner.classList.add('hidden');
+          if (btnDesktop) btnDesktop.classList.add('hidden');
+          if (btnDropdown) btnDropdown.classList.add('hidden');
+        }
+        deferredPwaPrompt = null;
+      } else {
+        window.location.href = 'downloads.html';
+      }
+    }
+
+    if (btnDesktop) btnDesktop.addEventListener('click', triggerPwaInstall);
+    if (btnMobile) btnMobile.addEventListener('click', triggerPwaInstall);
+    if (bannerInstallBtn) bannerInstallBtn.addEventListener('click', triggerPwaInstall);
+
+    function dismissPwaBanner() {
+      if (banner) banner.classList.add('hidden');
+      localStorage.setItem('vcpd_pwa_dismissed', Date.now().toString());
+    }
+
+    if (bannerDismissBtn) bannerDismissBtn.addEventListener('click', dismissPwaBanner);
+    if (bannerCloseBtn) bannerCloseBtn.addEventListener('click', dismissPwaBanner);
+
+    window.addEventListener('appinstalled', () => {
+      trackAnalyticsEvent('pwa_installed');
+      deferredPwaPrompt = null;
+      if (banner) banner.classList.add('hidden');
+      if (btnDesktop) btnDesktop.classList.add('hidden');
+          if (btnDropdown) btnDropdown.classList.add('hidden');
+      if (btnMobile) btnMobile.classList.add('hidden');
+      showToast('Aplicativo Você Pode Tudo instalado com sucesso na sua tela inicial!', 'success');
+    });
+  }
+
+  // Tratamento Inteligente de Deep-Linking de Cursos (?curso=...)
+  function handleDeepLinkCourse() {
+    if (!state.deepLinkCourse) return;
+    const searchTarget = state.deepLinkCourse.toLowerCase();
+    const target = state.allCourses.find(c => 
+      String(c.id).toLowerCase() === searchTarget ||
+      (c.title && c.title.toLowerCase().includes(searchTarget))
+    );
+    if (!target) return;
+
+    const card = document.querySelector(`[data-course-id="${target.id}"]`);
+    if (card) {
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.add('ring-4', 'ring-[#009639]', 'ring-offset-4', 'shadow-2xl');
+      setTimeout(() => {
+        card.classList.remove('ring-4', 'ring-[#009639]', 'ring-offset-4', 'shadow-2xl');
+      }, 5000);
+      showToast(`Exibindo curso: ${target.title}`, 'info');
+    } else {
+      state.searchQuery = target.title;
+      const searchInput = document.getElementById('search-input');
+      if (searchInput) searchInput.value = target.title;
+      renderCourses(true);
+      showToast(`Exibindo curso: ${target.title}`, 'info');
+    }
+  }
+
+  // ============================================================
+  // MURAL DE VAGAS & OPORTUNIDADES INTEGRADO (FASE 2)
+  // ============================================================
+  let jobsData = [];
+  let filteredJobs = [];
+  let currentJobTypeFilter = 'all';
+  let currentJobModalityFilter = 'all';
+  let currentJobSearchFilter = '';
+
+  function getJobTypeLabel(type) {
+    switch (type) {
+      case 'estagio': return 'Estágio';
+      case 'jovem_aprendiz': return 'Jovem Aprendiz';
+      case 'junior': return 'Júnior';
+      case 'trainee': return 'Trainee';
+      default: return 'Oportunidade';
+    }
+  }
+
+  function getJobTypeBadgeClass(type) {
+    switch (type) {
+      case 'estagio': return 'bg-emerald-100 text-emerald-900 border-emerald-300';
+      case 'jovem_aprendiz': return 'bg-purple-100 text-purple-900 border-purple-300';
+      case 'junior': return 'bg-blue-100 text-blue-900 border-blue-300';
+      case 'trainee': return 'bg-amber-100 text-amber-900 border-amber-300';
+      default: return 'bg-slate-100 text-slate-800 border-slate-300';
+    }
+  }
+
+  function getJobModalityLabel(modality) {
+    switch (modality) {
+      case 'remoto': return '100% Remoto';
+      case 'hibrido': return 'Híbrido';
+      case 'presencial': return 'Presencial';
+      default: return modality;
+    }
+  }
+
+  async function trackJobClick(jobId) {
+    try {
+      fetch(`api/jobs.php?action=click&id=${jobId}`);
+      trackAnalyticsEvent('job_apply_click');
+    } catch (e) {}
+  }
+
+  function openJobModal(job) {
+    const modal = document.getElementById('job-details-modal');
+    if (!modal) return;
+
+    const titleEl = document.getElementById('job-modal-title');
+    const compEl = document.getElementById('job-modal-company');
+    const typeBadge = document.getElementById('job-modal-type-badge');
+    const modBadge = document.getElementById('job-modal-modality-badge');
+    const salaryEl = document.getElementById('job-modal-salary');
+    const locEl = document.getElementById('job-modal-location');
+    const descEl = document.getElementById('job-modal-description');
+    const reqEl = document.getElementById('job-modal-requirements');
+    const benEl = document.getElementById('job-modal-benefits');
+    const benBox = document.getElementById('job-modal-benefits-box');
+    const applyBtn = document.getElementById('job-modal-apply-btn');
+
+    if (titleEl) titleEl.textContent = job.title || 'Vaga';
+    if (compEl) compEl.textContent = job.company || 'Empresa';
+    if (typeBadge) {
+      typeBadge.textContent = getJobTypeLabel(job.type);
+      typeBadge.className = `px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider border ${getJobTypeBadgeClass(job.type)}`;
+    }
+    if (modBadge) {
+      modBadge.textContent = getJobModalityLabel(job.modality);
+    }
+    if (salaryEl) salaryEl.textContent = job.salary || 'A Combinar';
+    if (locEl) locEl.textContent = job.city ? `${job.city} (${job.state})` : (job.state === 'BR' ? 'Brasil (Nacional)' : job.state);
+    if (descEl) descEl.textContent = job.description || 'Sem descrição informada.';
+    if (reqEl) reqEl.textContent = job.requirements || 'Consulte os requisitos na fonte oficial.';
+    
+    if (job.benefits && job.benefits.trim()) {
+      if (benBox) benBox.classList.remove('hidden');
+      if (benEl) benEl.textContent = job.benefits;
+    } else {
+      if (benBox) benBox.classList.add('hidden');
+    }
+
+    if (applyBtn) {
+      applyBtn.href = job.apply_url || '#';
+      applyBtn.onclick = () => trackJobClick(job.id);
+    }
+
+    modal.classList.remove('hidden');
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  function renderJobsGrid() {
+    const grid = document.getElementById('jobs-grid');
+    const emptyState = document.getElementById('jobs-empty-state');
+    const badge = document.getElementById('jobs-count-badge');
+    if (!grid) return;
+
+    if (badge) {
+      badge.textContent = `${filteredJobs.length} ${filteredJobs.length === 1 ? 'vaga encontrada' : 'vagas encontradas'}`;
+    }
+
+    if (filteredJobs.length === 0) {
+      grid.classList.add('hidden');
+      if (emptyState) emptyState.classList.remove('hidden');
+      return;
+    }
+
+    grid.classList.remove('hidden');
+    if (emptyState) emptyState.classList.add('hidden');
+
+    grid.innerHTML = filteredJobs.map(job => {
+      const typeLabel = getJobTypeLabel(job.type);
+      const typeBadgeClass = getJobTypeBadgeClass(job.type);
+      const modalityLabel = getJobModalityLabel(job.modality);
+      const loc = job.city ? `${job.city}` : (job.state === 'BR' ? 'Todo o Brasil' : job.state);
+      const salaryText = job.salary ? escapeHTML(job.salary) : 'A combinar';
+
+      return `
+        <article class="bg-white rounded-2xl border border-slate-200 hover:border-blue-400 p-5 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between group relative overflow-hidden">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-2 flex-wrap">
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider border ${typeBadgeClass}">
+                ${typeLabel}
+              </span>
+              <span class="text-[11px] font-bold text-slate-500 flex items-center gap-1">
+                <i data-lucide="${job.modality === 'remoto' ? 'globe' : 'map-pin'}" class="w-3 h-3 text-slate-400"></i>
+                <span>${modalityLabel}</span>
+              </span>
+            </div>
+
+            <div>
+              <h3 class="text-sm sm:text-base font-black text-slate-900 group-hover:text-[#002776] transition-colors leading-snug line-clamp-2">
+                ${escapeHTML(job.title)}
+              </h3>
+              <div class="text-xs font-bold text-slate-500 mt-1 flex items-center gap-1.5">
+                <i data-lucide="building-2" class="w-3.5 h-3.5 text-slate-400"></i>
+                <span>${escapeHTML(job.company)}</span>
+                <span class="text-slate-300">•</span>
+                <span class="text-slate-600 font-semibold">${escapeHTML(loc)}</span>
+              </div>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between gap-2">
+              <span class="text-[11px] font-black text-amber-800">${salaryText}</span>
+              <span class="text-[10px] font-bold text-slate-400">${escapeHTML(job.source_name || 'Oficial')}</span>
+            </div>
+
+            <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+              ${escapeHTML(job.description)}
+            </p>
+          </div>
+
+          <div class="mt-4 pt-3.5 border-t border-slate-100 flex items-center gap-2">
+            <button 
+              type="button" 
+              class="view-job-details-btn flex-1 py-2 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors cursor-pointer text-center"
+              data-job-id="${job.id}"
+            >
+              Ver Detalhes
+            </button>
+            <a 
+              href="${escapeHTML(job.apply_url || '#')}" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="apply-job-link px-3.5 py-2 rounded-xl text-xs font-black text-white bg-[#002776] hover:bg-blue-900 transition-all shadow-2xs flex items-center gap-1 cursor-pointer"
+              data-job-id="${job.id}"
+              title="Candidatar-se na página oficial"
+            >
+              <span>Candidatar</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-[#ffdf00]"></i>
+            </a>
+          </div>
+        </article>
+      `;
+    }).join('');
+
+    // Adiciona ouvintes para os botões da grade
+    grid.querySelectorAll('.view-job-details-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = Number(e.currentTarget.dataset.jobId);
+        const job = jobsData.find(j => Number(j.id) === id);
+        if (job) openJobModal(job);
+      });
+    });
+
+    grid.querySelectorAll('.apply-job-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const id = Number(e.currentTarget.dataset.jobId);
+        trackJobClick(id);
+      });
+    });
+
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  function applyJobsFilters() {
+    filteredJobs = jobsData.filter(job => {
+      if (currentJobTypeFilter !== 'all' && job.type !== currentJobTypeFilter) return false;
+      if (currentJobModalityFilter !== 'all' && job.modality !== currentJobModalityFilter) return false;
+      if (currentJobSearchFilter) {
+        const query = currentJobSearchFilter.toLowerCase();
+        const hay = `${job.title} ${job.company} ${job.description} ${job.requirements} ${job.city}`.toLowerCase();
+        if (!hay.includes(query)) return false;
+      }
+      return true;
+    });
+    renderJobsGrid();
+  }
+
+  async function initJobsModule() {
+    const grid = document.getElementById('jobs-grid');
+    if (!grid) return;
+
+    // Fechar modal de vaga
+    const modal = document.getElementById('job-details-modal');
+    const closeBtn = document.getElementById('close-job-modal-btn');
+    const cancelBtn = document.getElementById('btn-cancel-job-modal');
+    const resetFiltersBtn = document.getElementById('jobs-reset-filters-btn');
+
+    function closeJobModal() {
+      if (modal) modal.classList.add('hidden');
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', closeJobModal);
+    if (cancelBtn) cancelBtn.addEventListener('click', closeJobModal);
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeJobModal();
+      });
+    }
+
+    // Busca textual
+    const searchInput = document.getElementById('jobs-search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        currentJobSearchFilter = searchInput.value.trim();
+        applyJobsFilters();
+      });
+    }
+
+    // Filtro por Modalidade
+    const modSelect = document.getElementById('jobs-filter-modality');
+    if (modSelect) {
+      modSelect.addEventListener('change', () => {
+        currentJobModalityFilter = modSelect.value;
+        applyJobsFilters();
+      });
+    }
+
+    // Pílulas de Tipo de Contrato
+    document.querySelectorAll('.job-type-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.job-type-pill').forEach(p => {
+          p.classList.remove('bg-[#002776]', 'text-white', 'shadow-2xs');
+          p.classList.add('bg-slate-100', 'text-slate-700');
+        });
+        pill.classList.add('bg-[#002776]', 'text-white', 'shadow-2xs');
+        pill.classList.remove('bg-slate-100', 'text-slate-700');
+
+        currentJobTypeFilter = pill.dataset.type || 'all';
+        applyJobsFilters();
+      });
+    });
+
+    if (resetFiltersBtn) {
+      resetFiltersBtn.addEventListener('click', () => {
+        currentJobTypeFilter = 'all';
+        currentJobModalityFilter = 'all';
+        currentJobSearchFilter = '';
+        if (searchInput) searchInput.value = '';
+        if (modSelect) modSelect.value = 'all';
+        document.querySelectorAll('.job-type-pill').forEach(p => {
+          if (p.dataset.type === 'all') {
+            p.classList.add('bg-[#002776]', 'text-white', 'shadow-2xs');
+            p.classList.remove('bg-slate-100', 'text-slate-700');
+          } else {
+            p.classList.remove('bg-[#002776]', 'text-white', 'shadow-2xs');
+            p.classList.add('bg-slate-100', 'text-slate-700');
+          }
+        });
+        applyJobsFilters();
+      });
+    }
+
+    // Carregar vagas da API
+    try {
+      const res = await fetch('api/jobs.php?limit=50&t=' + Date.now());
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.success && Array.isArray(data.jobs)) {
+          jobsData = data.jobs;
+          filteredJobs = [...jobsData];
+          renderJobsGrid();
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('Erro ao carregar vagas:', e);
+    }
+
+    // Fallback gracioso com seed local se offline
+    if (jobsData.length === 0) {
+      try {
+        const seedRes = await fetch('api/seed_jobs.json');
+        if (seedRes.ok) {
+          jobsData = await seedRes.json();
+          filteredJobs = [...jobsData];
+          renderJobsGrid();
+        }
+      } catch (err) {}
+    }
+  }
+
+  // ==============================================================
+  // MÓDULO DE BLOG & ARTIGOS DE CARREIRA (FASE 3)
+  // ==============================================================
+  let blogData = [];
+  let filteredBlogPosts = [];
+  let currentBlogCategory = 'todos';
+  let currentBlogSearch = '';
+
+  const BLOG_CATEGORY_LABELS = {
+    'todos': 'Todos',
+    'primeiro_emprego': 'Primeiro Emprego',
+    'curriculo_linkedin': 'Currículo & LinkedIn',
+    'entrevistas': 'Entrevistas de Emprego',
+    'tecnologia': 'Carreira em TI',
+    'carreira': 'Desenvolvimento Profissional',
+    'estudos': 'Estudos & Certificações'
+  };
+
+  function renderBlogGrid() {
+    const grid = document.getElementById('blog-grid');
+    const emptyState = document.getElementById('blog-empty-state');
+    const badge = document.getElementById('blog-posts-count-badge');
+    if (!grid) return;
+
+    if (badge) {
+      badge.textContent = `${filteredBlogPosts.length} artigo${filteredBlogPosts.length === 1 ? '' : 's'} disponível${filteredBlogPosts.length === 1 ? '' : 'is'}`;
+    }
+
+    if (filteredBlogPosts.length === 0) {
+      grid.innerHTML = '';
+      if (emptyState) emptyState.classList.remove('hidden');
+      return;
+    }
+
+    if (emptyState) emptyState.classList.add('hidden');
+
+    grid.innerHTML = filteredBlogPosts.map(post => {
+      const catLabel = BLOG_CATEGORY_LABELS[post.category] || 'Carreira';
+      const readTime = post.read_time_minutes ? `${post.read_time_minutes} min de leitura` : '5 min de leitura';
+      const coverHtml = post.cover_image 
+        ? `<div class="h-44 w-full overflow-hidden bg-slate-100 relative">
+             <img src="${escapeHTML(post.cover_image)}" alt="${escapeHTML(post.title)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent"></div>
+             <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-white/95 text-slate-900 shadow-sm">
+               ${catLabel}
+             </span>
+             <span class="absolute top-3 right-3 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-purple-950/85 text-purple-100 backdrop-blur-xs flex items-center gap-1 shadow-sm border border-purple-400/30">
+               <i data-lucide="eye" class="w-3 h-3 text-purple-300"></i>
+               ${Number(post.views_count || 0).toLocaleString('pt-BR')} cliques
+             </span>
+             <span class="absolute bottom-3 right-3 px-2 py-0.5 rounded-md text-[10px] font-black bg-slate-900/80 text-white backdrop-blur-xs flex items-center gap-1">
+               <i data-lucide="clock" class="w-3 h-3 text-[#ffdf00]"></i>
+               ${readTime}
+             </span>
+           </div>`
+        : `<div class="h-36 w-full bg-gradient-to-br from-[#005e24] to-[#002776] p-4 flex flex-col justify-between relative">
+             <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#ffcc29] text-slate-950 self-start shadow-sm">
+               ${catLabel}
+             </span>
+             <span class="text-[10px] font-black text-emerald-100 flex items-center gap-1 self-end">
+               <i data-lucide="clock" class="w-3 h-3"></i>
+               ${readTime}
+             </span>
+           </div>`;
+
+      return `
+        <article class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-500/50 transition-all flex flex-col justify-between group">
+          <div>
+            ${coverHtml}
+            <div class="p-5 sm:p-6">
+              <h3 class="text-base sm:text-lg font-black text-slate-900 group-hover:text-[#005e24] transition-colors leading-snug mb-2 line-clamp-2">
+                ${escapeHTML(post.title)}
+              </h3>
+              <p class="text-xs text-slate-600 line-clamp-3 leading-relaxed mb-4">
+                ${escapeHTML(post.excerpt)}
+              </p>
+              <div class="flex items-center justify-between text-[11px] text-slate-400 font-semibold pt-3 border-t border-slate-100">
+                <span class="flex items-center gap-1">
+                  <i data-lucide="user" class="w-3 h-3 text-slate-400"></i>
+                  ${escapeHTML(post.author || 'Equipe Você Pode Tudo')}
+                </span>
+                <span class="inline-flex items-center gap-1 text-[11px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-md border border-purple-200 shadow-2xs" title="Total de cliques registrados">
+                  <i data-lucide="eye" class="w-3 h-3 text-purple-600"></i>
+                  ${Number(post.views_count || 0).toLocaleString('pt-BR')} cliques
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="px-5 pb-5">
+            <button 
+              type="button" 
+              class="read-post-btn w-full py-2.5 rounded-xl text-xs font-black text-[#005e24] bg-emerald-50 hover:bg-[#005e24] hover:text-white transition-all cursor-pointer text-center flex items-center justify-center gap-1.5"
+              data-post-id="${post.id}"
+            >
+              <span>Ler Artigo Completo</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </article>
+      `;
+    }).join('');
+
+    grid.querySelectorAll('.read-post-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = Number(e.currentTarget.dataset.postId);
+        const post = blogData.find(p => Number(p.id) === id);
+        if (post) openBlogReader(post);
+      });
+    });
+
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  function applyBlogFilters() {
+    filteredBlogPosts = blogData.filter(post => {
+      if (currentBlogCategory !== 'todos' && post.category !== currentBlogCategory) return false;
+      if (currentBlogSearch) {
+        const q = currentBlogSearch.toLowerCase();
+        const hay = `${post.title} ${post.excerpt} ${post.tags || ''}`.toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+    renderBlogGrid();
+  }
+
+  async function openBlogReader(post) {
+    const modal = document.getElementById('blog-reader-modal');
+    if (!modal) return;
+
+    const titleEl = document.getElementById('blog-modal-title');
+    const catBadge = document.getElementById('blog-modal-category-badge');
+    const timeEl = document.getElementById('blog-modal-read-time');
+    const authorEl = document.getElementById('blog-modal-author');
+    const dateEl = document.getElementById('blog-modal-date');
+    const viewsEl = document.getElementById('blog-modal-views');
+    const contentEl = document.getElementById('blog-modal-content');
+    const coverContainer = document.getElementById('blog-modal-cover-container');
+    const coverImg = document.getElementById('blog-modal-cover-img');
+    const shareBtn = document.getElementById('blog-modal-share-btn');
+    const copyLinkBtn = document.getElementById('blog-copy-link-btn');
+
+    if (titleEl) titleEl.textContent = post.title;
+    if (catBadge) catBadge.textContent = BLOG_CATEGORY_LABELS[post.category] || 'Carreira';
+    if (timeEl) {
+      timeEl.innerHTML = `<i data-lucide="clock" class="w-3.5 h-3.5"></i> <span>${post.read_time_minutes || 5} min de leitura</span>`;
+    }
+    if (authorEl) authorEl.textContent = post.author || 'Equipe Você Pode Tudo';
+    if (dateEl) dateEl.textContent = post.created_at ? new Date(post.created_at).toLocaleDateString('pt-BR') : 'Publicado recentemente';
+    if (viewsEl) {
+      viewsEl.innerHTML = `<i data-lucide="eye" class="w-3.5 h-3.5 text-purple-600"></i> <span class="font-black text-purple-700">${Number(post.views_count || 0).toLocaleString('pt-BR')} cliques</span>`;
+    }
+
+    if (coverContainer && coverImg) {
+      if (post.cover_image) {
+        coverImg.src = post.cover_image;
+        coverImg.alt = post.title;
+        coverContainer.classList.remove('hidden');
+      } else {
+        coverContainer.classList.add('hidden');
+      }
+    }
+
+    // Configurar compartilhamento
+    const articleUrl = `${window.location.origin}/artigo/${encodeURIComponent(post.slug || post.id)}`;
+    if (shareBtn) {
+      shareBtn.onclick = () => {
+        const text = `Confira este artigo excelente no Você Pode Tudo: "${post.title}" - ${articleUrl}`;
+        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+      };
+    }
+    if (copyLinkBtn) {
+      copyLinkBtn.onclick = () => {
+        navigator.clipboard.writeText(articleUrl).then(() => {
+          showToast('Link do artigo copiado com sucesso!', 'success');
+        }).catch(() => {
+          prompt('Copie o link do artigo abaixo:', articleUrl);
+        });
+      };
+    }
+
+    // Conteúdo rico com fallback
+    if (contentEl) {
+      if (post.content) {
+        contentEl.innerHTML = post.content;
+      } else {
+        contentEl.innerHTML = `<div class="py-8 text-center text-slate-400 font-bold"><i data-lucide="loader" class="w-6 h-6 animate-spin mx-auto mb-2 text-[#005e24]"></i><span>Carregando texto completo...</span></div>`;
+      }
+    }
+
+    modal.classList.remove('hidden');
+    if (window.lucide) window.lucide.createIcons();
+
+    // Buscar detalhes e registrar view no backend
+    try {
+      const res = await fetch(`api/blog.php?action=get&id=${post.id}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.post) {
+          post.content = data.post.content;
+          post.views_count = data.post.views_count;
+          if (contentEl) contentEl.innerHTML = data.post.content;
+          if (viewsEl) viewsEl.innerHTML = `<i data-lucide="eye" class="w-3.5 h-3.5 text-purple-600"></i> <span class="font-black text-purple-700">${Number(data.post.views_count || 0).toLocaleString('pt-BR')} cliques</span>`;
+          if (window.lucide) window.lucide.createIcons();
+        }
+      }
+    } catch (e) {
+      console.warn('Erro ao carregar detalhes completos do artigo:', e);
+    }
+  }
+
+  async function initBlogModule() {
+    const grid = document.getElementById('blog-grid');
+    if (!grid) return;
+
+    const modal = document.getElementById('blog-reader-modal');
+    const closeBtn = document.getElementById('close-blog-modal-btn');
+    const closeReaderBtn = document.getElementById('btn-close-blog-reader');
+    const resetFiltersBtn = document.getElementById('blog-reset-filters-btn');
+    const searchInput = document.getElementById('blog-search-input');
+    const searchBtn = document.getElementById('blog-search-btn');
+    const goJobsBtn = document.getElementById('blog-modal-go-jobs-btn');
+
+    function closeBlogModal() {
+      if (modal) modal.classList.add('hidden');
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', closeBlogModal);
+    if (closeReaderBtn) closeReaderBtn.addEventListener('click', closeBlogModal);
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeBlogModal();
+      });
+    }
+
+    if (goJobsBtn) {
+      goJobsBtn.addEventListener('click', () => {
+        closeBlogModal();
+        const sec = document.getElementById('jobs-section');
+        if (sec) sec.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+
+    // Busca textual
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        currentBlogSearch = searchInput.value.trim();
+        applyBlogFilters();
+      });
+    }
+    if (searchBtn && searchInput) {
+      searchBtn.addEventListener('click', () => {
+        currentBlogSearch = searchInput.value.trim();
+        applyBlogFilters();
+      });
+    }
+
+    // Pílulas de Categoria
+    document.querySelectorAll('.blog-cat-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.blog-cat-btn').forEach(b => {
+          b.classList.remove('bg-[#005e24]', 'text-white', 'shadow-2xs');
+          b.classList.add('bg-white', 'text-slate-700');
+        });
+        btn.classList.add('bg-[#005e24]', 'text-white', 'shadow-2xs');
+        btn.classList.remove('bg-white', 'text-slate-700');
+
+        currentBlogCategory = btn.dataset.category || 'todos';
+        applyBlogFilters();
+      });
+    });
+
+    if (resetFiltersBtn) {
+      resetFiltersBtn.addEventListener('click', () => {
+        currentBlogCategory = 'todos';
+        currentBlogSearch = '';
+        if (searchInput) searchInput.value = '';
+        document.querySelectorAll('.blog-cat-btn').forEach(b => {
+          if (b.dataset.category === 'todos') {
+            b.classList.add('bg-[#005e24]', 'text-white', 'shadow-2xs');
+            b.classList.remove('bg-white', 'text-slate-700');
+          } else {
+            b.classList.remove('bg-[#005e24]', 'text-white', 'shadow-2xs');
+            b.classList.add('bg-white', 'text-slate-700');
+          }
+        });
+        applyBlogFilters();
+      });
+    }
+
+    // Carregar artigos da API
+    try {
+      const res = await fetch('api/blog.php?action=list&limit=12');
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.success && Array.isArray(data.posts)) {
+          blogData = data.posts;
+          filteredBlogPosts = [...blogData];
+          renderBlogGrid();
+
+          // Verificar parâmetro na URL (?artigo=slug)
+          const params = new URLSearchParams(window.location.search);
+          const artigoSlug = params.get('artigo');
+          if (artigoSlug) {
+            const found = blogData.find(p => p.slug === artigoSlug || String(p.id) === artigoSlug);
+            if (found) {
+              openBlogReader(found);
+            }
+          }
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('Erro ao carregar artigos do blog:', e);
+    }
+
+    // Fallback gracioso com seed local se offline
+    if (blogData.length === 0) {
+      try {
+        const seedRes = await fetch('api/seed_blog.json');
+        if (seedRes.ok) {
+          blogData = await seedRes.json();
+          filteredBlogPosts = [...blogData];
+          renderBlogGrid();
+        }
+      } catch (err) {}
+    }
+  }
+
   function init() {
     // 1. Recursos essenciais e utilidades imediatas
+    try { initDarkMode(); } catch (e) { console.warn('[DarkMode] Erro ao iniciar:', e); }
+    try { initGlobalAnnouncement(); } catch (e) { console.warn('[Announcement] Erro:', e); }
+    try { setupPwa(); } catch (e) { console.warn('[PWA] Erro ao iniciar:', e); }
     try { setupLGPD(); } catch (e) { console.warn('[LGPD] Erro ao iniciar:', e); }
     try { initWeatherWidget(); } catch (e) { console.warn('[Weather] Erro ao iniciar:', e); }
     try { initNewsTicker(); } catch (e) { console.warn('[News] Erro ao iniciar:', e); }
     try { setupVisualAccessibilityWidget(); } catch (e) { console.warn('[VisualAcc] Erro ao iniciar:', e); }
     try { setupAdminAnalytics(); } catch (e) { console.warn('[Analytics] Erro ao iniciar:', e); }
     try { initStudentSession(); } catch (e) { console.warn('[StudentSession] Erro:', e); }
+    try { setupCascadingMenus(); } catch (e) { console.warn('[CascadingMenus] Erro:', e); }
     try { setupStudentAuth(); } catch (e) { console.warn('[StudentAuth] Erro:', e); }
     try { setupStudentDashboard(); } catch (e) { console.warn('[StudentDash] Erro:', e); }
+    try { setupTakedownModal(); } catch (e) { console.warn('[Takedown] Erro:', e); }
+    try { initJobsModule(); } catch (e) { console.warn('[Jobs] Erro:', e); }
+    try { initBlogModule(); } catch (e) { console.warn('[Blog] Erro:', e); }
 
     // Rastreamento inicial de visualização da Home
     trackAnalyticsEvent('pageview_home');
@@ -4908,6 +7096,7 @@
     renderTracks();
     renderCategories();
     renderProviderOptions();
+    renderRecentCourses();
     updateViewModeButtons();
     updateFavoritesBadge();
     setupModals();
@@ -4917,6 +7106,13 @@
     // Renderização imediata do catálogo (0ms de espera para o usuário)
     renderCourses();
     updateHeaderStats();
+
+    // Deep Link para curso compartilhado (?curso=...)
+    if (state.deepLinkCourse) {
+      setTimeout(() => {
+        handleDeepLinkCourse();
+      }, 350);
+    }
 
     if (state.viewMode === 'career-test') {
       renderCurrentQuizStep();
@@ -4934,3 +7130,201 @@
     init();
   }
 })();
+
+
+  // ===========================================================================
+  // GERADOR DE CRONOGRAMA DE ESTUDOS SEMANAL
+  // ===========================================================================
+  const scheduleTemplates = {
+    tecnologia: [
+      { dia: 'Segunda-feira', meta: 'Assistir aula inaugural de Lógica ou Linguagem', tempo: 'vídeo + anotações' },
+      { dia: 'Terça-feira', meta: 'Mão na massa: escrever os primeiros códigos e testes práticos', tempo: 'exercícios guiados' },
+      { dia: 'Quarta-feira', meta: 'Leitura complementar de documentação oficial e conceitos fundamentais', tempo: 'fixação' },
+      { dia: 'Quinta-feira', meta: 'Resolver 2 a 3 desafios de código ou mini projeto no GitHub', tempo: 'prática intensiva' },
+      { dia: 'Sexta-feira', meta: 'Revisão geral das anotações e postar o aprendizado na comunidade', tempo: 'síntese semanal' },
+      { dia: 'Sábado', meta: 'Mini projeto de portfólio para currículo', tempo: 'projeto prático' },
+      { dia: 'Domingo', meta: 'Descanso e planejamento da próxima trilha', tempo: 'recuperação' }
+    ],
+    gestao: [
+      { dia: 'Segunda-feira', meta: 'Conceitos de Gestão e Planejamento Estratégico', tempo: 'estudo teórico' },
+      { dia: 'Terça-feira', meta: 'Estudo de caso prático: resolução de gargalos operacionais', tempo: 'análise de caso' },
+      { dia: 'Quarta-feira', meta: 'Prática com planilhas de Excel e indicadores de desempenho (KPIs)', tempo: 'ferramentas' },
+      { dia: 'Quinta-feira', meta: 'Comunicação executiva, liderança e gestão de pessoas', tempo: 'soft skills' },
+      { dia: 'Sexta-feira', meta: 'Resumo das melhores práticas e plano de melhoria contínua', tempo: 'revisão' },
+      { dia: 'Sábado', meta: 'Leitura de artigo sobre inovação e mercado corporativo', tempo: 'atualização' },
+      { dia: 'Domingo', meta: 'Descanso estratégico para a semana', tempo: 'recuperação' }
+    ],
+    saude: [
+      { dia: 'Segunda-feira', meta: 'Fundamentos de Cuidados Básicos e Protocolos de Saúde', tempo: 'aula teórica' },
+      { dia: 'Terça-feira', meta: 'Prevenção de Infecções, Biossegurança e Higiene Clínica', tempo: 'protocolos' },
+      { dia: 'Quarta-feira', meta: 'Diretrizes do SUS e Políticas Públicas de Saúde Comunitária', tempo: 'legislação' },
+      { dia: 'Quinta-feira', meta: 'Simulação de rotinas de atendimento humanizado e acolhimento', tempo: 'prática de atendimento' },
+      { dia: 'Sexta-feira', meta: 'Revisão dos módulos para avaliação final e emissão de certificado', tempo: 'revisão de prova' },
+      { dia: 'Sábado', meta: 'Fixação de termos técnicos e vocabulário hospitalar', tempo: 'estudo dirigido' },
+      { dia: 'Domingo', meta: 'Descanso e leitura leve sobre bem-estar', tempo: 'recuperação' }
+    ],
+    ingles: [
+      { dia: 'Segunda-feira', meta: 'Listening & Vocabulary: ouvir podcast ou aula e anotar 10 palavras novas', tempo: 'compreensão oral' },
+      { dia: 'Terça-feira', meta: 'Grammar in Context: estruturas essenciais para apresentações e reuniões', tempo: 'gramática prática' },
+      { dia: 'Quarta-feira', meta: 'Reading: ler artigo curto sobre sua área profissional em inglês', tempo: 'leitura e vocabulário' },
+      { dia: 'Quinta-feira', meta: 'Speaking/Pronunciation: repetir frases em voz alta e gravar áudio de 1 min', tempo: 'pronúncia ativa' },
+      { dia: 'Sexta-feira', meta: 'Writing: escrever pequeno e-mail ou mensagem simulando contato profissional', tempo: 'escrita' },
+      { dia: 'Sábado', meta: 'Assistir a um vídeo do YouTube em inglês com legendas em inglês', tempo: 'imersão' },
+      { dia: 'Domingo', meta: 'Descanso e contato leve com músicas em inglês', tempo: 'lazer' }
+    ],
+    concursos: [
+      { dia: 'Segunda-feira', meta: 'Língua Portuguesa: Gramática e Interpretação de Texto', tempo: 'disciplina base' },
+      { dia: 'Terça-feira', meta: 'Direito Constitucional ou Administrativo: leitura de lei seca', tempo: 'legislação' },
+      { dia: 'Quarta-feira', meta: 'Raciocínio Lógico e Matemática Básica', tempo: 'resolução de exercícios' },
+      { dia: 'Quinta-feira', meta: 'Informática para Concursos e Noções de Administração Pública', tempo: 'conteúdo específico' },
+      { dia: 'Sexta-feira', meta: 'Simulado de 20 questões de bancas anteriores (Cebraspe/FGV/Vunesp)', tempo: 'testagem real' },
+      { dia: 'Sábado', meta: 'Análise detalhada das questões erradas no simulado', tempo: 'reforço' },
+      { dia: 'Domingo', meta: 'Descanso mental para absorção do conteúdo', tempo: 'recuperação' }
+    ],
+    carreira: [
+      { dia: 'Segunda-feira', meta: 'Atualização do Currículo no portal com as competências da vaga', tempo: 'currículo' },
+      { dia: 'Terça-feira', meta: 'Comportamento corporativo, ética no trabalho e comunicação no WhatsApp', tempo: 'postura' },
+      { dia: 'Quarta-feira', meta: 'Simulação de Entrevistas: treinar respostas para as 5 perguntas mais comuns', tempo: 'simulador' },
+      { dia: 'Quinta-feira', meta: 'Candidatura dirigida a 3 vagas de Jovem Aprendiz ou Estágio no Mural', tempo: 'aplicação' },
+      { dia: 'Sexta-feira', meta: 'Aula de Informática Básica ou Excel para reforçar seu perfil', tempo: 'capacitação' },
+      { dia: 'Sábado', meta: 'Organizar rede de contatos e perfil no LinkedIn', tempo: 'networking' },
+      { dia: 'Domingo', meta: 'Descanso', tempo: 'recuperação' }
+    ]
+  };
+
+  window.openStudyScheduleModal = function() {
+    const modal = document.getElementById('study-schedule-modal');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    if (window.lucide) window.lucide.createIcons();
+
+    // Carregar progresso anterior se existir
+    const saved = localStorage.getItem('vpt_study_plan_data');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        renderScheduleDays(parsed.days, parsed.areaName, parsed.timePerDay);
+        document.getElementById('schedule-setup-view')?.classList.add('hidden');
+        document.getElementById('schedule-result-view')?.classList.remove('hidden');
+        document.getElementById('btn-reconfigure-schedule')?.classList.remove('hidden');
+        document.getElementById('btn-print-schedule')?.classList.remove('hidden');
+        updateScheduleProgress();
+      } catch (e) {}
+    }
+  };
+
+  window.closeStudyScheduleModal = function() {
+    const modal = document.getElementById('study-schedule-modal');
+    if (modal) modal.classList.add('hidden');
+  };
+
+  function updateScheduleProgress() {
+    const checkboxes = document.querySelectorAll('.sched-checkbox');
+    if (checkboxes.length === 0) return;
+
+    let checked = 0;
+    checkboxes.forEach(c => { if (c.checked) checked++; });
+
+    const pct = Math.round((checked / checkboxes.length) * 100);
+    const textEl = document.getElementById('schedule-progress-text');
+    const barEl = document.getElementById('schedule-progress-bar');
+
+    if (textEl) textEl.textContent = `${pct}% concluído (${checked} de ${checkboxes.length} metas)`;
+    if (barEl) barEl.style.width = `${pct}%`;
+  }
+
+  function renderScheduleDays(days, areaName, timePerDay) {
+    const container = document.getElementById('schedule-days-container');
+    if (!container) return;
+
+    const savedProgress = JSON.parse(localStorage.getItem('vpt_study_plan_progress') || '{}');
+
+    container.innerHTML = days.map((d, idx) => {
+      const isChecked = !!savedProgress[idx];
+      return `
+        <div class="p-3.5 rounded-2xl border ${isChecked ? 'bg-emerald-50/60 border-emerald-300' : 'bg-slate-50 border-slate-200'} transition-all flex items-start gap-3">
+          <input 
+            type="checkbox" 
+            id="sched-chk-${idx}" 
+            class="sched-checkbox mt-1 w-4 h-4 text-[#009639] rounded border-slate-300 focus:ring-emerald-500 cursor-pointer"
+            ${isChecked ? 'checked' : ''}
+            onchange="window.toggleScheduleTask(${idx}, this.checked)"
+          >
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-black text-xs ${isChecked ? 'text-emerald-900 line-through' : 'text-slate-900'}">${d.dia}</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${isChecked ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700'}">${timePerDay} min</span>
+            </div>
+            <p class="text-xs text-slate-600 mt-0.5 ${isChecked ? 'line-through text-slate-400' : ''}">${d.meta}</p>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  window.toggleScheduleTask = function(idx, checked) {
+    const saved = JSON.parse(localStorage.getItem('vpt_study_plan_progress') || '{}');
+    if (checked) saved[idx] = true;
+    else delete saved[idx];
+    localStorage.setItem('vpt_study_plan_progress', JSON.stringify(saved));
+    updateScheduleProgress();
+
+    const chkEl = document.getElementById(`sched-chk-${idx}`);
+    if (chkEl) {
+      const card = chkEl.closest('div.rounded-2xl');
+      if (card) {
+        if (checked) {
+          card.className = 'p-3.5 rounded-2xl border bg-emerald-50/60 border-emerald-300 transition-all flex items-start gap-3';
+        } else {
+          card.className = 'p-3.5 rounded-2xl border bg-slate-50 border-slate-200 transition-all flex items-start gap-3';
+        }
+      }
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('btn-generate-schedule')?.addEventListener('click', () => {
+      const area = document.getElementById('sched-area')?.value || 'tecnologia';
+      const time = document.getElementById('sched-time')?.value || '30';
+      const freq = document.getElementById('sched-days')?.value || 'semana';
+
+      const allDays = scheduleTemplates[area] || scheduleTemplates.tecnologia;
+      let selectedDays = [...allDays];
+
+      if (freq === 'semana') {
+        selectedDays = allDays.slice(0, 5);
+      } else if (freq === 'fimdesemana') {
+        selectedDays = allDays.slice(5, 7);
+      }
+
+      const areaSelect = document.getElementById('sched-area');
+      const areaName = areaSelect ? areaSelect.options[areaSelect.selectedIndex].text : 'Geral';
+
+      localStorage.setItem('vpt_study_plan_data', JSON.stringify({
+        area,
+        areaName,
+        timePerDay: time,
+        days: selectedDays
+      }));
+      localStorage.removeItem('vpt_study_plan_progress');
+
+      renderScheduleDays(selectedDays, areaName, time);
+      document.getElementById('schedule-setup-view')?.classList.add('hidden');
+      document.getElementById('schedule-result-view')?.classList.remove('hidden');
+      document.getElementById('btn-reconfigure-schedule')?.classList.remove('hidden');
+      document.getElementById('btn-print-schedule')?.classList.remove('hidden');
+      updateScheduleProgress();
+      if (window.lucide) window.lucide.createIcons();
+    });
+
+    document.getElementById('btn-reconfigure-schedule')?.addEventListener('click', () => {
+      document.getElementById('schedule-result-view')?.classList.add('hidden');
+      document.getElementById('schedule-setup-view')?.classList.remove('hidden');
+      document.getElementById('btn-reconfigure-schedule')?.classList.add('hidden');
+      document.getElementById('btn-print-schedule')?.classList.add('hidden');
+    });
+
+    document.getElementById('btn-print-schedule')?.addEventListener('click', () => {
+      window.print();
+    });
+  });

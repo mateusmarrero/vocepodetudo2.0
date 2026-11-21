@@ -6,18 +6,19 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
--- 1. Tabela de Administradores
+-- 1. Tabela de Administradores e Usuários com Acesso ao Painel
 CREATE TABLE IF NOT EXISTS `admin_users` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `username` VARCHAR(50) NOT NULL UNIQUE,
   `password_hash` VARCHAR(255) NOT NULL,
+  `role` VARCHAR(20) NOT NULL DEFAULT 'admin', -- 'admin' (pleno) ou 'viewer' (somente leitura)
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 2. Inserção do Usuário Administrador Oficial (Senha Fixa: Rx178gpo2@1985)
-INSERT INTO `admin_users` (`id`, `username`, `password_hash`) 
-VALUES (1, 'admin', '$2b$10$X.fiIOTfTyCr1XsA7Na5A.Uqi.EfRRIfiqCNLfuexDCmxN9DNsoDG')
-ON DUPLICATE KEY UPDATE `password_hash` = VALUES(`password_hash`);
+-- 2. Inserção do Usuário Administrador Oficial (Hash BCRYPT)
+INSERT INTO `admin_users` (`id`, `username`, `password_hash`, `role`) 
+VALUES (1, 'admin', '$2b$10$X.fiIOTfTyCr1XsA7Na5A.Uqi.EfRRIfiqCNLfuexDCmxN9DNsoDG', 'admin')
+ON DUPLICATE KEY UPDATE `password_hash` = VALUES(`password_hash`), `role` = 'admin';
 
 -- 3. Tabela de Cursos Oficiais
 CREATE TABLE IF NOT EXISTS `courses` (
@@ -203,7 +204,13 @@ INSERT IGNORE INTO `courses` (`id`, `title`, `provider`, `provider_tag`, `provid
 ('linkedin-profissional', 'LinkedIn: Construção de Perfil Campeão e Networking', 'Santander Open Academy', 'Santander', 'bg-red-50 text-red-800 border-red-300 font-black', 'profissionalizacao', 'Passo a passo para transformar seu LinkedIn em um ímã de recrutadores: título atrativo, resumo persuasivo, recomendações e criação de conteúdo.', 'https://www.santanderopenacademy.com', 12, 1, 'Certificado 100% Gratuito', 'Iniciante', '["LinkedIn","Networking","Carreira","Santander"]', 1, 4.9, 3890, 1),
 ('portfolio-digital', 'Construção de Portfólio Digital e Marca Pessoal', 'IFRS (Inst. Federal do RS)', 'IFRS', 'bg-emerald-50 text-emerald-900 border-emerald-300 font-black', 'profissionalizacao', 'Crie um portfólio prático na web para demonstrar suas habilidades, projetos reais, código ou trabalhos gráficos de forma profissional.', 'https://moodle.ifrs.edu.br/course/index.php?categoryid=38', 20, 1, 'Certificado 100% Gratuito', 'Iniciante', '["Portfólio","Marca Pessoal","IFRS","GitHub"]', 0, 4.8, 2100, 1),
 ('carta-apresentacao', 'Comunicação Corporativa e Carta de Apresentação', 'Fundação Bradesco (Escola Virtual)', 'Fund. Bradesco', 'bg-red-50 text-red-900 border-red-300 font-black', 'profissionalizacao', 'Elaboração de cartas de apresentação modernas, e-mails de candidatura que chamam a atenção e técnicas de escrita persuasiva para recrutadores.', 'https://www.ev.org.br/cursos/comunicacao-empresarial', 15, 1, 'Certificado 100% Gratuito', 'Iniciante', '["Comunicação","Carta de Apresentação","Emprego","Escrita"]', 0, 4.7, 3120, 1),
-('networking-efetivo', 'Networking Estratégico no Mercado de Trabalho', 'Governo Federal (EV.G / ENAP)', 'Gov.br (EV.G)', 'bg-blue-50 text-blue-900 border-blue-300 font-black', 'profissionalizacao', 'Desenvolvimento de conexões profissionais genuínas, abordagem ética a recrutadores, participação em comunidades e feiras de oportunidades.', 'https://www.escolavirtual.gov.br', 10, 1, 'Certificado 100% Gratuito', 'Iniciante', '["Networking","Contatos","Gov.br","Carreira"]', 0, 4.8, 1980, 1);
+('networking-efetivo', 'Networking Estratégico no Mercado de Trabalho', 'Governo Federal (EV.G / ENAP)', 'Gov.br (EV.G)', 'bg-blue-50 text-blue-900 border-blue-300 font-black', 'profissionalizacao', 'Desenvolvimento de conexões profissionais genuínas, abordagem ética a recrutadores, participação em comunidades e feiras de oportunidades.', 'https://www.escolavirtual.gov.br', 10, 1, 'Certificado 100% Gratuito', 'Iniciante', '["Networking","Contatos","Gov.br","Carreira"]', 0, 4.8, 1980, 1),
+('unasus-cuidados-paliativos-aps', 'Cuidados Paliativos na Atenção Primária à Saúde', 'UNA-SUS / Fiocruz', 'UNA-SUS / Fiocruz', 'bg-teal-50 text-teal-900 border-teal-300 font-black', 'saude', 'Princípios de controle e alívio da dor, acolhimento biopsicossocial do paciente e familiares, comunicação de notícias difíceis e plano terapêutico singular no SUS.', 'https://www.unasus.gov.br/cursos/busca', 30, 1, 'Certificado 100% Gratuito', 'Intermediário', '["Saúde","Fiocruz","Cuidados Paliativos","Enfermagem"]', 1, 4.9, 3820, 1),
+('anvisa-biosseguranca-controle-infeccao', 'Biossegurança e Controle de Infecções em Serviços de Saúde', 'Escola Virtual de Governo (EV.G / Anvisa)', 'Anvisa / EV.G', 'bg-blue-50 text-blue-900 border-blue-300 font-black', 'saude', 'Normas técnicas da Anvisa para higienização das mãos, precauções padrão e de contato, uso correto de EPIs, descarte de perfurocortantes e prevenção de infecções hospitalares.', 'https://www.escolavirtual.gov.br/curso/307', 40, 1, 'Certificado 100% Gratuito', 'Iniciante', '["Saúde","Anvisa","Biossegurança","Enfermagem"]', 1, 4.9, 5410, 1),
+('avasus-atencao-saude-mulher-prenatal', 'Saúde da Mulher e Acolhimento Humanizado no Pré-Natal', 'AVASUS (Ministério da Saúde / UFRN)', 'AVASUS / Ministério da Saúde', 'bg-teal-50 text-teal-900 border-teal-300 font-black', 'saude', 'Diretrizes nacionais para o acompanhamento pré-natal de baixo risco na Atenção Básica, rastreamento de intercorrências, vacinação da gestante e incentivo ao parto humanizado.', 'https://avasus.ufrn.br/', 30, 1, 'Certificado 100% Gratuito', 'Iniciante', '["Saúde","AVASUS","Pré-Natal","Saúde da Mulher","SUS"]', 0, 4.8, 4150, 1),
+('fiocruz-vigilancia-epidemiologica-imunizacoes', 'Vigilância Epidemiológica e Imunizações no SUS', 'Fiocruz', 'Fiocruz', 'bg-teal-50 text-teal-900 border-teal-300 font-black', 'saude', 'Capacitação sobre o Programa Nacional de Imunizações (PNI), conservação em cadeia de frio, busca ativa de faltosos, notificação compulsória de agravos e acolhimento em salas de vacina.', 'https://campusvirtual.fiocruz.br/portal/', 40, 1, 'Certificado 100% Gratuito', 'Intermediário', '["Saúde","Fiocruz","Vacinas","Vigilância","Epidemiologia"]', 1, 4.9, 6200, 1),
+('unasus-acolhimento-recepcao-unidades-saude', 'Acolhimento com Classificação de Risco e Humanização na Recepção', 'UNA-SUS / UFMA', 'UNA-SUS / UFMA', 'bg-teal-50 text-teal-900 border-teal-300 font-black', 'saude', 'Práticas de recepção humanizada em UPAs e UBSs, organização de filas, escuta atenta, comunicação não-violenta e protocolos de prioridade assistencial conforme a Política Nacional de Humanização.', 'https://www.unasus.gov.br/cursos/busca', 30, 1, 'Certificado 100% Gratuito', 'Iniciante', '["Saúde","UNA-SUS","Recepção","Humanização","Atendimento"]', 0, 4.8, 3540, 1),
+('poca-farmacologia-uso-racional-medicamentos', 'Noções de Farmacologia e Uso Racional de Medicamentos', 'PoCA (UFSCar)', 'UFSCar', 'bg-emerald-50 text-emerald-900 border-emerald-300 font-black', 'saude', 'Conceitos fundamentais de posologia, interações medicamentosas frequentes, cuidados no armazenamento, perigos da automedicação e orientação correta ao paciente no balcão e no domicílio.', 'https://cursos.poca.ufscar.br/', 20, 1, 'Certificado 100% Gratuito', 'Iniciante', '["Saúde","UFSCar","Farmácia","Medicamentos","Cuidados"]', 0, 4.9, 4210, 1);
 
 
 
@@ -268,6 +275,84 @@ CREATE TABLE IF NOT EXISTS `analytics_events` (
   INDEX `idx_region` (`region`),
   INDEX `idx_country` (`country`),
   INDEX `idx_course_id` (`course_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 8. Tabela de Currículos Gerados pelos Usuários
+CREATE TABLE IF NOT EXISTS `generated_resumes` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `student_id` INT NULL,
+  `candidate_name` VARCHAR(150) NOT NULL,
+  `candidate_email` VARCHAR(150) NULL,
+  `candidate_phone` VARCHAR(50) NULL,
+  `candidate_city` VARCHAR(100) NULL,
+  `candidate_state` VARCHAR(20) NULL,
+  `target_role` VARCHAR(150) NULL,
+  `template_id` VARCHAR(50) NOT NULL DEFAULT 'moderno',
+  `has_photo` TINYINT(1) DEFAULT 0,
+  `resume_data` MEDIUMTEXT NOT NULL,
+  `downloads_count` INT DEFAULT 1,
+  `ip_address` VARCHAR(45) NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX `idx_created_at` (`created_at`),
+  INDEX `idx_candidate_name` (`candidate_name`),
+  INDEX `idx_candidate_email` (`candidate_email`),
+  INDEX `idx_target_role` (`target_role`),
+  INDEX `idx_template_id` (`template_id`),
+  INDEX `idx_student_id` (`student_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 9. Tabela de Vagas e Oportunidades de Emprego (Estágio, Jovem Aprendiz, Júnior)
+CREATE TABLE IF NOT EXISTS `job_vacancies` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `title` VARCHAR(200) NOT NULL,
+  `company` VARCHAR(150) NOT NULL,
+  `company_logo` VARCHAR(255) NULL,
+  `type` ENUM('estagio', 'jovem_aprendiz', 'junior', 'trainee', 'outro') NOT NULL DEFAULT 'estagio',
+  `modality` ENUM('remoto', 'hibrido', 'presencial') NOT NULL DEFAULT 'remoto',
+  `area` VARCHAR(100) NOT NULL DEFAULT 'tecnologia',
+  `state` VARCHAR(20) NOT NULL DEFAULT 'BR',
+  `city` VARCHAR(100) NULL,
+  `salary` VARCHAR(100) NULL,
+  `description` TEXT NOT NULL,
+  `requirements` TEXT NOT NULL,
+  `benefits` TEXT NULL,
+  `apply_url` VARCHAR(500) NOT NULL,
+  `source_name` VARCHAR(100) DEFAULT 'Oficial',
+  `deadline` VARCHAR(50) NULL,
+  `is_active` TINYINT(1) NOT NULL DEFAULT 1,
+  `views_count` INT NOT NULL DEFAULT 0,
+  `clicks_count` INT NOT NULL DEFAULT 0,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX `idx_job_type` (`type`),
+  INDEX `idx_job_modality` (`modality`),
+  INDEX `idx_job_area` (`area`),
+  INDEX `idx_job_state` (`state`),
+  INDEX `idx_job_active` (`is_active`),
+  INDEX `idx_job_created` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 10. Tabela de Artigos do Blog (Carreira, Dicas de Entrevista, Currículo e Primeiros Passos)
+CREATE TABLE IF NOT EXISTS `blog_posts` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `slug` VARCHAR(255) NOT NULL UNIQUE,
+  `title` VARCHAR(255) NOT NULL,
+  `category` ENUM('carreira', 'primeiro_emprego', 'curriculo_linkedin', 'entrevistas', 'tecnologia', 'estudos') NOT NULL DEFAULT 'carreira',
+  `excerpt` TEXT NOT NULL,
+  `content` MEDIUMTEXT NOT NULL,
+  `author` VARCHAR(100) NOT NULL DEFAULT 'Equipe Você Pode Tudo',
+  `read_time_minutes` INT NOT NULL DEFAULT 5,
+  `cover_image` VARCHAR(500) NULL,
+  `tags` VARCHAR(255) NULL,
+  `views_count` INT NOT NULL DEFAULT 0,
+  `is_published` TINYINT(1) NOT NULL DEFAULT 1,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX `idx_blog_category` (`category`),
+  INDEX `idx_blog_published` (`is_published`),
+  INDEX `idx_blog_created` (`created_at`),
+  INDEX `idx_blog_views` (`views_count`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;

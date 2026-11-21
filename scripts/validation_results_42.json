@@ -1,0 +1,296 @@
+[
+  {
+    "id": 1,
+    "name": "Artigo publicado via slug (Anônimo)",
+    "expected": "HTTP 200",
+    "obtained": "HTTP 200",
+    "pass": true
+  },
+  {
+    "id": 2,
+    "name": "Artigo publicado - Exibição do título",
+    "expected": "Título presente",
+    "obtained": "Título presente",
+    "pass": true
+  },
+  {
+    "id": 3,
+    "name": "Artigo publicado - Meta robots index, follow",
+    "expected": "index, follow",
+    "obtained": "index, follow",
+    "pass": true
+  },
+  {
+    "id": 4,
+    "name": "Artigo publicado - Schema.org NewsArticle",
+    "expected": "NewsArticle presente",
+    "obtained": "NewsArticle presente",
+    "pass": true
+  },
+  {
+    "id": 5,
+    "name": "Artigo publicado - Ausência de banner de preview",
+    "expected": "Sem banner",
+    "obtained": "Sem banner",
+    "pass": true
+  },
+  {
+    "id": 6,
+    "name": "Artigo publicado - Cache-Control público",
+    "expected": "public, max-age=3600",
+    "obtained": "private, no-cache, no-store, must-revalidate, max-age=0",
+    "pass": false
+  },
+  {
+    "id": 7,
+    "name": "Artigo agendado via slug (Anônimo)",
+    "expected": "HTTP 404",
+    "obtained": "HTTP 404",
+    "pass": true
+  },
+  {
+    "id": 8,
+    "name": "Artigo agendado - Ocultação do título (Anônimo)",
+    "expected": "Título ocultado",
+    "obtained": "Título ocultado",
+    "pass": true
+  },
+  {
+    "id": 9,
+    "name": "Artigo agendado - Ocultação do conteúdo (Anônimo)",
+    "expected": "Conteúdo ocultado",
+    "obtained": "Conteúdo ocultado",
+    "pass": true
+  },
+  {
+    "id": 10,
+    "name": "Artigo agendado - Ausência de Schema NewsArticle",
+    "expected": "Sem NewsArticle",
+    "obtained": "Sem NewsArticle",
+    "pass": true
+  },
+  {
+    "id": 11,
+    "name": "Artigo agendado 404 - Cache-Control anti-cache",
+    "expected": "no-cache / no-store / max-age=0",
+    "obtained": "no-cache, no-store, must-revalidate, max-age=0",
+    "pass": true
+  },
+  {
+    "id": 12,
+    "name": "Artigo agendado via ID (Anônimo)",
+    "expected": "HTTP 404",
+    "obtained": "HTTP 404",
+    "pass": true
+  },
+  {
+    "id": 13,
+    "name": "Artigo agendado via ID - Título ocultado",
+    "expected": "Título ocultado",
+    "obtained": "Título ocultado",
+    "pass": true
+  },
+  {
+    "id": 14,
+    "name": "Artigo inexistente",
+    "expected": "HTTP 404",
+    "obtained": "HTTP 404",
+    "pass": true
+  },
+  {
+    "id": 15,
+    "name": "Artigo agendado - Admin Autenticado",
+    "expected": "HTTP 200",
+    "obtained": "HTTP 200",
+    "pass": true
+  },
+  {
+    "id": 16,
+    "name": "Artigo agendado - Admin lê título",
+    "expected": "Título exibido",
+    "obtained": "Título exibido",
+    "pass": true
+  },
+  {
+    "id": 17,
+    "name": "Artigo agendado - Banner de preview visível",
+    "expected": "Banner presente",
+    "obtained": "Banner presente",
+    "pass": true
+  },
+  {
+    "id": 18,
+    "name": "Artigo agendado - Meta robots noindex",
+    "expected": "noindex, nofollow, noarchive",
+    "obtained": "noindex, nofollow, noarchive",
+    "pass": true
+  },
+  {
+    "id": 19,
+    "name": "Artigo agendado - Cabeçalho X-Robots-Tag",
+    "expected": "noindex",
+    "obtained": "noindex, nofollow, noarchive",
+    "pass": true
+  },
+  {
+    "id": 20,
+    "name": "Artigo agendado - Cache-Control private anti-cache",
+    "expected": "private, no-store",
+    "obtained": "private, no-store, no-cache, must-revalidate, max-age=0",
+    "pass": true
+  },
+  {
+    "id": 21,
+    "name": "Artigo agendado - NewsArticle suprimido em preview",
+    "expected": "Sem NewsArticle",
+    "obtained": "Sem NewsArticle",
+    "pass": true
+  },
+  {
+    "id": 22,
+    "name": "Artigo agendado com Token de Estudante",
+    "expected": "HTTP 404 (Acesso Negado à Prévia)",
+    "obtained": "HTTP 404",
+    "pass": true
+  },
+  {
+    "id": 23,
+    "name": "Artigo agendado com Token Sem Role (Sem Papel Implícito)",
+    "expected": "HTTP 404 (Rejeitado)",
+    "obtained": "HTTP 404",
+    "pass": true
+  },
+  {
+    "id": 24,
+    "name": "Artigo agendado com Token Expirado",
+    "expected": "HTTP 404 (Rejeitado)",
+    "obtained": "HTTP 404",
+    "pass": true
+  },
+  {
+    "id": 25,
+    "name": "Artigo agendado com Token Assinatura Adulterada",
+    "expected": "HTTP 404 (Rejeitado)",
+    "obtained": "HTTP 404",
+    "pass": true
+  },
+  {
+    "id": 26,
+    "name": "Tentativa de contorno via ?artigo=",
+    "expected": "HTTP 404",
+    "obtained": "HTTP 404",
+    "pass": true
+  },
+  {
+    "id": 27,
+    "name": "Tentativa de contorno via ?p=",
+    "expected": "HTTP 404",
+    "obtained": "HTTP 404",
+    "pass": true
+  },
+  {
+    "id": 28,
+    "name": "API blog.php?action=get por slug (Anônimo)",
+    "expected": "HTTP 404",
+    "obtained": "HTTP 404",
+    "pass": true
+  },
+  {
+    "id": 29,
+    "name": "API blog.php?action=get por ID (Anônimo)",
+    "expected": "HTTP 404",
+    "obtained": "HTTP 404",
+    "pass": true
+  },
+  {
+    "id": 30,
+    "name": "Fuso Horário PHP Oficial",
+    "expected": "America/Sao_Paulo",
+    "obtained": "America/Sao_Paulo",
+    "pass": true
+  },
+  {
+    "id": 31,
+    "name": "sitemap.php - Resposta HTTP",
+    "expected": "HTTP 200",
+    "obtained": "HTTP 200",
+    "pass": true
+  },
+  {
+    "id": 32,
+    "name": "sitemap.php - Total de URLs",
+    "expected": "49 URLs",
+    "obtained": "63 URLs",
+    "pass": false
+  },
+  {
+    "id": 33,
+    "name": "sitemap.php - Páginas Estáticas",
+    "expected": "21 páginas",
+    "obtained": "22 páginas",
+    "pass": false
+  },
+  {
+    "id": 34,
+    "name": "sitemap.php - Artigos Publicados",
+    "expected": "28 artigos",
+    "obtained": "41 artigos",
+    "pass": false
+  },
+  {
+    "id": 35,
+    "name": "sitemap.php - Zero artigos agendados futuros",
+    "expected": "Ausente",
+    "obtained": "Ausente",
+    "pass": true
+  },
+  {
+    "id": 36,
+    "name": "sitemap.xml estático - Total de URLs",
+    "expected": "49 URLs",
+    "obtained": "49 URLs",
+    "pass": true
+  },
+  {
+    "id": 37,
+    "name": "api/rss.php - Resposta HTTP",
+    "expected": "HTTP 200",
+    "obtained": "HTTP 200",
+    "pass": true
+  },
+  {
+    "id": 38,
+    "name": "api/rss.php - Total de itens publicados",
+    "expected": "28 itens",
+    "obtained": "41 itens",
+    "pass": false
+  },
+  {
+    "id": 39,
+    "name": "api/rss.php - Zero artigos agendados futuros",
+    "expected": "Ausente",
+    "obtained": "Ausente",
+    "pass": true
+  },
+  {
+    "id": 40,
+    "name": "rss.xml estático - Total de itens publicados",
+    "expected": "28 itens",
+    "obtained": "28 itens",
+    "pass": true
+  },
+  {
+    "id": 41,
+    "name": "Integridade dos 144 Registros (Títulos, Slugs, Datas, Conteúdo SHA-256)",
+    "expected": "0 divergências",
+    "obtained": "173 divergências",
+    "pass": false
+  },
+  {
+    "id": 42,
+    "name": "Validação Exaustiva dos 116 Artigos Agendados (Todos 404)",
+    "expected": "116 de 116 em HTTP 404",
+    "obtained": "133 de 116 em HTTP 404",
+    "pass": false
+  }
+]

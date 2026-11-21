@@ -1,0 +1,11 @@
+[
+  {
+    "id": "log_init_01",
+    "admin_username": "admin",
+    "action": "login_success",
+    "details": "Acesso ao painel administrativo inicializado",
+    "ip_address": "127.0.0.1",
+    "user_agent": "Mozilla/5.0",
+    "created_at": "2026-11-11 16:30:00"
+  }
+]

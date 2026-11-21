@@ -338,6 +338,140 @@ try {
             break;
 
         // ==========================================
+        // 2.1 LOGIN COM GOOGLE (SIGN IN WITH GOOGLE)
+        // ==========================================
+        case 'google_login':
+            if ($method !== 'POST') {
+                jsonResponse(['error' => true, 'message' => 'Método inválido. Requer requisição POST.'], 405);
+            }
+
+            $bodyData = is_array($inputJson) ? $inputJson : $_POST;
+            $credential = trim($bodyData['credential'] ?? '');
+
+            if (empty($credential)) {
+                jsonResponse(['error' => true, 'message' => 'Token do Google não fornecido.'], 400);
+            }
+
+            $googlePayload = null;
+            // 1. Tentar validação via API oficial do Google
+            $verifyUrl = "https://oauth2.googleapis.com/tokeninfo?id_token=" . urlencode($credential);
+            $ctx = stream_context_create([
+                'http' => [
+                    'timeout' => 6,
+                    'ignore_errors' => true
+                ]
+            ]);
+            $verifyRes = @file_get_contents($verifyUrl, false, $ctx);
+            if ($verifyRes) {
+                $parsed = json_decode($verifyRes, true);
+                if (is_array($parsed) && !empty($parsed['email'])) {
+                    $googlePayload = $parsed;
+                }
+            }
+
+            // Segurança P0: Fallback inseguro sem assinatura criptográfica foi removido.
+
+            if (!$googlePayload || empty($googlePayload['email'])) {
+                jsonResponse(['error' => true, 'message' => 'Token do Google inválido ou expirado.'], 401);
+            }
+
+            $email = strtolower(trim($googlePayload['email']));
+            $name = trim($googlePayload['name'] ?? $googlePayload['given_name'] ?? 'Aluno');
+            $avatarColor = '#002776';
+
+            $student = null;
+            $isNew = false;
+
+            if ($pdo) {
+                $stmt = $pdo->prepare("SELECT id, name, email, phone, avatar_color, goal FROM students WHERE email = ? LIMIT 1");
+                $stmt->execute([$email]);
+                $student = $stmt->fetch();
+
+                if ($student) {
+                    $pdo->prepare("UPDATE students SET last_login_at = NOW() WHERE id = ?")->execute([$student['id']]);
+                } else {
+                    $isNew = true;
+                    $randomHash = password_hash(bin2hex(random_bytes(16)), PASSWORD_BCRYPT);
+                    $insertStmt = $pdo->prepare("
+                        INSERT INTO students (name, email, phone, password_hash, avatar_color, goal, last_login_at)
+                        VALUES (?, ?, ?, ?, ?, 'primeiro_emprego', NOW())
+                    ");
+                    $insertStmt->execute([$name, $email, '(Google Auth)', $randomHash, $avatarColor]);
+                    $newId = (int) $pdo->lastInsertId();
+
+                    $student = [
+                        'id' => $newId,
+                        'name' => $name,
+                        'email' => $email,
+                        'phone' => '(Google Auth)',
+                        'avatar_color' => $avatarColor,
+                        'goal' => 'primeiro_emprego'
+                    ];
+
+                    $favCourses = !empty($bodyData['initial_courses']) ? $bodyData['initial_courses'] : [];
+                    if (!empty($favCourses) && is_array($favCourses)) {
+                        $cStmt = $pdo->prepare("
+                            INSERT IGNORE INTO student_courses (student_id, course_id, status, workload_hours, started_at)
+                            VALUES (?, ?, 'saved', ?, NOW())
+                        ");
+                        foreach ($favCourses as $c) {
+                            $cId = is_array($c) ? ($c['id'] ?? '') : (string) $c;
+                            $wHours = is_array($c) ? (int) ($c['workload_hours'] ?? 10) : 10;
+                            if (!empty($cId)) {
+                                $cStmt->execute([$newId, $cId, $wHours]);
+                            }
+                        }
+                    }
+                }
+            } else {
+                $fData = loadStudentFileData($cacheFile);
+                foreach ($fData['students'] as &$st) {
+                    if (strtolower($st['email']) === $email) {
+                        $student = $st;
+                        $st['last_login_at'] = date('c');
+                        saveStudentFileData($cacheFile, $fData);
+                        break;
+                    }
+                }
+
+                if (!$student) {
+                    $isNew = true;
+                    $studentId = count($fData['students']) + 1;
+                    $student = [
+                        'id' => $studentId,
+                        'name' => $name,
+                        'email' => $email,
+                        'phone' => '(Google Auth)',
+                        'password_hash' => password_hash(bin2hex(random_bytes(16)), PASSWORD_BCRYPT),
+                        'avatar_color' => $avatarColor,
+                        'goal' => 'primeiro_emprego',
+                        'created_at' => date('c'),
+                        'last_login_at' => date('c')
+                    ];
+                    $fData['students'][] = $student;
+                    saveStudentFileData($cacheFile, $fData);
+                }
+            }
+
+            $token = generateStudentToken($student['id'], $student['name'], $student['email']);
+
+            jsonResponse([
+                'success' => true,
+                'message' => $isNew ? 'Conta criada com sucesso via Google!' : 'Login realizado com sucesso via Google!',
+                'token' => $token,
+                'is_new' => $isNew,
+                'student' => [
+                    'id' => (int) $student['id'],
+                    'name' => $student['name'],
+                    'email' => $student['email'],
+                    'phone' => $student['phone'] ?? '',
+                    'avatar_color' => $student['avatar_color'] ?? '#002776',
+                    'goal' => $student['goal'] ?? 'primeiro_emprego'
+                ]
+            ]);
+            break;
+
+        // ==========================================
         // 3. MEU PERFIL (VERIFICAÇÃO DE SESSÃO)
         // ==========================================
         case 'me':
@@ -651,13 +785,43 @@ try {
             }
             $auth = requireStudentAuth();
             $studentId = (int) $auth['sub'];
+            $studentEmail = trim($auth['email'] ?? '');
 
             if ($pdo) {
+                // Obter e-mail se não estiver presente no payload do token
+                if (empty($studentEmail)) {
+                    $stmtMail = $pdo->prepare("SELECT email FROM students WHERE id = ?");
+                    $stmtMail->execute([$studentId]);
+                    $studentEmail = trim((string)$stmtMail->fetchColumn());
+                }
+
+                // 1. Excluir cursos e testes do aluno
                 $pdo->prepare("DELETE FROM student_career_tests WHERE student_id = ?")->execute([$studentId]);
                 $pdo->prepare("DELETE FROM student_courses WHERE student_id = ?")->execute([$studentId]);
+                
+                // 2. Excluir dados cadastrais do aluno
                 $pdo->prepare("DELETE FROM students WHERE id = ?")->execute([$studentId]);
+
+                // 3. Expurgo abrangente em registros auxiliares (Newsletter e Currículos)
+                if (!empty($studentEmail)) {
+                    try {
+                        $pdo->prepare("DELETE FROM newsletter_subscribers WHERE email = ?")->execute([$studentEmail]);
+                    } catch (Throwable $eIgnore) {}
+                    try {
+                        $pdo->prepare("DELETE FROM generated_resumes WHERE student_id = ? OR candidate_email = ?")->execute([$studentId, $studentEmail]);
+                    } catch (Throwable $eIgnore) {}
+                }
             } else {
                 $fData = loadStudentFileData($cacheFile);
+                if (empty($studentEmail)) {
+                    foreach ($fData['students'] as $st) {
+                        if ((int)$st['id'] === $studentId) {
+                            $studentEmail = trim($st['email'] ?? '');
+                            break;
+                        }
+                    }
+                }
+
                 $fData['students'] = array_values(array_filter($fData['students'], function($st) use ($studentId) {
                     return (int)$st['id'] !== $studentId;
                 }));
@@ -668,11 +832,48 @@ try {
                     return (int)$sc['student_id'] !== $studentId;
                 }));
                 saveStudentFileData($cacheFile, $fData);
+
+                // Expurgo nos arquivos de cache auxiliares
+                if (!empty($studentEmail)) {
+                    $newsCache = __DIR__ . '/cache_newsletter.json';
+                    if (file_exists($newsCache)) {
+                        $nData = @json_decode(@file_get_contents($newsCache), true);
+                        if (is_array($nData)) {
+                            $nData = array_values(array_filter($nData, function($item) use ($studentEmail) {
+                                return strtolower(trim($item['email'] ?? '')) !== strtolower($studentEmail);
+                            }));
+                            @file_put_contents($newsCache, json_encode($nData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+                        }
+                    }
+                    $resumesCache = __DIR__ . '/cache_generated_resumes.json';
+                    if (file_exists($resumesCache)) {
+                        $rData = @json_decode(@file_get_contents($resumesCache), true);
+                        if (is_array($rData)) {
+                            $rData = array_values(array_filter($rData, function($item) use ($studentId, $studentEmail) {
+                                return (int)($item['student_id'] ?? 0) !== $studentId && strtolower(trim($item['email'] ?? '')) !== strtolower($studentEmail);
+                            }));
+                            @file_put_contents($resumesCache, json_encode($rData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+                        }
+                    }
+                }
             }
+
+            // Registro de auditoria anonimizado (Art. 16, I da LGPD - Prestação de contas)
+            $auditLogFile = __DIR__ . '/cache_lgpd_audit.json';
+            $auditEntry = [
+                'event' => 'account_and_data_deletion',
+                'hash_identifier' => !empty($studentEmail) ? hash('sha256', strtolower($studentEmail)) : hash('sha256', (string)$studentId),
+                'requested_at' => date('Y-m-d H:i:s'),
+                'legal_basis' => 'LGPD Art. 18, VI (Revogação e Eliminação de Dados Pessoais)'
+            ];
+            $currentAudit = file_exists($auditLogFile) ? @json_decode(@file_get_contents($auditLogFile), true) : [];
+            if (!is_array($currentAudit)) $currentAudit = [];
+            $currentAudit[] = $auditEntry;
+            @file_put_contents($auditLogFile, json_encode($currentAudit, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
             jsonResponse([
                 'success' => true,
-                'message' => 'Sua conta e todos os seus dados foram permanentemente excluídos.'
+                'message' => 'Sua conta e todos os seus dados cadastrais, cursos salvos e inscrições foram permanentemente excluídos.'
             ]);
             break;
 
@@ -681,7 +882,7 @@ try {
         // ==========================================
         case 'list_all':
         case 'admin_list':
-            requireAuth();
+            requireAuth(true); // Permite visualizadores consultarem a base de alunos
             $studentsList = [];
             if ($pdo) {
                 try {
@@ -691,7 +892,7 @@ try {
                             (SELECT COUNT(*) FROM student_courses sc WHERE sc.student_id = s.id) as enrolled_count,
                             (SELECT COUNT(*) FROM student_courses sc WHERE sc.student_id = s.id AND sc.status = 'completed') as completed_count,
                             (SELECT COALESCE(SUM(sc.workload_hours), 0) FROM student_courses sc WHERE sc.student_id = s.id AND sc.status = 'completed') as completed_hours,
-                            (SELECT primary_profile FROM student_career_tests ct WHERE ct.student_id = s.id ORDER BY ct.id DESC LIMIT 1) as latest_career_profile
+                            (SELECT primary_area FROM student_career_tests ct WHERE ct.student_id = s.id ORDER BY ct.id DESC LIMIT 1) as latest_career_profile
                         FROM students s
                         ORDER BY s.id DESC
                         LIMIT 200

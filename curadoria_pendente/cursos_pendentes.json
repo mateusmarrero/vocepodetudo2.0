@@ -1,0 +1,90 @@
+[
+    {
+        "id": "auto_fe6f7de1",
+        "title": "Gestão e Fiscalização de Contratos Administrativos 2026",
+        "provider": "Escola Virtual de Governo (EVG)",
+        "providerLogo": "🏛️",
+        "category": "administracao",
+        "workload": "30h",
+        "level": "Iniciante",
+        "free": true,
+        "certificate": true,
+        "description": "Aprenda os princípios práticos de gestão, execução e fiscalização de contratos no setor público e privado conforme a nova Lei de Licitações.",
+        "url": "https://www.escolavirtual.gov.br/curso/gestao-contratos",
+        "tags": [
+            "Gestão",
+            "Contratos",
+            "Administração",
+            "Certificado Grátis"
+        ],
+        "status": "pendente_aprovacao_humana",
+        "discoveredAt": "2026-11-09T14:10:23+00:00",
+        "curatorSource": "Cron Auto-Discovery Bot"
+    },
+    {
+        "id": "auto_ead05550",
+        "title": "Proteção de Dados Pessoais na Administração Pública (LGPD)",
+        "provider": "Escola Virtual de Governo (EVG)",
+        "providerLogo": "🏛️",
+        "category": "ti",
+        "workload": "20h",
+        "level": "Iniciante",
+        "free": true,
+        "certificate": true,
+        "description": "Compreenda a aplicação da Lei Geral de Proteção de Dados (LGPD), boas práticas de conformidade e direitos dos titulares de dados.",
+        "url": "https://www.escolavirtual.gov.br/curso/lgpd-administracao",
+        "tags": [
+            "LGPD",
+            "Direito Digital",
+            "Segurança",
+            "Governo"
+        ],
+        "status": "pendente_aprovacao_humana",
+        "discoveredAt": "2026-11-09T14:10:23+00:00",
+        "curatorSource": "Cron Auto-Discovery Bot"
+    },
+    {
+        "id": "auto_500b24a9",
+        "title": "Fundamentos de Inteligência Artificial para o Trabalho",
+        "provider": "Microsoft Learn Brasil",
+        "providerLogo": "💻",
+        "category": "tecnologia",
+        "workload": "15h",
+        "level": "Iniciante",
+        "free": true,
+        "certificate": true,
+        "description": "Domine os conceitos fundamentais de IA Generativa, engenharia de prompt e produtividade com ferramentas de inteligência artificial da Microsoft.",
+        "url": "https://learn.microsoft.com/pt-br/training/paths/get-started-with-artificial-intelligence/",
+        "tags": [
+            "Inteligência Artificial",
+            "IA",
+            "Microsoft",
+            "Inovação"
+        ],
+        "status": "pendente_aprovacao_humana",
+        "discoveredAt": "2026-11-09T14:10:23+00:00",
+        "curatorSource": "Cron Auto-Discovery Bot"
+    },
+    {
+        "id": "auto_44990119",
+        "title": "Empreendedorismo e Gestão Financeira para Pequenos Negócios",
+        "provider": "Sebrae Nacional",
+        "providerLogo": "💼",
+        "category": "empreendedorismo",
+        "workload": "20h",
+        "level": "Iniciante",
+        "free": true,
+        "certificate": true,
+        "description": "Aprenda a planejar o fluxo de caixa, calcular margem de lucro e definir estratégias de sustentabilidade para o seu negócio próprio.",
+        "url": "https://sebrae.com.br/sites/PortalSebrae/cursosonline/gestao-financeira",
+        "tags": [
+            "Empreendedorismo",
+            "Finanças",
+            "Sebrae",
+            "Negócios"
+        ],
+        "status": "pendente_aprovacao_humana",
+        "discoveredAt": "2026-11-09T14:10:23+00:00",
+        "curatorSource": "Cron Auto-Discovery Bot"
+    }
+]

@@ -7,12 +7,19 @@
   <!-- SEO Básico & Otimização para Mecanismos de Busca (Google, Bing) -->
   <title>Você Pode Tudo — Cursos Gratuitos com Certificado Oficial no Brasil</title>
   <meta name="description" content="Portal Você Pode Tudo (VCPDTD): Mais de 155 cursos online 100% gratuitos com certificado oficial das maiores instituições: Fundação Bradesco, Governo Federal (EV.G / Gov.br), Hackers do Bem, Microsoft, Oracle, Cisco, PoCA UFSCar, FGV e USP. Trilhas guiadas de Primeiro Emprego, TI, IA e Concursos.">
-  <meta name="keywords" content="cursos gratuitos, cursos online gratis com certificado, cursos MEC, fundação bradesco cursos, hackers do bem, microsoft learn brasil, oracle ONE, cisco networking academy, primeiro emprego, concurso publico cursos gratis, voce pode tudo, VCPDTD, cursos livres brasil, qualificacao profissional gratuita">
+  <meta name="keywords" content="cursos gratuitos, cursos online gratis com certificado, cursos MEC, fundação bradesco cursos, hackers do bem, microsoft learn brasil, oracle ONE, cisco networking academy, primeiro emprego, concurso publico cursos gratis, você pode tudo, VCPDTD, cursos livres brasil, qualificação profissional gratuita">
   <meta name="author" content="Você Pode Tudo">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large">
   <meta name="bingbot" content="index, follow">
-  <link rel="canonical" href="https://www.vocepodetudo.com/">
+  <link rel="canonical" href="https://vocepodetudo.com/">
+
+  
+  <!-- Resource Hints para Performance Extrema (FCP / LCP) -->
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link rel="dns-prefetch" href="https://unpkg.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Políticas de Segurança do Navegador (Headers Meta) -->
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -23,10 +30,10 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Você Pode Tudo — Cursos Gratuitos com Certificado Oficial no Brasil">
   <meta property="og:description" content="Mais de 155 cursos 100% gratuitos com certificado oficial das maiores instituições (Fundação Bradesco, Gov.br, Microsoft, Oracle, Hackers do Bem, Cisco). Aprenda no seu ritmo e turbine seu currículo!">
-  <meta property="og:url" content="https://www.vocepodetudo.com/">
+  <meta property="og:url" content="https://vocepodetudo.com/">
   <meta property="og:site_name" content="Você Pode Tudo">
-  <meta property="og:image" content="https://www.vocepodetudo.com/assets/logo.png">
-  <meta property="og:image:secure_url" content="https://www.vocepodetudo.com/assets/logo.png">
+  <meta property="og:image" content="https://vocepodetudo.com/assets/logo.png">
+  <meta property="og:image:secure_url" content="https://vocepodetudo.com/assets/logo.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Logotipo Oficial Você Pode Tudo — Cursos Gratuitos com Certificado">
@@ -35,13 +42,15 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Você Pode Tudo — Cursos Gratuitos com Certificado Oficial no Brasil">
   <meta name="twitter:description" content="Mais de 155 cursos 100% gratuitos e com certificado das maiores instituições do mundo. Descubra trilhas de primeiro emprego, programação, cibersegurança e concursos.">
-  <meta name="twitter:image" content="https://www.vocepodetudo.com/assets/logo.png">
+  <meta name="twitter:image" content="https://vocepodetudo.com/assets/logo.png">
   <meta name="twitter:image:alt" content="Portal Você Pode Tudo">
 
   <!-- Favicon & Ícones PWA para Celular e Desktop -->
-  <link rel="icon" type="image/png" sizes="32x32" href="./assets/logo-icon.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="./assets/logo-icon.png">
-  <link rel="apple-touch-icon" href="./assets/logo-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icon-512.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="/assets/icon-512.png">
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#009639">
   <meta name="mobile-web-app-capable" content="yes">
@@ -56,8 +65,8 @@
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": "https://www.vocepodetudo.com/#website",
-        "url": "https://www.vocepodetudo.com/",
+        "@id": "https://vocepodetudo.com/#website",
+        "url": "https://vocepodetudo.com/",
         "name": "Você Pode Tudo",
         "description": "Portal brasileiro oficial de agregação de cursos 100% gratuitos com certificado.",
         "inLanguage": "pt-BR",
@@ -65,17 +74,17 @@
           "@type": "SearchAction",
           "target": {
             "@type": "EntryPoint",
-            "urlTemplate": "https://www.vocepodetudo.com/?q={search_term_string}"
+            "urlTemplate": "https://vocepodetudo.com/?q={search_term_string}"
           },
           "query-input": "required name=search_term_string"
         }
       },
       {
         "@type": "EducationalOrganization",
-        "@id": "https://www.vocepodetudo.com/#organization",
+        "@id": "https://vocepodetudo.com/#organization",
         "name": "Você Pode Tudo",
-        "url": "https://www.vocepodetudo.com/",
-        "logo": "https://www.vocepodetudo.com/assets/logo-icon.png",
+        "url": "https://vocepodetudo.com/",
+        "logo": "https://vocepodetudo.com/assets/logo-icon.png",
         "description": "Iniciativa aberta e acessível que conecta brasileiros a cursos gratuitos com certificado oficial das maiores instituições do mundo."
       },
       {
@@ -143,6 +152,44 @@
             }
           }
         ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://vocepodetudo.com/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Os cursos do Você Pode Tudo são realmente 100% gratuitos?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sim! Todos os cursos catalogados no Você Pode Tudo são totalmente gratuitos, sem mensalidades nem taxas ocultas para emissão de certificado oficial."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Os certificados são válidos pelo MEC e em empresas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sim, são certificados oficiais emitidos pelas maiores instituições educacionais do país (Fundação Bradesco, EV.G/Gov.br, USP, FGV, Senai e Microsoft), válidos como horas complementares universitárias e comprovação curricular."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Como criar um currículo profissional em PDF gratuitamente?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Basta acessar a ferramenta gratuita de Gerador de Currículo no Você Pode Tudo, preencher seus dados e exportar na hora um PDF formatado conforme os padrões das vagas de emprego."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://vocepodetudo.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Cursos Gratuitos", "item": "https://vocepodetudo.com/cursos/" },
+          { "@type": "ListItem", "position": 3, "name": "Criar Currículo", "item": "https://vocepodetudo.com/curriculo.html" }
+        ]
       }
     ]
   }
@@ -152,6 +199,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           screens: {
@@ -179,17 +227,110 @@
     }
   </script>
 
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Lucide Icons (Versão Fixada para Integridade e Segurança) -->
+  <script defer src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
 
   <!-- Google AdSense Oficial -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9421145457118515"
      crossorigin="anonymous"></script>
 
   <!-- Estilos Personalizados e Acessibilidade -->
-  <link rel="stylesheet" href="./src/style.css?v=4.4.0">
+  <link rel="stylesheet" href="./src/style.css?v=4.83.0">
+
+  <!-- Google Rich Snippets: Schema.org Course Catalog -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Catálogo de Cursos Gratuitos com Certificado - Você Pode Tudo",
+    "description": "Cursos online gratuitos oferecidos pelas maiores instituições do Brasil e do mundo com certificado reconhecido.",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "Course",
+          "name": "Curso Gratuito de Inteligência Artificial para Todos",
+          "description": "Aprenda fundamentos práticos de IA generativa, ChatGPT e ferramentas de produtividade para o mercado de trabalho com certificado gratuito.",
+          "provider": {
+            "@type": "Organization",
+            "name": "Fundação Bradesco & Você Pode Tudo",
+            "sameAs": "https://vocepodetudo.com"
+          },
+          "offers": {
+            "@type": "Offer",
+            "category": "Free",
+            "price": "0",
+            "priceCurrency": "BRL"
+          },
+          "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "online",
+            "courseWorkload": "PT20H"
+          },
+          "educationalCredentialAwarded": "Certificado de Conclusão Reconhecido"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@type": "Course",
+          "name": "Curso de Excel do Básico ao Avançado",
+          "description": "Domine fórmulas, planilhas inteligentes, PROCV, tabelas dinâmicas e dashboards para áreas administrativas e financeiras.",
+          "provider": {
+            "@type": "Organization",
+            "name": "Fundação Bradesco",
+            "sameAs": "https://vocepodetudo.com"
+          },
+          "offers": {
+            "@type": "Offer",
+            "category": "Free",
+            "price": "0",
+            "priceCurrency": "BRL"
+          },
+          "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "online",
+            "courseWorkload": "PT30H"
+          },
+          "educationalCredentialAwarded": "Certificado Gratuito Válido em Todo Brasil"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@type": "Course",
+          "name": "Programação Web e Desenvolvimento Full Stack",
+          "description": "Formação em HTML5, CSS3, JavaScript e lógica de programação para ingressar na área de tecnologia e desenvolvimento de software.",
+          "provider": {
+            "@type": "Organization",
+            "name": "SENAI & Você Pode Tudo",
+            "sameAs": "https://vocepodetudo.com"
+          },
+          "offers": {
+            "@type": "Offer",
+            "category": "Free",
+            "price": "0",
+            "priceCurrency": "BRL"
+          },
+          "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "online",
+            "courseWorkload": "PT60H"
+          },
+          "educationalCredentialAwarded": "Certificado Técnico de Capacitação"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Chart.js para Gráficos em Tempo Real -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col font-sans antialiased selection:bg-[#ffcc29] selection:text-slate-900">
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col font-sans antialiased selection:bg-[#ffcc29] selection:text-slate-900 overflow-x-hidden w-full max-w-full">
 
   <!-- Links Rápidos de Pulo e-MAG / WCAG (Acessíveis para Leitores de Tela e Navegação por Teclado) -->
   <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#ffcc29] focus:text-slate-950 focus:font-black focus:rounded-xl focus:shadow-2xl focus:outline-none focus:ring-4 focus:ring-blue-600">
@@ -200,8 +341,8 @@
   </a>
 
   <!-- Barra de Informações: Clima Local em Tempo Real & Giro de Notícias do Brasil (Tons da Bandeira do Brasil: Verde, Amarelo, Azul e Branco) -->
-  <aside id="top-utility-bar" aria-label="Informações do Dia, Clima e Notícias" class="bg-gradient-to-r from-[#005e24] via-[#008031] to-[#005e24] text-white border-b-2 border-[#ffcc29] text-xs py-2 px-3 sm:px-4 select-none relative z-30 shadow-sm transition-colors">
-    <div class="max-w-7xl mx-auto flex items-center justify-between gap-3 sm:gap-4 flex-wrap sm:flex-nowrap">
+  <aside id="top-utility-bar" aria-label="Informações do Dia, Clima e Notícias" class="bg-gradient-to-r from-[#005e24] via-[#008031] to-[#005e24] text-white border-b-2 border-[#ffcc29] text-xs py-1.5 sm:py-2 px-3 sm:px-4 select-none relative z-30 shadow-sm transition-colors overflow-hidden w-full max-w-full">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4 overflow-hidden w-full min-w-0">
       
       <!-- Widget de Clima e Localização -->
       <div id="weather-widget" class="flex items-center gap-2 flex-shrink-0 cursor-pointer hover:opacity-90 transition-opacity group" title="Clique para atualizar previsão ou permitir localização">
@@ -260,12 +401,12 @@
         <button 
           id="top-bar-accessibility-btn"
           type="button"
-          class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-black/25 hover:bg-black/40 text-white hover:text-[#ffdf00] border border-white/20 transition-all text-[11px] font-bold cursor-pointer shadow-sm active:scale-95"
+          class="inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-lg bg-black/25 hover:bg-black/40 text-white hover:text-[#ffdf00] border border-white/20 transition-all text-[11px] font-bold cursor-pointer shadow-sm active:scale-95"
           title="Opções de Acessibilidade Visual (Alto Contraste, Fontes e Leitor de Tela)"
           aria-label="Abrir menu de acessibilidade visual"
         >
           <i data-lucide="eye" class="w-3.5 h-3.5 text-[#ffdf00]"></i>
-          <span>Acessibilidade</span>
+          <span class="hidden sm:inline">Acessibilidade</span>
         </button>
 
         <!-- Data de Hoje -->
@@ -278,171 +419,804 @@
     </div>
   </aside>
 
-  <!-- Cabeçalho Principal (Verde, Branco e Amarelo Brasil) -->
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b-4 border-[#009639] shadow-sm">
-    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 md:py-0 md:h-20 flex flex-wrap items-center justify-between gap-2 md:gap-4">
+  <!-- Banner de Comunicados & Avisos Globais do Portal (Dinâmico / Administrável) -->
+  <aside 
+    id="global-announcement-banner" 
+    class="hidden bg-gradient-to-r from-amber-500 via-[#ffcc29] to-amber-500 text-slate-950 px-3 py-2 text-xs font-black border-b-2 border-amber-600 shadow-xs relative z-35 animate-fade-in"
+    role="alert"
+    aria-label="Comunicado Oficial do Portal"
+  >
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2 min-w-0 flex-1">
+        <span class="w-2 h-2 rounded-full bg-slate-950 animate-ping flex-shrink-0"></span>
+        <i data-lucide="bell-ring" id="announcement-icon" class="w-4 h-4 flex-shrink-0 text-slate-950"></i>
+        <p id="announcement-message" class="truncate font-black text-slate-950"></p>
+        <a id="announcement-link" href="#" target="_blank" rel="noopener noreferrer" class="hidden underline text-slate-950 hover:text-blue-900 font-extrabold flex-shrink-0 flex items-center gap-0.5">
+          <span id="announcement-link-text">Saiba mais</span>
+          <i data-lucide="arrow-right" class="w-3 h-3"></i>
+        </a>
+      </div>
+      <button 
+        type="button" 
+        id="announcement-close-btn" 
+        class="p-1 rounded-md hover:bg-black/10 text-slate-950 transition-colors cursor-pointer flex-shrink-0"
+        title="Fechar aviso temporariamente"
+        aria-label="Fechar aviso"
+      >
+        <i data-lucide="x" class="w-3.5 h-3.5"></i>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Cabeçalho Principal com Menus em Dropdown Multinível Recolhíveis (Verde, Branco e Azul) -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b-2 border-[#009639] shadow-xs w-full max-w-full">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-1.5 md:py-0 md:h-14 flex items-center justify-between gap-2 lg:gap-4 w-full min-w-0">
       
-      <!-- Linha 1 no Mobile / Esquerda no Desktop: Marca / Logo Você Pode Tudo -->
-      <a href="#" class="flex items-center gap-2 sm:gap-3.5 group flex-shrink-0" aria-label="Você Pode Tudo — Página Inicial">
-        <!-- Logo Oficial com Fundo Transparente -->
+      <!-- Lado Esquerdo: Marca / Logo Oficial Você Pode Tudo -->
+      <a href="/" class="flex items-center gap-2 group flex-shrink-0" aria-label="Você Pode Tudo — Página Inicial">
         <img 
-          src="./assets/logo-icon.png" 
+          src="/assets/logo-icon.png" 
           alt="Logo Oficial Você Pode Tudo" 
-          class="h-10 sm:h-14 w-auto object-contain drop-shadow-sm group-hover:scale-105 transition-transform flex-shrink-0"
+          width="36" 
+          height="36" 
+          decoding="async" 
+          class="h-8 sm:h-9 w-auto object-contain drop-shadow-xs group-hover:scale-105 transition-transform flex-shrink-0"
         >
         <div>
-          <span class="text-base sm:text-2xl font-black tracking-tight text-[#002776] flex items-center gap-1 sm:gap-1.5 leading-tight">
+          <span class="text-sm sm:text-lg font-black tracking-tight text-[#002776] flex items-center gap-1 leading-tight">
             Você<span class="text-[#009639]">Pode</span><span class="text-[#d97706]">Tudo</span>
-            <span class="hidden xs:inline-block px-1.5 py-0.5 text-[9px] sm:text-[10px] font-black bg-[#ffcc29] text-slate-950 rounded-md uppercase border border-amber-400">
+            <span class="hidden xs:inline-block px-1 py-0.2 text-[8px] sm:text-[9px] font-black bg-[#ffcc29] text-slate-950 rounded uppercase border border-amber-400">
               Oficial
             </span>
           </span>
-          <span class="hidden sm:block text-[11px] text-slate-600 font-extrabold tracking-wider uppercase">
+          <span class="hidden sm:block text-[10px] text-slate-500 font-extrabold tracking-wider uppercase">
             Conhecimento ao seu alcance
           </span>
         </div>
       </a>
 
-      <!-- Linha 1 no Mobile (à direita) / Direita no Desktop: Ações do Usuário (Salvos, Área do Aluno, Admin) -->
-      <div class="flex items-center gap-1.5 sm:gap-2 order-2 md:order-last">
-        <!-- Botão Salvos / Favoritos com Badge -->
-        <button 
-          id="tab-favorites-btn" 
-          role="tab" 
-          aria-selected="false" 
-          class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-rose-600 bg-white hover:bg-rose-50 border border-slate-200 hover:border-rose-200 transition-all cursor-pointer shadow-sm"
-          title="Ver cursos salvos nos favoritos"
-        >
-          <i data-lucide="heart" class="w-3.5 h-3.5 text-rose-500"></i>
-          <span class="hidden md:inline">Salvos</span>
-          <span class="favorites-count-badge hidden px-1.5 py-0.2 rounded-full text-[10px] font-black bg-rose-600 text-white">0</span>
-        </button>
-
-        <!-- Área do Aluno: Cadastro & Acompanhamento de Estudos -->
-        <div id="student-auth-container" class="flex items-center">
-          <!-- Quando NÃO logado -->
+      <!-- Centro (Desktop): Menus em Dropdown Multinível Recolhíveis -->
+      <nav class="hidden lg:flex items-center gap-1.5" aria-label="Navegação Principal Multinível">
+        
+        <!-- Menu 1: Cursos & Trilhas (Multinível Recolhível) -->
+        <div class="nav-cascata">
           <button 
-            id="open-student-auth-btn"
-            type="button"
-            class="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-2 rounded-xl text-xs font-black text-white bg-gradient-to-r from-purple-700 to-[#002776] hover:from-purple-800 hover:to-blue-950 shadow-sm transition-all cursor-pointer"
-            title="Acompanhe seus cursos, testes vocacionais e certificados"
+            type="button" 
+            id="nav-dropdown-cursos-btn"
+            class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-[#009639] hover:bg-emerald-50/70 border border-transparent hover:border-emerald-200 transition-all cursor-pointer group"
+            aria-expanded="false"
+            aria-haspopup="true"
           >
-            <i data-lucide="graduation-cap" class="w-4 h-4 text-[#ffcc29]"></i>
-            <span class="hidden sm:inline">Área do Aluno</span>
-            <span class="sm:hidden text-[11px]">Aluno</span>
+            <i data-lucide="book-open" class="w-3.5 h-3.5 text-[#009639]"></i>
+            <span>Cursos & Trilhas</span>
+            <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400 nav-cascata-arrow transition-transform"></i>
           </button>
 
-          <!-- Quando LOGADO -->
-          <div id="student-logged-in-menu" class="hidden relative">
-            <button 
-              id="student-profile-toggle-btn"
-              type="button"
-              class="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-black text-slate-800 bg-purple-50 hover:bg-purple-100 border-2 border-purple-200 transition-all cursor-pointer"
-              title="Abrir opções da Área do Aluno"
-            >
-              <span id="student-avatar-badge" class="w-6 h-6 rounded-lg bg-[#002776] text-white flex items-center justify-center text-[11px] font-black uppercase">
-                A
-              </span>
-              <span id="student-name-display" class="max-w-[100px] truncate hidden sm:inline">Aluno</span>
-              <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-purple-700"></i>
-            </button>
+          <!-- Dropdown Nível 2 -->
+          <div class="nav-cascata-menu w-72">
+            <div class="bg-white rounded-xl shadow-xl border border-emerald-100 p-1.5 space-y-1">
+              
+              <!-- Submenu Multinível 1: Catálogo Geral + Categorias Recolhíveis -->
+              <div class="nav-submenu">
+                <div class="flex items-center justify-between p-1 rounded-lg hover:bg-slate-50 transition-colors">
+                  <button 
+                    type="button"
+                    id="tab-catalog-btn"
+                    role="tab"
+                    aria-selected="true"
+                    class="flex-1 flex items-center gap-2 px-2 py-1.5 rounded-md text-left bg-emerald-50 text-[#009639] font-bold border-l-2 border-[#009639] cursor-pointer"
+                  >
+                    <div class="w-6 h-6 rounded-md bg-emerald-100 text-[#009639] flex items-center justify-center flex-shrink-0">
+                      <i data-lucide="book-marked" class="w-3.5 h-3.5"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <span class="text-xs font-bold block leading-tight">Catálogo Geral</span>
+                      <span class="text-[10px] text-slate-500 block">174+ Cursos Oficiais</span>
+                    </div>
+                  </button>
+                  
+                  <button 
+                    type="button"
+                    class="nav-submenu-trigger p-1.5 rounded-md text-slate-400 hover:text-emerald-700 hover:bg-emerald-50 transition-colors cursor-pointer"
+                    title="Expandir/Recolher Categorias"
+                    aria-label="Expandir ou recolher categorias"
+                  >
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 nav-submenu-arrow"></i>
+                  </button>
+                </div>
 
-            <!-- Dropdown Menu do Aluno -->
-            <div id="student-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 bg-white border-2 border-purple-200 rounded-2xl shadow-xl z-50 p-2 space-y-1">
-              <div class="px-3 py-2 border-b border-slate-100 mb-1">
-                <span class="text-[10px] font-black uppercase text-purple-600 block">Aluno Conectado</span>
-                <span id="student-dropdown-email" class="text-xs font-bold text-slate-900 block truncate">aluno@email.com</span>
+                <!-- Conteúdo do Subnível (Nível 3 Recolhível) -->
+                <div class="nav-submenu-content pl-2 pr-1 py-1 space-y-0.5 text-[11px]">
+                  <button type="button" onclick="window.selectCategoryFilter('all')" class="w-full flex items-center justify-between px-2 py-1 rounded text-left text-slate-700 hover:text-[#009639] hover:bg-emerald-50 font-medium cursor-pointer">
+                    <span>🌐 Todas as Áreas</span>
+                    <span class="text-[9px] font-bold text-slate-400">174</span>
+                  </button>
+                  <button type="button" onclick="window.selectCategoryFilter('tecnologia')" class="w-full flex items-center justify-between px-2 py-1 rounded text-left text-slate-700 hover:text-[#009639] hover:bg-emerald-50 font-medium cursor-pointer">
+                    <span>💻 Tecnologia & Programação</span>
+                    <span class="text-[9px] font-bold text-slate-400">58</span>
+                  </button>
+                  <button type="button" onclick="window.selectCategoryFilter('profissionalização')" class="w-full flex items-center justify-between px-2 py-1 rounded text-left text-slate-700 hover:text-[#009639] hover:bg-emerald-50 font-medium cursor-pointer">
+                    <span>📊 Gestão & Profissional</span>
+                    <span class="text-[9px] font-bold text-slate-400">29</span>
+                  </button>
+                  <button type="button" onclick="window.selectCategoryFilter('saude')" class="w-full flex items-center justify-between px-2 py-1 rounded text-left text-slate-700 hover:text-[#009639] hover:bg-emerald-50 font-medium cursor-pointer">
+                    <span>🏥 Saúde & Cuidados</span>
+                    <span class="text-[9px] font-bold text-slate-400">17</span>
+                  </button>
+                  <button type="button" onclick="window.selectCategoryFilter('concursos')" class="w-full flex items-center justify-between px-2 py-1 rounded text-left text-slate-700 hover:text-[#009639] hover:bg-emerald-50 font-medium cursor-pointer">
+                    <span>🏛️ Concursos & Gestão Pública</span>
+                    <span class="text-[9px] font-bold text-slate-400">5</span>
+                  </button>
+                </div>
               </div>
+
+              <!-- Atalho: Gerador de Cronograma de Estudos Semanal (Novo) -->
               <button 
-                id="student-menu-dashboard-btn"
                 type="button"
-                class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-purple-50 hover:text-purple-900 flex items-center gap-2 cursor-pointer transition-colors"
+                id="btn-open-schedule-nav"
+                class="w-full flex items-center justify-between p-2 rounded-lg hover:bg-emerald-50 transition-colors group cursor-pointer text-left"
+                onclick="window.openStudyScheduleModal && window.openStudyScheduleModal()"
               >
-                <i data-lucide="layout-dashboard" class="w-4 h-4 text-purple-600"></i>
-                <span>Meu Painel de Estudos</span>
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-md bg-[#009639] text-white flex items-center justify-center flex-shrink-0 shadow-2xs">
+                    <i data-lucide="calendar-check-2" class="w-3.5 h-3.5 text-[#ffdf00]"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs font-bold text-slate-900 group-hover:text-[#009639] block leading-tight">Plano de Estudos Semanal</span>
+                    <span class="text-[10px] text-slate-500 block">Cronograma em PDF & Checklist</span>
+                  </div>
+                </div>
+                <span class="text-[9px] font-black bg-emerald-100 text-emerald-800 px-1 py-0.2 rounded">Novo</span>
               </button>
+
+              <!-- Submenu Multinível 2: Trilhas de Aprendizagem + Subnível Recolhível -->
+              <div class="nav-submenu">
+                <div class="flex items-center justify-between p-1 rounded-lg hover:bg-slate-50 transition-colors">
+                  <button 
+                    type="button"
+                    id="tab-tracks-btn"
+                    role="tab"
+                    aria-selected="false"
+                    class="flex-1 flex items-center gap-2 px-2 py-1.5 rounded-md text-left text-slate-700 hover:bg-slate-50 cursor-pointer"
+                  >
+                    <div class="w-6 h-6 rounded-md bg-blue-100 text-[#002776] flex items-center justify-center flex-shrink-0">
+                      <i data-lucide="compass" class="w-3.5 h-3.5"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <span class="text-xs font-bold text-slate-900 block leading-tight">Trilhas Guiadas</span>
+                      <span class="text-[10px] text-slate-500 block">Formação Passo a Passo</span>
+                    </div>
+                    <span class="text-[9px] font-black bg-[#ffcc29] text-slate-950 px-1 py-0.2 rounded mr-1">8</span>
+                  </button>
+
+                  <button 
+                    type="button"
+                    class="nav-submenu-trigger p-1.5 rounded-md text-slate-400 hover:text-[#002776] hover:bg-blue-50 transition-colors cursor-pointer"
+                    title="Expandir/Recolher Trilhas"
+                    aria-label="Expandir ou recolher trilhas"
+                  >
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 nav-submenu-arrow"></i>
+                  </button>
+                </div>
+
+                <!-- Conteúdo do Subnível (Nível 3 Trilhas) -->
+                <div class="nav-submenu-content pl-2 pr-1 py-1 space-y-0.5 text-[11px]">
+                  <button type="button" onclick="document.getElementById('tab-tracks-btn')?.click();" class="w-full text-left px-2 py-1 rounded text-slate-700 hover:text-[#002776] hover:bg-blue-50 font-medium cursor-pointer">
+                    🚀 Desenvolvedor Web Front-End
+                  </button>
+                  <button type="button" onclick="document.getElementById('tab-tracks-btn')?.click();" class="w-full text-left px-2 py-1 rounded text-slate-700 hover:text-[#002776] hover:bg-blue-50 font-medium cursor-pointer">
+                    🤖 Inteligência Artificial & Dados
+                  </button>
+                  <button type="button" onclick="document.getElementById('tab-tracks-btn')?.click();" class="w-full text-left px-2 py-1 rounded text-slate-700 hover:text-[#002776] hover:bg-blue-50 font-medium cursor-pointer">
+                    🔒 Cibersegurança & Redes
+                  </button>
+                  <button type="button" onclick="document.getElementById('tab-tracks-btn')?.click();" class="w-full text-left px-2 py-1 rounded text-slate-700 hover:text-[#002776] hover:bg-blue-50 font-medium cursor-pointer">
+                    📈 Empreendedorismo & Vendas
+                  </button>
+                </div>
+              </div>
+
+              <!-- Item 3: Teste Vocacional / Perfil (Acesso direto) -->
               <button 
-                id="student-menu-tests-btn"
                 type="button"
-                class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-purple-50 hover:text-purple-900 flex items-center gap-2 cursor-pointer transition-colors"
+                id="tab-career-test-btn"
+                role="tab"
+                aria-selected="false"
+                class="w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-left hover:bg-slate-50 text-slate-700 transition-colors group cursor-pointer"
               >
-                <i data-lucide="target" class="w-4 h-4 text-purple-600"></i>
-                <span>Meus Testes Vocacionais</span>
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="target" class="w-3.5 h-3.5"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs font-bold text-slate-900 group-hover:text-amber-800 block leading-tight">Teste Vocacional</span>
+                    <span class="text-[10px] text-slate-500 block">Descubra sua Carreira</span>
+                  </div>
+                </div>
+                <span class="text-[9px] font-black bg-amber-100 text-amber-900 px-1 py-0.2 rounded">Novo</span>
               </button>
-              <button 
-                id="student-menu-certificates-btn"
-                type="button"
-                class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-purple-50 hover:text-purple-900 flex items-center gap-2 cursor-pointer transition-colors"
-              >
-                <i data-lucide="award" class="w-4 h-4 text-amber-500"></i>
-                <span>Cursos & Certificados</span>
-              </button>
-              <div class="border-t border-slate-100 my-1"></div>
-              <button 
-                id="student-logout-btn"
-                type="button"
-                class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 flex items-center gap-2 cursor-pointer transition-colors"
-              >
-                <i data-lucide="log-out" class="w-4 h-4 text-rose-500"></i>
-                <span>Sair da Conta</span>
-              </button>
+
             </div>
           </div>
         </div>
 
-        <div class="h-6 w-px bg-slate-200 mx-0.5 hidden sm:block"></div>
-
-        <!-- Botão Acesso Administrativo (Abre Popup Completa admin.html) -->
-        <div id="admin-header-container" class="flex items-center">
+        <!-- Menu 2: Carreira & Ferramentas (Multinível Recolhível) -->
+        <div class="nav-cascata">
           <button 
-            id="open-admin-login-btn"
-            type="button"
-            class="inline-flex items-center gap-1 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-[#002776] bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-all cursor-pointer shadow-sm"
-            title="Abrir Painel de Administração em Janela Separada"
-            aria-label="Abrir Painel Administrativo em popup"
+            type="button" 
+            id="nav-dropdown-carreira-btn"
+            class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-[#002776] hover:bg-blue-50/70 border border-transparent hover:border-blue-200 transition-all cursor-pointer group"
+            aria-expanded="false"
+            aria-haspopup="true"
           >
-            <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-500"></i>
-            <span class="hidden xl:inline">Admin</span>
-            <i data-lucide="external-link" class="w-3 h-3 text-slate-400 hidden sm:inline"></i>
+            <i data-lucide="briefcase" class="w-3.5 h-3.5 text-[#002776]"></i>
+            <span>Carreira</span>
+            <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400 nav-cascata-arrow transition-transform"></i>
           </button>
-        </div>
-      </div>
 
-      <!-- Campo de Busca no Topo (Desktop) -->
-      <div class="hidden lg:flex flex-1 max-w-sm xl:max-w-md mx-2 relative order-3 md:order-none" role="search">
+          <!-- Dropdown Nível 2 -->
+          <div class="nav-cascata-menu w-72">
+            <div class="bg-white rounded-xl shadow-xl border border-blue-100 p-1.5 space-y-1">
+              
+              <!-- Link Direto Mural de Vagas & Estágios (Novo) -->
+              <a 
+                href="vagas" 
+                class="flex items-center justify-between p-2 rounded-lg hover:bg-blue-50/80 transition-colors group cursor-pointer"
+                onclick="document.getElementById('jobs-section')?.scrollIntoView({behavior:'smooth'});"
+              >
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-md bg-[#002776] text-white flex items-center justify-center flex-shrink-0 shadow-2xs">
+                    <i data-lucide="briefcase" class="w-3.5 h-3.5 text-[#ffdf00]"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs font-bold text-slate-900 group-hover:text-[#002776] block leading-tight">Mural de Vagas & Estágios</span>
+                    <span class="text-[10px] text-slate-500 block">Jovem Aprendiz & Júnior</span>
+                  </div>
+                </div>
+                <span class="text-[9px] font-black bg-[#ffdf00] text-[#002776] px-1 py-0.2 rounded">Novo</span>
+              </a>
+
+              <!-- Link Direto Blog & Dicas de Carreira (Fase 3) -->
+              <a 
+                href="blog" 
+                class="flex items-center justify-between p-2 rounded-lg hover:bg-emerald-50/80 transition-colors group cursor-pointer"
+                onclick="document.getElementById('blog-section')?.scrollIntoView({behavior:'smooth'});"
+              >
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-md bg-[#009639] text-white flex items-center justify-center flex-shrink-0 shadow-2xs">
+                    <i data-lucide="book-open" class="w-3.5 h-3.5 text-[#ffdf00]"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs font-bold text-slate-900 group-hover:text-[#009639] block leading-tight">Blog & Dicas de Carreira</span>
+                    <span class="text-[10px] text-slate-500 block">Entrevistas & Empregabilidade</span>
+                  </div>
+                </div>
+                <span class="text-[9px] font-black bg-emerald-100 text-emerald-800 px-1 py-0.2 rounded">Novo</span>
+              </a>
+
+              <!-- Submenu Multinível 1: Criador de Currículos + Modelos Recolhíveis -->
+              <div class="nav-submenu">
+                <div class="flex items-center justify-between p-1 rounded-lg hover:bg-slate-50 transition-colors">
+                  <a 
+                    href="curriculo" 
+                    class="flex-1 flex items-center gap-2 px-2 py-1.5 rounded-md text-left hover:bg-emerald-50/80 transition-colors group cursor-pointer"
+                  >
+                    <div class="w-6 h-6 rounded-md bg-gradient-to-br from-emerald-500 to-[#009B3A] text-white flex items-center justify-center flex-shrink-0 shadow-2xs">
+                      <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-[#ffdf00]"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <span class="text-xs font-bold text-slate-900 group-hover:text-[#009639] block leading-tight">Criar Currículo</span>
+                      <span class="text-[10px] text-slate-500 block">PDF A4 Grátis</span>
+                    </div>
+                    <span class="text-[9px] font-black bg-[#ffdf00] text-slate-950 px-1 py-0.2 rounded mr-1">12</span>
+                  </a>
+
+                  <button 
+                    type="button"
+                    class="nav-submenu-trigger p-1.5 rounded-md text-slate-400 hover:text-[#009B3A] hover:bg-emerald-50 transition-colors cursor-pointer"
+                    title="Expandir/Recolher Modelos de Currículo"
+                    aria-label="Expandir ou recolher modelos de currículo"
+                  >
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 nav-submenu-arrow"></i>
+                  </button>
+                </div>
+
+                <!-- Conteúdo do Subnível (Nível 3 Modelos de Currículo) -->
+                <div class="nav-submenu-content pl-2 pr-1 py-1 space-y-0.5 text-[11px]">
+                  <a href="curriculo" class="w-full flex items-center justify-between px-2 py-1 rounded text-slate-700 hover:text-[#009B3A] hover:bg-emerald-50 font-medium">
+                    <span>📄 Clássico Profissional</span>
+                    <span class="text-[9px] text-slate-400">Corporativo</span>
+                  </a>
+                  <a href="curriculo" class="w-full flex items-center justify-between px-2 py-1 rounded text-slate-700 hover:text-[#009B3A] hover:bg-emerald-50 font-medium">
+                    <span>🚀 Moderno Executivo</span>
+                    <span class="text-[9px] text-slate-400">Gestão</span>
+                  </a>
+                  <a href="curriculo" class="w-full flex items-center justify-between px-2 py-1 rounded text-slate-700 hover:text-[#009B3A] hover:bg-emerald-50 font-medium">
+                    <span>🎯 Primeiro Emprego</span>
+                    <span class="text-[9px] text-slate-400">Estágio</span>
+                  </a>
+                  <a href="curriculo" class="w-full flex items-center justify-between px-2 py-1 rounded text-slate-700 hover:text-[#009B3A] hover:bg-emerald-50 font-medium">
+                    <span>💻 Tecnologia & TI</span>
+                    <span class="text-[9px] text-slate-400">Devs</span>
+                  </a>
+                  <a href="curriculo" class="w-full flex items-center justify-between px-2 py-1 rounded text-[#00702a] font-bold hover:bg-emerald-50">
+                    <span>✨ Ver Todos os 12 Modelos</span>
+                    <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Submenu Multinível 2: Dicas de Carreira Recolhíveis -->
+              <div class="nav-submenu">
+                <div class="flex items-center justify-between p-1 rounded-lg hover:bg-slate-50 transition-colors">
+                  <a 
+                    href="#curriculo-home-banner" 
+                    class="flex-1 flex items-center gap-2 px-2 py-1.5 rounded-md text-left hover:bg-purple-50 transition-colors group cursor-pointer"
+                    onclick="document.getElementById('curriculo-home-banner')?.scrollIntoView({behavior:'smooth'});"
+                  >
+                    <div class="w-6 h-6 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0">
+                      <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <span class="text-xs font-bold text-slate-900 group-hover:text-purple-800 block leading-tight">Dicas de Carreira</span>
+                      <span class="text-[10px] text-slate-500 block">Guia para Vagas</span>
+                    </div>
+                  </a>
+
+                  <button 
+                    type="button"
+                    class="nav-submenu-trigger p-1.5 rounded-md text-slate-400 hover:text-purple-700 hover:bg-purple-50 transition-colors cursor-pointer"
+                    title="Expandir/Recolher Dicas"
+                    aria-label="Expandir ou recolher dicas de carreira"
+                  >
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 nav-submenu-arrow"></i>
+                  </button>
+                </div>
+
+                <!-- Conteúdo do Subnível (Nível 3 Dicas) -->
+                <div class="nav-submenu-content pl-2 pr-1 py-1 space-y-0.5 text-[11px]">
+                  <a href="curriculo" class="w-full block px-2 py-1 rounded text-slate-700 hover:text-purple-800 hover:bg-purple-50 font-medium">
+                    📝 Como Estruturar um Bom Currículo
+                  </a>
+                  <a href="#curriculo-home-banner" onclick="document.getElementById('curriculo-home-banner')?.scrollIntoView({behavior:'smooth'});" class="w-full block px-2 py-1 rounded text-slate-700 hover:text-purple-800 hover:bg-purple-50 font-medium">
+                    🎙️ Perguntas Frequentes em Entrevistas
+                  </a>
+                  <a href="curriculo" class="w-full block px-2 py-1 rounded text-slate-700 hover:text-purple-800 hover:bg-purple-50 font-medium">
+                    💼 Palavras-chave nos Filtros de RH
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </nav>
+
+      <!-- Centro-Direita: Campo de Busca Desktop Compacto -->
+      <div class="hidden xl:flex flex-1 max-w-[170px] 2xl:max-w-[220px] relative" role="search">
         <label for="search-input" class="sr-only">Buscar cursos gratuitos</label>
-        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-          <i data-lucide="search" class="w-4 h-4 text-[#009639]"></i>
+        <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400">
+          <i data-lucide="search" class="w-3.5 h-3.5 text-[#009639]"></i>
         </div>
         <input 
           type="text" 
           id="search-input" 
-          placeholder="Busque por curso, tecnologia ou órgão oficial... (Pressione /)" 
-          class="w-full pl-10 pr-10 py-2.5 rounded-xl text-sm bg-slate-50 border-2 border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#009639] focus:bg-white transition-all shadow-inner"
+          placeholder="Buscar cursos... (/)" 
+          class="w-full pl-8 pr-7 py-1.5 rounded-lg text-xs bg-slate-50 border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#009639] focus:bg-white transition-all shadow-inner"
         >
-        <button id="clear-search-btn" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600" aria-label="Limpar texto da busca">
-          <i data-lucide="x" class="w-4 h-4"></i>
+        <button id="clear-search-btn" class="hidden absolute inset-y-0 right-0 pr-2 flex items-center text-slate-400 hover:text-slate-600" aria-label="Limpar texto da busca">
+          <i data-lucide="x" class="w-3 h-3"></i>
         </button>
       </div>
 
-      <!-- Linha 2 no Mobile / Meio no Desktop: Navegação Segmentada: Cursos, Trilhas e Teste Vocacional -->
-      <nav class="w-full md:w-auto grid grid-cols-3 md:inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200 text-xs font-bold shadow-inner order-last md:order-none mt-1 md:mt-0" role="tablist" aria-label="Navegação Principal">
-        <button id="tab-catalog-btn" role="tab" aria-selected="true" class="px-2 sm:px-4 py-2 rounded-lg bg-[#009639] text-white shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer">
-          <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
-          <span>Cursos</span>
-        </button>
-        <button id="tab-tracks-btn" role="tab" aria-selected="false" class="px-2 sm:px-4 py-2 rounded-lg text-slate-700 hover:text-[#009639] hover:bg-white transition-all flex items-center justify-center gap-1.5 cursor-pointer">
-          <i data-lucide="compass" class="w-3.5 h-3.5 text-[#009639]"></i>
-          <span>Trilhas</span>
-          <span class="px-1.5 py-0.2 rounded-full text-[9px] font-black bg-[#ffcc29] text-slate-950">8</span>
-        </button>
-        <button id="tab-career-test-btn" role="tab" aria-selected="false" class="px-2 sm:px-4 py-2 rounded-lg text-slate-700 hover:text-[#002776] hover:bg-white transition-all flex items-center justify-center gap-1.5 cursor-pointer" title="Descubra quais áreas combinam com você">
-          <i data-lucide="target" class="w-3.5 h-3.5 text-amber-500"></i>
-          <span><span class="hidden sm:inline">Teste de</span> Perfil</span>
-          <span class="hidden xs:inline-block px-1.5 py-0.2 rounded-full text-[9px] font-black bg-emerald-100 text-[#00702a] border border-emerald-300">Novo</span>
-        </button>
-      </nav>
+      <!-- Lado Direito: Ações Rápidas Perfeitamente Dimensionadas (Currículo, Teste Vocacional, Dark Mode & Minha Área) -->
+      <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+        
+        <!-- Botão CTA Direto Criar Currículo (Dimensionado) -->
+        <a 
+          href="curriculo" 
+          id="nav-btn-curriculo"
+          class="hidden sm:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-black text-white bg-gradient-to-r from-emerald-600 to-[#009B3A] hover:from-emerald-700 hover:to-emerald-800 shadow-2xs hover:shadow transition-all cursor-pointer flex-shrink-0"
+          title="Criador de Currículos Profissionais Grátis em PDF"
+        >
+          <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-[#ffdf00]"></i>
+          <span class="hidden sm:inline">Criar Currículo</span>
+          <span class="sm:hidden">Currículo</span>
+        </a>
 
+        <!-- Botão CTA Direto Teste Vocacional (Dimensionado) -->
+        <button 
+          type="button" 
+          id="nav-btn-career-quiz"
+          class="hidden 2xl:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-black text-[#002776] bg-[#ffcc29] hover:bg-[#ffdf00] border border-amber-400 shadow-2xs hover:shadow transition-all cursor-pointer flex-shrink-0"
+          title="Teste Vocacional Gratuito - Descubra sua Carreira"
+        >
+          <i data-lucide="target" class="w-3.5 h-3.5 text-[#002776]"></i>
+          <span class="hidden md:inline">Teste Vocacional</span>
+          <span class="md:hidden">Vocacional</span>
+        </button>
+
+        <!-- Botão CTA Direto Mural de Vagas (Dimensionado) -->
+        <a 
+          href="vagas" 
+          id="nav-btn-jobs"
+          class="hidden 2xl:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-black text-white bg-[#002776] hover:bg-blue-900 border border-blue-400/40 shadow-2xs hover:shadow transition-all cursor-pointer flex-shrink-0"
+          title="Mural de Vagas, Estágios e Jovem Aprendiz"
+        >
+          <i data-lucide="briefcase" class="w-3.5 h-3.5 text-[#ffdf00]"></i>
+          <span class="hidden lg:inline">Vagas & Estágios</span>
+          <span class="lg:hidden">Vagas</span>
+          <span class="px-1 py-0.2 rounded text-[9px] font-black bg-[#ffdf00] text-[#002776]">Novo</span>
+        </a>
+
+        <!-- Botão CTA Direto Blog & Dicas (Fase 3) -->
+        <a 
+          href="blog" 
+          id="nav-btn-blog"
+          class="hidden 2xl:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-black text-[#00471b] dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-300/60 dark:border-emerald-700 shadow-2xs hover:shadow transition-all cursor-pointer flex-shrink-0"
+          title="Blog e Artigos de Carreira, Entrevistas e Dicas"
+        >
+          <i data-lucide="book-open" class="w-3.5 h-3.5 text-[#009639] dark:text-emerald-400"></i>
+          <span class="hidden xl:inline">Blog & Dicas</span>
+          <span class="xl:hidden">Blog</span>
+        </a>
+
+        <!-- Botão Modo Escuro (Noturno) -->
+        <button 
+          type="button" 
+          id="btn-dark-mode-toggle"
+          class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-slate-700 hover:text-amber-500 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-all cursor-pointer shadow-2xs flex-shrink-0"
+          title="Alternar Modo Escuro / Claro"
+          aria-label="Alternar Modo Noturno"
+        >
+          <i data-lucide="moon" id="dark-mode-icon" class="w-4 h-4 text-slate-700"></i>
+        </button>
+
+        <!-- Botão Instalar App (PWA Desktop/Tablet) -->
+        <button 
+          type="button" 
+          id="btn-install-pwa-desktop"
+          class="hidden 2xl:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold text-[#00702a] bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 transition-all cursor-pointer shadow-2xs flex-shrink-0"
+          title="Instalar aplicativo Você Pode Tudo no seu aparelho"
+          aria-label="Instalar Aplicativo Você Pode Tudo"
+        >
+          <i data-lucide="smartphone" class="w-3.5 h-3.5 text-[#009639]"></i>
+          <span class="hidden xl:inline">Instalar App</span>
+        </button>
+
+        <!-- Menu 3: Minha Área (Multinível Recolhível) -->
+        <div class="nav-cascata hidden md:block">
+          <button 
+            type="button" 
+            id="nav-dropdown-user-btn"
+            class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-[#002776] bg-slate-100 hover:bg-slate-200/80 border border-slate-200 transition-all cursor-pointer shadow-2xs group"
+            aria-expanded="false"
+            aria-haspopup="true"
+          >
+            <i data-lucide="user" class="w-3.5 h-3.5 text-[#002776]"></i>
+            <span>Minha Área</span>
+            <span class="favorites-count-badge hidden px-1.5 py-0.2 rounded-full text-[9px] font-black bg-rose-600 text-white">0</span>
+            <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400 nav-cascata-arrow transition-transform"></i>
+          </button>
+
+          <!-- Dropdown Nível 2 Minha Área -->
+          <div class="nav-cascata-menu nav-cascata-right w-64">
+            <div class="bg-white rounded-xl shadow-xl border border-slate-200 p-1.5 space-y-1">
+              
+              <!-- Item: Cursos Salvos / Favoritos (EXIBIDO APENAS QUANDO ALUNO ESTÁ LOGADO) -->
+              <button 
+                type="button"
+                id="tab-favorites-btn" 
+                role="tab" 
+                aria-selected="false" 
+                class="hidden w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left hover:bg-rose-50/60 text-slate-700 transition-colors group cursor-pointer"
+              >
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-md bg-rose-100 text-rose-600 flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="heart" class="w-3.5 h-3.5"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs font-bold text-slate-800 group-hover:text-rose-600 block leading-tight">Cursos Salvos</span>
+                    <span class="text-[9px] text-slate-400 block">Meus favoritos salvos</span>
+                  </div>
+                </div>
+                <span class="favorites-count-badge hidden px-1.5 py-0.2 rounded-full text-[9px] font-black bg-rose-600 text-white">0</span>
+              </button>
+
+                            <!-- Item: Instalar App (PWA para Desktop/Notebook) -->
+              <button 
+                type="button" 
+                id="btn-install-pwa-dropdown" 
+                class="hidden w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-left hover:bg-emerald-50 text-slate-700 transition-colors group cursor-pointer"
+                title="Instalar aplicativo Você Pode Tudo no seu aparelho"
+              >
+                <div class="w-6 h-6 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="smartphone" class="w-3.5 h-3.5"></i>
+                </div>
+                <div>
+                  <span class="text-xs font-bold text-slate-800 group-hover:text-emerald-700 block leading-tight">Instalar Aplicativo</span>
+                  <span class="text-[9px] text-slate-400 block">Acesso rápido no seu aparelho</span>
+                </div>
+              </button>
+
+              <!-- Área do Aluno -->
+              <div id="student-auth-container" class="w-full">
+                <!-- Quando NÃO logado -->
+                <button 
+                  id="open-student-auth-btn"
+                  type="button"
+                  class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-left hover:bg-purple-50 transition-colors group cursor-pointer"
+                >
+                  <div class="w-6 h-6 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-purple-700"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs font-bold text-slate-800 group-hover:text-purple-700 block leading-tight">Área do Aluno</span>
+                    <span class="text-[9px] text-slate-400 block">Entrar ou criar cadastro</span>
+                  </div>
+                </button>
+
+                <!-- Quando LOGADO: Submenu Multinível Recolhível -->
+                <div id="student-logged-in-menu" class="hidden w-full nav-submenu is-expanded">
+                  <div class="p-1.5 bg-purple-50/80 rounded-lg mb-1 border border-purple-100">
+                    <button 
+                      id="student-profile-toggle-btn"
+                      type="button"
+                      class="w-full flex items-center justify-between text-left cursor-pointer nav-submenu-trigger"
+                      title="Expandir/Recolher Opções do Aluno"
+                    >
+                      <div class="flex items-center gap-1.5 min-w-0">
+                        <span id="student-avatar-badge" class="w-6 h-6 rounded-md bg-[#002776] text-white flex items-center justify-center text-[10px] font-black uppercase">
+                          A
+                        </span>
+                        <div class="flex-1 min-w-0">
+                          <span id="student-name-display" class="text-xs font-black text-slate-900 block truncate">Aluno</span>
+                          <span id="student-dropdown-email" class="text-[9px] text-purple-700 block truncate font-medium">aluno@email.com</span>
+                        </div>
+                      </div>
+                      <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-purple-700 nav-submenu-arrow"></i>
+                    </button>
+                  </div>
+                  <div id="student-dropdown-menu" class="nav-submenu-content block space-y-0.5 border-l-0 pl-0">
+                    <button 
+                      id="student-menu-dashboard-btn"
+                      type="button"
+                      class="w-full text-left px-2 py-1.5 rounded-md text-xs font-bold text-slate-700 hover:bg-purple-50 hover:text-purple-900 flex items-center gap-2 cursor-pointer transition-colors"
+                    >
+                      <i data-lucide="layout-dashboard" class="w-3.5 h-3.5 text-purple-600"></i>
+                      <span>Painel de Estudos</span>
+                    </button>
+                    <button 
+                      id="student-menu-tests-btn"
+                      type="button"
+                      class="w-full text-left px-2 py-1.5 rounded-md text-xs font-bold text-slate-700 hover:bg-purple-50 hover:text-purple-900 flex items-center gap-2 cursor-pointer transition-colors"
+                    >
+                      <i data-lucide="target" class="w-3.5 h-3.5 text-purple-600"></i>
+                      <span>Testes Vocacionais</span>
+                    </button>
+                    <button 
+                      id="student-menu-certificates-btn"
+                      type="button"
+                      class="w-full text-left px-2 py-1.5 rounded-md text-xs font-bold text-slate-700 hover:bg-purple-50 hover:text-purple-900 flex items-center gap-2 cursor-pointer transition-colors"
+                    >
+                      <i data-lucide="award" class="w-3.5 h-3.5 text-amber-500"></i>
+                      <span>Cursos & Certificados</span>
+                    </button>
+                    <button 
+                      id="student-logout-btn"
+                      type="button"
+                      class="w-full text-left px-2 py-1.5 rounded-md text-xs font-bold text-rose-600 hover:bg-rose-50 flex items-center gap-2 cursor-pointer transition-colors mt-0.5"
+                    >
+                      <i data-lucide="log-out" class="w-3.5 h-3.5 text-rose-500"></i>
+                      <span>Sair da Conta</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Botão Menu Mobile (Hambúrguer Compacto) -->
+        <button 
+          id="mobile-nav-toggle-btn"
+          type="button"
+          class="lg:hidden p-1.5 rounded-lg text-slate-700 hover:text-[#009639] hover:bg-slate-100 border border-slate-200 transition-colors cursor-pointer"
+          aria-label="Abrir Menu Principal"
+          aria-expanded="false"
+        >
+          <i data-lucide="menu" class="w-4 h-4"></i>
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- Menu Gaveta Mobile com Accordions Multinível Recolhíveis -->
+    <div id="mobile-nav-drawer" class="hidden lg:hidden border-t border-slate-200 bg-white/98 backdrop-blur-md px-3 py-2.5 shadow-lg animate-fade-in">
+      <div class="space-y-1.5">
+        
+        <!-- Botão Instalar App no Celular (Mobile PWA) -->
+        <button 
+          id="btn-install-pwa-mobile" 
+          type="button" 
+          class="hidden w-full items-center justify-between p-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-[#009639] text-white font-bold text-xs shadow-xs hover:shadow transition-all cursor-pointer mb-2"
+        >
+          <div class="flex items-center gap-2">
+            <i data-lucide="smartphone" class="w-4 h-4 text-[#ffdf00]"></i>
+            <span>Instalar Aplicativo no Celular</span>
+          </div>
+          <span class="text-[9px] font-black bg-white/20 text-white px-2 py-0.5 rounded-full uppercase">Grátis</span>
+        </button>
+
+        <!-- Banner Grupo VIP WhatsApp no Menu Mobile -->
+        <a 
+          href="https://chat.whatsapp.com/FN9jb73jdKs1UYq0BbIC3j" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="w-full flex items-center justify-between p-2.5 rounded-xl bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white font-bold text-xs shadow-sm hover:shadow transition-all cursor-pointer mb-2 active:scale-98"
+          title="Entrar no Grupo Oficial do WhatsApp"
+        >
+          <div class="flex items-center gap-2">
+            <svg class="w-3.5 h-3.5 fill-current text-white flex-shrink-0" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            <span>Grupo VIP WhatsApp Oficial</span>
+          </div>
+          <span class="text-[9px] font-black bg-white/20 text-white px-2 py-0.5 rounded-full uppercase">Entrar</span>
+        </a>
+
+
+        <!-- Accordion Mobile 1: Cursos & Formação (Recolhível) -->
+        <div class="nav-mobile-accordion border border-slate-200 rounded-xl overflow-hidden">
+          <button 
+            type="button"
+            class="nav-mobile-accordion-trigger w-full flex items-center justify-between p-2.5 bg-slate-50 text-xs font-bold text-slate-800 cursor-pointer"
+          >
+            <div class="flex items-center gap-2">
+              <i data-lucide="book-open" class="w-4 h-4 text-[#009639]"></i>
+              <span>Cursos & Formação</span>
+            </div>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 nav-mobile-accordion-arrow"></i>
+          </button>
+          <div class="nav-mobile-accordion-content p-2 bg-white space-y-1">
+            <button 
+              id="mobile-tab-catalog-btn"
+              type="button"
+              class="w-full flex items-center justify-between p-2 rounded-lg text-xs font-bold text-left bg-emerald-50 text-[#009639] cursor-pointer"
+              onclick="document.getElementById('tab-catalog-btn')?.click(); document.getElementById('mobile-nav-drawer').classList.add('hidden');"
+            >
+              <span>Catálogo Geral de Cursos</span>
+              <span class="text-[9px] font-black bg-emerald-200 text-emerald-900 px-1 py-0.2 rounded">174+</span>
+            </button>
+            <button 
+              id="mobile-tab-tracks-btn"
+              type="button"
+              class="w-full flex items-center justify-between p-2 rounded-lg text-xs font-bold text-left text-slate-700 hover:bg-slate-50 cursor-pointer"
+              onclick="document.getElementById('tab-tracks-btn')?.click(); document.getElementById('mobile-nav-drawer').classList.add('hidden');"
+            >
+              <span>Trilhas Profissionais Guiadas</span>
+              <span class="text-[9px] font-black bg-[#ffcc29] text-slate-950 px-1 py-0.2 rounded">8 Trilhas</span>
+            </button>
+            <button 
+              id="mobile-tab-career-btn"
+              type="button"
+              class="w-full flex items-center justify-between p-2 rounded-lg text-xs font-bold text-left text-slate-700 hover:bg-slate-50 cursor-pointer"
+              onclick="document.getElementById('tab-career-test-btn')?.click(); document.getElementById('mobile-nav-drawer').classList.add('hidden');"
+            >
+              <span>Teste Vocacional & Perfil</span>
+              <span class="text-[9px] font-black bg-amber-100 text-amber-900 px-1 py-0.2 rounded">Novo</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Accordion Mobile 2: Carreira & Ferramentas (Recolhível) -->
+        <div class="nav-mobile-accordion border border-slate-200 rounded-xl overflow-hidden">
+          <button 
+            type="button"
+            class="nav-mobile-accordion-trigger w-full flex items-center justify-between p-2.5 bg-slate-50 text-xs font-bold text-slate-800 cursor-pointer"
+          >
+            <div class="flex items-center gap-2">
+              <i data-lucide="briefcase" class="w-4 h-4 text-[#002776]"></i>
+              <span>Carreira & Ferramentas</span>
+            </div>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 nav-mobile-accordion-arrow"></i>
+          </button>
+          <div class="nav-mobile-accordion-content p-2 bg-white space-y-1">
+            <a 
+              href="curriculo" 
+              class="w-full flex items-center justify-between p-2 rounded-lg bg-emerald-50 text-xs font-bold text-[#00702a]"
+            >
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-[#009B3A]"></i>
+                <span>Criador de Currículos em PDF</span>
+              </div>
+              <span class="text-[9px] font-black bg-[#ffdf00] text-slate-950 px-1 py-0.2 rounded">12 Modelos</span>
+            </a>
+            <a 
+              href="vagas" 
+              class="w-full flex items-center justify-between p-2 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-xs font-bold text-[#002776] dark:text-blue-300"
+              onclick="document.getElementById('mobile-nav-drawer').classList.add('hidden'); document.getElementById('jobs-section')?.scrollIntoView({behavior:'smooth'});"
+            >
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="briefcase" class="w-3.5 h-3.5 text-[#002776] dark:text-blue-400"></i>
+                <span>Mural de Vagas & Estágios</span>
+              </div>
+              <span class="text-[9px] font-black bg-[#ffdf00] text-[#002776] px-1 py-0.2 rounded">Novo</span>
+            </a>
+            <a 
+              href="blog" 
+              class="w-full flex items-center justify-between p-2 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-xs font-bold text-[#00702a] dark:text-emerald-300"
+              onclick="document.getElementById('mobile-nav-drawer').classList.add('hidden'); document.getElementById('blog-section')?.scrollIntoView({behavior:'smooth'});"
+            >
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="book-open" class="w-3.5 h-3.5 text-[#009639] dark:text-emerald-400"></i>
+                <span>Blog & Dicas de Entrevista</span>
+              </div>
+              <span class="text-[9px] font-black bg-emerald-200 dark:bg-emerald-800 text-emerald-900 dark:text-emerald-100 px-1 py-0.2 rounded">Novo</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Accordion Mobile 3: Minha Conta (Recolhível) -->
+        <div class="nav-mobile-accordion border border-slate-200 rounded-xl overflow-hidden">
+          <button 
+            type="button"
+            class="nav-mobile-accordion-trigger w-full flex items-center justify-between p-2.5 bg-slate-50 text-xs font-bold text-slate-800 cursor-pointer"
+          >
+            <div class="flex items-center gap-2">
+              <i data-lucide="user" class="w-4 h-4 text-[#002776]"></i>
+              <span>Minha Conta</span>
+            </div>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 nav-mobile-accordion-arrow"></i>
+          </button>
+          <div class="nav-mobile-accordion-content p-2 bg-white space-y-1">
+            <!-- Cursos Salvos Mobile (Condicional) -->
+            <button 
+              id="mobile-tab-favorites-btn"
+              type="button"
+              class="hidden w-full flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 text-xs font-bold text-slate-700 cursor-pointer"
+              onclick="document.getElementById('tab-favorites-btn')?.click(); document.getElementById('mobile-nav-drawer').classList.add('hidden');"
+            >
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="heart" class="w-3.5 h-3.5 text-rose-500"></i>
+                <span>Cursos Salvos</span>
+              </div>
+              <span class="favorites-count-badge hidden px-1.5 py-0.2 rounded-full text-[9px] font-black bg-rose-600 text-white">0</span>
+            </button>
+
+            <button 
+              id="mobile-student-btn"
+              type="button"
+              class="w-full flex items-center justify-between p-2 rounded-lg hover:bg-purple-50 text-xs font-bold text-slate-700 cursor-pointer"
+              onclick="document.getElementById('open-student-auth-btn')?.click(); document.getElementById('mobile-nav-drawer').classList.add('hidden');"
+            >
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-purple-700"></i>
+                <span>Área do Aluno</span>
+              </div>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- Atalho Rápido Modo Noturno no Menu Mobile -->
+        <button 
+          id="mobile-dark-mode-toggle"
+          type="button" 
+          class="w-full flex items-center justify-between p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-bold text-slate-700 cursor-pointer transition-colors"
+        >
+          <div class="flex items-center gap-2">
+            <i data-lucide="moon" id="mobile-dark-mode-icon" class="w-4 h-4 text-amber-500"></i>
+            <span id="mobile-dark-mode-text">Modo Escuro (Noturno)</span>
+          </div>
+          <span class="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-600">Alternar</span>
+        </button>
+
+      </div>
     </div>
   </header>
 
@@ -468,8 +1242,8 @@
         com certificado das <span class="text-[#009639] underline decoration-[#ffcc29] decoration-wavy decoration-2">maiores instituições do mundo</span>
       </h1>
 
-      <p class="max-w-3xl mx-auto text-sm sm:text-lg text-slate-700 font-medium mb-6 leading-relaxed">
-        Somos exclusivamente um <strong class="text-[#002776] font-black underline decoration-emerald-400 decoration-2">hub de cursos grátis e curadoria independente</strong>: não vendemos cursos, não cobramos mensalidades e não emitimos certificados próprios. Nossa missão é reunir e direcionar você diretamente para os programas oficiais das maiores instituições do mundo — como <strong class="text-slate-950">Fundação Bradesco, Governo Federal (EV.G), Microsoft Learn, Cisco, Sebrae, Oracle e Hackers do Bem</strong>. Todos com acesso livre e certificado gratuito emitido diretamente pelas fontes oficiais.
+      <p class="max-w-3xl mx-auto text-sm sm:text-base text-slate-700 font-medium mb-6 leading-relaxed">
+        Reunimos os programas oficiais mais disputados: <strong class="text-slate-950">Hackers do Bem, Oracle Next Education, Microsoft Learn, Cisco NetAcad, Fundação Bradesco, EV.G (Gov.br) e AWS</strong>. Todos 100% gratuitos para transformar sua carreira.
       </p>
 
       <!-- 4 Pilares Oficiais da Marca Você Pode Tudo (Visual Claro) -->
@@ -494,11 +1268,11 @@
       <!-- Cartões de Estatísticas com Cores Vivas -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 max-w-4xl mx-auto">
         <div class="bg-white border-2 border-emerald-200 rounded-2xl p-3 sm:p-4 shadow-sm text-center">
-          <div class="text-xl sm:text-3xl font-black text-[#009639]" id="stat-total-courses">173+</div>
+          <div class="text-xl sm:text-3xl font-black text-[#009639]" id="stat-total-courses">155+</div>
           <div class="text-[11px] sm:text-xs font-bold text-slate-600 mt-1">Cursos Catalogados</div>
         </div>
         <div class="bg-white border-2 border-amber-200 rounded-2xl p-3 sm:p-4 shadow-sm text-center">
-          <div class="text-xl sm:text-3xl font-black text-amber-700" id="stat-free-certs">166 Cursos</div>
+          <div class="text-xl sm:text-3xl font-black text-amber-700" id="stat-free-certs">150 Cursos</div>
           <div class="text-[11px] sm:text-xs font-bold text-slate-600 mt-1">Certificado Gratuito</div>
         </div>
         <div class="bg-white border-2 border-blue-200 rounded-2xl p-3 sm:p-4 shadow-sm text-center">
@@ -519,38 +1293,178 @@
     <!-- Visualização Principal de Catálogo de Cursos -->
     <div id="catalog-view">
 
-      <!-- Destaque: Teste de Perfil Profissional Gratuito (Novo) -->
-      <section 
-        id="career-test-home-card" 
-        class="mb-8 bg-gradient-to-r from-[#002776] via-[#001f5c] to-[#00702a] rounded-2xl sm:rounded-3xl p-5 sm:p-8 text-white relative overflow-hidden shadow-xl border-4 border-[#ffcc29] animate-fade-in"
-        aria-label="Destaque: Teste de Perfil Profissional"
-      >
-        <div class="absolute -right-10 -bottom-10 w-60 h-60 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
-        <div class="max-w-3xl relative z-10">
-          <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-black bg-[#ffcc29] text-slate-950 mb-3 shadow-sm uppercase">
-            <span class="w-2 h-2 rounded-full bg-[#009639] animate-ping"></span>
-            <span>Novo • 100% Gratuito • Sem Cadastro</span>
-          </div>
-          <h2 class="text-xl sm:text-3xl font-black mb-2 text-white leading-tight">
-            Descubra seu caminho profissional
-          </h2>
-          <p class="text-xs sm:text-base text-blue-100 font-medium mb-6 leading-relaxed">
-            Responda a algumas perguntas e descubra quais áreas profissionais combinam com seus interesses.
-          </p>
-          <div class="flex items-center gap-3 sm:gap-4 flex-wrap">
+      <!-- Hub de Ações Rápidas no Topo dos Cursos: 4 Cards Retangulares (2 em cima de 2 formando um bloco quadrado equilibrado) -->
+      <section class="mb-6 max-w-5xl mx-auto" aria-label="Ferramentas Principais em Destaque">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
+          
+          <!-- Card 1: Criador de Currículos (Retângulo Compacto) -->
+          <article 
+            id="curriculo-home-banner" 
+            class="bg-gradient-to-br from-emerald-800 via-[#008031] to-teal-900 rounded-2xl p-3 sm:p-3.5 text-white shadow-sm border-2 border-[#ffcc29] relative overflow-hidden flex items-center justify-between gap-3 group hover:shadow-md hover:border-amber-300 hover:scale-[1.01] transition-all"
+          >
+            <div class="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/15 border border-[#ffdf00]/80 flex items-center justify-center flex-shrink-0 text-[#ffdf00] shadow-2xs group-hover:scale-105 transition-transform">
+                <i data-lucide="file-check-2" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <h2 class="text-xs sm:text-sm font-black text-white leading-tight">
+                    Criador de Currículos
+                  </h2>
+                  <span class="text-[9px] font-black text-[#ffdf00] bg-black/30 px-1.5 py-0.2 rounded border border-white/10 uppercase tracking-wider">
+                    12 Modelos
+                  </span>
+                </div>
+                <p class="text-[10px] sm:text-[11px] text-emerald-100 font-medium line-clamp-1 leading-snug mt-0.5">
+                  Modelos modernos em PDF A4 sem cadastro.
+                </p>
+              </div>
+            </div>
+
+            <a 
+              href="curriculo" 
+              class="py-1.5 sm:py-2 px-2.5 sm:px-3 rounded-xl font-black text-[11px] sm:text-xs bg-white hover:bg-[#ffdf00] text-[#002776] shadow-xs transition-all flex items-center gap-1 flex-shrink-0 cursor-pointer active:scale-95 whitespace-nowrap"
+            >
+              <span>Criar Grátis</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          </article>
+
+          <!-- Card 2: Mural de Vagas (Retângulo Compacto) -->
+          <article 
+            id="vagas-home-banner" 
+            class="bg-gradient-to-br from-[#002776] via-[#091a42] to-[#001f5c] rounded-2xl p-3 sm:p-3.5 text-white shadow-sm border-2 border-[#ffcc29] relative overflow-hidden flex items-center justify-between gap-3 group hover:shadow-md hover:border-amber-300 hover:scale-[1.01] transition-all"
+          >
+            <div class="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/15 border border-[#ffdf00]/80 flex items-center justify-center flex-shrink-0 text-[#ffcc29] shadow-2xs group-hover:scale-105 transition-transform">
+                <i data-lucide="briefcase" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <h2 class="text-xs sm:text-sm font-black text-white leading-tight">
+                    Mural de Vagas
+                  </h2>
+                  <span class="text-[9px] font-black text-blue-200 bg-black/30 px-1.5 py-0.2 rounded border border-white/10 uppercase tracking-wider">
+                    Abertas
+                  </span>
+                </div>
+                <p class="text-[10px] sm:text-[11px] text-blue-100 font-medium line-clamp-1 leading-snug mt-0.5">
+                  Estágio, Jovem Aprendiz e vagas Júnior.
+                </p>
+              </div>
+            </div>
+
+            <a 
+              href="vagas" 
+              class="py-1.5 sm:py-2 px-2.5 sm:px-3 rounded-xl font-black text-[11px] sm:text-xs bg-[#ffcc29] hover:bg-amber-300 text-slate-950 shadow-xs transition-all flex items-center gap-1 flex-shrink-0 cursor-pointer active:scale-95 whitespace-nowrap"
+            >
+              <span>Ver Vagas</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          </article>
+
+          <!-- Card 3: Teste Vocacional (Retângulo Compacto) -->
+          <article 
+            id="career-test-home-card" 
+            class="bg-gradient-to-br from-[#002776] via-[#001f5c] to-[#005e24] rounded-2xl p-3 sm:p-3.5 text-white shadow-sm border-2 border-[#ffcc29] relative overflow-hidden flex items-center justify-between gap-3 group hover:shadow-md hover:border-amber-300 hover:scale-[1.01] transition-all"
+          >
+            <div class="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/15 border border-[#ffdf00]/80 flex items-center justify-center flex-shrink-0 text-[#ffdf00] shadow-2xs group-hover:scale-105 transition-transform">
+                <i data-lucide="target" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <h2 class="text-xs sm:text-sm font-black text-white leading-tight">
+                    Teste Vocacional
+                  </h2>
+                  <span class="text-[9px] font-black text-emerald-300 bg-black/30 px-1.5 py-0.2 rounded border border-white/10 uppercase tracking-wider">
+                    12 Perguntas
+                  </span>
+                </div>
+                <p class="text-[10px] sm:text-[11px] text-blue-100 font-medium line-clamp-1 leading-snug mt-0.5">
+                  Descubra seu perfil e receba sua trilha.
+                </p>
+              </div>
+            </div>
+
             <button 
               id="start-career-test-home-btn"
-              type="button"
-              class="w-full sm:w-auto px-6 sm:px-8 py-3.5 rounded-2xl font-black text-sm sm:text-base bg-[#ffcc29] hover:bg-[#ffdf00] text-slate-950 transition-all shadow-lg hover:shadow-xl hover:scale-102 flex items-center justify-center gap-2.5 border-2 border-white cursor-pointer"
+              type="button" 
+              class="py-1.5 sm:py-2 px-2.5 sm:px-3 rounded-xl font-black text-[11px] sm:text-xs bg-[#ffcc29] hover:bg-[#ffdf00] text-slate-950 shadow-xs transition-all flex items-center gap-1 flex-shrink-0 cursor-pointer active:scale-95 whitespace-nowrap"
             >
-              <i data-lucide="sparkles" class="w-5 h-5 text-slate-950"></i>
-              <span>Fazer meu teste gratuito</span>
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-slate-950"></i>
+              <span>Fazer Teste</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </button>
-            <div class="flex items-center gap-2 text-xs text-emerald-200 font-semibold justify-center w-full sm:w-auto">
-              <i data-lucide="check-circle-2" class="w-4 h-4 text-[#ffcc29]"></i>
-              <span>12 perguntas rápidas • Resultado imediato</span>
+          </article>
+
+          <!-- Card 4: Blog de Carreira (Retângulo Compacto) -->
+          <article 
+            id="blog-home-banner" 
+            class="bg-gradient-to-br from-[#005e24] via-[#00471b] to-[#091a42] rounded-2xl p-3 sm:p-3.5 text-white shadow-sm border-2 border-[#ffcc29] relative overflow-hidden flex items-center justify-between gap-3 group hover:shadow-md hover:border-amber-300 hover:scale-[1.01] transition-all"
+          >
+            <div class="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/15 border border-[#ffdf00]/80 flex items-center justify-center flex-shrink-0 text-[#ffdf00] shadow-2xs group-hover:scale-105 transition-transform">
+                <i data-lucide="book-open" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <h2 class="text-xs sm:text-sm font-black text-white leading-tight">
+                    Blog de Carreira
+                  </h2>
+                  <span class="text-[9px] font-black text-amber-300 bg-black/30 px-1.5 py-0.2 rounded border border-white/10 uppercase tracking-wider">
+                    Artigos
+                  </span>
+                </div>
+                <p class="text-[10px] sm:text-[11px] text-emerald-100 font-medium line-clamp-1 leading-snug mt-0.5">
+                  Dicas de currículo ATS e entrevistas.
+                </p>
+              </div>
+            </div>
+
+            <a 
+              href="blog" 
+              class="py-1.5 sm:py-2 px-2.5 sm:px-3 rounded-xl font-black text-[11px] sm:text-xs bg-white text-[#005e24] hover:bg-slate-100 shadow-xs transition-all flex items-center gap-1 flex-shrink-0 cursor-pointer active:scale-95 whitespace-nowrap"
+            >
+              <span>Explorar Blog</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- Seção: Cursos Vistos Recentemente (Continuar de Onde Parou - Oculto se Vazio) -->
+      <section 
+        id="recent-courses-container" 
+        class="hidden mb-6 bg-white dark:bg-slate-800 border-2 border-emerald-200 dark:border-emerald-800/60 rounded-2xl p-3.5 sm:p-4 shadow-sm animate-fade-in"
+        aria-label="Cursos Vistos Recentemente"
+      >
+        <div class="flex items-center justify-between mb-2.5">
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-md bg-emerald-100 dark:bg-emerald-900/50 text-[#009639] flex items-center justify-center">
+              <i data-lucide="history" class="w-3.5 h-3.5"></i>
+            </div>
+            <div>
+              <h3 class="text-xs font-black uppercase tracking-wider text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
+                <span>Continuar de Onde Parou</span>
+                <span class="text-[9px] font-black bg-emerald-100 text-[#00702a] px-1.5 py-0.2 rounded-full">Recentes</span>
+              </h3>
             </div>
           </div>
+          <button 
+            type="button" 
+            id="clear-recent-courses-btn"
+            class="text-[10px] font-bold text-slate-400 hover:text-rose-600 transition-colors cursor-pointer flex items-center gap-1"
+            title="Limpar histórico de cursos recentes"
+          >
+            <i data-lucide="trash-2" class="w-3 h-3"></i>
+            <span>Limpar Histórico</span>
+          </button>
+        </div>
+
+        <div id="recent-courses-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+          <!-- Injetado dinamicamente via JS -->
         </div>
       </section>
 
@@ -613,51 +1527,53 @@
       </div>
 
       <!-- Painel de Filtros Avançados (Certificados, Instituições, Carga Horária) -->
-      <div class="bg-white border-2 border-slate-200 rounded-2xl p-3.5 sm:p-5 mb-8 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 sm:p-5 mb-8 shadow-sm flex flex-col gap-4">
         
-        <!-- Filtro por Tipo de Certificado -->
-        <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap" role="group" aria-label="Filtro de certificado">
-          <span class="text-xs font-black text-slate-700 mr-1 flex items-center gap-1 w-full sm:w-auto">
-            <i data-lucide="award" class="w-3.5 h-3.5 text-[#009639]"></i>
-            <span>Certificado:</span>
-          </span>
-          <button id="filter-cert-all" aria-pressed="true" class="flex-1 sm:flex-none px-3 py-2 rounded-xl text-xs font-bold bg-[#009639] text-white shadow-sm text-center cursor-pointer">
-            Todos os Cursos
-          </button>
-          <button id="filter-cert-free" aria-pressed="false" class="flex-1 sm:flex-none px-3 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 text-center cursor-pointer">
-            ✓ Somente Certificado Grátis
-          </button>
-          <button id="filter-cert-audited" aria-pressed="false" class="flex-1 sm:flex-none px-3 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 text-center cursor-pointer">
-            Modo Ouvinte (Gratuito)
-          </button>
+        <!-- Filtro por Tipo de Certificado (Barra Superior em Pílulas) -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+          <div class="flex items-center gap-2 flex-wrap" role="group" aria-label="Filtro de certificado">
+            <span class="text-xs font-black text-slate-700 flex items-center gap-1.5 mr-1">
+              <i data-lucide="award" class="w-4 h-4 text-[#009639]"></i>
+              <span>Certificado:</span>
+            </span>
+            <button id="filter-cert-all" aria-pressed="true" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-[#009639] text-white shadow-sm transition-all whitespace-nowrap cursor-pointer">
+              Todos os Cursos
+            </button>
+            <button id="filter-cert-free" aria-pressed="false" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition-all whitespace-nowrap cursor-pointer">
+              ✓ Somente Certificado Grátis
+            </button>
+            <button id="filter-cert-audited" aria-pressed="false" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition-all whitespace-nowrap cursor-pointer">
+              Modo Ouvinte (Gratuito)
+            </button>
+          </div>
         </div>
 
         <!-- Filtros Selecionáveis (Instituição, Carga Horária, Ordenação) -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 lg:flex lg:items-center gap-2.5 sm:gap-3 w-full lg:w-auto">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 w-full">
           
           <!-- Instituição -->
-          <div class="flex flex-col sm:flex-row sm:items-center gap-1 text-xs text-slate-700 font-bold">
-            <label for="provider-select" class="flex items-center gap-1 whitespace-nowrap">
+          <div class="flex flex-col gap-1.5">
+            <label for="provider-select" class="flex items-center gap-1.5 text-xs font-bold text-slate-700">
               <i data-lucide="building-2" class="w-3.5 h-3.5 text-slate-500"></i>
               <span>Órgão / Instituição:</span>
             </label>
             <select 
               id="provider-select" 
-              class="w-full sm:w-auto bg-slate-50 border-2 border-slate-300 text-slate-800 rounded-xl px-2.5 py-1.5 text-xs font-semibold focus:border-[#009639] focus:outline-none"
+              class="w-full bg-slate-50 border-2 border-slate-200 text-slate-800 rounded-xl px-3 py-2 text-xs font-semibold focus:border-[#009639] focus:bg-white focus:outline-none transition-colors"
             >
               <!-- Injetado via JS -->
             </select>
           </div>
 
           <!-- Carga Horária -->
-          <div class="flex flex-col sm:flex-row sm:items-center gap-1 text-xs text-slate-700 font-bold">
-            <label for="workload-select" class="flex items-center gap-1 whitespace-nowrap">
+          <div class="flex flex-col gap-1.5">
+            <label for="workload-select" class="flex items-center gap-1.5 text-xs font-bold text-slate-700">
               <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-500"></i>
               <span>Duração:</span>
             </label>
             <select 
               id="workload-select" 
-              class="w-full sm:w-auto bg-slate-50 border-2 border-slate-300 text-slate-800 rounded-xl px-2.5 py-1.5 text-xs font-semibold focus:border-[#009639] focus:outline-none"
+              class="w-full bg-slate-50 border-2 border-slate-200 text-slate-800 rounded-xl px-3 py-2 text-xs font-semibold focus:border-[#009639] focus:bg-white focus:outline-none transition-colors"
             >
               <option value="all">Qualquer duração</option>
               <option value="short">Até 15h (Rápidos)</option>
@@ -667,14 +1583,14 @@
           </div>
 
           <!-- Ordenação -->
-          <div class="flex flex-col sm:flex-row sm:items-center gap-1 text-xs text-slate-700 font-bold">
-            <label for="sort-select" class="flex items-center gap-1 whitespace-nowrap">
+          <div class="flex flex-col gap-1.5 sm:col-span-2 lg:col-span-1">
+            <label for="sort-select" class="flex items-center gap-1.5 text-xs font-bold text-slate-700">
               <i data-lucide="arrow-down-up" class="w-3.5 h-3.5 text-slate-500"></i>
               <span>Ordenar:</span>
             </label>
             <select 
               id="sort-select" 
-              class="w-full sm:w-auto bg-slate-50 border-2 border-slate-300 text-slate-800 rounded-xl px-2.5 py-1.5 text-xs font-semibold focus:border-[#009639] focus:outline-none"
+              class="w-full bg-slate-50 border-2 border-slate-200 text-slate-800 rounded-xl px-3 py-2 text-xs font-semibold focus:border-[#009639] focus:bg-white focus:outline-none transition-colors"
             >
               <option value="recommended">Recomendados</option>
               <option value="rating">Melhor Avaliados</option>
@@ -698,7 +1614,7 @@
       <div 
         id="courses-grid" 
         tabindex="-1"
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 focus:outline-none"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 focus:outline-none items-start"
         role="region"
         aria-label="Catálogo de cursos gratuitos disponíveis"
       >
@@ -706,22 +1622,26 @@
       </div>
 
       <!-- Área de Carregamento Suave / Infinito Conforme a Rolagem -->
-      <div id="infinite-scroll-container" class="mt-8 text-center">
+      <div id="infinite-scroll-container" class="mt-8 text-center" aria-live="polite">
         <!-- Gatilho invisível para carregamento automático conforme rola a página -->
-        <div id="courses-scroll-trigger" class="h-8 w-full"></div>
+        <div id="courses-scroll-trigger" class="h-10 w-full" aria-hidden="true"></div>
 
-        <!-- Indicador de Carregamento e Botão de Contingência -->
-        <div id="load-more-box" class="hidden flex-col items-center justify-center gap-3 py-4">
-          <div id="load-more-spinner" class="hidden items-center gap-2 text-sm text-[#009639] font-bold">
-            <svg class="animate-spin h-5 w-5 text-[#009639]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <!-- Indicador de Carregamento Automático ao Rolar -->
+        <div id="load-more-box" class="hidden flex-col items-center justify-center gap-3 py-6">
+          <div id="load-more-spinner" class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-emerald-50/90 text-[#00702a] border border-emerald-200 text-xs sm:text-sm font-bold shadow-xs animate-pulse">
+            <svg class="animate-spin h-4 w-4 text-[#009639]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
             </svg>
-            <span>Carregando mais cursos oficiais...</span>
+            <span id="load-more-status-text">Carregando mais cursos oficiais conforme você desce a página...</span>
           </div>
+
+          <!-- Botão de Contingência (visível apenas se o scroll automático não for acionado) -->
           <button 
             id="load-more-courses-btn"
-            class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white hover:bg-emerald-50 text-[#002776] border-2 border-slate-300 hover:border-[#009639] font-bold text-sm shadow-sm hover:shadow transition-all"
+            type="button"
+            class="hidden items-center gap-2 px-6 py-2.5 rounded-2xl bg-white hover:bg-emerald-50 text-[#002776] border-2 border-slate-300 hover:border-[#009639] font-bold text-xs sm:text-sm shadow-xs hover:shadow transition-all"
+            aria-label="Carregar próximo lote de cursos gratuitos manualmente"
           >
             <i data-lucide="chevron-down" class="w-4 h-4 text-[#009639]"></i>
             <span id="load-more-btn-text">Carregar Mais Cursos Gratuitos</span>
@@ -729,10 +1649,13 @@
         </div>
 
         <!-- Mensagem de Conclusão de Leitura de Todos os Cursos -->
-        <div id="all-loaded-message" class="hidden py-6 text-center">
-          <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-50 text-[#00702a] border border-emerald-200 text-xs font-bold">
-            <i data-lucide="check-circle" class="w-4 h-4 text-[#009639]"></i>
-            <span>Você visualizou todos os cursos gratuitos desta seleção!</span>
+        <div id="all-loaded-message" class="hidden py-6 text-center animate-fade-in">
+          <div class="inline-flex flex-col sm:flex-row items-center gap-2 px-6 py-3 rounded-2xl bg-emerald-50 text-[#00702a] border border-emerald-200 text-xs sm:text-sm font-bold shadow-xs">
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-[#009639]"></i>
+              <span>Fim do catálogo! Você visualizou todos os cursos gratuitos desta seleção.</span>
+            </div>
+            <a href="#catalog" class="text-[#002776] hover:text-[#009639] underline font-bold sm:ml-2">Voltar ao topo ↑</a>
           </div>
         </div>
       </div>
@@ -1090,7 +2013,7 @@
             <p class="text-xs text-slate-500 font-medium">Outras oportunidades de alto nível disponíveis no catálogo oficial</p>
           </div>
         </div>
-        <div id="result-related-courses-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div id="result-related-courses-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
           <!-- Injetado dinamicamente via JS -->
         </div>
       </div>
@@ -1133,6 +2056,10 @@
 
     </section>
 
+    <!-- ======================================================== -->
+    <!-- MURAL DE VAGAS & OPORTUNIDADES INTEGRADO (FASE 2)       -->
+    
+
     <!-- Chamada para Ação Comunitária (Cores do Brasil) -->
     <section class="mt-14 bg-gradient-to-r from-[#009639] via-[#00702a] to-[#002776] rounded-3xl p-8 sm:p-12 text-white relative overflow-hidden shadow-xl border-4 border-[#ffcc29]">
       <div class="max-w-2xl relative z-10">
@@ -1169,7 +2096,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
       <div>
         <div class="flex items-center justify-center sm:justify-start gap-3 mb-2">
-          <img src="./assets/logo-icon.png" alt="Você Pode Tudo" class="w-10 h-auto object-contain drop-shadow-sm">
+          <img src="/assets/logo-icon.png" alt="Você Pode Tudo" width="40" height="40" loading="lazy" decoding="async" class="w-10 h-auto object-contain drop-shadow-sm">
           <div>
             <span class="text-lg font-black text-[#002776] leading-tight block">Você Pode Tudo</span>
             <span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Conhecimento ao seu alcance</span>
@@ -1183,6 +2110,27 @@
       <div class="flex flex-col sm:items-end gap-2 text-xs text-slate-500 font-medium">
         <div>Atalhos: [Alt+1] Conteúdo • [Alt+2] Busca • [Alt+4] Alto Contraste</div>
         <div class="flex items-center gap-3 text-xs font-bold text-[#009639] flex-wrap sm:flex-nowrap justify-center sm:justify-end">
+          <!-- Footer WhatsApp Link -->
+          <a href="https://chat.whatsapp.com/FN9jb73jdKs1UYq0BbIC3j" target="_blank" rel="noopener noreferrer" class="hover:underline flex items-center gap-1 text-[#25D366] hover:text-[#1ebd5b] font-black" title="Entrar no Grupo Oficial do WhatsApp">
+            <svg class="w-3.5 h-3.5 fill-current text-white flex-shrink-0" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            <span>Grupo VIP WhatsApp</span>
+          </a>
+          <span>•</span>
+          <a href="curriculo" class="hover:underline flex items-center gap-1 text-[#002776] font-black">
+            <i data-lucide="file-text" class="w-3.5 h-3.5 text-[#009639]"></i>
+            <span>Criador de Currículos</span>
+          </a>
+          <span>•</span>
+          <a href="midia-kit" class="hover:underline flex items-center gap-1 text-[#009639] hover:text-[#00702a] font-bold" title="Dossiê Oficial de Audiência & Mídia Kit para Anunciantes">
+            <i data-lucide="award" class="w-3.5 h-3.5 text-[#009639]"></i>
+            <span>Mídia Kit & Publicidade</span>
+          </a>
+          <span>•</span>
+          <button id="footer-takedown-btn" class="hover:underline flex items-center gap-1 text-slate-700 hover:text-rose-600 font-bold cursor-pointer" title="Canal para instituições e empresas solicitarem remoção de curso">
+            <i data-lucide="building-2" class="w-3.5 h-3.5 text-slate-500"></i>
+            <span>Remoção de Curso (Empresas)</span>
+          </button>
+          <span>•</span>
           <button id="footer-admin-btn" class="hover:underline flex items-center gap-1 text-slate-600 hover:text-[#002776]">
             <i data-lucide="lock" class="w-3 h-3 text-slate-400"></i>
             <span>Acesso Administrativo</span>
@@ -1195,7 +2143,7 @@
             <span>Sobre o Projeto</span>
           </button>
           <span>•</span>
-          <button id="footer-lgpd-btn" class="hover:underline flex items-center gap-1 text-[#009639] hover:text-[#00702a]">
+          <a href="/politica-editorial" class="hover:underline flex items-center gap-1 text-slate-600 hover:text-[#002776]"><i data-lucide="book-open-check" class="w-3.5 h-3.5 text-slate-400"></i><span>Diretrizes Editoriais</span></a><span>•</span><button id="footer-lgpd-btn" class="hover:underline flex items-center gap-1 text-[#009639] hover:text-[#00702a]">
             <i data-lucide="shield-check" class="w-3 h-3 text-[#009639]"></i>
             <span>Privacidade & LGPD</span>
           </button>
@@ -1323,7 +2271,7 @@
               class="w-full px-3 py-2.5 rounded-xl text-xs sm:text-sm bg-slate-50 border-2 border-slate-300 text-slate-900 focus:outline-none focus:border-[#009639]"
             >
               <option value="tecnologia">Tecnologia & Informática</option>
-              <option value="profissionalizacao">Profissionalização & Emprego</option>
+              <option value="profissionalização">Profissionalização & Emprego</option>
               <option value="gestao">Gestão & Administração</option>
               <option value="empreendedorismo">Empreendedorismo</option>
               <option value="financas">Finanças & Investimentos</option>
@@ -1991,6 +2939,123 @@
           </div>
         </div>
 
+
+        <!-- GRÁFICO DE TRÁFEGO & AUDIÊNCIA EM TEMPO REAL (MODAL HOME) -->
+        <div class="bg-white rounded-3xl border-2 border-slate-200 shadow-sm p-4 sm:p-6 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                <span class="text-[10px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                  Tempo Real
+                </span>
+                <span class="text-[10px] font-mono text-slate-400">Stream Contínuo</span>
+              </div>
+              <h4 class="text-sm sm:text-base font-black text-slate-900 mt-1 flex items-center gap-2">
+                <i data-lucide="trending-up" class="w-4 h-4 text-[#002776]"></i>
+                <span>Curva de Tráfego & Audiência em Tempo Real</span>
+              </h4>
+            </div>
+
+            <!-- Controles de Período e Tipo de Gráfico -->
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="inline-flex p-1 bg-slate-100 rounded-xl border border-slate-200 text-xs font-bold">
+                <button 
+                  type="button" 
+                  id="home-chart-period-24h"
+                  onclick="window.switchHomeTrafficPeriod('24h')" 
+                  class="px-2.5 py-1 rounded-lg bg-[#002776] text-white shadow-xs transition-all cursor-pointer font-black text-[11px]"
+                >
+                  Hoje (24h)
+                </button>
+                <button 
+                  type="button" 
+                  id="home-chart-period-7d"
+                  onclick="window.switchHomeTrafficPeriod('7d')" 
+                  class="px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-bold text-[11px]"
+                >
+                  7 Dias
+                </button>
+                <button 
+                  type="button" 
+                  id="home-chart-period-30d"
+                  onclick="window.switchHomeTrafficPeriod('30d')" 
+                  class="px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-bold text-[11px]"
+                >
+                  30 Dias
+                </button>
+              </div>
+
+              <div class="inline-flex p-1 bg-slate-100 rounded-xl border border-slate-200 text-xs">
+                <button 
+                  type="button" 
+                  id="home-chart-type-line"
+                  onclick="window.switchHomeTrafficType('line')" 
+                  class="p-1 rounded-lg bg-white text-[#002776] shadow-xs transition-all cursor-pointer"
+                  title="Gráfico em Linha / Área Suave"
+                >
+                  <i data-lucide="activity" class="w-3.5 h-3.5"></i>
+                </button>
+                <button 
+                  type="button" 
+                  id="home-chart-type-bar"
+                  onclick="window.switchHomeTrafficType('bar')" 
+                  class="p-1 rounded-lg text-slate-500 hover:text-slate-800 transition-all cursor-pointer"
+                  title="Gráfico em Colunas Comparativas"
+                >
+                  <i data-lucide="bar-chart-2" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 Métricas Rápidas -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <span class="text-[9px] uppercase font-bold text-slate-400 block">Pico Estimado</span>
+              <strong id="home-chart-stat-peak" class="text-sm font-black text-[#002776] block mt-0.5">-- acessos/h</strong>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <span class="text-[9px] uppercase font-bold text-slate-400 block">CTR Médio</span>
+              <strong id="home-chart-stat-ctr" class="text-sm font-black text-[#009639] block mt-0.5">3,4%</strong>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <span class="text-[9px] uppercase font-bold text-slate-400 block">Horário de Pico</span>
+              <strong class="text-sm font-black text-amber-700 block mt-0.5">19h às 22h</strong>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <span class="text-[9px] uppercase font-bold text-slate-400 block">Dispositivos</span>
+              <strong class="text-sm font-black text-purple-700 block mt-0.5">78% Mobile</strong>
+            </div>
+          </div>
+
+          <!-- Canvas do Gráfico -->
+          <div class="relative w-full h-64 bg-slate-50/50 p-2 rounded-xl border border-slate-100">
+            <canvas id="home-analytics-traffic-chart"></canvas>
+          </div>
+
+          <!-- Legenda -->
+          <div class="flex flex-wrap items-center justify-between text-[11px] text-slate-500 font-medium gap-2 pt-1">
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-sm bg-[#002776] inline-block"></span>
+                <span class="text-slate-800 font-bold">Pageviews</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-sm bg-[#009639] inline-block"></span>
+                <span class="text-slate-800 font-bold">Cliques / Leads</span>
+              </div>
+            </div>
+            <div class="text-[10px] text-slate-400 font-mono">
+              Sensibilidade: 100% em tempo real
+            </div>
+          </div>
+        </div>
+
+
         <!-- 2. Abas de Detalhamento: [Geolocalização Brasil & Mundo] e [Top Cursos Mais Acessados] -->
         <div>
           <!-- Seletor de Abas -->
@@ -2187,10 +3252,10 @@
               <!-- Timbre do Veículo -->
               <div class="flex items-center justify-between border-b-2 border-slate-100 pb-4 flex-wrap gap-3">
                 <div class="flex items-center gap-3">
-                  <img src="./assets/logo.png" alt="Você Pode Tudo" class="h-10 w-auto">
+                  <img src="/assets/logo.png" alt="Você Pode Tudo" width="120" height="40" loading="lazy" decoding="async" class="h-10 w-auto">
                   <div>
                     <h5 class="font-black text-sm text-slate-900 uppercase tracking-wider">Portal Você Pode Tudo (VCPDTD)</h5>
-                    <span class="text-[11px] text-slate-500 font-semibold">www.vocepodetudo.com • Dados Oficiais do Servidor</span>
+                    <span class="text-[11px] text-slate-500 font-semibold">vocepodetudo.com • Dados Oficiais do Servidor</span>
                   </div>
                 </div>
                 <div class="text-right">
@@ -2334,17 +3399,18 @@
 
       <form id="report-broken-form" class="space-y-4">
         <div>
-          <label class="block text-xs font-black text-slate-800 mb-1">Nome do Curso ou URL com erro *</label>
+          <label for="report-broken-course-input" class="block text-xs font-black text-slate-800 mb-1">Nome do Curso ou URL com erro *</label>
           <input 
             type="text" 
             required 
-            placeholder="Ex: Nome do curso ou link" 
+            id="report-broken-course-input" placeholder="Ex: Nome do curso ou link" 
             class="w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm bg-slate-50 border-2 border-slate-300 text-slate-900 focus:outline-none focus:border-rose-500"
           >
         </div>
         <div>
-          <label class="block text-xs font-black text-slate-800 mb-1">Qual o motivo?</label>
+          <label for="report-broken-reason-select" class="block text-xs font-black text-slate-800 mb-1">Qual o motivo?</label>
           <select 
+            id="report-broken-reason-select"
             class="w-full px-3 py-2.5 rounded-xl text-xs sm:text-sm bg-slate-50 border-2 border-slate-300 text-slate-900 focus:outline-none focus:border-rose-500"
           >
             <option>Página com erro 404 / Fora do ar</option>
@@ -2556,7 +3622,7 @@
       <!-- Cabeçalho do Popup -->
       <div class="flex items-start justify-between gap-2.5 mb-3">
         <div class="flex items-center gap-2.5">
-          <img src="./assets/logo-icon.png" alt="Logo Você Pode Tudo" class="w-9 h-auto object-contain flex-shrink-0 drop-shadow-sm">
+          <img src="/assets/logo-icon.png" alt="Logo Você Pode Tudo" width="36" height="36" loading="lazy" decoding="async" class="w-9 h-auto object-contain flex-shrink-0 drop-shadow-sm">
           <div>
             <span class="inline-flex items-center gap-1 text-[10px] font-black uppercase px-2 py-0.5 rounded bg-emerald-100 text-[#00702a] border border-emerald-300">
               <i data-lucide="heart-handshake" class="w-3 h-3"></i>
@@ -2765,7 +3831,7 @@
   </div>
 
   <!-- Container de Mensagens Toast -->
-  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm pointer-events-none" aria-live="polite"></div>
+  <div id="toast-container" class="fixed bottom-22 right-5 z-50 flex flex-col gap-2 max-w-sm pointer-events-none" aria-live="polite"></div>
 
   <!-- Integração Oficial com o VLibras (Língua Brasileira de Sinais - Acessibilidade do Governo Federal) -->
   <div vw class="enabled">
@@ -2959,9 +4025,194 @@
     </div>
   </div>
 
-  <!-- Carregamento dos Scripts da Aplicação (com Cache-Busting v=4.4.0) -->
-  <script src="./src/data/courses.js?v=4.4.0"></script>
-  <script src="./src/data/career_quiz.js?v=4.4.0"></script>
-  <script src="./src/app.js?v=4.4.0"></script>
+
+  <!-- Modal: Solicitação Institucional de Remoção ou Atualização de Curso (Empresas e Titulares) -->
+  <div id="takedown-modal" class="hidden fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modal-takedown-title">
+    <div class="bg-white border-2 border-slate-200 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative animate-fade-in max-h-[92vh] overflow-y-auto">
+      
+      <!-- Cabeçalho do Modal -->
+      <div class="flex items-start justify-between gap-3 mb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center flex-shrink-0 shadow-xs">
+            <i data-lucide="building-2" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 id="modal-takedown-title" class="text-base sm:text-lg font-black text-slate-900 leading-tight">
+              Canal para Empresas e Titulares
+            </h3>
+            <span class="text-[11px] font-bold text-slate-500 block mt-0.5">
+              Solicitação Institucional de Remoção ou Atualização de Curso
+            </span>
+          </div>
+        </div>
+        <button id="close-takedown-modal-btn" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer" aria-label="Fechar janela">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Explicação e Compromisso de Curadoria -->
+      <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-600 mb-5 leading-relaxed">
+        <p class="mb-1.5">
+          O <strong>Você Pode Tudo</strong> é uma plataforma agregadora educacional gratuita. Nosso propósito é divulgar e direcionar estudantes para os portais oficiais dos cursos ofertados por instituições parceiras.
+        </p>
+        <p class="text-[11px] text-slate-500">
+          Se você representa uma instituição ou autor e deseja remover seu curso, corrigir um link oficial ou atualizar informações cadastrais, utilize este canal. Atendemos com prioridade máxima em até <strong>24 horas úteis</strong>.
+        </p>
+      </div>
+
+      <!-- Formulário de Solicitação -->
+      <form id="takedown-form" class="space-y-3.5">
+        <div>
+          <label for="takedown-name" class="block text-xs font-bold text-slate-700 mb-1">
+            Seu Nome Completo *
+          </label>
+          <input 
+            type="text" 
+            id="takedown-name" 
+            required 
+            placeholder="Ex: Maria Silva" 
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#002776] text-xs font-medium bg-slate-50/50"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="takedown-company" class="block text-xs font-bold text-slate-700 mb-1">
+              Empresa / Instituição *
+            </label>
+            <input 
+              type="text" 
+              id="takedown-company" 
+              required 
+              placeholder="Ex: Fundação Bradesco" 
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#002776] text-xs font-medium bg-slate-50/50"
+            />
+          </div>
+          <div>
+            <label for="takedown-email" class="block text-xs font-bold text-slate-700 mb-1">
+              E-mail Corporativo *
+            </label>
+            <input 
+              type="email" 
+              id="takedown-email" 
+              required 
+              placeholder="contato@instituição.org" 
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#002776] text-xs font-medium bg-slate-50/50"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="takedown-course" class="block text-xs font-bold text-slate-700 mb-1">
+            Nome ou Link do Curso no Catálogo *
+          </label>
+          <input 
+            type="text" 
+            id="takedown-course" 
+            required 
+            placeholder="Ex: Introdução ao Python ou link na plataforma" 
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#002776] text-xs font-medium bg-slate-50/50"
+          />
+        </div>
+
+        <div>
+          <label for="takedown-reason" class="block text-xs font-bold text-slate-700 mb-1">
+            Tipo de Solicitação *
+          </label>
+          <select 
+            id="takedown-reason" 
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#002776] text-xs font-medium bg-slate-50/50"
+          >
+            <option value="Remoção imediata do curso do catálogo">Remover o curso do catálogo</option>
+            <option value="O curso não é mais gratuito ou encerrou inscrições">Curso não é mais gratuito / inscrições encerradas</option>
+            <option value="Atualização do link oficial de inscrição">Atualizar link oficial de inscrição</option>
+            <option value="Atualização do nome ou dados da instituição titular">Atualizar dados cadastrais da instituição</option>
+            <option value="Outro motivo institucional">Outro motivo</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="takedown-notes" class="block text-xs font-bold text-slate-700 mb-1">
+            Observações Adicionais (opcional)
+          </label>
+          <textarea 
+            id="takedown-notes" 
+            rows="3" 
+            placeholder="Escreva detalhes ou observações que auxiliem na identificação rápida do curso."
+            class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#002776] text-xs font-medium bg-slate-50/50 resize-none"
+          ></textarea>
+        </div>
+
+        <!-- Mensagem de Status / Feedback -->
+        <div id="takedown-status-msg" class="hidden"></div>
+
+        <!-- Ações -->
+        <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-100">
+          <button 
+            type="button" 
+            id="cancel-takedown-btn" 
+            class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 font-bold text-xs cursor-pointer transition-colors"
+          >
+            Cancelar
+          </button>
+          <button 
+            type="submit" 
+            id="submit-takedown-btn" 
+            class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs shadow-xs hover:shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
+          >
+            <i data-lucide="send" class="w-3.5 h-3.5"></i>
+            <span>Enviar Notificação Formal</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Rodapé com E-mail Direto -->
+      <div class="mt-4 pt-3 border-t border-slate-100 text-center text-[11px] text-slate-500">
+        <span>E-mail direto da curadoria: </span>
+        <a href="mailto:contato@vocepodetudo.com?subject=[REMOÇÃO%20DE%20CURSO]" class="font-bold text-[#002776] hover:underline">contato@vocepodetudo.com</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Banner Flutuante de Instalação do Aplicativo (PWA Mobile & Desktop) -->
+  <aside 
+    id="pwa-install-banner" 
+    class="hidden fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:w-96 z-50 bg-white/98 backdrop-blur-md border-2 border-[#009639] rounded-2xl p-4 shadow-2xl animate-fade-in-up" 
+    role="dialog" 
+    aria-label="Instalar Aplicativo Você Pode Tudo"
+  >
+    <div class="flex items-start gap-3">
+      <img src="/assets/icon-192.png" alt="Ícone do Aplicativo Você Pode Tudo" class="w-12 h-12 rounded-xl border border-emerald-200 shadow-2xs flex-shrink-0" width="48" height="48">
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center justify-between gap-1 mb-1">
+          <h4 class="text-sm font-black text-[#002776] leading-tight">Instalar Aplicativo</h4>
+          <button id="pwa-banner-close" type="button" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg" aria-label="Fechar aviso de instalação">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <p class="text-xs text-slate-600 mb-3">Acesse 174 cursos gratuitos e gere currículos profissionais direto da sua tela inicial, sem abrir o navegador!</p>
+        <div class="flex items-center gap-2">
+          <button id="pwa-banner-install-btn" type="button" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-[#009639] hover:from-emerald-700 hover:to-emerald-800 text-white font-bold text-xs shadow-xs transition-colors">
+            <i data-lucide="download" class="w-3.5 h-3.5 text-[#ffdf00]"></i>
+            <span>Instalar Grátis</span>
+          </button>
+          <button id="pwa-banner-dismiss-btn" type="button" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition-colors">
+            Agora não
+          </button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  
+  
+
+
+  <!-- Carregamento dos Scripts da Aplicação (com Cache-Busting v=4.81.0) -->
+  <script src="./src/data/courses.js?v=4.83.0"></script>
+  <script src="./src/data/course_details.js?v=4.83.0"></script>
+  <script src="./src/data/career_quiz.js?v=4.83.0"></script>
+  <script src="./src/app.js?v=4.84.0"></script>
 </body>
 </html>

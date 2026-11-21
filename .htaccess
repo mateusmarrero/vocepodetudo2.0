@@ -1,19 +1,69 @@
+ErrorDocument 404 /404.html
+
 # ==============================================================================
 # Portal Você Pode Tudo (VCPDTD) — Configuração Apache / StackCP
 # ==============================================================================
 
-# 1. Forçar HTTPS (Redirecionamento 301 de HTTP para HTTPS)
+# 1. Forçar HTTPS e Repasse Seguro de Autenticação (Authorization Header)
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # Repassar Authorization Header de forma segura para o PHP (FastCGI / FPM / StackCP)
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+  
+  # Redirecionamento 301 de www para sem www (Consolidação Canônica de SEO)
+  RewriteCond %{HTTP_HOST} ^www\.vocepodetudo\.com$ [NC]
+  RewriteRule ^(.*)$ https://vocepodetudo.com/$1 [L,R=301]
+
+  # Forçar HTTPS
   RewriteCond %{HTTPS} off
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Redirecionar /index.html para a raiz / (Evitar conteúdo duplicado)
+  RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/ [NC]
+  RewriteRule ^index\.html$ https://vocepodetudo.com/ [R=301,L]
+
+  # Redirecionamento 301 de URLs com .html para a URL amigável sem extensão
+  # Ignora 404.html e arquivos reais que não sejam páginas HTML públicas
+  RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^.]+)\.html(\?[^\ ]*)?\ HTTP/ [NC]
+  RewriteCond %{REQUEST_URI} !^/404\.html$ [NC]
+  RewriteRule ^([^.]+)\.html$ https://vocepodetudo.com/$1 [R=301,L]
+
+  # Redirecionamentos de Legado para URLs Canônicas Amigáveis
+  RewriteRule ^materiais-gratuitos/?$ /downloads [R=301,L]
+  RewriteRule ^download/?$ /downloads [R=301,L]
+  RewriteRule ^criar-curriculo/?$ /curriculo [R=301,L]
+  RewriteRule ^media-kit/?$ /midia-kit [R=301,L]
+  RewriteRule ^anuncie/?$ /midia-kit [R=301,L]
+  RewriteRule ^publicidade/?$ /midia-kit [R=301,L]
+
+  # Roteamento Dinâmico para Sitemap e Feed RSS (Proteção contra vazamento de agendamentos)
+  RewriteRule ^sitemap\.xml$ sitemap.php [L]
+  RewriteRule ^rss\.xml$ api/rss.php [L]
+
+  # Rotas Amigáveis para os Artigos do Blog (com redirecionamento canônico de parâmetros legados)
+  RewriteCond %{QUERY_STRING} (?:^|&)artigo=([a-zA-Z0-9_-]+)(?:&|$)
+  RewriteRule ^blog(?:\.html)?$ /artigo/%1? [R=301,L]
+
+  RewriteRule ^artigo/([a-zA-Z0-9_-]+)/?$ artigo.php?slug=$1 [L,QSA]
+  RewriteRule ^blog/([a-zA-Z0-9_-]+)/?$ artigo.php?slug=$1 [L,QSA]
+
+  # Rotas Amigáveis para o Painel Administrativo
+  RewriteRule ^painel-gestao/?$ admin.html [L,QSA]
+  RewriteRule ^gestao-interna/?$ admin.html [L,QSA]
+
+  # Servir internamente arquivos .html quando requisitados sem extensão
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^([^/]+)/?$ $1.html [L,QSA]
 </IfModule>
 
 # 2. Cabeçalhos Globais de Segurança (Security Headers)
 <IfModule mod_headers.c>
-  # Forçar conexão segura estrita (HSTS)
-  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  # Forçar conexão segura estrita (HSTS - Padrão Preload 2 anos / RFC 6797)
+  Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
   
   # Bloquear detecção incorreta de tipo MIME (Anti-Sniffing)
   Header always set X-Content-Type-Options "nosniff"
@@ -24,20 +74,38 @@
   # Política de Referência Segura
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   
-  # Restrição de APIs sensíveis do navegador
-  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  # Restrição de APIs sensíveis do navegador (Permissions-Policy Expandida)
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(self), payment=(), usb=(), display-capture=()"
+
+  # Política de Segurança de Conteúdo (Content-Security-Policy - Proteção contra XSS e Injeções)
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://cdn.tailwindcss.com https://unpkg.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://vlibras.gov.br; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://vlibras.gov.br; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://api.open-meteo.com https://geocoding-api.open-meteo.com https://nominatim.openstreetmap.org https://api.bigdatacloud.net https://get.geojs.io https://ipwho.is https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net https://vlibras.gov.br; frame-src 'self' https://googleads.g.doubleclick.net https://*.googlesyndication.com https://*.google.com https://vlibras.gov.br; object-src 'none'; base-uri 'self';"
+
+  # Isolamento de Contexto (Cross-Origin-Opener-Policy)
+  Header always set Cross-Origin-Opener-Policy "same-origin-allow-popups"
 </IfModule>
 
-# 3. Bloqueio a Arquivos Sensíveis e Backups
-<FilesMatch "\.(env|sql|zip|7z|tar|gz|log)$">
+# 3. Bloqueio a Arquivos Sensíveis, Backups e Scripts Desativados
+<FilesMatch "\.(env|sql|zip|7z|tar|gz|log|keystore|jks)$">
+  Require all denied
+</FilesMatch>
+
+<FilesMatch "^(signing-key-info|CHANGELOG_COMPLETO_VOCEPODETUDO)\.txt$">
+  Require all denied
+</FilesMatch>
+
+<FilesMatch "^(reset_admin|setup|test_db)\.php$">
   Require all denied
 </FilesMatch>
 
 # 4. Proteger arquivos de dados e backups
 <IfModule mod_rewrite.c>
   RewriteRule ^backups/ - [F,L]
+  RewriteRule ^curadoria_pendente/ - [F,L]
+  RewriteRule ^api/.*\.json$ - [F,L]
   RewriteRule ^api/cache_ - [F,L]
   RewriteRule ^api/seed_ - [F,L]
+  
+  # (Rotas migradas para a seção principal de mod_rewrite)
 </IfModule>
 
 # 5. Otimização de Cache e Desempenho para Recursos Estáticos
@@ -53,3 +121,37 @@
   ExpiresByType image/svg+xml "access plus 1 month"
   ExpiresByType image/x-icon "access plus 1 year"
 </IfModule>
+
+# Desativar cache para Service Worker e Painel Administrativo (RFC PWA / Tempo Real)
+<Files "sw.js">
+  <IfModule mod_headers.c>
+    Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </IfModule>
+</Files>
+
+<Files "admin.html">
+  <IfModule mod_headers.c>
+    Header set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet"
+    Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </IfModule>
+</Files>
+
+# 6. Compressão GZIP / Deflate para Máxima Velocidade e Economia de Banda
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html
+  AddOutputFilterByType DEFLATE text/plain
+  AddOutputFilterByType DEFLATE text/xml
+  AddOutputFilterByType DEFLATE text/css
+  AddOutputFilterByType DEFLATE text/javascript
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE application/x-javascript
+  AddOutputFilterByType DEFLATE application/json
+  AddOutputFilterByType DEFLATE application/xml
+  AddOutputFilterByType DEFLATE application/rss+xml
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+

@@ -39,23 +39,46 @@ switch ($action) {
 
         if ($pdo) {
             try {
-                $whereClause = $isAdminRequest ? "1=1" : "is_active = 1";
-                $stmt = $pdo->query("
-                    SELECT 
-                        id, title, provider, provider_tag AS providerTag, provider_color AS providerColor,
-                        category, description, url, workload_hours AS workloadHours,
-                        has_free_certificate AS hasFreeCertificate, certificate_note AS certificateNote,
-                        level, tags, featured, rating, reviews_count AS reviewsCount,
-                        is_active AS isActive, created_at AS createdAt
-                    FROM courses 
-                    WHERE {$whereClause}
-                    ORDER BY featured DESC, rating DESC, id DESC
-                ");
+                // Carregar cache local para enriquecer com imagens fotográficas por assunto
+                $fileCoursesForImages = loadCourseFileData($cacheFile);
+                $imageMap = [];
+                foreach ($fileCoursesForImages as $fc) {
+                    if (!empty($fc['id']) && !empty($fc['imageUrl'])) {
+                        $imageMap[$fc['id']] = $fc['imageUrl'];
+                    }
+                }
+
+                if ($isAdminRequest) {
+                    $stmt = $pdo->query("
+                        SELECT 
+                            id, title, provider, provider_tag AS providerTag, provider_color AS providerColor,
+                            category, description, url, workload_hours AS workloadHours,
+                            has_free_certificate AS hasFreeCertificate, certificate_note AS certificateNote,
+                            level, tags, featured, rating, reviews_count AS reviewsCount,
+                            is_active AS isActive, created_at AS createdAt
+                        FROM courses 
+                        ORDER BY featured DESC, rating DESC, id DESC
+                    ");
+                } else {
+                    $stmt = $pdo->prepare("
+                        SELECT 
+                            id, title, provider, provider_tag AS providerTag, provider_color AS providerColor,
+                            category, description, url, workload_hours AS workloadHours,
+                            has_free_certificate AS hasFreeCertificate, certificate_note AS certificateNote,
+                            level, tags, featured, rating, reviews_count AS reviewsCount,
+                            is_active AS isActive, created_at AS createdAt
+                        FROM courses 
+                        WHERE is_active = 1
+                        ORDER BY featured DESC, rating DESC, id DESC
+                    ");
+                    $stmt->execute();
+                }
 
                 $rows = $stmt->fetchAll();
-                $courses = array_map(function($c) {
+                $courses = array_map(function($c) use ($imageMap) {
+                    $cid = $c['id'];
                     return [
-                        'id' => $c['id'],
+                        'id' => $cid,
                         'title' => $c['title'],
                         'provider' => $c['provider'],
                         'providerTag' => $c['providerTag'] ?: substr($c['provider'], 0, 15),
@@ -72,7 +95,8 @@ switch ($action) {
                         'featured' => (bool) $c['featured'],
                         'rating' => (float) ($c['rating'] ?: 5.0),
                         'reviewsCount' => (int) ($c['reviewsCount'] ?: 100),
-                        'isActive' => (bool) ($c['isActive'] ?? true)
+                        'isActive' => (bool) ($c['isActive'] ?? true),
+                        'imageUrl' => $imageMap[$cid] ?? null
                     ];
                 }, $rows);
             } catch (Exception $e) {
@@ -80,23 +104,60 @@ switch ($action) {
             }
         }
 
-        // Se o banco retornar vazio ou tiver menos cursos que a base oficial, complementa com o catálogo completo
-        if (empty($courses) || count($courses) < 50) {
-            $fileCourses = loadCourseFileData($cacheFile);
-            if (empty($fileCourses) || count($fileCourses) < 50) {
-                $seedFile = __DIR__ . '/seed_courses.json';
-                $fileCourses = loadCourseFileData($seedFile);
-                if (!empty($fileCourses)) {
-                    saveCourseFileData($cacheFile, $fileCourses);
+        // Sincronizar e complementar com a base oficial de cursos se houver cursos novos
+        $fileCourses = loadCourseFileData($cacheFile);
+        if (empty($fileCourses)) {
+            $seedFile = __DIR__ . '/seed_courses.json';
+            $fileCourses = loadCourseFileData($seedFile);
+            if (!empty($fileCourses)) {
+                saveCourseFileData($cacheFile, $fileCourses);
+            }
+        }
+
+        if (!empty($fileCourses)) {
+            $existingIds = !empty($courses) ? array_flip(array_column($courses, 'id')) : [];
+            $missingCourses = [];
+            foreach ($fileCourses as $fc) {
+                if (!isset($existingIds[$fc['id']])) {
+                    $courses[] = $fc;
+                    $missingCourses[] = $fc;
                 }
             }
 
-            if (!empty($fileCourses)) {
-                $existingIds = !empty($courses) ? array_flip(array_column($courses, 'id')) : [];
-                foreach ($fileCourses as $fc) {
-                    if (!isset($existingIds[$fc['id']])) {
-                        $courses[] = $fc;
+            // Se o MySQL estiver ativo e houver cursos novos no catálogo, auto-persiste no MySQL
+            if ($pdo && !empty($missingCourses)) {
+                try {
+                    $insStmt = $pdo->prepare("
+                        INSERT IGNORE INTO courses (
+                            id, title, provider, provider_tag, provider_color, category, 
+                            description, url, workload_hours, has_free_certificate, 
+                            certificate_note, level, tags, featured, rating, reviews_count, is_active
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ");
+                    foreach ($missingCourses as $mc) {
+                        $tagsVal = is_array($mc['tags'] ?? null) ? json_encode($mc['tags'], JSON_UNESCAPED_UNICODE) : ($mc['tags'] ?? '[]');
+                        $insStmt->execute([
+                            $mc['id'],
+                            $mc['title'],
+                            $mc['provider'] ?? 'Instituição Parceira',
+                            $mc['providerTag'] ?? $mc['provider'] ?? 'Curso',
+                            $mc['providerColor'] ?? 'bg-slate-100 text-slate-800 border-slate-300 font-bold',
+                            $mc['category'] ?? 'geral',
+                            $mc['description'] ?? '',
+                            $mc['url'] ?? 'https://vocepodetudo.com/',
+                            (int)($mc['workloadHours'] ?? 20),
+                            !empty($mc['hasFreeCertificate']) ? 1 : 0,
+                            $mc['certificateNote'] ?? 'Certificado Gratuito',
+                            $mc['level'] ?? 'Iniciante',
+                            $tagsVal,
+                            !empty($mc['featured']) ? 1 : 0,
+                            (float)($mc['rating'] ?? 4.9),
+                            (int)($mc['reviewsCount'] ?? 100),
+                            1
+                        ]);
                     }
+                } catch (Throwable $e) {
+                    error_log('Erro ao auto-sincronizar cursos no MySQL: ' . $e->getMessage());
                 }
             }
         }
@@ -107,10 +168,87 @@ switch ($action) {
             }));
         }
 
+        // Suporte opcional a paginação via parâmetros ?page=1&limit=12
+        $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : null;
+        $limit = isset($_GET['limit']) ? max(1, min(100, (int)$_GET['limit'])) : null;
+        $totalCourses = count($courses);
+
+        if ($page !== null && $limit !== null) {
+            $offset = ($page - 1) * $limit;
+            $pagedCourses = array_slice($courses, $offset, $limit);
+            $hasMore = ($offset + $limit) < $totalCourses;
+            jsonResponse([
+                'success' => true,
+                'count' => count($pagedCourses),
+                'total' => $totalCourses,
+                'page' => $page,
+                'limit' => $limit,
+                'hasMore' => $hasMore,
+                'courses' => $pagedCourses
+            ]);
+            break;
+        }
+
         jsonResponse([
             'success' => true,
-            'count' => count($courses),
+            'count' => $totalCourses,
             'courses' => $courses
+        ]);
+        break;
+
+    case 'institutions':
+        // Relação agregada de instituições com cursos gratuitos já adicionados
+        $fileCourses = loadCourseFileData($cacheFile);
+        if (empty($fileCourses) || count($fileCourses) < 50) {
+            $seedFile = __DIR__ . '/seed_courses.json';
+            $fileCourses = loadCourseFileData($seedFile);
+        }
+
+        $institutions = [];
+        $totalActive = 0;
+        $totalCert = 0;
+        $totalHours = 0;
+
+        foreach ($fileCourses as $c) {
+            if (isset($c['isActive']) && $c['isActive'] === false) continue;
+            $prov = trim($c['provider'] ?? 'Não informado');
+            if (!isset($institutions[$prov])) {
+                $institutions[$prov] = [
+                    'name' => $prov,
+                    'providerTag' => $c['providerTag'] ?? substr($prov, 0, 15),
+                    'totalCourses' => 0,
+                    'freeCertificates' => 0,
+                    'totalHours' => 0,
+                    'categories' => []
+                ];
+            }
+            $institutions[$prov]['totalCourses']++;
+            $totalActive++;
+            if (!empty($c['hasFreeCertificate'])) {
+                $institutions[$prov]['freeCertificates']++;
+                $totalCert++;
+            }
+            $hrs = (int) ($c['workloadHours'] ?? 0);
+            $institutions[$prov]['totalHours'] += $hrs;
+            $totalHours += $hrs;
+
+            $cat = $c['categoryName'] ?? ($c['category'] ?? '');
+            if ($cat && !in_array($cat, $institutions[$prov]['categories'])) {
+                $institutions[$prov]['categories'][] = $cat;
+            }
+        }
+
+        usort($institutions, function($a, $b) {
+            return $b['totalCourses'] <=> $a['totalCourses'];
+        });
+
+        jsonResponse([
+            'success' => true,
+            'totalInstitutions' => count($institutions),
+            'totalCourses' => $totalActive,
+            'totalFreeCertificates' => $totalCert,
+            'totalHours' => $totalHours,
+            'institutions' => array_values($institutions)
         ]);
         break;
 
@@ -320,6 +458,63 @@ switch ($action) {
         jsonResponse([
             'success' => true,
             'message' => 'Curso desativado do catálogo com sucesso.'
+        ]);
+        break;
+
+    case 'check_url':
+        requireAdminRead();
+
+        $targetUrl = trim($inputData['url'] ?? '');
+        if (empty($targetUrl) || !filter_var($targetUrl, FILTER_VALIDATE_URL)) {
+            jsonResponse(['error' => true, 'message' => 'URL inválida ou não fornecida.'], 400);
+        }
+
+        $resolvedIp = null;
+        if (!isSafePublicUrl($targetUrl, $resolvedIp)) {
+            jsonResponse([
+                'error' => true,
+                'message' => 'Acesso bloqueado: A URL fornecida aponta para um endereço privado, reservado ou não seguro (Anti-SSRF).'
+            ], 403);
+        }
+
+        $ch = curl_init($targetUrl);
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 6);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 4);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false); // Anti-SSRF: validação de cada salto sem aceitar loopback
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 (VocePodeTudo-Auditor/5.0)');
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        if (defined('CURLPROTO_HTTP') && defined('CURLPROTO_HTTPS')) {
+            curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
+            curl_setopt($ch, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
+        }
+        curl_exec($ch);
+        $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $redirectUrl = (string) curl_getinfo($ch, CURLINFO_REDIRECT_URL);
+        $curlError = curl_error($ch);
+        curl_close($ch);
+
+        $status = 'ok';
+        if ($httpCode === 0 || $httpCode >= 400) {
+            $status = 'broken';
+        } elseif ($httpCode >= 300 && $httpCode < 400) {
+            $status = 'redirect';
+            if (!empty($redirectUrl) && !isSafePublicUrl($redirectUrl)) {
+                $status = 'broken';
+                $curlError = 'Redirecionamento bloqueado por segurança para destino não público (Anti-SSRF).';
+            }
+        }
+
+        jsonResponse([
+            'success' => true,
+            'url' => $targetUrl,
+            'httpCode' => $httpCode,
+            'status' => $status,
+            'resolvedIp' => $resolvedIp,
+            'redirectUrl' => $redirectUrl ?: null,
+            'error' => $curlError ?: null
         ]);
         break;
 

@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO & Metadados -->
+  <title>Simulador de Entrevistas de Emprego com Treino Real — Você Pode Tudo</title>
+  <meta name="description" content="Treine para entrevistas de emprego gratuitamente. Responda perguntas reais de recrutadores para Jovem Aprendiz, Administrativo, Atendimento, TI e Logística, com feedback imediato pelo Método STAR.">
+  <meta name="keywords" content="simulador de entrevista, treino de entrevista de emprego, perguntas de entrevista jovem aprendiz, metodo star, recrutamento e seleção, vocepodetudo">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://vocepodetudo.com/simulador-entrevista">
+
+  <!-- Open Graph / Redes Sociais -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vocepodetudo.com/simulador-entrevista">
+  <meta property="og:title" content="Simulador de Entrevistas de Emprego — Treino Real & Gratuito">
+  <meta property="og:description" content="Treine suas respostas para entrevistas reais de emprego. Feedback imediato com dicas de recrutadores e cursos gratuitos recomendados.">
+  <meta property="og:image" content="https://vocepodetudo.com/assets/logo-icon.png">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Simulador de Entrevistas — Você Pode Tudo">
+  <meta name="twitter:description" content="Treine para entrevistas reais de emprego com perguntas de RH e feedback imediato. 100% gratuito.">
+  <meta name="twitter:image" content="https://vocepodetudo.com/assets/logo-icon.png">
+
+  <!-- Favicon & PWA -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icon-512.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="/assets/icon-512.png">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#002776">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              green: '#009B3A',
+              yellow: '#FFDF00',
+              blue: '#002776'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Lucide Icons -->
+  <script defer src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+
+  <!-- html2pdf.js para Exportação Oficial em PDF Timbrado A4 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+
+  <!-- Estilos Globais -->
+  <link rel="stylesheet" href="./src/style.css?v=4.83.0">
+
+  <!-- Dados Estruturados Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Simulador de Entrevistas de Emprego",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "BRL"
+    },
+    "description": "Ferramenta gratuita para treino de respostas em entrevistas de emprego com avaliação baseada no Método STAR e perguntas reais de RH."
+  }
+  </script>
+
+  <!-- Google AdSense Oficial -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9421145457118515"
+     crossorigin="anonymous"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased min-h-screen flex flex-col font-sans transition-colors duration-200">
+
+  <!-- Barra de Utilidades do Topo -->
+  <aside class="bg-gradient-to-r from-[#005e24] via-[#008031] to-[#005e24] text-white border-b-2 border-[#ffcc29] text-xs py-1.5 px-3 select-none relative z-30">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2 flex-wrap">
+      <div class="flex items-center gap-2">
+        <a href="/" class="inline-flex items-center gap-1 text-white hover:text-[#ffdf00] font-black transition-colors" title="Voltar ao portal principal de cursos">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Voltar aos Cursos Gratuitos</span>
+        </a>
+        <span class="text-white/40">|</span>
+        <span class="text-emerald-100 hidden sm:inline">100% Gratuito • Treino com Método STAR • Sem cadastro</span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="downloads" class="hover:text-blue-600 transition-colors flex items-center gap-1"><i data-lucide="download" class="w-3.5 h-3.5 text-blue-500"></i><span>Downloads</span></a>
+        <a href="sobre" class="hover:text-emerald-400 transition-colors">Quem Somos</a>
+        <span>•</span>
+        <a href="contato" class="hover:text-emerald-400 transition-colors">Fale Conosco</a>
+        <span>•</span>
+        <a href="curriculo" class="text-xs font-bold text-[#ffdf00] hover:text-white underline cursor-pointer flex items-center gap-1">
+          <i data-lucide="file-check-2" class="w-3 h-3"></i>
+          <span>Criar Currículo ATS</span>
+        </a>
+        <span class="text-white/40">|</span>
+        <a href="vagas" class="text-xs font-bold text-white hover:text-[#ffdf00] underline cursor-pointer flex items-center gap-1">
+          <i data-lucide="briefcase" class="w-3 h-3"></i>
+          <span>Mural de Vagas</span>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Cabeçalho Principal -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b-4 border-[#002776] shadow-sm transition-colors">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex items-center justify-between gap-3">
+      
+      <!-- Marca Você Pode Tudo / Simulador -->
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2" aria-label="Você Pode Tudo">
+          <img src="/assets/logo-icon.png" alt="Logo Você Pode Tudo" class="h-9 sm:h-11 w-auto object-contain">
+        </a>
+        <div>
+          <span class="text-base sm:text-xl font-black text-[#002776] dark:text-blue-400 leading-tight flex items-center gap-1.5">
+            Simulador de <span class="text-[#009639]">Entrevistas</span>
+            <span class="px-1.5 py-0.2 text-[9px] font-black bg-[#ffdf00] text-slate-900 rounded uppercase">Prático</span>
+          </span>
+          <span class="hidden sm:block text-[11px] text-slate-500 dark:text-slate-400 font-bold">
+            Treino de Respostas com Avaliação do Método STAR e Dicas Reais de RH
+          </span>
+        </div>
+      </div>
+
+      <!-- Navegação Principal -->
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <a 
+          href="/" 
+          class="hidden md:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-black text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-pointer"
+        >
+          <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-[#009639]"></i>
+          <span>Cursos</span>
+        </a>
+
+        <a 
+          href="curriculo" 
+          class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-black text-[#005e24] dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 border border-emerald-300/60 dark:border-emerald-700 transition-all cursor-pointer shadow-2xs"
+        >
+          <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-[#009639]"></i>
+          <span>Currículo ATS</span>
+        </a>
+
+        <a 
+          href="teste-vocacional" 
+          class="hidden lg:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-black text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-all cursor-pointer shadow-2xs"
+        >
+          <i data-lucide="compass" class="w-3.5 h-3.5 text-blue-600"></i>
+          <span>Teste Vocacional</span>
+        </a>
+
+        <a 
+          href="vagas" 
+          class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-black text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-all cursor-pointer shadow-2xs"
+        >
+          <i data-lucide="briefcase" class="w-3.5 h-3.5 text-[#009639]"></i>
+          <span>Vagas</span>
+        </a>
+
+        <!-- Botão Modo Escuro -->
+        <button 
+          type="button" 
+          id="btn-dark-mode-toggle"
+          class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-slate-700 dark:text-slate-300 hover:text-amber-500 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-all cursor-pointer shadow-2xs flex-shrink-0"
+          title="Alternar Modo Escuro / Claro"
+          aria-label="Alternar Modo Noturno"
+        >
+          <i data-lucide="moon" id="dark-mode-icon" class="w-4 h-4 text-slate-700 dark:text-amber-400"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner de Destaque -->
+  <section class="bg-gradient-to-r from-[#002776] via-[#001f5c] to-[#005e24] text-white py-8 sm:py-12 border-b-4 border-[#ffcc29]">
+    <div class="max-w-5xl mx-auto px-4 text-center space-y-3">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-black uppercase tracking-wider">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+        <span>Treinador de Empregabilidade 100% Gratuito</span>
+      </div>
+      <h1 class="text-2xl sm:text-4xl font-black text-white tracking-tight">
+        Treine Suas Respostas e Conquiste Sua Vaga
+      </h1>
+      <p class="text-sm sm:text-base text-slate-200 max-w-2xl mx-auto">
+        Escolha sua área de interesse, responda por texto ou voz e receba avaliação imediata sobre clareza, palavras-chave e adequação ao <strong>Método STAR</strong>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Espaço para Google AdSense Topo -->
+  <div class="max-w-5xl mx-auto px-4 pt-6 text-center">
+    <div class="p-2 bg-slate-50 dark:bg-slate-800/40 rounded-2xl border border-dashed border-slate-200 dark:border-slate-700 text-center overflow-hidden">
+      <span class="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Publicidade</span>
+      <ins class="adsbygoogle" style="display:block; min-width:250px; min-height:90px;"
+           data-ad-client="ca-pub-9421145457118515"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) { console.debug("[AdSense]", e); }</script>
+    </div>
+  </div>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-5xl mx-auto px-4 py-8 flex-1 w-full space-y-8">
+
+    <!-- Seletor de Áreas Profissionais -->
+    <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border-2 border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+      <div>
+        <span class="text-xs font-black uppercase tracking-wider text-[#002776] dark:text-blue-400 block mb-1">Passo 1</span>
+        <h2 class="text-lg sm:text-xl font-black text-slate-900 dark:text-white">
+          Selecione a Área Profissional para a Entrevista
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+          Cada trilha traz perguntas reais utilizadas pelos recrutadores em processos seletivos.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3">
+        <!-- 1. Jovem Aprendiz -->
+        <button 
+          type="button" 
+          data-area="aprendiz" 
+          class="simulator-area-btn p-3.5 rounded-2xl border-2 border-emerald-600 bg-emerald-50 dark:bg-emerald-950 text-emerald-900 dark:text-emerald-200 text-left transition-all cursor-pointer flex flex-col justify-between h-full group"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <i data-lucide="graduation-cap" class="w-5 h-5 text-emerald-600"></i>
+            <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-200/60 dark:bg-emerald-900 text-emerald-900 dark:text-emerald-100">Início</span>
+          </div>
+          <div>
+            <span class="text-xs font-black block text-slate-900 dark:text-white group-hover:text-emerald-600">Jovem Aprendiz</span>
+            <span class="text-[11px] text-slate-500 dark:text-slate-400 block mt-0.5">Primeiro emprego & sem experiência</span>
+          </div>
+        </button>
+
+        <!-- 2. Administrativo -->
+        <button 
+          type="button" 
+          data-area="administracao" 
+          class="simulator-area-btn p-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-left transition-all cursor-pointer flex flex-col justify-between h-full group hover:border-blue-500"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <i data-lucide="briefcase" class="w-5 h-5 text-blue-600"></i>
+            <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">Escritório</span>
+          </div>
+          <div>
+            <span class="text-xs font-black block text-slate-900 dark:text-white group-hover:text-blue-600">Administrativo & Financeiro</span>
+            <span class="text-[11px] text-slate-500 dark:text-slate-400 block mt-0.5">Rotinas, planilhas & processos</span>
+          </div>
+        </button>
+
+        <!-- 3. Atendimento / SAC -->
+        <button 
+          type="button" 
+          data-area="atendimento" 
+          class="simulator-area-btn p-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-left transition-all cursor-pointer flex flex-col justify-between h-full group hover:border-purple-500"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <i data-lucide="headphones" class="w-5 h-5 text-purple-600"></i>
+            <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">Relacionamento</span>
+          </div>
+          <div>
+            <span class="text-xs font-black block text-slate-900 dark:text-white group-hover:text-purple-600">Atendimento ao Cliente / SAC</span>
+            <span class="text-[11px] text-slate-500 dark:text-slate-400 block mt-0.5">Empatia, resolução & suporte</span>
+          </div>
+        </button>
+
+        <!-- 4. TI / Suporte / Dev -->
+        <button 
+          type="button" 
+          data-area="tecnologia" 
+          class="simulator-area-btn p-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-left transition-all cursor-pointer flex flex-col justify-between h-full group hover:border-cyan-500"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <i data-lucide="code" class="w-5 h-5 text-cyan-600"></i>
+            <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">Digital</span>
+          </div>
+          <div>
+            <span class="text-xs font-black block text-slate-900 dark:text-white group-hover:text-cyan-600">Tecnologia, Suporte & TI</span>
+            <span class="text-[11px] text-slate-500 dark:text-slate-400 block mt-0.5">Help Desk, redes & programação</span>
+          </div>
+        </button>
+
+        <!-- 5. Saúde, Enfermagem & Cuidadores -->
+        <button 
+          type="button" 
+          data-area="saude" 
+          class="simulator-area-btn p-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-left transition-all cursor-pointer flex flex-col justify-between h-full group hover:border-rose-500"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <i data-lucide="heart-pulse" class="w-5 h-5 text-rose-600"></i>
+            <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">Cuidado</span>
+          </div>
+          <div>
+            <span class="text-xs font-black block text-slate-900 dark:text-white group-hover:text-rose-600">Saúde, Enfermagem & Cuidadores</span>
+            <span class="text-[11px] text-slate-500 dark:text-slate-400 block mt-0.5">Humanização, biossegurança & clínica</span>
+          </div>
+        </button>
+
+        <!-- 6. Vendas & Comercial -->
+        <button 
+          type="button" 
+          data-area="vendas" 
+          class="simulator-area-btn p-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-left transition-all cursor-pointer flex flex-col justify-between h-full group hover:border-emerald-500"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <i data-lucide="trending-up" class="w-5 h-5 text-emerald-600"></i>
+            <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">Comercial</span>
+          </div>
+          <div>
+            <span class="text-xs font-black block text-slate-900 dark:text-white group-hover:text-emerald-600">Vendas & Comercial Consultivo</span>
+            <span class="text-[11px] text-slate-500 dark:text-slate-400 block mt-0.5">Metas, objeções & negociação</span>
+          </div>
+        </button>
+
+        <!-- 7. Logística & Estoque -->
+        <button 
+          type="button" 
+          data-area="logistica" 
+          class="simulator-area-btn p-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-left transition-all cursor-pointer flex flex-col justify-between h-full group hover:border-amber-500"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <i data-lucide="truck" class="w-5 h-5 text-amber-600"></i>
+            <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">Operação</span>
+          </div>
+          <div>
+            <span class="text-xs font-black block text-slate-900 dark:text-white group-hover:text-amber-600">Logística, Operações & Estoque</span>
+            <span class="text-[11px] text-slate-500 dark:text-slate-400 block mt-0.5">Expedição, inventário PEPS & WMS</span>
+          </div>
+        </button>
+
+        <!-- 8. Liderança & Gestão -->
+        <button 
+          type="button" 
+          data-area="lideranca" 
+          class="simulator-area-btn p-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-left transition-all cursor-pointer flex flex-col justify-between h-full group hover:border-indigo-500"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <i data-lucide="shield-check" class="w-5 h-5 text-indigo-600"></i>
+            <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">Estratégia</span>
+          </div>
+          <div>
+            <span class="text-xs font-black block text-slate-900 dark:text-white group-hover:text-indigo-600">Liderança, Coordenação & Gestão</span>
+            <span class="text-[11px] text-slate-500 dark:text-slate-400 block mt-0.5">Gestão de conflitos, feedbacks & metas</span>
+          </div>
+        </button>
+
+        <!-- 9. Perguntas Difíceis & Pegadinhas -->
+        <button 
+          type="button" 
+          data-area="pegadinhas" 
+          class="simulator-area-btn p-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-left transition-all cursor-pointer flex flex-col justify-between h-full group hover:border-orange-500"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <i data-lucide="help-circle" class="w-5 h-5 text-orange-600"></i>
+            <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">Desafio RH</span>
+          </div>
+          <div>
+            <span class="text-xs font-black block text-slate-900 dark:text-white group-hover:text-orange-600">Perguntas Difíceis & Pegadinhas</span>
+            <span class="text-[11px] text-slate-500 dark:text-slate-400 block mt-0.5">Maior defeito, salário & erros passados</span>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Área de Interação do Simulador -->
+    <div id="sim-interactive-area" class="space-y-6">
+      
+      <!-- Card da Pergunta Atual -->
+      <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border-2 border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+        
+        <!-- Header da Pergunta -->
+        <div class="flex items-center justify-between gap-3 flex-wrap border-b border-slate-100 dark:border-slate-800 pb-4">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span id="sim-progress-indicator" class="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              Pergunta 1 de 5 • Jovem Aprendiz
+            </span>
+          </div>
+          <span class="text-xs font-bold text-slate-400">
+            Responda com calma e sinceridade
+          </span>
+        </div>
+
+        <!-- Barra de Configuração e Display do Modo Cronometrado Real -->
+        <div class="bg-slate-50 dark:bg-slate-800/70 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-700/80 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-2xs">
+          <div class="flex items-center gap-2 flex-wrap">
+            <i data-lucide="timer" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
+            <span class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">Tempo de Resposta:</span>
+            <div class="inline-flex rounded-xl bg-slate-200/80 dark:bg-slate-700/80 p-0.5 text-xs font-bold" id="sim-timer-modes">
+              <button type="button" data-time="0" class="sim-time-btn px-2.5 py-1 rounded-lg transition-all cursor-pointer font-bold bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-xs">Livre</button>
+              <button type="button" data-time="60" class="sim-time-btn px-2.5 py-1 rounded-lg transition-all cursor-pointer font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900">60s (Rápido)</button>
+              <button type="button" data-time="90" class="sim-time-btn px-2.5 py-1 rounded-lg transition-all cursor-pointer font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900">90s (Padrão RH)</button>
+              <button type="button" data-time="120" class="sim-time-btn px-2.5 py-1 rounded-lg transition-all cursor-pointer font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900">120s (STAR)</button>
+            </div>
+          </div>
+          
+          <!-- Relógio Regressivo e Controles -->
+          <div class="flex items-center justify-between sm:justify-end gap-2.5">
+            <div id="sim-timer-badge" class="px-3.5 py-1.5 rounded-xl text-xs font-black font-mono tracking-wider bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 flex items-center gap-2">
+              <i data-lucide="clock" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i>
+              <span id="sim-timer-text">--:--</span>
+            </div>
+            <button 
+              type="button" 
+              id="sim-timer-toggle-btn" 
+              class="hidden px-2.5 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors text-xs font-bold cursor-pointer flex items-center gap-1" 
+              title="Pausar / Retomar Cronômetro"
+            >
+              <i data-lucide="pause" id="sim-timer-icon" class="w-3.5 h-3.5"></i>
+              <span id="sim-timer-btn-label">Pausar</span>
+            </button>
+            <button 
+              type="button" 
+              id="sim-timer-reset-btn" 
+              class="hidden p-1.5 rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors cursor-pointer" 
+              title="Reiniciar Cronômetro"
+            >
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra de Progresso Suave do Tempo -->
+        <div id="sim-timer-bar-wrap" class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden hidden shadow-inner">
+          <div id="sim-timer-bar" class="h-full bg-emerald-500 rounded-full transition-all duration-300 ease-linear" style="width: 100%;"></div>
+        </div>
+
+        <!-- Texto da Pergunta -->
+        <div class="space-y-2">
+          <h3 id="sim-question-text" class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white leading-snug">
+            Conte um pouco sobre você, sua rotina de estudos e por que busca sua primeira oportunidade agora.
+          </h3>
+          <div class="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 flex items-start gap-2.5 text-xs text-amber-900 dark:text-amber-200">
+            <i data-lucide="lightbulb" class="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5"></i>
+            <span id="sim-question-hint">
+              Dica do Recrutador: Destaque sua pontualidade na escola, vontade de aprender e cursos extracurriculares que já fez.
+            </span>
+          </div>
+        </div>
+
+        <!-- Campo de Resposta -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-xs font-bold text-slate-500 flex-wrap gap-2">
+            <div class="flex items-center gap-2">
+              <label for="sim-user-answer">Sua Resposta:</label>
+              <span id="sim-word-counter" class="text-[11px] font-semibold text-slate-400">0 palavras (ideal: 40-120)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span id="sim-live-filler-badge" class="hidden text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-200 border border-amber-300 dark:border-amber-800 animate-pulse"></span>
+              <button 
+                type="button" 
+                id="sim-mic-btn" 
+                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all cursor-pointer font-bold"
+                title="Gravar por voz (Microfone)"
+              >
+                <i data-lucide="mic" class="w-3.5 h-3.5 text-rose-600"></i>
+                <span>Falar por Microfone</span>
+              </button>
+            </div>
+          </div>
+          <textarea 
+            id="sim-user-answer" 
+            rows="5" 
+            class="w-full p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white text-sm focus:border-emerald-500 focus:bg-white dark:focus:bg-slate-800 focus:outline-hidden transition-all resize-none placeholder-slate-400"
+            placeholder="Digite aqui como você responderia na entrevista de emprego..."
+          ></textarea>
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="flex items-center justify-end gap-3 pt-2">
+          <button 
+            type="button" 
+            id="sim-evaluate-btn" 
+            class="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#009639] hover:bg-[#007a2e] text-white font-black text-sm transition-all shadow-md hover:shadow-lg cursor-pointer flex items-center justify-center gap-2"
+          >
+            <i data-lucide="sparkles" class="w-4 h-4 text-[#ffdf00]"></i>
+            <span>Avaliar Minha Resposta</span>
+          </button>
+
+          <button 
+            type="button" 
+            id="sim-next-btn" 
+            class="hidden w-full sm:w-auto px-6 py-3 rounded-xl bg-[#002776] hover:bg-[#001f5c] text-white font-black text-sm transition-all shadow-md cursor-pointer flex items-center justify-center gap-2"
+          >
+            <span>Próxima Pergunta</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Box de Feedback em Tempo Real -->
+        <div id="sim-feedback-container" class="hidden"></div>
+
+      </div>
+
+    </div>
+
+    <!-- Guia Rápido do Método STAR -->
+    <div class="bg-gradient-to-br from-blue-50 to-emerald-50 dark:from-slate-900 dark:to-slate-800 rounded-3xl p-6 sm:p-8 border-2 border-blue-200 dark:border-slate-700 shadow-sm space-y-4">
+      <div class="flex items-center gap-2.5">
+        <i data-lucide="award" class="w-5 h-5 text-[#002776] dark:text-blue-400"></i>
+        <h3 class="text-base sm:text-lg font-black text-slate-900 dark:text-white">
+          O que é o Método STAR usado pelos Recrutadores?
+        </h3>
+      </div>
+      <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+        O Método STAR é a técnica mais valorizada em entrevistas comportamentais pelas grandes empresas. Estruture suas respostas sempre em 4 pilares:
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-2">
+        <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+          <span class="text-lg font-black text-[#002776] dark:text-blue-400">S</span>
+          <h4 class="text-xs font-black text-slate-900 dark:text-white mt-1">Situação</h4>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Descreva o cenário ou problema que você viveu na escola, faculdade ou trabalho anterior.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+          <span class="text-lg font-black text-[#009639]">T</span>
+          <h4 class="text-xs font-black text-slate-900 dark:text-white mt-1">Tarefa</h4>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Explique qual era a sua responsabilidade e o que precisava ser resolvido no caso.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+          <span class="text-lg font-black text-amber-600">A</span>
+          <h4 class="text-xs font-black text-slate-900 dark:text-white mt-1">Ação</h4>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Conte exatamente o que você fez para superar o desafio e como colaborou.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+          <span class="text-lg font-black text-purple-600">R</span>
+          <h4 class="text-xs font-black text-slate-900 dark:text-white mt-1">Resultado</h4>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Mostre o desfecho positivo alcançado e o que você aprendeu com essa experiência.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Espaço para Google AdSense Rodapé -->
+    <div class="pt-4 text-center">
+      <div class="p-2 bg-slate-50 dark:bg-slate-800/40 rounded-2xl border border-dashed border-slate-200 dark:border-slate-700 text-center overflow-hidden">
+        <span class="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Publicidade</span>
+        <ins class="adsbygoogle" style="display:block; min-width:250px; min-height:90px;"
+             data-ad-client="ca-pub-9421145457118515"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) { console.debug("[AdSense]", e); }</script>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Rodapé Global -->
+  <footer class="bg-slate-900 text-slate-300 text-xs py-10 border-t-4 border-[#002776] mt-auto">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div class="space-y-3">
+        <div class="flex items-center gap-2">
+          <img src="/assets/logo-icon.png" alt="Logo Você Pode Tudo" class="h-8 w-auto">
+          <span class="font-black text-white text-base">Você Pode Tudo</span>
+        </div>
+        <p class="text-slate-400 text-xs leading-relaxed">
+          Portal independente de empregabilidade e qualificação profissional gratuita no Brasil.
+        </p>
+        <p class="text-[11px] text-slate-500">
+          © 2026 Você Pode Tudo. Todos os direitos reservados.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="font-black text-white uppercase tracking-wider text-xs mb-3">Ferramentas Gratuitas</h4>
+        <ul class="space-y-2">
+          <li><a href="simulador-entrevista" class="hover:text-emerald-400 transition-colors font-bold text-white">Simulador de Entrevistas</a></li>
+          <li><a href="curriculo" class="hover:text-emerald-400 transition-colors">Criador de Currículos ATS</a></li>
+          <li><a href="teste-vocacional" class="hover:text-emerald-400 transition-colors">Teste Vocacional</a></li>
+          <li><a href="vagas" class="hover:text-emerald-400 transition-colors">Mural de Vagas e Aprendiz</a></li>
+          <li><a href="/" class="hover:text-emerald-400 transition-colors">Catálogo de Cursos Livres</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-black text-white uppercase tracking-wider text-xs mb-3">Cursos Populares</h4>
+        <ul class="space-y-2">
+          <li><a href="cursos-gratis-excel" class="hover:text-emerald-400 transition-colors">Excel do Básico ao Avançado</a></li>
+          <li><a href="cursos-gratis-informatica" class="hover:text-emerald-400 transition-colors">Informática & Windows</a></li>
+          <li><a href="cursos-gratis-administracao" class="hover:text-emerald-400 transition-colors">Rotinas Administrativas</a></li>
+          <li><a href="cursos-gratis-programacao" class="hover:text-emerald-400 transition-colors">Programação & Python</a></li>
+          <li><a href="cursos-gratis-ingles" class="hover:text-emerald-400 transition-colors">Inglês do Zero</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-black text-white uppercase tracking-wider text-xs mb-3">Transparência & LGPD</h4>
+        <p class="text-[11px] text-slate-400 mb-3">
+          Suas respostas são processadas localmente no seu dispositivo. Respeitamos rigorosamente a LGPD (Lei nº 13.709/2018).
+        </p>
+        <div class="flex flex-col gap-1.5 text-[11px]">
+          <a href="midia-kit" class="text-emerald-400 hover:text-white font-bold underline">Mídia Kit & Publicidade</a>
+          <a href="politica-privacidade" class="text-slate-400 hover:text-white underline">Política de Privacidade & Cookies</a>
+          <a href="termos-de-uso" class="text-slate-400 hover:text-white underline">Termos de Uso</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="./src/simulador.js?v=4.83.0"></script>
+  <script>
+    // Inicialização dos ícones Lucide
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
+
+    // Gerenciamento de Tema Escuro
+    (function() {
+      const toggle = document.getElementById('btn-dark-mode-toggle');
+      const icon = document.getElementById('dark-mode-icon');
+      const html = document.documentElement;
+
+      if (localStorage.getItem('vpt_theme') === 'dark' || localStorage.getItem('theme') === 'dark') {
+        html.classList.add('dark');
+        if (icon) icon.setAttribute('data-lucide', 'sun');
+      } else {
+        html.classList.remove('dark');
+        if (icon) icon.setAttribute('data-lucide', 'moon');
+      }
+      if (window.lucide) window.lucide.createIcons();
+
+      if (toggle) {
+        toggle.addEventListener('click', () => {
+          html.classList.toggle('dark');
+          const isDark = html.classList.contains('dark');
+          localStorage.setItem('theme', isDark ? 'dark' : 'light');
+          if (icon) icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+          if (window.lucide) window.lucide.createIcons();
+        });
+      }
+    })();
+  </script>
+  <script src="./src/cookie-banner.js?v=4.83.0"></script>
+
+  <!-- Botão Flutuante Oficial do WhatsApp (Apenas Ícone Circular na Lateral) -->
+  <aside 
+    id="floating-whatsapp-widget" 
+    class="fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-40 flex items-center"
+    aria-label="Grupo Oficial do WhatsApp"
+  >
+    <a 
+      href="https://chat.whatsapp.com/FN9jb73jdKs1UYq0BbIC3j" 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 border-2 border-white focus:outline-none focus:ring-4 focus:ring-emerald-400/50 cursor-pointer relative group"
+      title="Entrar no Grupo Oficial do WhatsApp"
+      aria-label="Entrar no Grupo Oficial do WhatsApp"
+    >
+      <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-[#ffdf00] border-2 border-[#25D366]"></span>
+      </span>
+      <svg class="w-7 h-7 sm:w-8 sm:h-8 fill-current text-white flex-shrink-0" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+      <span class="absolute right-full mr-3 px-2.5 py-1.5 rounded-xl bg-slate-900/95 text-white text-[11px] font-bold whitespace-nowrap shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 hidden sm:block">
+        Grupo Oficial WhatsApp
+      </span>
+    </a>
+  </aside>
+
+</body>
+</html>

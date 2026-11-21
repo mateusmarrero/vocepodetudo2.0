@@ -11,7 +11,7 @@
   "theme_color": "#009639",
   "lang": "pt-BR",
   "dir": "ltr",
-  "prefer_related_applications": false,
+  "prefer_related_applications": true,
   "categories": [
     "education",
     "productivity",
@@ -86,6 +86,13 @@
           "sizes": "192x192"
         }
       ]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://vocepodetudo.com/vocepodetudo.apk",
+      "id": "com.vocepodetudo.app"
     }
   ]
 }

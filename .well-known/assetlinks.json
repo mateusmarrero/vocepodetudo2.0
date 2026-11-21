@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.vocepodetudo.app",
+        "sha256_cert_fingerprints": ["DE:07:F2:7A:54:33:91:94:C0:3C:C5:76:6C:7A:A8:A3:D2:B3:2B:8E:E0:3B:96:B1:4C:74:1E:E4:43:8D:5B:E0"]
+      }
+    }]

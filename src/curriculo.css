@@ -1,0 +1,810 @@
+/* ==============================================================================
+   Criador de Currículos Profissional — Você Pode Tudo
+   Folha de Estilos Exclusiva (src/curriculo.css)
+   Compatível com Impressão A4, Alto Contraste e Responsividade
+   ============================================================================== */
+
+/* Tipografias Importadas para os Modelos */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Fira+Code:wght@400;600&family=Inter:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Montserrat:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --cv-primary: #002776;       /* Azul Institucional */
+  --cv-secondary: #009B3A;     /* Verde Institucional */
+  --cv-accent: #FFDF00;        /* Amarelo Institucional */
+  --cv-text: #1e293b;
+  --cv-muted: #64748b;
+  --cv-border: #e2e8f0;
+  --cv-bg: #ffffff;
+  --cv-font-scale: 1;
+}
+
+/* Área de Folha A4 no Navegador */
+.cv-paper-container {
+  background-color: #f1f5f9;
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+}
+
+.cv-paper {
+  background: #ffffff;
+  width: 100%;
+  max-width: 210mm;
+  min-height: 297mm;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  padding: 20mm 18mm;
+  box-sizing: border-box;
+  color: #1e293b;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Evitar quebras de página desajeitadas */
+.cv-section,
+.cv-item,
+.cv-header-block,
+.cv-badge-group {
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+}
+
+/* ==============================================================================
+   REGRAS DE IMPRESSÃO REAL A4 (@media print)
+   ============================================================================== */
+@page {
+  size: A4 portrait;
+  margin: 10mm 12mm;
+}
+
+@media print {
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 11pt !important;
+  }
+
+  /* Ocultar elementos da interface que não fazem parte do currículo */
+  header, 
+  nav, 
+  footer, 
+  #editor-panel, 
+  #utility-toolbar, 
+  #gallery-modal,
+  #tips-panel,
+  .no-print,
+  .btn-print-hide {
+    display: none !important;
+  }
+
+  .cv-paper-container {
+    padding: 0 !important;
+    background: transparent !important;
+  }
+
+  .cv-paper {
+    max-width: 100% !important;
+    min-height: auto !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+}
+
+/* ==============================================================================
+   ESTILOS ESPECÍFICOS DOS 12 MODELOS DE CURRÍCULO
+   ============================================================================== */
+
+/* ------------------------------------------------------------------------------
+   MODELO 1 — CLÁSSICO PROFISSIONAL
+   Layout tradicional, coluna única, tipografia sóbria, divisores limpos
+------------------------------------------------------------------------------ */
+.cv-tpl-1 {
+  font-family: 'Merriweather', serif;
+}
+.cv-tpl-1 .cv-name {
+  font-family: 'Cinzel', serif;
+  font-size: 1.85rem;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--cv-primary);
+  border-bottom: 2px solid var(--cv-primary);
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+.cv-tpl-1 .cv-contact-bar {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: #475569;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.cv-tpl-1 .cv-sec-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cv-primary);
+  border-bottom: 1px solid #cbd5e1;
+  padding-bottom: 0.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+.cv-tpl-1 .cv-item-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #0f172a;
+}
+.cv-tpl-1 .cv-item-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: #475569;
+}
+.cv-tpl-1 .cv-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: #334155;
+}
+
+/* ------------------------------------------------------------------------------
+   MODELO 2 — MODERNO EXECUTIVO
+   Cabeçalho imponente com fundo de destaque, hierarquia forte, sofisticação
+------------------------------------------------------------------------------ */
+.cv-tpl-2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.cv-tpl-2 .cv-exec-banner {
+  background: var(--cv-primary);
+  color: #ffffff;
+  padding: 1.25rem 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.cv-tpl-2 .cv-name {
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin-bottom: 0.2rem;
+}
+.cv-tpl-2 .cv-headline {
+  font-size: 1rem;
+  color: #93c5fd;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.cv-tpl-2 .cv-contact-bar {
+  font-size: 0.8rem;
+  color: #e2e8f0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.cv-tpl-2 .cv-sec-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cv-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-left: 4px solid var(--cv-primary);
+  padding-left: 0.5rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+.cv-tpl-2 .cv-item-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #0f172a;
+}
+.cv-tpl-2 .cv-item-subtitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cv-secondary);
+}
+.cv-tpl-2 .cv-desc {
+  font-size: 0.85rem;
+  color: #334155;
+}
+
+/* ------------------------------------------------------------------------------
+   MODELO 3 — PRIMEIRO EMPREGO
+   Otimizado para quem não tem experiência. Destaque em objetivo, formação, cursos e habilidades
+------------------------------------------------------------------------------ */
+.cv-tpl-3 {
+  font-family: 'Inter', sans-serif;
+}
+.cv-tpl-3 .cv-header {
+  border-bottom: 3px solid var(--cv-secondary);
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+}
+.cv-tpl-3 .cv-name {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+.cv-tpl-3 .cv-objective-highlight {
+  background: #f0fdf4;
+  border-left: 4px solid var(--cv-secondary);
+  padding: 0.85rem 1rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+  margin-bottom: 1.25rem;
+}
+.cv-tpl-3 .cv-sec-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--cv-secondary);
+  margin-top: 1.2rem;
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.cv-tpl-3 .cv-sec-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #cbd5e1;
+}
+
+/* ------------------------------------------------------------------------------
+   MODELO 4 — TECNOLOGIA E TI
+   Visual dev/minimalista, monospace accents, badges de tech, repositórios e certs
+------------------------------------------------------------------------------ */
+.cv-tpl-4 {
+  font-family: 'Inter', sans-serif;
+}
+.cv-tpl-4 .cv-name {
+  font-family: 'Fira Code', monospace;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+.cv-tpl-4 .cv-name::before {
+  content: '> ';
+  color: var(--cv-secondary);
+}
+.cv-tpl-4 .cv-tech-badge {
+  font-family: 'Fira Code', monospace;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  display: inline-block;
+  margin: 0.15rem 0.2rem;
+}
+.cv-tpl-4 .cv-sec-title {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--cv-primary);
+  border-bottom: 2px dashed #94a3b8;
+  padding-bottom: 0.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+.cv-tpl-4 .cv-link-repo {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.75rem;
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------------------------------
+   MODELO 5 — ADMINISTRAÇÃO E FINANÇAS
+   Layout corporativo rigoroso, organização tabular, sistemas (Excel/ERP)
+------------------------------------------------------------------------------ */
+.cv-tpl-5 {
+  font-family: 'Montserrat', sans-serif;
+}
+.cv-tpl-5 .cv-header {
+  border-top: 4px solid var(--cv-primary);
+  border-bottom: 1px solid #cbd5e1;
+  padding: 1rem 0;
+  margin-bottom: 1.25rem;
+}
+.cv-tpl-5 .cv-name {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #0f172a;
+}
+.cv-tpl-5 .cv-sec-title {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid var(--cv-primary);
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cv-primary);
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+.cv-tpl-5 .cv-grid-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+/* ------------------------------------------------------------------------------
+   MODELO 6 — COMERCIAL E VENDAS
+   Visual dinâmico, foco em resultados, clientes, CRM e negociação
+------------------------------------------------------------------------------ */
+.cv-tpl-6 {
+  font-family: 'Outfit', sans-serif;
+}
+.cv-tpl-6 .cv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+}
+.cv-tpl-6 .cv-name {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+.cv-tpl-6 .cv-sales-tag {
+  background: #eff6ff;
+  color: var(--cv-primary);
+  border: 1px solid #bfdbfe;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.cv-tpl-6 .cv-sec-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--cv-primary);
+  position: relative;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+.cv-tpl-6 .cv-sec-title::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: var(--cv-secondary);
+  margin-top: 0.2rem;
+}
+
+/* ------------------------------------------------------------------------------
+   MODELO 7 — ACADÊMICO E ESTÁGIO
+   Destaque superior para formação, instituição, projetos científicos e idiomas
+------------------------------------------------------------------------------ */
+.cv-tpl-7 {
+  font-family: 'Merriweather', serif;
+}
+.cv-tpl-7 .cv-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  text-align: center;
+  color: #0f172a;
+  margin-bottom: 0.2rem;
+}
+.cv-tpl-7 .cv-contact-bar {
+  text-align: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: #64748b;
+  border-bottom: 1px solid #cbd5e1;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.cv-tpl-7 .cv-sec-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cv-primary);
+  border-bottom: 1.5px solid var(--cv-primary);
+  padding-bottom: 0.2rem;
+  margin-top: 1.2rem;
+  margin-bottom: 0.6rem;
+}
+
+/* ------------------------------------------------------------------------------
+   MODELO 8 — CRIATIVO E DESIGN
+   Layout contemporâneo, tipografia expressiva, 100% legível em P&B
+------------------------------------------------------------------------------ */
+.cv-tpl-8 {
+  font-family: 'Outfit', sans-serif;
+}
+.cv-tpl-8 .cv-creative-header {
+  border-left: 6px solid #0f172a;
+  padding-left: 1rem;
+  margin-bottom: 1.5rem;
+}
+.cv-tpl-8 .cv-name {
+  font-size: 2.1rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: #0f172a;
+}
+.cv-tpl-8 .cv-sec-title {
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+.cv-tpl-8 .cv-sec-title span.number {
+  background: #0f172a;
+  color: #ffffff;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+/* ------------------------------------------------------------------------------
+   MODELO 9 — OPERACIONAL E INDUSTRIAL
+   Layout direto, prático, destaque para NRs, cursos técnicos e disponibilidade
+------------------------------------------------------------------------------ */
+.cv-tpl-9 {
+  font-family: 'Inter', sans-serif;
+}
+.cv-tpl-9 .cv-header {
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-top: 5px solid #334155;
+  padding: 1rem;
+  border-radius: 0.375rem;
+  margin-bottom: 1.25rem;
+}
+.cv-tpl-9 .cv-name {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+.cv-tpl-9 .cv-sec-title {
+  font-size: 0.9rem;
+  font-weight: 800;
+  background: #334155;
+  color: #ffffff;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+/* ------------------------------------------------------------------------------
+   MODELO 10 — ATENDIMENTO E SERVIÇOS
+   Foco em comunicação, clientes, empatia e sistemas de atendimento
+------------------------------------------------------------------------------ */
+.cv-tpl-10 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.cv-tpl-10 .cv-header {
+  border-bottom: 3px double #cbd5e1;
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+}
+.cv-tpl-10 .cv-name {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--cv-primary);
+}
+.cv-tpl-10 .cv-sec-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+  border-bottom: 2px solid #cbd5e1;
+  padding-bottom: 0.25rem;
+  margin-top: 1.2rem;
+  margin-bottom: 0.65rem;
+}
+
+/* ------------------------------------------------------------------------------
+   MODELO 11 — PROFISSIONAL EXPERIENTE
+   Banner sênior com resumo de carreira e linha do tempo de liderança
+------------------------------------------------------------------------------ */
+.cv-tpl-11 {
+  font-family: 'Inter', sans-serif;
+}
+.cv-tpl-11 .cv-senior-card {
+  border-left: 5px solid var(--cv-primary);
+  background: #f8fafc;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+.cv-tpl-11 .cv-name {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+.cv-tpl-11 .cv-sec-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--cv-primary);
+  border-bottom: 2px solid var(--cv-primary);
+  padding-bottom: 0.2rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+/* ------------------------------------------------------------------------------
+   MODELO 12 — ACESSÍVEL E INCLUSIVO
+   Alto contraste, tipografia de grande legibilidade, estrutura 100% linear
+------------------------------------------------------------------------------ */
+.cv-tpl-12 {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #000000;
+  line-height: 1.6;
+}
+.cv-tpl-12 .cv-name {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #000000;
+  border-bottom: 3px solid #000000;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.cv-tpl-12 .cv-contact-bar {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1.5rem;
+}
+.cv-tpl-12 .cv-sec-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #000000;
+  border-left: 6px solid #000000;
+  padding-left: 0.6rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.cv-tpl-12 .cv-item-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #000000;
+}
+.cv-tpl-12 .cv-item-subtitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #27272a;
+}
+.cv-tpl-12 .cv-desc {
+  font-size: 0.95rem;
+  color: #18181b;
+}
+
+/* ==============================================================================
+   MINIATURAS DA GALERIA DE MODELOS (REPRESENTAÇÃO FIEL)
+   ============================================================================== */
+.tpl-mini-card {
+  width: 100%;
+  aspect-ratio: 210 / 297;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.375rem;
+  padding: 0.75rem;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  font-size: 0.45rem;
+  transition: all 0.2s ease;
+}
+.tpl-mini-card:hover {
+  border-color: #009B3A;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+.tpl-mini-line {
+  height: 3px;
+  background: #cbd5e1;
+  border-radius: 2px;
+  margin-bottom: 3px;
+}
+.tpl-mini-line.dark {
+  background: #0f172a;
+}
+.tpl-mini-line.primary {
+  background: #002776;
+}
+.tpl-mini-line.secondary {
+  background: #009B3A;
+}
+
+/* ==============================================================================
+   ELEMENTOS DE INTERFACE DO CRIADOR
+   ============================================================================== */
+.step-item.active {
+  background-color: #009B3A;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 155, 58, 0.25);
+}
+.step-item.completed {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border-color: #a7f3d0;
+}
+
+/* ==============================================================================
+   FOTO PROFISSIONAL DO CANDIDATO (OPCIONAL)
+   ============================================================================== */
+.cv-photo-container {
+  width: 78px;
+  height: 78px;
+  min-width: 78px;
+  min-height: 78px;
+  border-radius: 9999px;
+  overflow: hidden;
+  border: 2.5px solid var(--cv-primary, #009B3A);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background-color: #f8fafc;
+}
+
+.cv-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cv-photo-container.cv-photo-rounded {
+  border-radius: 12px;
+}
+
+/* ==============================================================================
+   MODO ESCURO NO CRIADOR DE CURRÍCULOS
+   ============================================================================== */
+html.dark body {
+  background-color: #0b1120 !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark header {
+  background-color: rgba(15, 23, 42, 0.95) !important;
+}
+
+html.dark .cv-paper-container {
+  background-color: #0f172a !important;
+}
+
+html.dark #curriculo-preview-sheet {
+  background-color: #ffffff !important;
+  color: #1e293b !important;
+}
+
+html.dark .bg-white {
+  background-color: #1e293b !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark .bg-slate-50 {
+  background-color: #0f172a !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark .bg-slate-100 {
+  background-color: #1e293b !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark .border-slate-200,
+html.dark .border-slate-300 {
+  border-color: #334155 !important;
+}
+
+html.dark input,
+html.dark textarea,
+html.dark select {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+  border-color: #334155 !important;
+}
+
+/* ==============================================================================
+   REGRAS DE RESPONSIVIDADE E PROTEÇÃO MOBILE (< 640px)
+   ============================================================================== */
+@media screen and (max-width: 640px) {
+  html, body {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  .cv-paper-container {
+    padding: 0.75rem 0.35rem !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    box-sizing: border-box !important;
+  }
+
+  .cv-paper {
+    padding: 10mm 7mm !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    font-size: 13px !important;
+    min-height: auto !important;
+    border-radius: 12px !important;
+    box-sizing: border-box !important;
+    max-width: 100% !important;
+  }
+
+  .cv-paper h1 {
+    font-size: 1.35rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .cv-paper h2 {
+    font-size: 1.05rem !important;
+    line-height: 1.3 !important;
+  }
+
+  .cv-paper h3 {
+    font-size: 0.95rem !important;
+  }
+
+  .cv-tpl-5 .cv-grid-two {
+    grid-template-columns: 1fr !important;
+    gap: 0.5rem !important;
+  }
+
+  #mobile-bottom-bar {
+    max-width: 100vw !important;
+    width: 100% !important;
+  }
+
+  #vcpd-cookie-banner {
+    max-width: 100vw !important;
+    width: 100% !important;
+  }
+}
+

@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Completo e Metadados Sociais -->
+  <title>Criador de Currículos Profissional Grátis — Você Pode Tudo</title>
+  <meta name="description" content="Crie seu currículo profissional gratuitamente. Escolha entre 12 modelos modernos, personalize suas informações em tempo real e baixe seu PDF oficial sem marca-d'água e sem cadastro obrigatório.">
+  <meta name="keywords" content="criar currículo, gerador de currículo, modelo de currículo gratis, currículo em pdf, currículo primeiro emprego, vocepodetudo">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://vocepodetudo.com/curriculo">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vocepodetudo.com/curriculo">
+  <meta property="og:title" content="Criador de Currículos Profissional — Você Pode Tudo">
+  <meta property="og:description" content="Seu próximo emprego pode começar com um bom currículo. Escolha entre 12 modelos gratuitos e baixe seu PDF sem cadastro e sem marca-d'água.">
+  <meta property="og:image" content="https://vocepodetudo.com/assets/logo-icon.png">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Criador de Currículos Profissional — Você Pode Tudo">
+  <meta name="twitter:description" content="Crie seu currículo profissional gratuitamente. 12 modelos prontos com download em PDF imediato.">
+  <meta name="twitter:image" content="https://vocepodetudo.com/assets/logo-icon.png">
+
+  
+  <!-- Resource Hints para Performance Extrema (FCP / LCP) -->
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link rel="dns-prefetch" href="https://unpkg.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Favicon & PWA Icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icon-512.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="/assets/icon-512.png">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#009639">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Você Pode Tudo">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              green: '#009B3A',
+              yellow: '#FFDF00',
+              blue: '#002776'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Lucide Icons (Versão Fixada para Integridade e Segurança) -->
+  <script defer src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+
+  <!-- html2pdf.js para Exportação Real em PDF (Licença MIT) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+
+  <!-- Estilos Dedicados do Criador de Currículos -->
+  <link rel="stylesheet" href="./src/curriculo.css?v=4.83.0">
+
+  <!-- Dados Estruturados Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Criador de Currículos Profissional Você Pode Tudo",
+        "url": "https://vocepodetudo.com/criar-currículo",
+        "description": "Ferramenta gratuita e aberta para elaboração de currículos profissionais com 12 modelos e exportação para PDF sem cobrança e sem marca-d'água.",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "All",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "BRL"
+        }
+      },
+      {
+        "@type": "HowTo",
+        "name": "Como criar um currículo profissional gratuito",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "name": "Escolha um Modelo",
+            "text": "Selecione entre os 12 modelos adequados para sua área profissional."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Preencha suas informações",
+            "text": "Insira contato, objetivo, histórico de trabalho ou projetos, cursos e habilidades."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Baixe o PDF",
+            "text": "Gere seu currículo formatado para impressão A4 sem marcas-d'água."
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+  <!-- Google AdSense Oficial -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9421145457118515"
+     crossorigin="anonymous"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased min-h-screen flex flex-col font-sans">
+
+  <!-- Barra de Utilidades do Topo -->
+  <aside class="bg-gradient-to-r from-[#005e24] via-[#008031] to-[#005e24] text-white border-b-2 border-[#ffcc29] text-xs py-1.5 px-3 select-none relative z-30 max-w-full overflow-hidden">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2 flex-wrap">
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <a href="/" class="inline-flex items-center gap-1 text-white hover:text-[#ffdf00] font-black transition-colors" title="Voltar ao portal principal">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Voltar<span class="hidden sm:inline"> ao Você Pode Tudo</span></span>
+        </a>
+        <span class="text-white/40">|</span>
+        <span class="text-emerald-100 hidden md:inline">100% Gratuito • Sem cadastro obrigatório • Sem marcas-d'água</span>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3 flex-wrap text-[11px] sm:text-xs">
+        <!-- Menu Carregar Exemplo por Área -->
+        <div class="relative inline-block text-left" id="sample-dropdown-container">
+          <button 
+            type="button" 
+            class="font-bold text-[#ffdf00] hover:text-white underline cursor-pointer inline-flex items-center gap-1"
+            onclick="document.getElementById('sample-dropdown-menu').classList.toggle('hidden')"
+            title="Preenche o formulário com dados de exemplo da sua área para testar"
+          >
+            <span>Carregar Exemplo</span>
+            <i data-lucide="chevron-down" class="w-3 h-3 text-[#ffdf00]"></i>
+          </button>
+          <div id="sample-dropdown-menu" class="hidden absolute left-0 mt-1.5 w-64 bg-white rounded-xl shadow-2xl border border-slate-200 p-1.5 z-50 text-slate-800 text-xs space-y-1">
+            <div class="px-2 py-1 text-[10px] font-black uppercase text-slate-400 border-b border-slate-100">Escolha o exemplo:</div>
+            <button type="button" onclick="window.cvApp.loadSampleData('saude'); document.getElementById('sample-dropdown-menu').classList.add('hidden')" class="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-emerald-50 text-slate-800 hover:text-[#009B3A] font-bold flex items-center gap-2 cursor-pointer transition-colors">
+              <span class="text-sm">🏥</span>
+              <div>
+                <span class="block leading-tight">Área da Saúde & Cuidados</span>
+                <span class="text-[10px] text-slate-500 font-normal">Téc. Enfermagem / Cuidador(a)</span>
+              </div>
+            </button>
+            <button type="button" onclick="window.cvApp.loadSampleData('administrativo'); document.getElementById('sample-dropdown-menu').classList.add('hidden')" class="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-emerald-50 text-slate-800 hover:text-[#009B3A] font-bold flex items-center gap-2 cursor-pointer transition-colors">
+              <span class="text-sm">💼</span>
+              <div>
+                <span class="block leading-tight">Administração & Escritório</span>
+                <span class="text-[10px] text-slate-500 font-normal">Assistente / Financeiro / Atendimento</span>
+              </div>
+            </button>
+          </div>
+        </div>
+        <span class="text-white/40">|</span>
+        <!-- Botão Salvar Backup JSON -->
+        <button 
+          type="button" 
+          class="font-bold text-emerald-100 hover:text-white underline cursor-pointer"
+          onclick="window.cvApp.exportAsJson()"
+          title="Baixar arquivo de backup com todos os seus dados (.json)"
+        >
+          Salvar Backup<span class="hidden sm:inline"> (.json)</span>
+        </button>
+        <span class="text-white/40">|</span>
+        <!-- Botão Carregar Backup JSON -->
+        <button 
+          type="button" 
+          class="font-bold text-emerald-100 hover:text-white underline cursor-pointer"
+          onclick="document.getElementById('import-json-input').click()"
+          title="Carregar um backup salvo anteriormente"
+        >
+          <span class="hidden sm:inline">Carregar </span>Restaurar
+        </button>
+        <input type="file" id="import-json-input" class="hidden" accept=".json" onchange="if(this.files[0]) window.cvApp.importFromJson(this.files[0])">
+        <span class="text-white/40">|</span>
+        <!-- Botão Limpar Dados -->
+        <button 
+          type="button" 
+          class="font-bold text-rose-200 hover:text-rose-400 cursor-pointer"
+          onclick="window.cvApp.clearAllData()"
+          title="Apagar dados salvos no navegador"
+        >
+          Limpar
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Cabeçalho Principal -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b-4 border-[#009639] shadow-sm max-w-full">
+    <div class="max-w-7xl mx-auto px-2.5 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between gap-2">
+      
+      <!-- Marca Você Pode Tudo / Criador de Currículos -->
+      <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+        <a href="/" class="flex items-center gap-1.5 flex-shrink-0" aria-label="Você Pode Tudo">
+          <img src="/assets/logo-icon.png" alt="Logo Você Pode Tudo" class="h-8 sm:h-11 w-auto object-contain">
+        </a>
+        <div class="min-w-0">
+          <span class="text-sm sm:text-xl font-black text-[#002776] leading-tight flex items-center gap-1 sm:gap-1.5 truncate">
+            <span class="hidden xs:inline">Criador de </span><span class="text-[#009639]">Currículos</span>
+            <span class="px-1 sm:px-1.5 py-0.2 text-[8px] sm:text-[9px] font-black bg-[#ffdf00] text-slate-900 rounded uppercase flex-shrink-0">Grátis</span>
+          </span>
+          <span class="hidden sm:block text-[11px] text-slate-500 font-bold truncate">
+            Seu próximo emprego pode começar com um bom currículo
+          </span>
+        </div>
+      </div>
+
+      <!-- Ações do Cabeçalho -->
+      <div class="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+        <!-- Botão Simulador de Entrevistas -->
+        <a 
+          href="simulador-entrevista" 
+          class="hidden xl:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-black text-purple-900 bg-purple-50 hover:bg-purple-100 border border-purple-200 transition-all cursor-pointer shadow-2xs"
+          title="Treinar para entrevistas de emprego com perguntas reais e método STAR"
+        >
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-purple-600"></i>
+          <span>Simulador</span>
+        </a>
+
+        <!-- Botão Teste Vocacional (Atalho) -->
+        <a 
+          href="teste-vocacional" 
+          class="hidden md:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-black text-[#002776] bg-amber-100 hover:bg-amber-200 border border-amber-300 transition-all cursor-pointer shadow-2xs"
+          title="Descobrir seu perfil profissional e cursos recomendados"
+        >
+          <i data-lucide="compass" class="w-3.5 h-3.5 text-[#002776]"></i>
+          <span class="hidden lg:inline">Teste Vocacional</span>
+          <span class="lg:hidden">Vocacional</span>
+        </a>
+
+        <!-- Botão Mural de Vagas (Independente) -->
+        <a 
+          href="vagas" 
+          class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-black text-white bg-[#002776] hover:bg-blue-900 border border-blue-400/40 transition-all cursor-pointer shadow-2xs"
+          title="Ver vagas abertas de estágio, jovem aprendiz e primeiro emprego"
+        >
+          <i data-lucide="briefcase" class="w-3.5 h-3.5 text-[#ffdf00]"></i>
+          <span class="hidden xl:inline">Mural de Vagas</span>
+          <span class="xl:hidden">Vagas</span>
+        </a>
+
+        <!-- Botão Blog & Dicas (Independente) -->
+        <a 
+          href="blog" 
+          class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-black text-[#00471b] bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 transition-all cursor-pointer shadow-2xs"
+          title="Ver dicas de carreira, entrevistas e artigos"
+        >
+          <i data-lucide="book-open" class="w-3.5 h-3.5 text-[#009639]"></i>
+          <span class="hidden xl:inline">Blog & Dicas</span>
+          <span class="xl:hidden">Blog</span>
+        </a>
+
+        <!-- Botão Galeria de Modelos -->
+        <button 
+          type="button" 
+          class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 rounded-xl text-xs font-black text-[#002776] bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-all cursor-pointer shadow-2xs"
+          onclick="window.cvApp.openGalleryModal()"
+          title="Ver e trocar entre os 12 modelos de currículo"
+        >
+          <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-emerald-600"></i>
+          <span class="hidden sm:inline">12 Modelos</span>
+          <span class="sm:hidden text-[11px]">Modelos</span>
+        </button>
+
+        <!-- Botão Carta de Apresentação -->
+        <button 
+          type="button" 
+          class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 rounded-xl text-xs font-black text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200 transition-all cursor-pointer shadow-2xs"
+          onclick="window.cvApp.openCoverLetterModal()"
+          title="Gerar Carta de Apresentação formal pronta para candidatura"
+        >
+          <i data-lucide="mail" class="w-3.5 h-3.5 text-amber-600"></i>
+          <span class="hidden sm:inline">Carta</span>
+        </button>
+
+        <!-- Botão Baixar PDF Rápido -->
+        <button 
+          type="button" 
+          class="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs font-black text-white bg-gradient-to-r from-[#009B3A] to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 transition-all cursor-pointer shadow-2xs"
+          onclick="window.cvApp.exportCurriculoToPdf()"
+          title="Baixar currículo formatado em PDF A4"
+        >
+          <i data-lucide="download" class="w-3.5 h-3.5 text-[#FFDF00]"></i>
+          <span class="hidden sm:inline">Baixar PDF</span>
+          <span class="sm:hidden text-[11px]">PDF</span>
+        </button>
+
+        <!-- Botão Modo Escuro (Noturno) -->
+        <button 
+          type="button" 
+          id="cv-dark-mode-toggle"
+          class="inline-flex items-center justify-center w-8 h-8 rounded-xl text-slate-700 hover:text-amber-500 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-all cursor-pointer shadow-2xs flex-shrink-0"
+          title="Alternar Modo Escuro / Claro"
+          aria-label="Alternar Modo Noturno"
+        >
+          <i data-lucide="moon" id="cv-dark-mode-icon" class="w-4 h-4 text-slate-700"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Barra de Alternância Mobile Dedicada (Editar vs Ver PDF) -->
+    <div class="lg:hidden border-t border-slate-200/80 bg-slate-50/95 dark:bg-slate-900/95 px-3 py-1.5">
+      <div class="max-w-md mx-auto flex items-center justify-center">
+        <div class="inline-flex rounded-xl bg-slate-200/80 dark:bg-slate-800 p-1 text-xs font-bold w-full max-w-xs shadow-inner">
+          <button 
+            type="button" 
+            id="mobile-btn-edit" 
+            class="flex-1 py-1.5 px-3 rounded-lg bg-white dark:bg-slate-700 text-[#002776] dark:text-emerald-400 shadow-xs cursor-pointer text-center font-black transition-all flex items-center justify-center gap-1.5"
+            onclick="window.cvApp.toggleViewMode('editor')"
+          >
+            <i data-lucide="edit-3" class="w-3.5 h-3.5 text-[#009639]"></i>
+            <span>Editar Currículo</span>
+          </button>
+          <button 
+            type="button" 
+            id="mobile-btn-preview" 
+            class="flex-1 py-1.5 px-3 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 cursor-pointer text-center font-bold transition-all flex items-center justify-center gap-1.5"
+            onclick="window.cvApp.toggleViewMode('preview')"
+          >
+            <i data-lucide="eye" class="w-3.5 h-3.5 text-[#002776]"></i>
+            <span>Ver Folha A4</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Container Principal Dividido em Duas Áreas (Edição + Pré-visualização ao vivo) -->
+  <main class="flex-1 max-w-7xl mx-auto w-full px-2 sm:px-4 py-4 grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+    
+    <!-- COLUNA DA ESQUERDA: PAINEL DE EDIÇÃO (lg:col-span-6 xl:col-span-5) -->
+    <section id="editor-column" class="w-full max-w-full min-w-0 lg:col-span-6 xl:col-span-5 space-y-4">
+
+      <!-- Card Inteligente de Força do Currículo (ATS Score Checker em Tempo Real) -->
+      <div id="ats-score-card" class="bg-white rounded-2xl p-3 sm:p-4 border border-slate-200 shadow-sm transition-all">
+        <div class="flex items-center justify-between gap-2 mb-2">
+          <div class="flex items-center gap-2 font-black text-xs sm:text-sm text-slate-800">
+            <div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center">
+              <i data-lucide="shield-check" class="w-4 h-4"></i>
+            </div>
+            <span>Força do Currículo (Otimização ATS)</span>
+          </div>
+          <span id="ats-score-badge" class="px-2.5 py-0.5 rounded-full text-xs font-black bg-emerald-100 text-emerald-800 transition-colors">
+            0% • Básico
+          </span>
+        </div>
+        <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden mb-2">
+          <div id="ats-score-bar" class="bg-gradient-to-r from-amber-500 to-emerald-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+        <p id="ats-score-tip" class="text-[11px] sm:text-xs text-slate-600 flex items-center gap-1.5">
+          <i data-lucide="lightbulb" class="w-3.5 h-3.5 text-amber-500 flex-shrink-0"></i>
+          <span id="ats-score-tip-text">Preencha seu nome e contatos para começar a pontuar.</span>
+        </p>
+      </div>
+      
+      <!-- Navegação de Etapas (1 a 9) com Rolagem Horizontal Suave -->
+      <div class="bg-white rounded-2xl p-2.5 border border-slate-200 shadow-sm max-w-full min-w-0 overflow-hidden">
+        <div class="flex items-center gap-1 overflow-x-auto pb-1 text-xs font-bold scrollbar-none w-full max-w-full">
+          <button type="button" class="step-tab-btn flex-shrink-0 px-2.5 py-1.5 rounded-lg transition-all cursor-pointer" onclick="window.cvApp.goToStep(1)">1. Contato</button>
+          <button type="button" class="step-tab-btn flex-shrink-0 px-2.5 py-1.5 rounded-lg transition-all cursor-pointer" onclick="window.cvApp.goToStep(2)">2. Objetivo</button>
+          <button type="button" class="step-tab-btn flex-shrink-0 px-2.5 py-1.5 rounded-lg transition-all cursor-pointer" onclick="window.cvApp.goToStep(3)">3. Resumo</button>
+          <button type="button" class="step-tab-btn flex-shrink-0 px-2.5 py-1.5 rounded-lg transition-all cursor-pointer" onclick="window.cvApp.goToStep(4)">4. Experiência</button>
+          <button type="button" class="step-tab-btn flex-shrink-0 px-2.5 py-1.5 rounded-lg transition-all cursor-pointer" onclick="window.cvApp.goToStep(5)">5. Formação</button>
+          <button type="button" class="step-tab-btn flex-shrink-0 px-2.5 py-1.5 rounded-lg transition-all cursor-pointer" onclick="window.cvApp.goToStep(6)">6. Cursos</button>
+          <button type="button" class="step-tab-btn flex-shrink-0 px-2.5 py-1.5 rounded-lg transition-all cursor-pointer" onclick="window.cvApp.goToStep(7)">7. Habilidades</button>
+          <button type="button" class="step-tab-btn flex-shrink-0 px-2.5 py-1.5 rounded-lg transition-all cursor-pointer" onclick="window.cvApp.goToStep(8)">8. Projetos</button>
+          <button type="button" class="step-tab-btn flex-shrink-0 px-2.5 py-1.5 rounded-lg transition-all cursor-pointer" onclick="window.cvApp.goToStep(9)">9. Revisão</button>
+        </div>
+      </div>
+
+      <!-- Card do Formulário da Etapa Atual -->
+      <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+        
+        <!-- Cabeçalho da Etapa Atual -->
+        <div class="border-b border-slate-100 pb-3 flex justify-between items-start">
+          <div>
+            <h2 id="step-header-title" class="text-sm font-black text-slate-900">Etapa 1 de 9 — Dados de Contato</h2>
+            <p id="step-header-subtitle" class="text-xs text-slate-500 mt-0.5">Informações essenciais para recrutadores entrarem em contato.</p>
+          </div>
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 text-[#00702a]">
+            Qualidade: <span class="cv-score-badge">0%</span>
+          </span>
+        </div>
+
+        <!-- Conteúdo Injetado da Etapa Atual -->
+        <div id="form-step-container">
+          <!-- Renderizado via renderCurrentStep() -->
+        </div>
+
+        <!-- Botões de Navegação Entre Etapas -->
+        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+          <button 
+            type="button" 
+            class="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 transition-colors flex items-center gap-1 cursor-pointer"
+            onclick="window.cvApp.prevStep()"
+          >
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            <span>Voltar</span>
+          </button>
+
+          <button 
+            type="button" 
+            class="px-4 py-2 rounded-xl text-xs font-black text-white bg-[#009B3A] hover:bg-[#00702a] transition-all flex items-center gap-1 shadow-sm cursor-pointer"
+            onclick="window.cvApp.nextStep()"
+          >
+            <span>Próxima Etapa</span>
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Barra de Atalhos Rápidos e Segurança -->
+      <div class="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between text-xs text-slate-600">
+        <div class="flex items-center gap-1.5">
+          <i data-lucide="save" class="w-3.5 h-3.5 text-emerald-600"></i>
+          <span>Salvamento automático local ativo</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <button type="button" class="hover:underline text-[#002776] font-bold cursor-pointer" onclick="window.cvApp.exportAsJson()">Exportar JSON</button>
+          <label class="hover:underline text-[#002776] font-bold cursor-pointer">
+            Importar JSON
+            <input type="file" id="import-json-cv-input" accept=".json" class="hidden" aria-label="Importar arquivo de dados de currículo JSON" onchange="if(this.files[0]) window.cvApp.importFromJson(this.files[0])">
+          </label>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- COLUNA DA DIREITA: PRÉ-VISUALIZAÇÃO EM TEMPO REAL (hidden em mobile até alternar) -->
+    <section id="preview-column" class="hidden lg:block w-full max-w-full min-w-0 lg:col-span-6 xl:col-span-7 space-y-3">
+      
+      <!-- Barra de Controle da Visualização -->
+      <div class="bg-white rounded-2xl p-3 border border-slate-200 shadow-sm flex items-center justify-between flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold text-slate-500">Modelo Atual:</span>
+          <button 
+            type="button" 
+            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-800 transition-colors cursor-pointer"
+            onclick="window.cvApp.openGalleryModal()"
+            title="Clique para trocar o modelo"
+          >
+            <span id="current-template-name">Modelo 1 — Clássico</span>
+            <i data-lucide="chevrons-up-down" class="w-3.5 h-3.5 text-slate-400"></i>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <!-- Paletas de Cores Rápidas -->
+          <div class="flex items-center gap-1" title="Cor de destaque do currículo">
+            <button type="button" aria-label="Definir cor de destaque Azul Marinho" title="Azul Marinho" class="w-4 h-4 rounded-full bg-[#002776] border border-white shadow-xs cursor-pointer hover:scale-110 transition-transform" onclick="window.cvApp.setPrimaryColor('#002776')"></button>
+            <button type="button" aria-label="Definir cor de destaque Verde Brasil" title="Verde Brasil" class="w-4 h-4 rounded-full bg-[#009B3A] border border-white shadow-xs cursor-pointer hover:scale-110 transition-transform" onclick="window.cvApp.setPrimaryColor('#009B3A')"></button>
+            <button type="button" aria-label="Definir cor de destaque Cinza Grafite" title="Cinza Grafite" class="w-4 h-4 rounded-full bg-[#1e293b] border border-white shadow-xs cursor-pointer hover:scale-110 transition-transform" onclick="window.cvApp.setPrimaryColor('#1e293b')"></button>
+            <button type="button" aria-label="Definir cor de destaque Vinho Bordô" title="Vinho Bordô" class="w-4 h-4 rounded-full bg-[#881337] border border-white shadow-xs cursor-pointer hover:scale-110 transition-transform" onclick="window.cvApp.setPrimaryColor('#881337')"></button>
+            <button type="button" aria-label="Definir cor de destaque Preto Monocromático" title="Preto Monocromático" class="w-4 h-4 rounded-full bg-[#000000] border border-white shadow-xs cursor-pointer hover:scale-110 transition-transform" onclick="window.cvApp.setPrimaryColor('#000000')"></button>
+          </div>
+
+          <div class="h-4 w-px bg-slate-200"></div>
+
+          <!-- Ajuste de Escala da Fonte -->
+          <div class="flex items-center gap-1 text-xs font-bold text-slate-600">
+            <span>Fonte:</span>
+            <button type="button" class="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200" onclick="window.cvApp.setFontScale(0.9)" title="Reduzir fonte">A -</button>
+            <button type="button" class="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200" onclick="window.cvApp.setFontScale(1.0)" title="Fonte padrão">100%</button>
+            <button type="button" class="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200" onclick="window.cvApp.setFontScale(1.1)" title="Aumentar fonte">A +</button>
+          </div>
+
+          <div class="h-4 w-px bg-slate-200"></div>
+
+          <!-- Botão Imprimir Rápido -->
+          <button 
+            type="button" 
+            class="p-1.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer"
+            onclick="window.print()"
+            title="Imprimir diretamente"
+          >
+            <i data-lucide="printer" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Contêiner de Folha A4 Real -->
+      <div class="cv-paper-container rounded-2xl overflow-x-auto max-w-full border border-slate-300">
+        <div id="cv-paper-preview" class="cv-paper">
+          <!-- O conteúdo fiel do modelo renderizado é inserido aqui -->
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- MODAL: GALERIA COMPLETA COM OS 12 MODELOS -->
+  <div id="gallery-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5 hidden">
+    <div class="bg-white rounded-3xl max-w-5xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-fadeIn">
+      
+      <!-- Cabeçalho do Modal -->
+      <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+        <div>
+          <h3 class="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2">
+            <i data-lucide="layout-grid" class="w-5 h-5 text-[#009B3A]"></i>
+            <span>Escolha entre os 12 Modelos Profissionais</span>
+          </h3>
+          <p class="text-xs text-slate-500">Você pode alternar de modelo a qualquer instante sem perder os dados preenchidos.</p>
+        </div>
+        <button 
+          type="button" 
+          class="p-2 text-slate-400 hover:text-slate-700 rounded-xl hover:bg-slate-100 cursor-pointer"
+          onclick="window.cvApp.closeGalleryModal()"
+          aria-label="Fechar galeria"
+        >
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Grid dos 12 Modelos -->
+      <div id="gallery-cards-grid" class="p-6 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <!-- Injetado dinamicamente via renderGalleryModal() -->
+      </div>
+
+      <!-- Rodapé do Modal -->
+      <div class="px-6 py-3 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
+        <span class="text-xs text-slate-500">Todos os modelos respeitam as melhores práticas de recrutamento e legibilidade.</span>
+        <button 
+          type="button" 
+          class="px-4 py-2 bg-slate-800 text-white text-xs font-bold rounded-xl hover:bg-black transition-colors cursor-pointer"
+          onclick="window.cvApp.closeGalleryModal()"
+        >
+          Fechar
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal da Carta de Apresentação Inteligente -->
+  <div id="cover-letter-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-fade-in-up">
+      <!-- Cabeçalho do Modal -->
+      <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center">
+            <i data-lucide="mail-check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-black text-slate-900 leading-tight">Carta de Apresentação Profissional</h3>
+            <p class="text-xs text-slate-500 font-semibold">Gerada automaticamente com base no seu currículo</p>
+          </div>
+        </div>
+        <button type="button" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors cursor-pointer" onclick="window.cvApp.closeCoverLetterModal()">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Corpo do Modal com Texto Editável -->
+      <div class="p-5 overflow-y-auto space-y-3 flex-1">
+        <!-- Seletor de Tipo de Apresentação -->
+        <div class="flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 text-xs font-bold flex-wrap">
+          <button type="button" id="tab-cl-formal" class="cl-type-btn active flex-1 py-1.5 px-2.5 rounded-lg bg-white text-[#002776] shadow-xs cursor-pointer text-center font-black" onclick="window.cvApp.switchCoverLetterType('formal')">
+            ✉️ Carta de E-mail
+          </button>
+          <button type="button" id="tab-cl-whatsapp" class="cl-type-btn flex-1 py-1.5 px-2.5 rounded-lg text-slate-600 hover:text-slate-900 cursor-pointer text-center font-bold" onclick="window.cvApp.switchCoverLetterType('whatsapp')">
+            💬 WhatsApp Recrutador
+          </button>
+          <button type="button" id="tab-cl-linkedin" class="cl-type-btn flex-1 py-1.5 px-2.5 rounded-lg text-slate-600 hover:text-slate-900 cursor-pointer text-center font-bold" onclick="window.cvApp.switchCoverLetterType('linkedin')">
+            🔗 Conexão LinkedIn
+          </button>
+          <button type="button" id="tab-cl-recommendation" class="cl-type-btn flex-1 py-1.5 px-2.5 rounded-lg text-slate-600 hover:text-slate-900 cursor-pointer text-center font-bold" onclick="window.cvApp.switchCoverLetterType('recommendation')">
+            📜 Carta de Recomendação
+          </button>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-slate-500">
+          <span>Você pode editar e personalizar o texto antes de copiar:</span>
+          <span id="cl-type-indicator" class="font-bold text-[#009639]">Formatada para e-mail ou anexo</span>
+        </div>
+        <textarea 
+          id="cover-letter-text" 
+          rows="14" 
+          class="w-full p-4 rounded-xl border border-slate-300 focus:border-[#009639] focus:ring-2 focus:ring-emerald-200 font-sans text-xs sm:text-sm text-slate-800 leading-relaxed outline-none resize-none bg-slate-50/50"
+        ></textarea>
+      </div>
+
+      <!-- Rodapé do Modal com Ações Rápidas -->
+      <div class="px-5 py-3.5 border-t border-slate-200 bg-slate-50 flex items-center justify-between gap-2 flex-wrap">
+        <button 
+          type="button" 
+          class="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-200 transition-colors cursor-pointer"
+          onclick="window.cvApp.closeCoverLetterModal()"
+        >
+          Fechar
+        </button>
+        <div class="flex items-center gap-2">
+          <button 
+            type="button" 
+            class="px-4 py-2 rounded-xl text-xs font-bold text-slate-700 bg-white border border-slate-300 hover:bg-slate-100 transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+            onclick="window.cvApp.downloadCoverLetterTxt()"
+            title="Baixar carta em formato de texto (.txt)"
+          >
+            <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+            <span>Baixar .TXT</span>
+          </button>
+          <button type="button" id="btn-download-cover-letter-pdf" class="px-4 py-2 rounded-xl text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-300 hover:bg-emerald-100 transition-all flex items-center gap-1.5 cursor-pointer shadow-xs" onclick="window.cvApp.downloadCoverLetterPdf()" title="Baixar carta em formato PDF A4 pronto para impressão">
+            <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+            <span>Baixar PDF</span>
+          </button>
+          <button 
+            type="button" 
+            id="btn-open-wa-cover-letter"
+            class="px-4 py-2 rounded-xl text-xs font-bold text-emerald-800 bg-emerald-100 hover:bg-emerald-200 transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+            onclick="window.cvApp.shareCoverLetterOnWhatsApp()"
+            title="Compartilhar ou enviar via WhatsApp"
+          >
+            <i data-lucide="message-circle" class="w-3.5 h-3.5 text-emerald-700"></i>
+            <span>Enviar no WhatsApp</span>
+          </button>
+          <button 
+            type="button" 
+            id="btn-copy-cover-letter"
+            class="px-5 py-2 rounded-xl text-xs font-black text-white bg-[#009639] hover:bg-[#00702a] transition-all flex items-center gap-1.5 cursor-pointer shadow-md shadow-emerald-700/20 active:scale-95"
+            onclick="window.cvApp.copyCoverLetterText()"
+          >
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+            <span>Copiar Carta</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO INFORMATIVA DE SEO E ORIENTAÇÕES PROFISSIONAIS -->
+  <section class="max-w-7xl mx-auto px-4 py-10 mt-6 border-t border-slate-200 text-slate-700 space-y-6">
+    <div class="text-center max-w-3xl mx-auto">
+      <h2 class="text-xl sm:text-2xl font-black text-[#002776]">Como Criar um Currículo Profissional de Destaque</h2>
+      <p class="text-xs sm:text-sm text-slate-600 mt-1">Dicas práticas desenvolvidas pela equipe do Você Pode Tudo para ajudar você a conquistar sua próxima vaga.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+      <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm space-y-2">
+        <div class="w-8 h-8 rounded-lg bg-emerald-100 text-[#00702a] flex items-center justify-center font-black">1</div>
+        <h3 class="text-sm font-bold text-slate-900">Seja Objetivo e Direto</h3>
+        <p class="text-xs text-slate-600 leading-relaxed">
+          Recrutadores passam em média 6 a 10 segundos na primeira triagem de um currículo. Destaque logo no topo seu objetivo profissional e suas principais competências.
+        </p>
+      </div>
+
+      <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm space-y-2">
+        <div class="w-8 h-8 rounded-lg bg-blue-100 text-[#002776] flex items-center justify-center font-black">2</div>
+        <h3 class="text-sm font-bold text-slate-900">Valorize Cursos Gratuitos</h3>
+        <p class="text-xs text-slate-600 leading-relaxed">
+          Instituições reconhecidas como Fundação Bradesco, SENAI, EV.G e Sebrae oferecem certificados oficiais gratuitos que enriquecem seu perfil e comprovam dedicação.
+        </p>
+      </div>
+
+      <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm space-y-2">
+        <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center font-black">3</div>
+        <h3 class="text-sm font-bold text-slate-900">Revise Sempre a Ortografia</h3>
+        <p class="text-xs text-slate-600 leading-relaxed">
+          Erros gramaticais simples são o principal motivo de eliminação prematura. Use nosso Verificador Integrado na Etapa 9 antes de baixar seu PDF.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-slate-900 text-slate-300 border-t border-slate-800 pt-12 pb-8 mt-14 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-slate-800">
+        
+        <!-- Coluna 1: Sobre o Projeto -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-2.5">
+            <img src="/assets/logo-icon.png" alt="Você Pode Tudo" width="36" height="36" loading="lazy" decoding="async" class="w-9 h-9 object-contain drop-shadow-sm">
+            <div>
+              <span class="text-base font-black text-white leading-tight block">Você<span class="text-[#009639]">Pode</span><span class="text-[#ffcc29]">Tudo</span></span>
+              <span class="text-[9px] uppercase font-bold text-slate-400 tracking-wider">Quem Somos</span>
+            </div>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed font-normal">
+            Portal independente que democratiza o acesso à qualificação profissional gratuita no Brasil por meio de curadoria confiável e ferramentas abertas.
+          </p>
+          <div class="pt-1">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-slate-800 text-emerald-400 border border-slate-700">
+              <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+              <span>Conformidade com a LGPD</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Coluna 2: Ferramentas Gratuitas -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-black uppercase tracking-wider text-[#ffcc29] flex items-center gap-1.5">
+            <i data-lucide="wrench" class="w-3.5 h-3.5"></i>
+            <span>Ferramentas Gratuitas</span>
+          </h4>
+          <ul class="space-y-2 text-xs font-medium">
+            <li>
+              <a href="curriculo" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Criador de Currículos ATS</span>
+              </a>
+            </li>
+            <li>
+              <a href="calculadora-trabalhista" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="calculator" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Calculadoras Trabalhistas CLT</span>
+              </a>
+            </li>
+            <li>
+              <a href="simulador-entrevista" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-purple-400"></i>
+                <span>Simulador de Entrevistas</span>
+              </a>
+            </li>
+            <li>
+              <a href="teste-vocacional" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="compass" class="w-3.5 h-3.5 text-blue-400"></i>
+                <span>Teste Vocacional Online</span>
+              </a>
+            </li>
+            <li>
+              <a href="downloads" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="download" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span>Central de Downloads (Modelos)</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Coluna 3: Cursos & Carreiras -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-black uppercase tracking-wider text-[#ffcc29] flex items-center gap-1.5">
+            <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i>
+            <span>Cursos & Carreiras</span>
+          </h4>
+          <ul class="space-y-2 text-xs font-medium">
+            <li>
+              <a href="/" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="book-open" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Catálogo de Cursos Gratuitos</span>
+              </a>
+            </li>
+            <li>
+              <a href="vagas" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="briefcase" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Mural de Vagas & Aprendiz</span>
+              </a>
+            </li>
+            <li>
+              <a href="cursos-gratis-informatica" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="laptop" class="w-3.5 h-3.5 text-blue-400"></i>
+                <span>Cursos de Informática & Office</span>
+              </a>
+            </li>
+            <li>
+              <a href="cursos-gratis-programacao" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="code" class="w-3.5 h-3.5 text-indigo-400"></i>
+                <span>Cursos de TI & Programação</span>
+              </a>
+            </li>
+            <li>
+              <a href="blog" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="newspaper" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Blog & Dicas Profissionais</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Coluna 4: Institucional -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-black uppercase tracking-wider text-[#ffcc29] flex items-center gap-1.5">
+            <i data-lucide="info" class="w-3.5 h-3.5"></i>
+            <span>Institucional</span>
+          </h4>
+          <ul class="space-y-2 text-xs font-medium">
+            <li>
+              <a href="sobre" class="text-emerald-400 font-bold flex items-center gap-1.5">
+                <i data-lucide="users" class="w-3.5 h-3.5"></i>
+                <span>Quem Somos</span>
+              </a>
+            </li>
+            <li>
+              <a href="midia-kit" class="hover:text-white transition-colors flex items-center gap-1.5 text-emerald-400 font-bold">
+                <i data-lucide="award" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Mídia Kit & Publicidade</span>
+              </a>
+            </li>
+            <li>
+              <a href="contato" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="mail" class="w-3.5 h-3.5 text-slate-400"></i>
+                <span>Fale Conosco & Suporte</span>
+              </a>
+            </li>
+            <li>
+              <a href="politica-privacidade" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-400"></i>
+                <span>Privacidade & Cookies</span>
+              </a>
+            </li>
+            <li>
+              <a href="politica-editorial" class="hover:text-white transition-colors flex items-center gap-1.5"><i data-lucide="book-open-check" class="w-3.5 h-3.5 text-emerald-400"></i><span class="text-emerald-400 font-bold">Diretrizes Editoriais</span></a></li>
+            <li><a href="termos-de-uso" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="file-text" class="w-3.5 h-3.5 text-slate-400"></i>
+                <span>Termos de Uso</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 text-center sm:text-left">
+        <div>
+          <span>© 2026 Você Pode Tudo. Todos os direitos reservados.</span>
+          <span class="block text-[11px] text-slate-500 mt-0.5">Democratizando o acesso à qualificação profissional e recolocação no mercado.</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Barra de Navegação Inferior Mobile (Estilo Aplicativo Nativo) -->
+  <nav 
+    id="mobile-bottom-bar"
+    class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] px-2 py-1.5 w-full max-w-full overflow-hidden"
+    aria-label="Navegação Rápida Mobile"
+  >
+    <div class="max-w-md mx-auto grid grid-cols-5 gap-1 text-center w-full">
+      <a href="/" class="flex flex-col items-center justify-center py-1 rounded-xl text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+        <i data-lucide="home" class="w-5 h-5"></i>
+        <span class="text-[10px] font-bold mt-0.5 leading-none">Início</span>
+      </a>
+      <a href="vagas" class="flex flex-col items-center justify-center py-1 rounded-xl text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+        <i data-lucide="briefcase" class="w-5 h-5"></i>
+        <span class="text-[10px] font-bold mt-0.5 leading-none">Vagas</span>
+      </a>
+      <a href="currículo" class="flex flex-col items-center justify-center py-1 rounded-xl text-emerald-700 dark:text-emerald-400 font-black">
+        <i data-lucide="file-text" class="w-5 h-5"></i>
+        <span class="text-[10px] font-bold mt-0.5 leading-none">Currículo</span>
+      </a>
+      <a href="downloads" class="flex flex-col items-center justify-center py-1 rounded-xl text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+        <i data-lucide="download" class="w-5 h-5"></i>
+        <span class="text-[10px] font-bold mt-0.5 leading-none">Downloads</span>
+      </a>
+      <a href="/#student-auth" class="flex flex-col items-center justify-center py-1 rounded-xl text-purple-700 dark:text-purple-400 hover:text-purple-900 transition-colors">
+        <i data-lucide="user" class="w-5 h-5"></i>
+        <span class="text-[10px] font-bold mt-0.5 leading-none">Aluno</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Scripts da Aplicação -->
+  <script src="./src/data/courses.js?v=4.83.0"></script>
+  <script src="./src/curriculo.js?v=4.83.0"></script>
+  <script src="./src/cookie-banner.js?v=4.83.0"></script>
+
+  <!-- Botão Flutuante Oficial do WhatsApp (Apenas Ícone Circular na Lateral) -->
+  <aside 
+    id="floating-whatsapp-widget" 
+    class="fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-40 flex items-center"
+    aria-label="Grupo Oficial do WhatsApp"
+  >
+    <a 
+      href="https://chat.whatsapp.com/FN9jb73jdKs1UYq0BbIC3j" 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 border-2 border-white focus:outline-none focus:ring-4 focus:ring-emerald-400/50 cursor-pointer relative group"
+      title="Entrar no Grupo Oficial do WhatsApp"
+      aria-label="Entrar no Grupo Oficial do WhatsApp"
+    >
+      <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-[#ffdf00] border-2 border-[#25D366]"></span>
+      </span>
+      <svg class="w-7 h-7 sm:w-8 sm:h-8 fill-current text-white flex-shrink-0" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+      <span class="absolute right-full mr-3 px-2.5 py-1.5 rounded-xl bg-slate-900/95 text-white text-[11px] font-bold whitespace-nowrap shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 hidden sm:block">
+        Grupo Oficial WhatsApp
+      </span>
+    </a>
+  </aside>
+
+</body>
+</html>

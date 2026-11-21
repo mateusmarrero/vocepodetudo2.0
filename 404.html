@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Página Não Encontrada (Erro 404) — Você Pode Tudo</title>
+  <meta name="description" content="A página que você está procurando não existe ou mudou de endereço. Acesse nossos cursos gratuitos, vagas e materiais para download.">
+  <meta name="robots" content="noindex, follow">
+
+  <!-- Favicon & PWA -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo-icon.png">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#005e24">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              green: '#009B3A',
+              yellow: '#FFDF00',
+              blue: '#002776'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Lucide Icons -->
+  <script defer src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="./src/style.css?v=4.83.0">
+  <!-- NOTA ADSENSE: Páginas de erro 404 não devem exibir anúncios, cumprindo as Diretrizes Oficiais do AdSense. -->
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col font-sans">
+
+  <!-- Header Enxuto -->
+  <header class="bg-white/95 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 py-3.5 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-3 group">
+        <img 
+          src="/assets/logo-icon.png" 
+          alt="Logo Oficial Você Pode Tudo" 
+          width="36" 
+          height="36" 
+          decoding="async" 
+          class="h-8 sm:h-9 w-auto object-contain drop-shadow-xs group-hover:scale-105 transition-transform flex-shrink-0"
+        >
+        <div>
+          <span class="text-lg font-black tracking-tight text-slate-900">Você<span class="text-[#009639]">Pode</span><span class="text-[#FFDF00]">Tudo</span></span>
+          <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Página Não Encontrada</span>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-4 text-xs font-bold text-slate-600">
+        <a href="/" class="hover:text-emerald-600 transition-colors">Cursos Gratuitos</a>
+        <a href="vagas" class="hover:text-emerald-600 transition-colors">Vagas</a>
+        <a href="downloads" class="hover:text-blue-600 transition-colors">Downloads</a>
+        <a href="calculadora-trabalhista" class="hover:text-emerald-600 transition-colors">Calculadoras</a>
+        <a href="contato" class="hover:text-emerald-600 transition-colors">Fale Conosco</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 py-16 flex flex-col items-center justify-center text-center space-y-8">
+    
+    <div class="space-y-4">
+      <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-3xl bg-emerald-100 text-[#009639] flex items-center justify-center shadow-inner">
+        <i data-lucide="compass" class="w-10 h-10 sm:w-12 sm:h-12 animate-pulse"></i>
+      </div>
+
+      <span class="inline-block px-3 py-1 rounded-full text-xs font-black bg-rose-100 text-rose-800 uppercase tracking-widest">
+        Erro 404
+      </span>
+
+      <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+        Ops! Essa página mudou de lugar ou não existe.
+      </h1>
+
+      <p class="text-xs sm:text-sm text-slate-600 max-w-lg mx-auto leading-relaxed">
+        Não se preocupe! O portal <strong>Você Pode Tudo</strong> continua repleto de conteúdos e ferramentas 100% gratuitos para impulsionar sua carreira.
+      </p>
+    </div>
+
+    <!-- Grade de Atalhos Rápidos -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full text-left">
+      
+      <a href="/" class="p-4 bg-white rounded-2xl border border-slate-200 hover:border-emerald-500 shadow-sm transition-all group flex flex-col justify-between">
+        <div class="space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-emerald-100 text-[#009639] flex items-center justify-center font-bold">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+          </div>
+          <h3 class="text-xs font-bold text-slate-900 group-hover:text-emerald-600">Catálogo de Cursos</h3>
+          <p class="text-[11px] text-slate-500">174+ cursos gratuitos com certificado oficial.</p>
+        </div>
+        <span class="text-[11px] font-bold text-emerald-600 mt-3 flex items-center gap-1">Acessar →</span>
+      </a>
+
+      <a href="downloads" class="p-4 bg-white rounded-2xl border border-slate-200 hover:border-blue-500 shadow-sm transition-all group flex flex-col justify-between">
+        <div class="space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
+            <i data-lucide="download" class="w-4 h-4"></i>
+          </div>
+          <h3 class="text-xs font-bold text-slate-900 group-hover:text-blue-600">Central de Downloads</h3>
+          <p class="text-[11px] text-slate-500">Modelos de currículo, cartas e planilhas.</p>
+        </div>
+        <span class="text-[11px] font-bold text-blue-600 mt-3 flex items-center gap-1">Acessar →</span>
+      </a>
+
+      <a href="vagas" class="p-4 bg-white rounded-2xl border border-slate-200 hover:border-indigo-500 shadow-sm transition-all group flex flex-col justify-between">
+        <div class="space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">
+            <i data-lucide="briefcase" class="w-4 h-4"></i>
+          </div>
+          <h3 class="text-xs font-bold text-slate-900 group-hover:text-indigo-600">Mural de Vagas</h3>
+          <p class="text-[11px] text-slate-500">Vagas de emprego, estágio e jovem aprendiz.</p>
+        </div>
+        <span class="text-[11px] font-bold text-indigo-600 mt-3 flex items-center gap-1">Acessar →</span>
+      </a>
+
+      <a href="calculadora-trabalhista" class="p-4 bg-white rounded-2xl border border-slate-200 hover:border-amber-500 shadow-sm transition-all group flex flex-col justify-between">
+        <div class="space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
+            <i data-lucide="calculator" class="w-4 h-4"></i>
+          </div>
+          <h3 class="text-xs font-bold text-slate-900 group-hover:text-amber-700">Calculadoras CLT</h3>
+          <p class="text-[11px] text-slate-500">Salário líquido, rescisão e seguro-desemprego.</p>
+        </div>
+        <span class="text-[11px] font-bold text-amber-700 mt-3 flex items-center gap-1">Acessar →</span>
+      </a>
+
+    </div>
+
+    <div>
+      <a href="/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#009639] hover:bg-[#00702a] text-white font-black text-xs uppercase tracking-wider shadow-md transition-all">
+        <i data-lucide="home" class="w-4 h-4"></i>
+        <span>Voltar para a Página Inicial</span>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Rodapé -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-6 border-t border-slate-800 text-center space-y-2">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex flex-wrap items-center justify-center gap-3 text-[11px] text-slate-400">
+        <a href="/" class="hover:text-emerald-400">Início</a>
+        <span>•</span>
+        <a href="sobre" class="hover:text-emerald-400">Quem Somos</a>
+        <span>•</span>
+        <a href="contato" class="hover:text-emerald-400">Fale Conosco</a>
+        <span>•</span>
+        <a href="politica-privacidade" class="hover:text-emerald-400">Privacidade</a>
+        <span>•</span>
+        <a href="midia-kit" class="hover:text-emerald-700 font-bold transition-colors">Mídia Kit</a>
+        <span>•</span>
+        <a href="termos-de-uso" class="hover:text-emerald-400">Termos</a>
+      </div>
+      <p class="text-slate-500 text-[10px] mt-2">© 2026 Você Pode Tudo (vocepodetudo.com)</p>
+    </div>
+  </footer>
+
+  <script>
+    if (window.lucide) window.lucide.createIcons();
+  </script>
+</body>
+</html>

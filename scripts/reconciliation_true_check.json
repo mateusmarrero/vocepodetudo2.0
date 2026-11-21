@@ -1,0 +1,1442 @@
+[
+  {
+    "id": 1,
+    "title": "Como Montar um Currículo Campeão Sem Experiência Prévia (Padrão ATS)",
+    "slug": "como-montar-curriculo-sem-experiencia-ats",
+    "category": "curriculo_linkedin",
+    "created_at": "2026-10-25 10:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 2,
+    "title": "Primeiro Emprego & Jovem Aprendiz: Guia Definitivo dos Seus Direitos",
+    "slug": "primeiro-emprego-jovem-aprendiz-guia-completo",
+    "category": "primeiro_emprego",
+    "created_at": "2026-10-26 14:30:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 3,
+    "title": "10 Perguntas Mais Comuns em Entrevistas e Como Responder com o Método STAR",
+    "slug": "10-perguntas-entrevistas-metodo-star",
+    "category": "entrevistas",
+    "created_at": "2026-10-27 09:15:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 4,
+    "title": "LinkedIn para Iniciantes: Como Transformar seu Perfil em um Ímã de Vagas",
+    "slug": "linkedin-para-iniciantes-perfil-campeao",
+    "category": "curriculo_linkedin",
+    "created_at": "2026-10-27 16:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 5,
+    "title": "Os 10 Cursos Gratuitos com Certificado Oficial Mais Valorizados pelas Empresas em 2026",
+    "slug": "os-10-melhores-cursos-gratuitos-com-certificado-oficial-2026",
+    "category": "carreira",
+    "created_at": "2026-10-29 08:30:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 6,
+    "title": "Como Passar no Processo Seletivo de Jovem Aprendiz 2026: Provas, Dinâmicas e Entrevistas",
+    "slug": "como-passar-em-processos-seletivos-de-jovem-aprendiz-passo-a-passo",
+    "category": "primeiro_emprego",
+    "created_at": "2026-10-30 11:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 7,
+    "title": "As 6 Habilidades e Soft Skills Mais Cobradas nas Contratações em 2026",
+    "slug": "habilidades-mais-pedidas-nas-empresas-em-2026",
+    "category": "carreira",
+    "created_at": "2026-10-31 09:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 8,
+    "title": "Inteligência Artificial: 10 Ferramentas Gratuitas para Aumentar sua Produtividade",
+    "slug": "inteligencia-artificial-10-ferramentas-gratuitas-produtividade",
+    "category": "tecnologia",
+    "created_at": "2026-11-01 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 9,
+    "title": "10 Sites Oficiais que Oferecem Cursos Gratuitos com Certificado em 2026",
+    "slug": "10-sites-oferecem-cursos-gratuitos-certificado-oficial",
+    "category": "estudos",
+    "created_at": "2026-11-02 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 10,
+    "title": "Excel do Zero: Por Onde Começar e Onde Aprender Gratuitamente",
+    "slug": "excel-do-zero-por-onde-comecar-e-onde-aprender-gratuitamente",
+    "category": "tecnologia",
+    "created_at": "2026-11-03 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 11,
+    "title": "Como Conseguir Emprego Mesmo Sem Experiência Prévia: Guia Prático 2026",
+    "slug": "como-conseguir-emprego-mesmo-sem-experiencia-previa",
+    "category": "primeiro_emprego",
+    "created_at": "2026-11-04 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 12,
+    "title": "Segurança Digital: Como Proteger Seus Dados e Senhas na Internet",
+    "slug": "seguranca-digital-como-proteger-seus-dados-e-dispositivos",
+    "category": "tecnologia",
+    "created_at": "2026-11-05 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 13,
+    "title": "Soft Skills: 12 Habilidades Comportamentais que Podem Mudar Sua Carreira",
+    "slug": "soft-skills-12-habilidades-comportamentais-mais-valorizadas",
+    "category": "carreira",
+    "created_at": "2026-11-06 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 14,
+    "title": "Jovem Aprendiz: Como Encontrar Vagas Reais e Fazer sua Inscrição com Sucesso",
+    "slug": "jovem-aprendiz-como-encontrar-vagas-e-fazer-inscricao",
+    "category": "primeiro_emprego",
+    "created_at": "2026-11-07 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 15,
+    "title": "Profissões de Tecnologia que Não Exigem Faculdade para Começar",
+    "slug": "profissoes-de-tecnologia-que-nao-exigem-faculdade",
+    "category": "tecnologia",
+    "created_at": "2026-11-08 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 16,
+    "title": "Fundao Bradesco: Como Estudar Gratuitamente pela Internet na Escola Virtual",
+    "slug": "fundacao-bradesco-como-estudar-gratuitamente-escola-virtual",
+    "category": "estudos",
+    "created_at": "2026-11-09 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 17,
+    "title": "As 15 Profissões que Mais Crescem no Brasil em 2026",
+    "slug": "as-15-profissoes-que-mais-crescem-no-brasil-em-2026",
+    "category": "carreira",
+    "created_at": "2026-11-10 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 18,
+    "title": "Como Usar o ChatGPT para Estudar e Aprender Qualquer Assunto Mais Rápido",
+    "slug": "como-usar-o-chatgpt-para-estudar-e-aprender-mais-rapido",
+    "category": "tecnologia",
+    "created_at": "2026-11-11 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 19,
+    "title": "Cursos Gratuitos do Governo Federal: Como Aproveitar as Oportunidades do Gov.br e Enap",
+    "slug": "cursos-gratuitos-governo-federal-como-aproveitar-govbr-enap",
+    "category": "estudos",
+    "created_at": "2026-11-12 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 20,
+    "title": "Organização e Produtividade: Como Estudar Mesmo Tendo Pouco Tempo Livre",
+    "slug": "organizacao-e-produtividade-como-estudar-tendo-pouco-tempo",
+    "category": "carreira",
+    "created_at": "2026-11-13 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 21,
+    "title": "Depois dos 40 Anos: Como Recomear e se Recolocar no Mercado Profissional",
+    "slug": "depois-dos-40-anos-como-recomecar-e-se-recolocar-no-mercado",
+    "category": "carreira",
+    "created_at": "2026-11-14 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 22,
+    "title": "Programao para Iniciantes: Como Começar Mesmo Sem Saber Nada de Código",
+    "slug": "programacao-para-iniciantes-como-comecar-sem-saber-codigo",
+    "category": "tecnologia",
+    "created_at": "2026-11-15 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 23,
+    "title": "Microsoft Learn: Como Estudar Tecnologia e Nuvem Gratuitamente com a Microsoft",
+    "slug": "microsoft-learn-aprenda-tecnologia-e-nuvem-com-a-microsoft",
+    "category": "estudos",
+    "created_at": "2026-11-16 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 24,
+    "title": "O Que os Recrutadores Realmente Procuram em um Candidato em 2026?",
+    "slug": "o-que-os-recrutadores-realmente-procuram-em-um-candidato-2026",
+    "category": "entrevistas",
+    "created_at": "2026-11-17 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 25,
+    "title": "Cisco Networking Academy: Cursos Gratuitos para Entrar na Tecnologia e Redes",
+    "slug": "cisco-networking-academy-cursos-gratuitos-para-entrar-em-ti",
+    "category": "estudos",
+    "created_at": "2026-11-18 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 26,
+    "title": "Como Falar Bem em Público e Perder o Medo de Apresentaes e Entrevistas",
+    "slug": "como-falar-bem-em-publico-e-perder-o-medo-de-apresentacoes",
+    "category": "carreira",
+    "created_at": "2026-11-19 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 27,
+    "title": "Incluso no Mercado de Trabalho: Direitos e Oportunidades para Pessoas com Deficiência (PcD)",
+    "slug": "inclusao-mercado-trabalho-direitos-oportunidades-pcd",
+    "category": "primeiro_emprego",
+    "created_at": "2026-11-20 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 28,
+    "title": "Lógica de Programao: O Primeiro Passo para Entrar na Tecnologia",
+    "slug": "logica-de-programacao-primeiro-passo-para-entrar-em-ti",
+    "category": "tecnologia",
+    "created_at": "2026-11-21 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 29,
+    "title": "Hackers do Bem: Como Começar uma Carreira em Segurança Ciberntica",
+    "slug": "hackers-do-bem-como-comecar-carreira-ciberseguranca",
+    "category": "estudos",
+    "created_at": "2026-11-22 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 30,
+    "title": "Trabalho Remoto: Como Conseguir Sua Primeira Vaga Home Office no Brasil",
+    "slug": "trabalho-remoto-como-conseguir-sua-primeira-vaga-home-office",
+    "category": "carreira",
+    "created_at": "2026-11-23 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 31,
+    "title": "Cursos Gratuitos de Inglês: Onde Estudar do Básico  Conversão Sem Gastar Nada",
+    "slug": "cursos-gratuitos-de-ingles-onde-estudar-sem-gastar-nada",
+    "category": "estudos",
+    "created_at": "2026-11-24 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 32,
+    "title": "Networking Descomplicado: Como Criar uma Rede de Contatos no LinkedIn",
+    "slug": "networking-descomplicado-como-criar-rede-de-contatos-linkedin",
+    "category": "curriculo_linkedin",
+    "created_at": "2026-11-25 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 33,
+    "title": "Como Identificar Vagas de Emprego Falsas e se Proteger de Golpes na Internet",
+    "slug": "como-identificar-vagas-de-emprego-falsas-e-evitar-golpes",
+    "category": "carreira",
+    "created_at": "2026-11-26 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 34,
+    "title": "Computao em Nuvem (Cloud): O Que  e Por Que Todo Profissional Deveria Entender?",
+    "slug": "computacao-em-nuvem-o-que-e-e-por-que-aprender-cloud",
+    "category": "tecnologia",
+    "created_at": "2026-11-27 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 35,
+    "title": "Como se Comportar no Primeiro Dia de Trabalho: Dicas para Começar com o P Direito",
+    "slug": "como-se-comportar-no-primeiro-dia-de-trabalho-dicas-praticas",
+    "category": "carreira",
+    "created_at": "2026-11-28 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 36,
+    "title": "Como Montar um Plano de Estudos Eficiente e Não Desistir no Meio do Caminho",
+    "slug": "como-montar-um-plano-de-estudos-e-nao-desistir-no-caminho",
+    "category": "estudos",
+    "created_at": "2026-11-29 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 37,
+    "title": "Nunca  Tarde para Aprender: Como Voltar a Estudar e se Qualificar em Qualquer Idade",
+    "slug": "nunca-e-tarde-para-aprender-como-voltar-a-estudar-em-qualquer-idade",
+    "category": "estudos",
+    "created_at": "2026-11-30 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 38,
+    "title": "Série Do Zero ao Mercado de Trabalho #1: Não Tenho Experiência, Por Onde Começar?",
+    "slug": "do-zero-ao-mercado-de-trabalho-por-onde-comecar-sem-experiencia",
+    "category": "primeiro_emprego",
+    "created_at": "2026-12-01 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 39,
+    "title": "Série Do Zero ao Mercado de Trabalho #2: Como Descobrir Qual Profissão Seguir sem Pagar Consultoria",
+    "slug": "do-zero-ao-mercado-de-trabalho-como-descobrir-sua-vocacao-profissional",
+    "category": "carreira",
+    "created_at": "2026-12-02 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 40,
+    "title": "Série Do Zero ao Mercado de Trabalho #3: Como Escolher um Curso Gratuito que Realmente Vale a Pena",
+    "slug": "do-zero-ao-mercado-de-trabalho-como-escolher-o-curso-gratuito-certo",
+    "category": "estudos",
+    "created_at": "2026-12-03 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 41,
+    "title": "Série Do Zero ao Mercado de Trabalho #4: Como Organizar seus Estudos em Casa Estudando 1 Hora por Dia",
+    "slug": "do-zero-ao-mercado-de-trabalho-como-organizar-rotina-estudos",
+    "category": "estudos",
+    "created_at": "2026-12-04 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 42,
+    "title": "Série Do Zero ao Mercado de Trabalho #5: Como Montar seu Primeiro Currículo no Formato Padrão ATS",
+    "slug": "do-zero-ao-mercado-de-trabalho-passo-a-passo-primeiro-curriculo-ats",
+    "category": "curriculo_linkedin",
+    "created_at": "2026-12-05 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 43,
+    "title": "Série Do Zero ao Mercado de Trabalho #6: Como se Preparar para a Primeira Entrevista e Vencer o Nervosismo",
+    "slug": "do-zero-ao-mercado-de-trabalho-como-se-preparar-para-entrevista",
+    "category": "entrevistas",
+    "created_at": "2026-12-06 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 44,
+    "title": "Série Do Zero ao Mercado de Trabalho #7: Onde e Como Encontrar sua Primeira Oportunidade Sem Cair em Golpes",
+    "slug": "do-zero-ao-mercado-de-trabalho-onde-encontrar-vagas-reais",
+    "category": "primeiro_emprego",
+    "created_at": "2026-12-07 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 45,
+    "title": "Série Do Zero ao Mercado de Trabalho #8: Fui Contratado! Como Agir nos Primeiros 90 Dias e Garantir sua Efetivação",
+    "slug": "do-zero-ao-mercado-de-trabalho-primeiros-90-dias-como-garantir-efetivacao",
+    "category": "carreira",
+    "created_at": "2026-12-08 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 46,
+    "title": "10 Erros Graves que Fazem um Candidato Perder a Vaga de Emprego Antes da Entrevista",
+    "slug": "10-erros-que-fazem-candidato-perder-oportunidade-emprego",
+    "category": "primeiro_emprego",
+    "created_at": "2026-12-09 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 47,
+    "title": "O Que Responder Quando o Recrutador Pergunta: \"Por Que Devemos Contratar Vocêê?\"",
+    "slug": "o-que-responder-por-que-devemos-contratar-voce",
+    "category": "entrevistas",
+    "created_at": "2026-12-10 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 48,
+    "title": "Quais São as Profissões Mais Acessíveis para Quem Estáá Começando no Mercado?",
+    "slug": "profissoes-mais-acessiveis-para-quem-esta-comecando",
+    "category": "primeiro_emprego",
+    "created_at": "2026-12-11 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 49,
+    "title": "Como Conseguir Emprego Mesmo Sem Indicação: O Método do Candidato Independente",
+    "slug": "como-conseguir-emprego-sem-indicacao-sem-qi",
+    "category": "primeiro_emprego",
+    "created_at": "2026-12-12 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 50,
+    "title": "Plano de Ação de 30 Dias para Conquistar seu Primeiro Emprego ou Estáágio",
+    "slug": "plano-de-30-dias-para-conseguir-primeiro-emprego",
+    "category": "primeiro_emprego",
+    "created_at": "2026-12-13 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 51,
+    "title": "Como Explicar Períodos Sem Trabalhar no Currículo Sem Prejudicar sua Candidatura",
+    "slug": "como-explicar-periodos-sem-trabalhar-no-curriculo",
+    "category": "curriculo_linkedin",
+    "created_at": "2026-12-14 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 52,
+    "title": "Currículo com ou sem Foto: O Que Dizem os Recrutadores e a Norma ATS em 2026?",
+    "slug": "curriculo-com-ou-sem-foto-regras-e-padroes-atuais",
+    "category": "curriculo_linkedin",
+    "created_at": "2026-12-15 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 53,
+    "title": "Como Colocar Trabalhos Informais, Vendas e Freelances no Currículo de Forma Profissional",
+    "slug": "como-colocar-trabalhos-informais-bicos-no-curriculo",
+    "category": "curriculo_linkedin",
+    "created_at": "2026-12-16 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 54,
+    "title": "O Que NUNCA Colocar no Currículo Profissional: 9 Informações Desnecessárias e Perigosas",
+    "slug": "o-que-nao-colocar-no-curriculo-profissional-erros-comuns",
+    "category": "curriculo_linkedin",
+    "created_at": "2026-12-17 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 55,
+    "title": "Como Responder à Pergunta \"Qual é o Seu Maior Defeito?\" Sem Soar Artificial ou Clichê",
+    "slug": "como-responder-pergunta-qual-seu-maior-defeito-entrevista",
+    "category": "entrevistas",
+    "created_at": "2026-12-18 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 56,
+    "title": "Como Falar de Pretensão Salarial e Negociar Remuneração Durante a Entrevista",
+    "slug": "como-negociar-salario-pretensao-salarial-na-entrevista",
+    "category": "entrevistas",
+    "created_at": "2026-12-19 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 57,
+    "title": "Como se Preparar para Entrevistas de Emprego Online: Câmera, Áudio, Cenário e Postura",
+    "slug": "como-se-preparar-para-entrevista-de-emprego-online-videochamada",
+    "category": "entrevistas",
+    "created_at": "2026-12-20 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 58,
+    "title": "Guia de Respostas para as 7 Perguntas Mais Difíceis em Entrevistas de Emprego",
+    "slug": "como-responder-perguntas-dificeis-e-pegadinhas-em-entrevistas",
+    "category": "entrevistas",
+    "created_at": "2026-12-21 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 59,
+    "title": "Como Utilizar Inteligência Artificial para Otimizar seu Currículo com Palavras-Chave de RH",
+    "slug": "como-usar-inteligencia-artificial-para-melhorar-curriculo",
+    "category": "curriculo_linkedin",
+    "created_at": "2026-12-22 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 60,
+    "title": "15 Profissões que Permitem Trabalhar de Casa (Home Office) no Brasil em 2026",
+    "slug": "15-profissoes-que-permitem-trabalhar-de-casa-home-office",
+    "category": "carreira",
+    "created_at": "2026-12-23 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 61,
+    "title": "10 Profissões com Boa Remuneração que Não Exigem Faculdade para Iniciar",
+    "slug": "profissoes-que-nao-exigem-faculdade-para-ganhar-bem",
+    "category": "carreira",
+    "created_at": "2026-12-24 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 62,
+    "title": "Quais Profissões Mais Estáão Mudando com a Inteligência Artificial e Como se Adaptar?",
+    "slug": "quais-profissoes-estao-mudando-com-a-inteligencia-artificial",
+    "category": "tecnologia",
+    "created_at": "2026-12-25 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 63,
+    "title": "Profissões para Quem Gosta de Tecnologia Mas Não Quer Apenas Programar Código",
+    "slug": "profissoes-para-quem-gosta-de-tecnologia-alem-da-programacao",
+    "category": "tecnologia",
+    "created_at": "2026-12-26 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 64,
+    "title": "Como Começar uma Carreira em Segurança da Informação do Zero (Guia de Cibersegurança)",
+    "slug": "como-comecar-carreira-em-seguranca-da-informacao-ciberseguranca",
+    "category": "tecnologia",
+    "created_at": "2026-12-27 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 65,
+    "title": "O Que Faz um Assistente Administrativo? Rotinas, Salário Médio e Como Entrar na Área",
+    "slug": "o-que-faz-um-assistente-administrativo-rotinas-e-salario",
+    "category": "carreira",
+    "created_at": "2026-12-28 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 66,
+    "title": "Como Trabalhar com Suporte Técnico de Informática (Help Desk): Porta de Entrada para TI",
+    "slug": "como-trabalhar-com-suporte-tecnico-de-ti-help-desk",
+    "category": "tecnologia",
+    "created_at": "2026-12-29 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 67,
+    "title": "Melhores Carreiras e Profissões para Quem Gosta de Lidar Diretamente com Pessoas",
+    "slug": "profissoes-para-quem-gosta-de-trabalhar-com-pessoas-comunicacao",
+    "category": "carreira",
+    "created_at": "2026-12-30 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 68,
+    "title": "Áreas Profissionais que Mais Oferecem Vagas e Oportunidades Reais para PcD",
+    "slug": "areas-profissionais-oportunidades-inclusao-pcd",
+    "category": "carreira",
+    "created_at": "2026-12-31 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 69,
+    "title": "Como Descobrir uma Profissão que Combina com Sua Personalidade e Interesses",
+    "slug": "como-descobrir-uma-profissao-que-combina-com-voce",
+    "category": "carreira",
+    "created_at": "2027-01-01 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 70,
+    "title": "Educação Financeira Básica: Como Organizar seu Dinheiro Ganhando um Salário Mínimo",
+    "slug": "como-organizar-dinheiro-ganhando-um-salario-minimo",
+    "category": "carreira",
+    "created_at": "2027-01-02 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 71,
+    "title": "Como Estudar Gratuitamente e Aprender Habilidades Novas Mesmo com Pouco Tempo Livre",
+    "slug": "como-estudar-gratuitamente-mesmo-tendo-pouco-tempo",
+    "category": "estudos",
+    "created_at": "2027-01-03 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 72,
+    "title": "Como Criar uma Rotina de Estudos Saudável Trabalhando em Tempo Integral (8 Horas)",
+    "slug": "como-criar-rotina-estudos-trabalhando-dia-inteiro",
+    "category": "estudos",
+    "created_at": "2027-01-04 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 73,
+    "title": "Como Aprender uma Nova Profissão Depois dos 40 Anos: Dicas Práticas de Transição",
+    "slug": "como-aprender-uma-nova-profissao-depois-dos-40-anos",
+    "category": "carreira",
+    "created_at": "2027-01-05 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 74,
+    "title": "7 Hábitos Simples do Dia a Dia que Aceleram seu Crescimento Profissional",
+    "slug": "7-habitos-diarios-que-aceleram-crescimento-profissional",
+    "category": "carreira",
+    "created_at": "2027-01-06 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 75,
+    "title": "Como Vencer a Insegurança e a Ansiedade Durante a Busca por Emprego",
+    "slug": "como-vencer-inseguranca-e-ansiedade-ao-procurar-emprego",
+    "category": "carreira",
+    "created_at": "2027-01-07 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 76,
+    "title": "Como Estudar pelo Celular e Aproveitar o Tempo no Transporte Público com Produtividade",
+    "slug": "como-estudar-pelo-celular-e-aproveitar-tempo-no-transporte",
+    "category": "estudos",
+    "created_at": "2027-01-08 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 77,
+    "title": "Como Montar um Planejamento de Carreira Realista para os Próximos 12 Meses",
+    "slug": "como-montar-planejamento-de-carreira-para-os-proximos-12-meses",
+    "category": "carreira",
+    "created_at": "2027-01-09 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 78,
+    "title": "Por Que Aprender Informática Básica Ainda é o Requisito Número 1 das Empresas?",
+    "slug": "por-que-aprender-informatica-basica-ainda-e-fundamental",
+    "category": "tecnologia",
+    "created_at": "2027-01-10 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 79,
+    "title": "Como Transformar Cursos e Conhecimentos Gratuitos em Oportunidades Reais de Trabalho",
+    "slug": "como-transformar-conhecimentos-gratuitos-em-oportunidades-profissionais",
+    "category": "carreira",
+    "created_at": "2027-01-11 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 80,
+    "title": "Como Criar Apresentações de Slides Profissionais Gratuitamente (Canva e Google Slides)",
+    "slug": "como-criar-apresentacoes-profissionais-gratuitamente-canva-google-slides",
+    "category": "tecnologia",
+    "created_at": "2027-01-12 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 81,
+    "title": "Como Aprender Excel e Google Planilhas do Zero Usando Aulas e Modelos Gratuitos",
+    "slug": "como-aprender-excel-e-planilhas-utilizando-ferramentas-gratuitas",
+    "category": "tecnologia",
+    "created_at": "2027-01-13 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 82,
+    "title": "O Que é Inteligência Artificial Generativa e Como Ela Pode Impulsionar sua Carreira",
+    "slug": "o-que-e-inteligencia-artificial-generativa-e-como-ajuda-na-carreira",
+    "category": "tecnologia",
+    "created_at": "2027-01-14 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 83,
+    "title": "Como Proteger seus Dados Pessoais e Evitar Vazamentos ao se Candidatar a Vagas Online",
+    "slug": "como-proteger-dados-pessoais-lgpd-ao-procurar-emprego-na-internet",
+    "category": "tecnologia",
+    "created_at": "2027-01-15 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 84,
+    "title": "Como Identificar Vagas Falsas e Promessas Enganosas Divulgadas no Instagram e WhatsApp",
+    "slug": "como-identificar-vagas-falsas-e-anuncios-enganosos-redes-sociais",
+    "category": "carreira",
+    "created_at": "2027-01-16 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 85,
+    "title": "Como Criar um Portfólio Profissional Atraente Mesmo Sem Ter Experiência Prévia",
+    "slug": "como-criar-portfolio-profissional-mesmo-sem-experiencia",
+    "category": "carreira",
+    "created_at": "2027-01-17 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 86,
+    "title": "Mensagens Prontas para Abordar Recrutadores no LinkedIn Sem Parecer Inconveniente",
+    "slug": "como-abordar-recrutadores-no-linkedin-com-mensagens-prontas",
+    "category": "curriculo_linkedin",
+    "created_at": "2027-01-18 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 87,
+    "title": "Quais Habilidades Digitais Serão Mais Valorizadas pelas Empresas nos Próximos Anos?",
+    "slug": "quais-habilidades-digitais-serao-mais-valorizadas-nos-proximos-anos",
+    "category": "tecnologia",
+    "created_at": "2027-01-19 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 88,
+    "title": "Quais São os Direitos de Quem Trabalha aos Domingos e Feriados? Regras da CLT",
+    "slug": "direitos-trabalhador-domingos-e-feriados-regras-clt",
+    "category": "direitos",
+    "created_at": "2027-01-20 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 89,
+    "title": "Banco de Horas: Como Funciona e Quais São os Direitos do Trabalhador?",
+    "slug": "banco-de-horas-como-funciona-direitos-do-trabalhador",
+    "category": "direitos",
+    "created_at": "2027-01-21 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 90,
+    "title": "Trabalho Temporário, Terceirizado e Efetivo: Entenda as Diferenças",
+    "slug": "trabalho-temporario-terceirizado-e-efetivo-entenda-diferencas",
+    "category": "direitos",
+    "created_at": "2027-01-22 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 91,
+    "title": "O Que Acontece Quando uma Empresa Não Registra um Funcionário na Carteira?",
+    "slug": "o-que-acontece-quando-empresa-nao-registra-funcionario",
+    "category": "direitos",
+    "created_at": "2027-01-23 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 92,
+    "title": "Como Funciona o Aviso-Prévio e Quais São os Direitos do Trabalhador?",
+    "slug": "como-funciona-aviso-previo-direitos-do-trabalhador",
+    "category": "direitos",
+    "created_at": "2027-01-24 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 93,
+    "title": "FGTS: Como Consultar o Saldo e Entender os Depósitos Mensais no Aplicativo",
+    "slug": "fgts-como-consultar-saldo-e-entender-depositos",
+    "category": "direitos",
+    "created_at": "2027-01-25 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 94,
+    "title": "Seguro-Desemprego: Quem Tem Direito e Como Solicitar Pelo Aplicativo Gov.br",
+    "slug": "seguro-desemprego-quem-tem-direito-e-como-solicitar-govbr",
+    "category": "direitos",
+    "created_at": "2027-01-26 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 95,
+    "title": "O Que é o Cadastro Único (CadÚnico) e Quais Benefícios Ele Oferece?",
+    "slug": "cadastro-unico-cadunico-o-que-e-e-quais-beneficios-oferece",
+    "category": "direitos",
+    "created_at": "2027-01-27 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 96,
+    "title": "Carteira de Trabalho Digital: Guia Completo para Utilizar o Aplicativo Oficial",
+    "slug": "carteira-de-trabalho-digital-guia-completo-aplicativo",
+    "category": "direitos",
+    "created_at": "2027-01-28 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 97,
+    "title": "Quais São os Direitos Trabalhistas das Pessoas com Deficiência (PcD)?",
+    "slug": "direitos-trabalhistas-das-pessoas-com-deficiencia-guia",
+    "category": "direitos",
+    "created_at": "2027-01-29 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 98,
+    "title": "Como Identificar Notícias Falsas e Informações Manipuladas na Internet",
+    "slug": "como-identificar-noticias-falsas-fake-news-internet",
+    "category": "cidadania_digital",
+    "created_at": "2027-01-30 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 99,
+    "title": "Como Criar e Proteger uma Conta Gov.br: Níveis Bronze, Prata e Ouro",
+    "slug": "como-criar-proteger-conta-govbr-niveis-prata-ouro",
+    "category": "cidadania_digital",
+    "created_at": "2027-01-31 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 100,
+    "title": "Como Utilizar a Assinatura Digital Gratuita em Documentos Pelo Gov.br",
+    "slug": "como-utilizar-assinatura-digital-em-documentos-govbr",
+    "category": "cidadania_digital",
+    "created_at": "2027-02-01 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 101,
+    "title": "Como Enviar Documentos em PDF Pelo Celular (WhatsApp e E-mail)",
+    "slug": "como-enviar-documentos-em-pdf-pelo-celular-whatsapp-email",
+    "category": "cidadania_digital",
+    "created_at": "2027-02-02 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 102,
+    "title": "Como Digitalizar Documentos Utilizando Apenas a Câmera do Celular",
+    "slug": "como-digitalizar-documentos-utilizando-camera-do-celular",
+    "category": "cidadania_digital",
+    "created_at": "2027-02-03 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 103,
+    "title": "Como Organizar Arquivos e Documentos Importantes na Nuvem com Segurança",
+    "slug": "como-organizar-arquivos-e-documentos-importantes-na-nuvem",
+    "category": "cidadania_digital",
+    "created_at": "2027-02-04 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 104,
+    "title": "Como Utilizar o Google Drive Para Organizar e Compartilhar Documentos Pessoais",
+    "slug": "como-utilizar-o-google-drive-para-organizar-documentos-pessoais",
+    "category": "cidadania_digital",
+    "created_at": "2027-02-05 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 105,
+    "title": "Como Fazer uma Videoconferência Pelo Celular (Google Meet, WhatsApp e Zoom)",
+    "slug": "como-fazer-videoconferencia-pelo-celular-google-meet-zoom",
+    "category": "cidadania_digital",
+    "created_at": "2027-02-06 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 106,
+    "title": "Como Proteger Crianças e Adolescentes dos Perigos da Internet e Redes Sociais",
+    "slug": "como-proteger-criancas-e-adolescentes-perigos-internet",
+    "category": "cidadania_digital",
+    "created_at": "2027-02-07 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 107,
+    "title": "Como Reconhecer Mensagens Falsas que Usam o Nome de Bancos e Instituições Públicas",
+    "slug": "como-reconhecer-mensagens-falsas-bancos-instituicoes-publicas",
+    "category": "cidadania_digital",
+    "created_at": "2027-02-08 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 108,
+    "title": "Como Organizar suas Tarefas Utilizando o Método Kanban (Trello e Notion)",
+    "slug": "como-organizar-tarefas-utilizando-metodo-kanban-trello",
+    "category": "produtividade",
+    "created_at": "2027-02-09 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 109,
+    "title": "Como Funciona a Técnica Pomodoro e Quando Utilizá-la no Trabalho",
+    "slug": "como-funciona-tecnica-pomodoro-e-quando-utiliza-la",
+    "category": "produtividade",
+    "created_at": "2027-02-10 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 110,
+    "title": "Como Escrever E-mails Profissionais de Maneira Correta e Elegante",
+    "slug": "como-escrever-e-mails-profissionais-de-maneira-correta",
+    "category": "produtividade",
+    "created_at": "2027-02-11 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 111,
+    "title": "Como Organizar Reuniões Produtivas no Trabalho e Não Perder Tempo",
+    "slug": "como-organizar-reunioes-produtivas-no-ambiente-de-trabalho",
+    "category": "produtividade",
+    "created_at": "2027-02-12 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 112,
+    "title": "Como Melhorar sua Comunicação Escrita no Trabalho: Dicas Práticas",
+    "slug": "como-melhorar-comunicacao-escrita-no-trabalho-dicas-praticas",
+    "category": "produtividade",
+    "created_at": "2027-02-13 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 113,
+    "title": "Como Lidar com Conflitos Entre Colegas de Trabalho com Maturidade",
+    "slug": "como-lidar-com-conflitos-entre-colegas-de-trabalho-com-maturidade",
+    "category": "produtividade",
+    "created_at": "2027-02-14 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 114,
+    "title": "Como Desenvolver Inteligência Emocional no Ambiente Profissional",
+    "slug": "como-desenvolver-inteligencia-emocional-ambiente-profissional",
+    "category": "produtividade",
+    "created_at": "2027-02-15 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 115,
+    "title": "Como Organizar Documentos e Arquivos em um Escritório Físico e Digital",
+    "slug": "como-organizar-documentos-e-arquivos-em-um-escritorio",
+    "category": "produtividade",
+    "created_at": "2027-02-16 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 116,
+    "title": "Como Estabelecer Limites Saudáveis Entre Trabalho e Vida Pessoal",
+    "slug": "como-estabelecer-limites-saudaveis-trabalho-vida-pessoal",
+    "category": "produtividade",
+    "created_at": "2027-02-17 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 117,
+    "title": "Como Evitar a Procrastinação nas Atividades Profissionais Diárias",
+    "slug": "como-evitar-procrastinacao-atividades-profissionais",
+    "category": "produtividade",
+    "created_at": "2027-02-18 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 118,
+    "title": "Como as Empresas Podem Tornar seus Ambientes de Trabalho Realmente Acessíveis",
+    "slug": "como-empresas-podem-tornar-ambientes-trabalho-acessiveis",
+    "category": "acessibilidade",
+    "created_at": "2027-02-19 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 119,
+    "title": "Quais Tecnologias Assistivas Ajudam Pessoas com Deficiência no Trabalho?",
+    "slug": "quais-tecnologias-assistivas-ajudam-pessoas-com-deficiencia-no-trabalho",
+    "category": "acessibilidade",
+    "created_at": "2027-02-20 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 120,
+    "title": "O Que é Acessibilidade Digital e Por Que Ela Importa Para Todos?",
+    "slug": "o-que-e-acessibilidade-digital-e-por-que-ela-importa",
+    "category": "acessibilidade",
+    "created_at": "2027-02-21 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 121,
+    "title": "Como Funcionam as Cotas Para Pessoas com Deficiência nas Empresas (Lei nº 8.213)",
+    "slug": "como-funcionam-as-cotas-para-pessoas-com-deficiencia-nas-empresas",
+    "category": "acessibilidade",
+    "created_at": "2027-02-22 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 122,
+    "title": "Quais São as Barreiras Enfrentadas por Profissionais com Deficiência no Mercado?",
+    "slug": "barreiras-enfrentadas-por-profissionais-com-deficiencia-no-mercado",
+    "category": "acessibilidade",
+    "created_at": "2027-02-23 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 123,
+    "title": "Como Adaptar um Ambiente de Trabalho Para Pessoas com Mobilidade Reduzida",
+    "slug": "como-adaptar-ambiente-trabalho-pessoas-com-mobilidade-reduzida",
+    "category": "acessibilidade",
+    "created_at": "2027-02-24 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 124,
+    "title": "O Que é Desenho Universal e Como Ele Melhora a Inclusão de Toda a Sociedade",
+    "slug": "o-que-e-desenho-universal-e-como-ele-melhora-a-inclusao",
+    "category": "acessibilidade",
+    "created_at": "2027-02-25 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 125,
+    "title": "Como Combater o Capacitismo e Construir um Ambiente Profissional Humanizado",
+    "slug": "como-combater-o-capacitismo-no-ambiente-profissional",
+    "category": "acessibilidade",
+    "created_at": "2027-02-26 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 126,
+    "title": "Quais Recursos de Acessibilidade Existem nos Celulares Android? Guia Prático",
+    "slug": "recursos-de-acessibilidade-nos-celulares-android-guia-pratico",
+    "category": "acessibilidade",
+    "created_at": "2027-02-27 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 127,
+    "title": "Como a Tecnologia Pode Ampliar a Autonomia das Pessoas com Deficiência",
+    "slug": "como-a-tecnologia-pode-ampliar-a-autonomia-das-pessoas-com-deficiencia",
+    "category": "acessibilidade",
+    "created_at": "2027-02-28 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 128,
+    "title": "Como Começar a Vender Pela Internet Sem Ter uma Loja Física",
+    "slug": "como-comecar-a-vender-pela-internet-sem-loja-fisica",
+    "category": "empreendedorismo",
+    "created_at": "2027-03-01 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 129,
+    "title": "Como Calcular o Preço de Venda de um Produto Artesanal Sem Ficar no Prejuízo",
+    "slug": "como-calcular-o-preco-de-venda-de-um-produto-artesanal",
+    "category": "empreendedorismo",
+    "created_at": "2027-03-02 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 130,
+    "title": "Como Divulgar Pequenos Negócios Gratuitamente Pela Internet e Redes Sociais",
+    "slug": "como-divulgar-pequenos-negocios-gratuitamente-pela-internet",
+    "category": "empreendedorismo",
+    "created_at": "2027-03-03 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 131,
+    "title": "MEI: Quais São as Obrigações e Responsabilidades do Microempreendedor Individual?",
+    "slug": "mei-quais-sao-as-obrigacoes-e-responsabilidades-do-microempreendedor",
+    "category": "empreendedorismo",
+    "created_at": "2027-03-04 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 132,
+    "title": "Como Montar um Pequeno Negócio Lucrativo Trabalhando de Casa (Home Business)",
+    "slug": "como-montar-um-pequeno-negocio-trabalhando-de-casa",
+    "category": "empreendedorismo",
+    "created_at": "2027-03-05 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 133,
+    "title": "Como Criar uma Loja Virtual Gratuitamente Para o Seu Pequeno Negócio",
+    "slug": "como-criar-uma-loja-virtual-gratuitamente-para-seu-negocio",
+    "category": "empreendedorismo",
+    "created_at": "2027-03-06 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 134,
+    "title": "Como Utilizar o WhatsApp Business Para Pequenos Negócios e Vender Mais",
+    "slug": "como-utilizar-o-whatsapp-business-para-pequenos-negocios",
+    "category": "empreendedorismo",
+    "created_at": "2027-03-07 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 135,
+    "title": "Como Controlar Entradas e Saídas de Dinheiro de um Pequeno Negócio (Fluxo de Caixa)",
+    "slug": "como-controlar-entradas-e-saidas-de-dinheiro-pequeno-negocio",
+    "category": "empreendedorismo",
+    "created_at": "2027-03-08 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 136,
+    "title": "Como Transformar uma Habilidade Pessoal em uma Fonte Real de Renda",
+    "slug": "como-transformar-habilidade-pessoal-em-fonte-de-renda",
+    "category": "empreendedorismo",
+    "created_at": "2027-03-09 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 137,
+    "title": "Quais São os Erros Mais Comuns de Quem Começa a Empreender e Como Evitá-los",
+    "slug": "erros-mais-comuns-de-quem-comeca-a-empreender-como-evitar",
+    "category": "empreendedorismo",
+    "created_at": "2027-03-10 08:00:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 138,
+    "title": "Seguro-Desemprego 2026: Quem Tem Direito, Tabela Oficial de Valores e Como Pedir pelo Celular",
+    "slug": "seguro-desemprego-2026-regras-tabela-como-pedir",
+    "category": "direitos",
+    "created_at": "2026-11-01 15:10:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 139,
+    "title": "Como Fazer uma Carta de Apresentação que Conquista Entrevistas na Gupy e LinkedIn (Com Modelos)",
+    "slug": "carta-de-apresentacao-para-gupy-linkedin-modelos",
+    "category": "curriculo_linkedin",
+    "created_at": "2026-11-01 15:15:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 140,
+    "title": "Concursos Federais e Bancários 2026: Cronograma de Estudos para Passar na Caixa e Correios",
+    "slug": "concursos-publicos-2026-bancos-correios-como-estudar",
+    "category": "estudos",
+    "created_at": "2026-11-01 15:20:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 141,
+    "title": "Os 12 Melhores Softwares Gratuitos e de Código Aberto para Estudantes em 2026",
+    "slug": "12-melhores-softwares-gratuitos-para-estudantes-2026",
+    "category": "dicas",
+    "created_at": "2026-11-06 19:50:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 142,
+    "title": "Jovem Aprendiz 2026: Regras, Idade Máxima, Salário Oficial e Onde se Inscrever",
+    "slug": "jovem-aprendiz-2026-regras-idade-salario-inscricao",
+    "category": "primeiro_emprego",
+    "created_at": "2026-11-11 22:30:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 143,
+    "title": "Como Conseguir o Primeiro Emprego sem Experiência em 2026: O Guia Definitivo",
+    "slug": "como-conseguir-primeiro-emprego-sem-experiencia-guia-2026",
+    "category": "curriculo_linkedin",
+    "created_at": "2026-11-11 22:31:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  },
+  {
+    "id": 144,
+    "title": "Cursos Gratuitos do SENAI, SESI e Fundação Bradesco com Certificado Reconhecido pelo MEC",
+    "slug": "cursos-gratuitos-senai-sesi-bradesco-certificado-valido",
+    "category": "estudos",
+    "created_at": "2026-11-11 22:32:00",
+    "inSeed": true,
+    "inTxt": true,
+    "seedMatch": true
+  }
+]

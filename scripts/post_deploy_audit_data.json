@@ -1,0 +1,48 @@
+{
+  "articles": {
+    "publishedOk": 28,
+    "publishedFail": 0,
+    "scheduled404": 116,
+    "scheduledLeaks": 0
+  },
+  "sitemap": {
+    "statusCode": 200,
+    "totalUrls": 49,
+    "staticUrls": 21,
+    "blogUrls": 28,
+    "hasScheduled": false
+  },
+  "rss": {
+    "statusCode": 200,
+    "totalItems": 28,
+    "hasScheduled": false
+  },
+  "homepage": {
+    "statusCode": 200,
+    "hasFilterCert": true,
+    "hasProviderSelect": true,
+    "hasWorkloadSelect": true,
+    "hasSortSelect": true,
+    "hasGridResponsive": true,
+    "hasCoursesScript": true,
+    "hasCourseDetailsScript": true,
+    "hasAppScript": true
+  },
+  "id22": {
+    "id": 22,
+    "title": "Programao para Iniciantes: Como Começar Mesmo Sem Saber Nada de Código",
+    "slug": "programacao-para-iniciantes-como-comecar-sem-saber-codigo",
+    "scheduledFor": "2026-11-15 08:00:00",
+    "currentHttpCode": 404,
+    "isBlocked": true,
+    "inSitemap": false,
+    "inRss": false
+  },
+  "security": {
+    "validAdminPreview": true,
+    "expiredTokenBlocked": true,
+    "tamperedTokenBlocked": true,
+    "studentTokenBlocked": true,
+    "anonymousBlocked": true
+  }
+}

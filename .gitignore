@@ -12,3 +12,20 @@ npm-debug.log*
 .tmp/
 backups/
 package.zip
+scratch/
+
+# Chaves de assinatura e segredos locais
+.env
+*.env
+signing-key-info.txt
+*.keystore
+*.jks
+*.idsig
+
+# Documentos locais confidenciais
+CHANGELOG_COMPLETO_VOCEPODETUDO.txt
+
+# Diretórios de compilação móvel nativa
+android_build/
+android_native_app/
+*.apk

@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Completo e Metadados Sociais -->
+  <title>Blog do Futuro Profissional: Dicas Práticas de Carreira — Você Pode Tudo</title>
+  <meta name="description" content="Artigos práticos, guias e orientações diretas sobre primeiro emprego, elaboração de currículo ATS, entrevistas de emprego, networking no LinkedIn e transição de carreira para tecnologia.">
+  <meta name="keywords" content="blog de carreira, dicas de entrevista, modelo currículo ats, primeiro emprego, jovem aprendiz dicas, transição tecnologia, vocepodetudo">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://vocepodetudo.com/blog">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vocepodetudo.com/blog">
+  <meta property="og:title" content="Blog do Futuro Profissional: Dicas Práticas de Carreira — Você Pode Tudo">
+  <meta property="og:description" content="Orientações diretas ao ponto escritas para quem busca o primeiro emprego, estágio ou crescimento profissional.">
+  <meta property="og:image" content="https://vocepodetudo.com/assets/logo-icon.png">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Blog de Carreira & Dicas — Você Pode Tudo">
+  <meta name="twitter:description" content="Dicas práticas de currículo, entrevistas de emprego e capacitação profissional 100% gratuita.">
+  <meta name="twitter:image" content="https://vocepodetudo.com/assets/logo-icon.png">
+
+  <!-- Feed RSS Oficial -->
+  <link rel="alternate" type="application/rss+xml" title="Feed RSS Você Pode Tudo" href="https://vocepodetudo.com/rss.xml">
+
+  <!-- Resource Hints para Performance Extrema -->
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link rel="dns-prefetch" href="https://unpkg.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Favicon & PWA Icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icon-512.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="/assets/icon-512.png">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#005e24">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Você Pode Tudo">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              green: '#009B3A',
+              yellow: '#FFDF00',
+              blue: '#002776'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Lucide Icons -->
+  <script defer src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+
+  <!-- Estilos Globais -->
+  <link rel="stylesheet" href="./src/style.css?v=4.83.0">
+
+  <style>
+    /* Estilos Ricos de Leitura para o Conteúdo do Artigo */
+    .blog-rich-content {
+      line-height: 1.8;
+      font-size: 0.95rem;
+    }
+    .blog-rich-content p {
+      margin-bottom: 1.25rem;
+      color: #334155;
+    }
+    .dark .blog-rich-content p {
+      color: #cbd5e1;
+    }
+    .blog-rich-content h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-top: 1.75rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+    .dark .blog-rich-content h2 {
+      color: #f8fafc;
+    }
+    .blog-rich-content h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .dark .blog-rich-content h3 {
+      color: #e2e8f0;
+    }
+    .blog-rich-content ul, .blog-rich-content ol {
+      margin-bottom: 1.25rem;
+      padding-left: 1.5rem;
+      color: #334155;
+    }
+    .dark .blog-rich-content ul, .dark .blog-rich-content ol {
+      color: #cbd5e1;
+    }
+    .blog-rich-content ul {
+      list-style-type: disc;
+    }
+    .blog-rich-content ol {
+      list-style-type: decimal;
+    }
+    .blog-rich-content li {
+      margin-bottom: 0.5rem;
+    }
+    .blog-rich-content strong {
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .dark .blog-rich-content strong {
+      color: #f1f5f9;
+    }
+    .blog-rich-content blockquote {
+      border-left: 4px solid #009639;
+      padding: 0.75rem 1rem;
+      background-color: #f8fafc;
+      font-style: italic;
+      color: #475569;
+      border-radius: 0 0.75rem 0.75rem 0;
+      margin: 1.25rem 0;
+    }
+    .dark .blog-rich-content blockquote {
+      background-color: #1e293b;
+      color: #94a3b8;
+      border-left-color: #22c55e;
+    }
+
+    /* Acessibilidade: Tamanhos de Fonte Dinâmicos */
+    .reader-font-sm { font-size: 0.85rem !important; line-height: 1.7 !important; }
+    .reader-font-md { font-size: 0.98rem !important; line-height: 1.8 !important; }
+    .reader-font-lg { font-size: 1.15rem !important; line-height: 1.85 !important; }
+    .reader-font-xl { font-size: 1.30rem !important; line-height: 1.95 !important; }
+
+    /* Estilo de Impressão Limpo / Apostila PDF Oficial */
+    @media print {
+      body * {
+        visibility: hidden !important;
+      }
+      #blog-reader-modal,
+      #blog-reader-modal * {
+        visibility: visible !important;
+      }
+      #blog-reader-modal {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        background: #ffffff !important;
+        padding: 0 !important;
+      }
+      #blog-reader-modal > div {
+        max-width: 100% !important;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+      }
+      #close-blog-modal-btn,
+      #btn-close-blog-reader,
+      #blog-reader-progress-bar,
+      .adsbygoogle,
+      #blog-reader-toolbar,
+      #blog-modal-smart-cta,
+      #blog-modal-next-article,
+      #blog-modal-related-container,
+      #toast,
+      #pwa-install-banner,
+      footer, aside, header {
+        display: none !important;
+      }
+      .blog-rich-content {
+        font-size: 11pt !important;
+        color: #111827 !important;
+        line-height: 1.6 !important;
+      }
+    }
+  </style>
+
+  <!-- Dados Estruturados Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Blog",
+        "name": "Blog de Carreira & Dicas — Você Pode Tudo",
+        "url": "https://vocepodetudo.com/blog",
+        "description": "Artigos sobre empregabilidade, currículos, entrevistas e desenvolvimento profissional."
+      }
+    ]
+  }
+  </script>
+  <!-- Google AdSense Oficial -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9421145457118515"
+     crossorigin="anonymous"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased min-h-screen flex flex-col font-sans transition-colors duration-200">
+
+  <!-- Barra de Utilidades do Topo -->
+  <aside class="bg-gradient-to-r from-[#005e24] via-[#008031] to-[#005e24] text-white border-b-2 border-[#ffcc29] text-xs py-1.5 px-3 select-none relative z-30">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2 flex-wrap">
+      <div class="flex items-center gap-2">
+        <a href="/" class="inline-flex items-center gap-1 text-white hover:text-[#ffdf00] font-black transition-colors" title="Voltar ao portal principal de cursos">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Voltar aos Cursos Gratuitos</span>
+        </a>
+        <span class="text-white/40">|</span>
+        <span class="text-emerald-100 hidden sm:inline">Conteúdo Aberto • 100% Gratuito • Dicas Práticas</span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="vagas" class="text-xs font-bold text-[#ffdf00] hover:text-white underline cursor-pointer flex items-center gap-1">
+          <i data-lucide="briefcase" class="w-3 h-3"></i>
+          <span>Mural de Vagas Abertas</span>
+        </a>
+        <span class="text-white/40">|</span>
+        <a href="downloads" class="hover:text-blue-600 transition-colors flex items-center gap-1"><i data-lucide="download" class="w-3.5 h-3.5 text-blue-500"></i><span>Downloads</span></a>
+        <a href="sobre" class="hover:text-emerald-400 transition-colors">Quem Somos</a>
+        <span>•</span>
+        <a href="contato" class="hover:text-emerald-400 transition-colors">Fale Conosco</a>
+        <span>•</span>
+        <a href="curriculo" class="text-xs font-bold text-emerald-100 hover:text-white underline cursor-pointer flex items-center gap-1">
+          <i data-lucide="file-check-2" class="w-3 h-3"></i>
+          <span>Criar Currículo ATS</span>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Cabeçalho Principal -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b-4 border-[#009639] shadow-sm transition-colors w-full max-w-full">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex items-center justify-between gap-3">
+      
+      <!-- Marca Você Pode Tudo / Blog de Carreira -->
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2" aria-label="Você Pode Tudo">
+          <img src="/assets/logo-icon.png" alt="Logo Você Pode Tudo" class="h-9 sm:h-11 w-auto object-contain">
+        </a>
+        <div>
+          <span class="text-base sm:text-xl font-black text-[#005e24] dark:text-emerald-400 leading-tight flex items-center gap-1.5">
+            Blog de <span class="text-[#002776] dark:text-blue-400">Carreira</span>
+            <span class="px-1.5 py-0.2 text-[9px] font-black bg-[#ffdf00] text-slate-900 rounded uppercase">Dicas</span>
+          </span>
+          <span class="hidden sm:block text-[11px] text-slate-500 dark:text-slate-400 font-bold">
+            Orientações Práticas para Conquistar sua Vaga
+          </span>
+        </div>
+      </div>
+
+      <!-- Ações do Cabeçalho -->
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <!-- Botão Catálogo de Cursos -->
+        <a 
+          href="/" 
+          class="hidden md:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-black text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-pointer"
+          title="Ver mais de 170 cursos gratuitos oficiais"
+        >
+          <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-[#009639]"></i>
+          <span class="hidden lg:inline">Cursos Gratuitos</span>
+          <span class="lg:hidden">Cursos</span>
+        </a>
+
+        <!-- Botão Simulador de Entrevistas -->
+        <a 
+          href="simulador-entrevista" 
+          class="hidden xl:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-black text-purple-900 dark:text-purple-200 bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 border border-purple-200 dark:border-purple-800 transition-all cursor-pointer shadow-2xs"
+          title="Treinar para entrevistas de emprego com perguntas reais de RH"
+        >
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-purple-600"></i>
+          <span>Simulador</span>
+        </a>
+
+        <!-- Botão Teste Vocacional -->
+        <a 
+          href="teste-vocacional" 
+          class="hidden lg:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-black text-amber-900 dark:text-amber-200 bg-amber-50 dark:bg-amber-950/60 hover:bg-amber-100 border border-amber-200 dark:border-amber-800 transition-all cursor-pointer shadow-2xs"
+          title="Descobrir seu perfil profissional e trilhas de aprendizagem"
+        >
+          <i data-lucide="compass" class="w-3.5 h-3.5 text-amber-600"></i>
+          <span>Vocacional</span>
+        </a>
+
+        <!-- Botão Criar Currículo -->
+        <a 
+          href="curriculo" 
+          class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-black text-[#002776] dark:text-blue-300 bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/60 border border-blue-300/60 dark:border-blue-700 transition-all cursor-pointer shadow-2xs"
+          title="Criar currículo profissional para se candidatar às vagas"
+        >
+          <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-[#002776] dark:text-blue-400"></i>
+          <span class="hidden lg:inline">Criar Currículo</span>
+          <span class="lg:hidden">Currículo</span>
+        </a>
+
+        <!-- Botão Mural de Vagas -->
+        <a 
+          href="vagas" 
+          class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-black text-white bg-[#002776] hover:bg-blue-900 border border-blue-400/40 transition-all cursor-pointer shadow-2xs"
+          title="Ver vagas abertas de estágio, jovem aprendiz e júnior"
+        >
+          <i data-lucide="briefcase" class="w-3.5 h-3.5 text-[#ffdf00]"></i>
+          <span class="hidden xl:inline">Mural de Vagas</span>
+          <span class="xl:hidden">Vagas</span>
+        </a>
+
+        <!-- Botão Blog (Ativo) -->
+        <a 
+          href="blog" 
+          class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black text-white bg-[#005e24] shadow-2xs cursor-default flex-shrink-0"
+          title="Você está na página do Blog"
+        >
+          <i data-lucide="book-open" class="w-3.5 h-3.5 text-[#ffdf00]"></i>
+          <span>Blog</span>
+          <span class="w-2 h-2 rounded-full bg-[#ffdf00] animate-pulse"></span>
+        </a>
+
+        <!-- Botão Modo Escuro -->
+        <button 
+          type="button" 
+          id="btn-dark-mode-toggle"
+          class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-slate-700 dark:text-slate-300 hover:text-amber-500 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-all cursor-pointer shadow-2xs flex-shrink-0"
+          title="Alternar Modo Escuro / Claro"
+          aria-label="Alternar Modo Noturno"
+        >
+          <i data-lucide="moon" id="dark-mode-icon" class="w-4 h-4 text-slate-700 dark:text-amber-400"></i>
+        </button>
+
+        <!-- Botão Menu Mobile -->
+        <button 
+          type="button" 
+          id="btn-mobile-nav-toggle"
+          class="sm:hidden inline-flex items-center justify-center w-8 h-8 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-all cursor-pointer flex-shrink-0"
+          aria-label="Abrir Menu"
+        >
+          <i data-lucide="menu" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Gaveta Mobile (Mobile Drawer) -->
+  <aside id="mobile-nav-drawer" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs hidden transition-opacity">
+    <div class="fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white dark:bg-slate-900 shadow-2xl p-5 flex flex-col justify-between overflow-y-auto">
+      <div>
+        <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
+          <div class="flex items-center gap-2">
+            <img src="/assets/logo-icon.png" alt="Logo Você Pode Tudo" class="h-7 w-auto">
+            <span class="text-sm font-black text-slate-900 dark:text-white">Você Pode Tudo</span>
+          </div>
+          <button type="button" id="btn-close-mobile-drawer" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white cursor-pointer">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <nav class="mt-4 space-y-1.5 text-xs font-bold text-slate-700 dark:text-slate-300">
+          <a href="/" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800">
+            <i data-lucide="graduation-cap" class="w-4 h-4 text-[#009639]"></i>
+            <span>Catálogo de Cursos Gratuitos</span>
+          </a>
+          <a href="vagas" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800">
+            <i data-lucide="briefcase" class="w-4 h-4 text-[#002776]"></i>
+            <span>Mural de Vagas & Estágios</span>
+          </a>
+          <a href="downloads" class="flex items-center gap-2.5 p-2 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-800 dark:text-blue-300">
+            <i data-lucide="download" class="w-4 h-4 text-blue-600"></i>
+            <span>Central de Downloads Gratuitos</span>
+          </a>
+          <a href="curriculo" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800">
+            <i data-lucide="file-check-2" class="w-4 h-4 text-[#009639]"></i>
+            <span>Criador de Currículos PDF</span>
+          </a>
+          <a href="calculadora-trabalhista" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800">
+            <i data-lucide="calculator" class="w-4 h-4 text-emerald-600"></i>
+            <span>Calculadoras CLT 2026</span>
+          </a>
+          <a href="blog" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800">
+            <i data-lucide="book-open" class="w-4 h-4 text-amber-600"></i>
+            <span>Blog & Dicas de Carreira</span>
+          </a>
+          
+          <div class="border-t border-slate-200 dark:border-slate-800 pt-2 space-y-1">
+            <a href="sobre" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-950/40 text-[#00702a] dark:text-emerald-400 font-black">
+              <i data-lucide="users" class="w-4 h-4"></i>
+              <span>Quem Somos (Sobre o Projeto)</span>
+            </a>
+            <a href="contato" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-950/40 text-[#002776] dark:text-blue-400 font-black">
+              <i data-lucide="mail" class="w-4 h-4"></i>
+              <span>Fale Conosco & Ouvidoria</span>
+            </a>
+          </div>
+        </nav>
+      </div>
+
+      <div class="pt-4 border-t border-slate-200 dark:border-slate-800 text-[11px] text-slate-500 text-center">
+        <span>Você Pode Tudo © 2026</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-8 flex-1 w-full">
+
+    <!-- Hero Banner do Blog Editorial -->
+    <section class="bg-gradient-to-br from-[#005e24] via-[#00471b] to-[#091a42] rounded-3xl p-6 sm:p-10 text-white shadow-xl border-4 border-[#ffcc29] relative overflow-hidden mb-8">
+      <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 max-w-3xl">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-[#ffcc29] text-slate-950 flex items-center gap-1.5 shadow-sm">
+            <i data-lucide="book-open" class="w-3.5 h-3.5 text-slate-950"></i>
+            <span>Central Editorial & Conteúdo</span>
+          </span>
+          <span class="text-xs font-bold text-emerald-200 hidden sm:inline">• Artigos, Entrevistas & Empregabilidade</span>
+        </div>
+
+        <h1 class="text-2xl sm:text-4xl font-black mb-3 tracking-tight leading-tight">
+          Blog do Futuro Profissional: Dicas Práticas para Conquistar sua Vaga
+        </h1>
+        <p class="text-emerald-100 text-xs sm:text-sm font-medium leading-relaxed max-w-2xl mb-6">
+          Orientações diretas ao ponto escritas para quem busca o primeiro emprego, jovem aprendiz, estágio ou transição de carreira em tecnologia e negócios.
+        </p>
+
+        <!-- Barra de Busca Rápida de Artigos -->
+        <div class="flex flex-col sm:flex-row items-stretch gap-2 max-w-xl">
+          <div class="relative flex-1">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 pointer-events-none">
+              <i data-lucide="search" class="w-4 h-4"></i>
+            </span>
+            <input 
+              type="text" 
+              id="blog-search-input" 
+              placeholder="Buscar artigo por tema (ex.: currículo, entrevista, LinkedIn, jovem aprendiz)..." 
+              class="w-full pl-10 pr-4 py-2.5 rounded-xl text-xs sm:text-sm bg-white/95 dark:bg-slate-900/90 text-slate-900 dark:text-white font-medium placeholder-slate-400 border border-white/20 shadow-inner focus:outline-none focus:ring-2 focus:ring-[#ffcc29]"
+            >
+          </div>
+          <button 
+            type="button" 
+            id="blog-search-btn" 
+            class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black bg-[#ffcc29] text-slate-950 hover:bg-[#ffdf00] transition-all cursor-pointer shadow-sm flex items-center justify-center gap-1.5 flex-shrink-0"
+          >
+            <span>Buscar</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filtros por Categoria de Artigos -->
+    <section class="flex items-center justify-between gap-3 flex-wrap mb-6">
+      <div class="flex items-center gap-1.5 overflow-x-auto py-1 custom-scrollbar w-full sm:w-auto" id="blog-category-pills">
+        <button type="button" class="blog-cat-btn active px-3.5 py-1.5 rounded-full text-xs font-black transition-all cursor-pointer bg-[#005e24] text-white shadow-2xs" data-category="todos">
+          Todos os Artigos
+        </button>
+        <button type="button" class="blog-cat-btn px-3.5 py-1.5 rounded-full text-xs font-black transition-all cursor-pointer bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700" data-category="primeiro_emprego">
+          Primeiro Emprego
+        </button>
+        <button type="button" class="blog-cat-btn px-3.5 py-1.5 rounded-full text-xs font-black transition-all cursor-pointer bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700" data-category="curriculo_linkedin">
+          Currículo & LinkedIn
+        </button>
+        <button type="button" class="blog-cat-btn px-3.5 py-1.5 rounded-full text-xs font-black transition-all cursor-pointer bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700" data-category="entrevistas">
+          Entrevistas de Emprego
+        </button>
+        <button type="button" class="blog-cat-btn px-3.5 py-1.5 rounded-full text-xs font-black transition-all cursor-pointer bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700" data-category="tecnologia">
+          Carreira em TI
+        </button>
+        <button type="button" class="blog-cat-btn px-3.5 py-1.5 rounded-full text-xs font-black transition-all cursor-pointer bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700" data-category="carreira">
+          Desenvolvimento
+        </button>
+        <button type="button" class="blog-cat-btn px-3.5 py-1.5 rounded-full text-xs font-black transition-all cursor-pointer bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700" data-category="estudos">
+          Estudos & Cursos
+        </button>
+        <button type="button" class="blog-cat-btn px-3.5 py-1.5 rounded-full text-xs font-black transition-all cursor-pointer bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700" data-category="direitos">
+          Direitos CLT
+        </button>
+        <button type="button" class="blog-cat-btn px-3.5 py-1.5 rounded-full text-xs font-black transition-all cursor-pointer bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700" data-category="cidadania_digital">
+          Cidadania Digital
+        </button>
+        <button type="button" class="blog-cat-btn px-3.5 py-1.5 rounded-full text-xs font-black transition-all cursor-pointer bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700" data-category="produtividade">
+          Produtividade
+        </button>
+        <button type="button" class="blog-cat-btn px-3.5 py-1.5 rounded-full text-xs font-black transition-all cursor-pointer bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700" data-category="acessibilidade">
+          Acessibilidade & Inclusão
+        </button>
+        <button type="button" class="blog-cat-btn px-3.5 py-1.5 rounded-full text-xs font-black transition-all cursor-pointer bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700" data-category="empreendedorismo">
+          Empreendedorismo
+        </button>
+      </div>
+
+      <div class="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
+        <span id="blog-posts-count-badge">Carregando artigos...</span>
+      </div>
+    </section>
+
+    <!-- Grade Dinâmica de Artigos do Blog -->
+    <div id="blog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="col-span-full py-16 text-center text-slate-400 font-bold text-sm">
+        <i data-lucide="loader" class="w-8 h-8 animate-spin mx-auto mb-3 text-[#005e24] dark:text-emerald-400"></i>
+        <span>Carregando artigos e dicas de carreira...</span>
+      </div>
+    </div>
+
+    <!-- Estado Vazio para Artigos -->
+    <div id="blog-empty-state" class="hidden text-center py-12 bg-white dark:bg-slate-800 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 p-8 my-6">
+      <i data-lucide="book-open" class="w-10 h-10 text-slate-300 mx-auto mb-3"></i>
+      <h3 class="text-base font-black text-slate-800 dark:text-white mb-1">Nenhum artigo encontrado com esses critérios</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-4">Tente selecionar outra categoria ou buscar por termos mais genéricos.</p>
+      <button type="button" id="blog-reset-filters-btn" class="px-4 py-2 rounded-xl text-xs font-black bg-[#005e24] text-white hover:bg-emerald-900 transition-all cursor-pointer">
+        Ver Todos os Artigos
+      </button>
+    </div>
+
+    <!-- Banner de Chamada para Ação da Plataforma -->
+    <section class="mt-12 bg-gradient-to-r from-[#002776] via-[#091a42] to-[#005e24] rounded-3xl p-6 sm:p-10 text-white relative overflow-hidden shadow-xl border-4 border-[#ffcc29]">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+        <div class="space-y-2 text-center md:text-left">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-[#ffdf00] text-slate-950 uppercase tracking-wider">
+            <i data-lucide="rocket" class="w-3.5 h-3.5 text-slate-950"></i>
+            <span>Próximo Passo</span>
+          </span>
+          <h2 class="text-xl sm:text-3xl font-black text-white">
+            Transforme conhecimento em oportunidades reais
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-200 max-w-xl">
+            Aproveite as dicas do blog para criar seu currículo otimizado e se candidatar às centenas de vagas disponíveis em nosso mural gratuito.
+          </p>
+        </div>
+        <div class="flex items-center gap-3 flex-wrap justify-center flex-shrink-0">
+          <a 
+            href="vagas" 
+            class="px-5 py-3 rounded-2xl font-black text-xs sm:text-sm bg-[#ffdf00] text-slate-950 hover:bg-amber-300 transition-all shadow-lg flex items-center gap-2"
+          >
+            <i data-lucide="briefcase" class="w-4 h-4 text-slate-950"></i>
+            <span>Explorar Mural de Vagas</span>
+          </a>
+          <a 
+            href="curriculo" 
+            class="px-5 py-3 rounded-2xl font-bold text-xs sm:text-sm bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all flex items-center gap-2"
+          >
+            <i data-lucide="file-check-2" class="w-4 h-4 text-emerald-400"></i>
+            <span>Criar Currículo ATS</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal Leitor de Artigo do Blog -->
+  <div id="blog-reader-modal" class="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 hidden">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-3xl w-full max-h-[92vh] overflow-hidden shadow-2xl flex flex-col border border-slate-200 dark:border-slate-800 animate-fade-in">
+      <!-- Topo do Leitor com Categoria e Botão Fechar -->
+      <div class="p-4 sm:p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 flex-shrink-0">
+        <div class="flex items-center gap-2">
+          <span id="blog-modal-category-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">
+            Carreira
+          </span>
+          <span class="text-xs text-slate-400">•</span>
+          <span id="blog-modal-read-time" class="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
+            <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+            <span>5 min de leitura</span>
+          </span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <a id="blog-modal-open-standalone-link" href="#" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-xl text-emerald-700 hover:text-emerald-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/50 transition-colors flex items-center gap-1 text-xs font-bold" title="Abrir artigo em página própria dedicada">
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Página Própria</span>
+          </a>
+          <button type="button" id="close-blog-modal-btn" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors cursor-pointer" aria-label="Fechar Artigo">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra de Progresso de Leitura em Tempo Real -->
+      <div class="w-full h-1 bg-slate-100 dark:bg-slate-800 relative flex-shrink-0">
+        <div id="blog-reader-progress-bar" class="h-full bg-gradient-to-r from-[#009639] via-[#ffcc29] to-[#002776] w-0 transition-all duration-75"></div>
+      </div>
+
+      <!-- Corpo do Artigo com Tipografia Rica e Imagem de Capa -->
+      <div id="blog-reader-scroll-container" class="p-5 sm:p-8 overflow-y-auto space-y-6 custom-scrollbar flex-1 text-slate-800 dark:text-slate-200">
+        <!-- Imagem de Capa Opcional -->
+        <div id="blog-modal-cover-container" class="rounded-2xl overflow-hidden max-h-72 w-full hidden shadow-sm border border-slate-200 dark:border-slate-700">
+          <img id="blog-modal-cover-img" src="" alt="" class="w-full h-full object-cover">
+        </div>
+
+        <div>
+          <h1 id="blog-modal-title" class="text-xl sm:text-3xl font-black text-slate-900 dark:text-white leading-tight mb-3">
+            Título do Artigo
+          </h1>
+
+          <!-- Metadados de Autor e Data -->
+          <div class="flex items-center justify-between gap-3 py-3 border-y border-slate-100 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400 font-medium flex-wrap">
+            <div class="flex items-center gap-2">
+              <img src="/assets/logo-icon.png" alt="Equipe Você Pode Tudo" class="w-7 h-7 rounded-full object-contain p-0.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-2xs">
+              <div class="flex items-center gap-2">
+                <span id="blog-modal-author" class="font-bold text-slate-800 dark:text-slate-200 block leading-none">Equipe Você Pode Tudo</span>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-black bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-850" title="Conteúdo verificado com base na CLT, MEC e fontes oficiais">
+                  <i data-lucide="shield-check" class="w-3 h-3 text-blue-600 dark:text-blue-400"></i>
+                  <span>Conteúdo Verificado</span>
+                </span>
+              </div>
+              <span id="blog-modal-date" class="text-[11px] text-slate-400">Publicado recentemente</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span id="blog-modal-views" class="inline-flex items-center gap-1.5 text-xs font-black text-purple-700 bg-purple-50 dark:bg-purple-950/60 dark:text-purple-300 border border-purple-200 dark:border-purple-800 px-3 py-1 rounded-full shadow-2xs">
+                <i data-lucide="eye" class="w-3.5 h-3.5 text-purple-600"></i>
+                <span>0 cliques</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra de Ferramentas de Leitura: Acessibilidade (Áudio, Zoom de Fonte, Impressão/PDF) e Compartilhamento Social -->
+        <div id="blog-reader-toolbar" class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 p-3 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700">
+          <div class="flex items-center gap-2 flex-wrap">
+            <!-- Player de Voz Nativo (Web Speech API) -->
+            <button type="button" id="blog-tts-play-btn" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-xs cursor-pointer">
+              <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
+              <span id="blog-tts-label">Ouvir Artigo</span>
+            </button>
+            <button type="button" id="blog-tts-stop-btn" class="hidden p-1.5 rounded-xl text-slate-500 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer" title="Parar Leitura">
+              <i data-lucide="square" class="w-3.5 h-3.5"></i>
+            </button>
+
+            <!-- Controles de Acessibilidade de Tamanho de Fonte -->
+            <div class="inline-flex items-center rounded-xl bg-slate-200 dark:bg-slate-700 p-0.5" title="Ajustar tamanho da letra do texto">
+              <button type="button" id="btn-font-dec" class="px-2 py-1 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-600 font-bold text-[11px] transition-colors cursor-pointer" title="Diminuir tamanho da letra">A-</button>
+              <button type="button" id="btn-font-reset" class="px-2 py-1 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-600 font-bold text-[11px] transition-colors cursor-pointer" title="Restaurar tamanho normal">100%</button>
+              <button type="button" id="btn-font-inc" class="px-2 py-1 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-600 font-bold text-[11px] transition-colors cursor-pointer" title="Aumentar tamanho da letra">A+</button>
+            </div>
+
+            <!-- Botão Imprimir / Salvar em PDF Limpo -->
+            <button type="button" id="btn-print-article" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-bold text-xs transition-colors cursor-pointer" title="Imprimir texto limpo ou salvar como PDF">
+              <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+              <span class="hidden sm:inline">Imprimir / PDF</span>
+            </button>
+          </div>
+
+          <!-- Botões de Compartilhamento Social -->
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <span class="text-[11px] font-bold text-slate-400 mr-1">Compartilhar:</span>
+            <button type="button" id="blog-share-whatsapp-btn" class="p-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white transition-all cursor-pointer shadow-2xs" title="Compartilhar no WhatsApp">
+              <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+            </button>
+            <button type="button" id="blog-share-linkedin-btn" class="p-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-all cursor-pointer shadow-2xs" title="Compartilhar no LinkedIn">
+              <i data-lucide="linkedin" class="w-3.5 h-3.5"></i>
+            </button>
+            <button type="button" id="blog-share-telegram-btn" class="p-1.5 rounded-lg bg-sky-500 hover:bg-sky-600 text-white transition-all cursor-pointer shadow-2xs" title="Compartilhar no Telegram">
+              <i data-lucide="send" class="w-3.5 h-3.5"></i>
+            </button>
+            <button type="button" id="blog-share-copy-btn" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-bold text-xs transition-colors cursor-pointer" title="Copiar Link">
+              <i data-lucide="copy" class="w-3 h-3"></i>
+              <span class="hidden sm:inline">Copiar Link</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Bloco AdSense In-Article reservado para aprovação -->
+
+        <!-- Box do Próximo Artigo da Série (Navegação Contínua) -->
+        <div id="blog-modal-next-article" class="my-4"></div>
+
+        <!-- Box Contextual de CTA Dinâmico da Plataforma -->
+        <div id="blog-modal-smart-cta"></div>
+
+        <!-- Bloco AdSense Rodapé reservado para aprovação -->
+      </div>
+
+      <!-- Rodapé do Modal -->
+      <div class="p-4 sm:p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 flex items-center justify-between">
+        <div class="flex items-center gap-2"><a id="blog-modal-footer-standalone-link" href="#" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-colors flex items-center gap-1.5 shadow-xs cursor-pointer"><i data-lucide="external-link" class="w-3.5 h-3.5"></i><span>Abrir em Página Própria</span></a></div>
+        <button type="button" id="btn-close-blog-reader" class="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold text-xs transition-colors cursor-pointer">
+          Fechar Leitura
+        </button>
+        <button type="button" id="blog-copy-link-btn" class="px-4 py-2 rounded-xl bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-white font-bold text-xs transition-colors cursor-pointer flex items-center gap-1.5">
+          <i data-lucide="link" class="w-3.5 h-3.5"></i>
+          <span>Copiar Link do Artigo</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+    <!-- ======================================================== -->
+  <!-- SEÇÃO: NEWSLETTER DO BLOG (ARTIGOS & DICAS DE CARREIRA)  -->
+  <!-- ======================================================== -->
+  <section class="max-w-7xl mx-auto px-4 mt-12 mb-8" aria-label="Inscrição na Newsletter do Blog">
+    <div class="bg-gradient-to-br from-[#002776] via-[#091a42] to-[#005e24] rounded-3xl p-6 sm:p-10 text-white shadow-xl border-4 border-[#ffcc29] relative overflow-hidden">
+      <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 max-w-3xl mx-auto text-center">
+        
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black bg-[#ffcc29] text-slate-950 mb-3 shadow-sm uppercase tracking-wider">
+          <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+          <span>Dicas & Artigos Exclusivos</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl font-black mb-2 text-white leading-tight">
+          Receba novos artigos de carreira, mercado e cursos no seu e-mail
+        </h2>
+        
+        <p class="text-xs sm:text-sm text-emerald-100 font-medium mb-6 leading-relaxed max-w-2xl mx-auto">
+          Guias práticos sobre entrevistas, primeiros empregos, inteligência artificial e os melhores cursos gratuitos com certificado oficial. Sem spam e 100% gratuito.
+        </p>
+
+        <form id="blog-newsletter-form" class="flex flex-col sm:flex-row items-center justify-center gap-2 max-w-xl mx-auto">
+          <div class="relative w-full flex-1">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <i data-lucide="mail" class="w-4 h-4 text-[#009639]"></i>
+            </div>
+            <input 
+              type="email" 
+              id="blog-newsletter-email" 
+              required 
+              placeholder="Digite seu melhor e-mail..." 
+              class="w-full pl-10 pr-4 py-3 rounded-xl text-sm bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#ffcc29] font-medium border-2 border-white/20 shadow-inner"
+            >
+          </div>
+          
+          <button 
+            type="submit" 
+            id="blog-newsletter-submit-btn" 
+            class="w-full sm:w-auto px-6 py-3 rounded-xl font-black text-xs sm:text-sm bg-[#ffcc29] hover:bg-amber-300 text-slate-950 transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer flex-shrink-0 active:scale-95"
+          >
+            <i data-lucide="send" class="w-4 h-4 text-slate-950"></i>
+            <span>Assinar Newsletter</span>
+          </button>
+        </form>
+
+        <div id="blog-newsletter-feedback" class="hidden mt-3 text-xs font-bold p-2.5 rounded-xl transition-all"></div>
+
+        <p class="text-[11px] text-slate-300 mt-3 font-medium">
+          🔒 Seus dados estão seguros conosco em conformidade com a LGPD. Cancele a qualquer momento com 1 clique.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toast de Notificações -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform transition-all duration-300 translate-y-24 opacity-0 flex items-center gap-2 px-4 py-3 rounded-2xl shadow-2xl text-xs font-black text-white bg-[#009639]"></div>
+
+  <!-- Rodapé Institucional em 4 Colunas Modernas -->
+  <footer class="bg-slate-900 text-slate-300 border-t border-slate-800 pt-12 pb-8 mt-14 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-slate-800">
+        
+        <!-- Coluna 1: Sobre o Projeto -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-2.5">
+            <img src="/assets/logo-icon.png" alt="Você Pode Tudo" width="36" height="36" loading="lazy" decoding="async" class="w-9 h-9 object-contain drop-shadow-sm">
+            <div>
+              <span class="text-base font-black text-white leading-tight block">Você<span class="text-[#009639]">Pode</span><span class="text-[#ffcc29]">Tudo</span></span>
+              <span class="text-[9px] uppercase font-bold text-slate-400 tracking-wider">Blog & Dicas</span>
+            </div>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed font-normal">
+            Mais de 140 artigos práticos sobre mercado de trabalho, preparação para entrevistas, primeiros passos em TI e direitos trabalhistas.
+          </p>
+          <div class="pt-1">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-slate-800 text-emerald-400 border border-slate-700">
+              <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+              <span>Conformidade com a LGPD</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Coluna 2: Ferramentas Gratuitas -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-black uppercase tracking-wider text-[#ffcc29] flex items-center gap-1.5">
+            <i data-lucide="wrench" class="w-3.5 h-3.5"></i>
+            <span>Ferramentas Gratuitas</span>
+          </h4>
+          <ul class="space-y-2 text-xs font-medium">
+            <li>
+              <a href="curriculo" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Criador de Currículos ATS</span>
+              </a>
+            </li>
+            <li>
+              <a href="calculadora-trabalhista" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="calculator" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Calculadoras Trabalhistas CLT</span>
+              </a>
+            </li>
+            <li>
+              <a href="simulador-entrevista" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-purple-400"></i>
+                <span>Simulador de Entrevistas</span>
+              </a>
+            </li>
+            <li>
+              <a href="teste-vocacional" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="compass" class="w-3.5 h-3.5 text-blue-400"></i>
+                <span>Teste Vocacional Online</span>
+              </a>
+            </li>
+            <li>
+              <a href="downloads" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="download" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span>Central de Downloads (Modelos)</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Coluna 3: Cursos & Carreiras -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-black uppercase tracking-wider text-[#ffcc29] flex items-center gap-1.5">
+            <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i>
+            <span>Cursos & Carreiras</span>
+          </h4>
+          <ul class="space-y-2 text-xs font-medium">
+            <li>
+              <a href="/" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="book-open" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Catálogo de Cursos Gratuitos</span>
+              </a>
+            </li>
+            <li>
+              <a href="vagas" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="briefcase" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Mural de Vagas & Aprendiz</span>
+              </a>
+            </li>
+            <li>
+              <a href="cursos-gratis-informatica" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="laptop" class="w-3.5 h-3.5 text-blue-400"></i>
+                <span>Cursos de Informática & Office</span>
+              </a>
+            </li>
+            <li>
+              <a href="cursos-gratis-programacao" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="code" class="w-3.5 h-3.5 text-indigo-400"></i>
+                <span>Cursos de TI & Programação</span>
+              </a>
+            </li>
+            <li>
+              <a href="blog" class="text-emerald-400 font-bold flex items-center gap-1.5">
+                <i data-lucide="newspaper" class="w-3.5 h-3.5"></i>
+                <span>Blog & Dicas Profissionais</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Coluna 4: Institucional -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-black uppercase tracking-wider text-[#ffcc29] flex items-center gap-1.5">
+            <i data-lucide="info" class="w-3.5 h-3.5"></i>
+            <span>Institucional</span>
+          </h4>
+          <ul class="space-y-2 text-xs font-medium">
+            <li>
+              <a href="sobre" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="users" class="w-3.5 h-3.5 text-slate-400"></i>
+                <span>Quem Somos</span>
+              </a>
+            </li>
+            <li>
+              <a href="midia-kit" class="hover:text-white transition-colors flex items-center gap-1.5 text-emerald-400 font-bold">
+                <i data-lucide="award" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Mídia Kit & Publicidade</span>
+              </a>
+            </li>
+            <li>
+              <a href="contato" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="mail" class="w-3.5 h-3.5 text-slate-400"></i>
+                <span>Fale Conosco & Suporte</span>
+              </a>
+            </li>
+            <li>
+              <a href="politica-privacidade" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-400"></i>
+                <span>Privacidade & Cookies</span>
+              </a>
+            </li>
+            <li>
+              <a href="politica-editorial" class="hover:text-white transition-colors flex items-center gap-1.5"><i data-lucide="book-open-check" class="w-3.5 h-3.5 text-slate-400"></i><span>Diretrizes Editoriais</span></a></li>
+            <li><a href="termos-de-uso" class="hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="file-text" class="w-3.5 h-3.5 text-slate-400"></i>
+                <span>Termos de Uso</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 text-center sm:text-left">
+        <div>
+          <span>© 2026 Você Pode Tudo. Todos os direitos reservados.</span>
+          <span class="block text-[11px] text-slate-500 mt-0.5">Conteúdos editoriais independentes com foco em educação e empregabilidade.</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Banner Flutuante de Instalação do Aplicativo (PWA) -->
+  <div id="pwa-install-banner" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md z-40 bg-gradient-to-r from-slate-900 to-slate-950 text-white p-3.5 sm:p-4 rounded-2xl shadow-2xl border border-slate-700 hidden animate-fade-in flex items-center justify-between gap-3">
+    <div class="flex items-center gap-3">
+      <img src="/assets/logo-icon.png" alt="App Você Pode Tudo" class="w-10 h-10 rounded-xl shadow-xs">
+      <div>
+        <h5 class="text-xs font-black text-white leading-tight">Instalar Aplicativo Oficial</h5>
+        <p class="text-[11px] text-slate-300">Cursos gratuitos, vagas e artigos na palma da mão.</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-1.5 flex-shrink-0">
+      <button type="button" id="pwa-install-btn" class="px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition-colors cursor-pointer shadow-sm">
+        Instalar
+      </button>
+      <button type="button" id="pwa-dismiss-btn" class="p-1 rounded-lg text-slate-400 hover:text-white transition-colors cursor-pointer" title="Agora não">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Barra de Navegação Inferior Mobile (Estilo Aplicativo Nativo) -->
+  <nav 
+    id="mobile-bottom-bar"
+    class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] px-2 py-1.5"
+    aria-label="Navegação Rápida Mobile"
+  >
+    <div class="max-w-md mx-auto grid grid-cols-5 gap-1 text-center">
+      <a href="/" class="flex flex-col items-center justify-center py-1 rounded-xl text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+        <i data-lucide="home" class="w-5 h-5"></i>
+        <span class="text-[10px] font-bold mt-0.5 leading-none">Início</span>
+      </a>
+      <a href="vagas" class="flex flex-col items-center justify-center py-1 rounded-xl text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+        <i data-lucide="briefcase" class="w-5 h-5"></i>
+        <span class="text-[10px] font-bold mt-0.5 leading-none">Vagas</span>
+      </a>
+      <a href="curriculo" class="flex flex-col items-center justify-center py-1 rounded-xl text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+        <i data-lucide="file-text" class="w-5 h-5"></i>
+        <span class="text-[10px] font-bold mt-0.5 leading-none">Currículo</span>
+      </a>
+      <a href="downloads" class="flex flex-col items-center justify-center py-1 rounded-xl text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+        <i data-lucide="download" class="w-5 h-5"></i>
+        <span class="text-[10px] font-bold mt-0.5 leading-none">Downloads</span>
+      </a>
+      <a href="/#student-auth" class="flex flex-col items-center justify-center py-1 rounded-xl text-purple-700 dark:text-purple-400 hover:text-purple-900 transition-colors">
+        <i data-lucide="user" class="w-5 h-5"></i>
+        <span class="text-[10px] font-bold mt-0.5 leading-none">Aluno</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Script da Página do Blog -->
+  <script src="./src/blog.js?v=4.84.0"></script>
+  <script src="./src/cookie-banner.js?v=4.83.0"></script>
+
+  <!-- Botão Flutuante Oficial do WhatsApp (Apenas Ícone Circular na Lateral) -->
+  <aside 
+    id="floating-whatsapp-widget" 
+    class="fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-40 flex items-center"
+    aria-label="Grupo Oficial do WhatsApp"
+  >
+    <a 
+      href="https://chat.whatsapp.com/FN9jb73jdKs1UYq0BbIC3j" 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 border-2 border-white focus:outline-none focus:ring-4 focus:ring-emerald-400/50 cursor-pointer relative group"
+      title="Entrar no Grupo Oficial do WhatsApp"
+      aria-label="Entrar no Grupo Oficial do WhatsApp"
+    >
+      <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-[#ffdf00] border-2 border-[#25D366]"></span>
+      </span>
+      <svg class="w-7 h-7 sm:w-8 sm:h-8 fill-current text-white flex-shrink-0" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+      <span class="absolute right-full mr-3 px-2.5 py-1.5 rounded-xl bg-slate-900/95 text-white text-[11px] font-bold whitespace-nowrap shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 hidden sm:block">
+        Grupo Oficial WhatsApp
+      </span>
+    </a>
+  </aside>
+
+</body>
+</html>

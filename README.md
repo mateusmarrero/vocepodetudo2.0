@@ -78,7 +78,7 @@ Para que o portal seja facilmente encontrado no Google, Bing, Yahoo e nas redes 
 
 ## 🚀 Como Executar
 
-Dê um duplo clique no arquivo [`index.html`](file:///c:/Users/usuario/Downloads/VCPDTD%20ANTIGRAVITY/index.html) no seu navegador, ou inicie um servidor local leve:
+Dê um duplo clique no arquivo `index.html` no seu navegador, ou inicie um servidor local leve:
 
 ```powershell
 python -m http.server 3000

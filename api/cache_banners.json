@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "title": "Bolsas de Estudo 2026 - Faculdade Parceira",
+    "advertiser": "Programa Educar Brasil",
+    "image_url": "assets/logo.png",
+    "target_url": "https://vocepodetudo.com",
+    "position": "home_top",
+    "status": "active",
+    "start_date": "2026-01-01",
+    "end_date": "2026-12-31",
+    "impressions": 1420,
+    "clicks": 86,
+    "created_at": "2026-01-01 10:00:00"
+  }
+]

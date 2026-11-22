@@ -6,6 +6,30 @@ O formato é baseado no [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.
 
 ---
 
+## [4.87.0] - 2026-11-22
+### 🏛️ Novas Páginas de Produto, Recursos e Jurídico & Rodapé Multi-Coluna Padronizado
+
+- **Novas Páginas Integradas e Conteúdos Completos:**
+  - **Produto:**
+    - `funcionalidades.html`: Catálogo completo de recursos, comparativo de benefícios e diferenciais do portal.
+    - `planos.html`: Declaração de gratuidade permanente (R$ 0 para alunos/trabalhadores) e modelos institucionais.
+    - `como-funciona.html`: Guia passo a passo em 4 etapas (Escolha, Estudo no Parceiro, Certificado Oficial, Vaga).
+    - `parcerias.html`: Canal para homologação de cursos, integração de vagas de RH e parcerias ESG/comunitárias.
+  - **Recursos:**
+    - `recursos.html`: Hub centralizado com todas as ferramentas (Currículo, Vagas, Simulador, Calculadoras, Downloads, Blog).
+    - `central-de-ajuda.html`: Base de conhecimento com busca instantânea em tempo real para dúvidas sobre certificados e processos.
+  - **Legal:**
+    - `politica-de-cookies.html`: Política transparente sobre cookies necessários, preferências de acessibilidade e AdSense.
+    - `lgpd.html`: Portal de conformidade com a Lei Federal nº 13.709/2018, direitos dos titulares e canal do DPO.
+    - `termos-de-servico.html`: Termos formais e diretrizes de utilização aceitável da plataforma.
+- **Padronização do Rodapé Global (`index.html`, `vagas.html`, `curriculo.html`, `blog.html`, `downloads.html`):**
+  - Reorganização em colunas dedicadas: *Sobre*, *Produto*, *Recursos* e *Legal*, com links diretos e acessíveis.
+- **Roteamento e SEO (`.htaccess`, `sitemap.php`, `sitemap.xml`):**
+  - Rotas amigáveis sem `.html` para todas as 9 páginas adicionadas.
+  - Expansão do `sitemap.xml` para 75 URLs ativas de alto valor de indexação no Googlebot.
+
+---
+
 ## [4.86.0] - 2026-11-21
 ### 🔒 Segurança de Credenciais, Sincronização de SEO e Limpeza de Cache
 

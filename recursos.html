@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO & Metadados -->
+  <title>Todos os Recursos e Ferramentas Gratuitas — Você Pode Tudo</title>
+  <meta name="description" content="Acesse a central completa de recursos gratuitos do Você Pode Tudo: gerador de currículos, vagas, simulador de entrevista, calculadoras de salário e cursos certificados.">
+  <meta name="keywords" content="recursos você pode tudo, ferramentas gratis emprego, gerador curriculo pdf, vagas estagio, simulador entrevista star, calculadora clt">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://vocepodetudo.com/recursos">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vocepodetudo.com/recursos">
+  <meta property="og:title" content="Todos os Recursos Gratuitos — Você Pode Tudo">
+  <meta property="og:description" content="Central integrada com todas as ferramentas e conteúdos para impulsionar seus estudos e carreira.">
+  <meta property="og:image" content="https://vocepodetudo.com/assets/logo-icon.png">
+
+  <!-- Favicon & PWA -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo-icon.png">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#002776">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              green: '#009B3A',
+              yellow: '#FFDF00',
+              blue: '#002776'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Lucide Icons -->
+  <script defer src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="./src/style.css?v=4.86.0">
+
+  <!-- Google AdSense Oficial -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9421145457118515" crossorigin="anonymous"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col font-sans transition-colors duration-200">
+
+  <!-- Topo Institucional -->
+  <aside class="bg-gradient-to-r from-[#002776] via-[#091a42] to-[#005e24] text-white border-b-2 border-[#ffcc29] text-xs py-1.5 px-3 select-none relative z-30">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2 flex-wrap">
+      <div class="flex items-center gap-2">
+        <a href="/" class="inline-flex items-center gap-1 text-white hover:text-[#ffdf00] font-black transition-colors" title="Voltar ao portal principal">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Portal Principal</span>
+        </a>
+        <span class="text-white/40">•</span>
+        <span class="font-bold flex items-center gap-1 text-[#ffdf00]">
+          <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+          <span>Central Geral de Recursos</span>
+        </span>
+      </div>
+      <div class="flex items-center gap-3 font-semibold text-[11px]">
+        <a href="blog" class="text-blue-100 hover:text-white transition-colors">Blog</a>
+        <span class="text-white/40">•</span>
+        <a href="central-de-ajuda" class="text-blue-100 hover:text-white transition-colors">Central de Ajuda</a>
+        <span class="text-white/40">•</span>
+        <a href="downloads" class="text-blue-100 hover:text-white transition-colors">Downloads</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Header -->
+  <header class="bg-white/95 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 py-3.5 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-3 group">
+        <img 
+          src="/assets/logo-icon.png" 
+          alt="Logo Oficial Você Pode Tudo" 
+          width="36" 
+          height="36" 
+          decoding="async" 
+          class="h-8 sm:h-9 w-auto object-contain drop-shadow-xs group-hover:scale-105 transition-transform flex-shrink-0"
+        >
+        <div>
+          <span class="text-lg font-black tracking-tight text-slate-900">Você<span class="text-[#009639]">Pode</span><span class="text-[#FFDF00]">Tudo</span></span>
+          <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Todos os Recursos</span>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-4 text-xs font-bold text-slate-600">
+        <a href="/" class="hover:text-[#002776] transition-colors">Cursos</a>
+        <a href="vagas" class="hover:text-[#002776] transition-colors">Vagas</a>
+        <a href="curriculo" class="hover:text-[#002776] transition-colors">Currículo</a>
+        <a href="blog" class="hover:text-[#002776] transition-colors">Blog</a>
+        <a href="central-de-ajuda" class="hover:text-[#002776] transition-colors">Ajuda</a>
+        <a href="downloads" class="px-3.5 py-1.5 rounded-xl bg-[#002776] hover:bg-blue-900 text-white font-black transition-all shadow-xs flex items-center gap-1.5">
+          <i data-lucide="download" class="w-3.5 h-3.5 text-[#ffdf00]"></i>
+          <span>Downloads</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+    <section class="bg-gradient-to-br from-[#002776] via-[#091a42] to-[#005e24] rounded-3xl p-8 sm:p-12 text-white shadow-xl border-4 border-[#ffcc29] relative overflow-hidden mb-12">
+      <div class="max-w-3xl relative z-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black bg-[#ffcc29] text-slate-950 shadow-sm uppercase tracking-wider mb-4">
+          <i data-lucide="folder-check" class="w-3.5 h-3.5 text-slate-950"></i>
+          <span>Hub Unificado de Ferramentas</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black mb-4 text-white leading-tight">
+          Todos os recursos gratuitos para acelerar sua trajetória profissional.
+        </h1>
+        <p class="text-base sm:text-lg text-slate-200 font-medium leading-relaxed">
+          Encontre aqui todas as ferramentas, simuladores, modelos de documentos e canais de aprendizado disponibilizados pelo Você Pode Tudo.
+        </p>
+      </div>
+    </section>
+
+    <!-- Grade Geral de Recursos -->
+    <section class="mb-14">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Recurso 1: Catálogo de Cursos -->
+        <a href="/" class="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs hover:shadow-md hover:border-[#002776] transition-all flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-blue-50 text-[#002776] flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+              <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+            </div>
+            <span class="text-[10px] uppercase font-black px-2 py-0.5 rounded bg-blue-100 text-[#002776]">Educação</span>
+            <h2 class="text-lg font-black text-slate-900 mt-2 mb-2 group-hover:text-[#002776]">Catálogo de 155 Cursos Gratuitos</h2>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Cursos com certificados oficiais de grandes instituições em Tecnologia, Negócios, Idiomas e Saúde.
+            </p>
+          </div>
+          <span class="text-xs font-black text-[#002776] flex items-center gap-1">
+            <span>Acessar cursos</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </span>
+        </a>
+
+        <!-- Recurso 2: Mural de Vagas -->
+        <a href="vagas" class="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs hover:shadow-md hover:border-emerald-600 transition-all flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+              <i data-lucide="briefcase" class="w-6 h-6"></i>
+            </div>
+            <span class="text-[10px] uppercase font-black px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Empregabilidade</span>
+            <h2 class="text-lg font-black text-slate-900 mt-2 mb-2 group-hover:text-emerald-700">Mural de Vagas & Estágios</h2>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Oportunidades em aberto para estágio, jovem aprendiz e vagas remotas com inscrição direta nas fontes oficiais.
+            </p>
+          </div>
+          <span class="text-xs font-black text-emerald-700 flex items-center gap-1">
+            <span>Buscar vagas</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </span>
+        </a>
+
+        <!-- Recurso 3: Criador de Currículo -->
+        <a href="curriculo" class="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs hover:shadow-md hover:border-amber-600 transition-all flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+              <i data-lucide="file-text" class="w-6 h-6"></i>
+            </div>
+            <span class="text-[10px] uppercase font-black px-2 py-0.5 rounded bg-amber-100 text-amber-800">Ferramenta</span>
+            <h2 class="text-lg font-black text-slate-900 mt-2 mb-2 group-hover:text-amber-700">Criador de Currículos ATS</h2>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Gere um currículo moderno em PDF, sem marcas d'água, otimizado para os filtros de recrutadores da Gupy e LinkedIn.
+            </p>
+          </div>
+          <span class="text-xs font-black text-amber-700 flex items-center gap-1">
+            <span>Criar currículo</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </span>
+        </a>
+
+        <!-- Recurso 4: Simulador de Entrevista -->
+        <a href="simulador-entrevista" class="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs hover:shadow-md hover:border-indigo-600 transition-all flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+              <i data-lucide="bot" class="w-6 h-6"></i>
+            </div>
+            <span class="text-[10px] uppercase font-black px-2 py-0.5 rounded bg-indigo-100 text-indigo-800">Preparação</span>
+            <h2 class="text-lg font-black text-slate-900 mt-2 mb-2 group-hover:text-indigo-700">Simulador de Entrevista de Emprego</h2>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Treine perguntas reais de processos seletivos pelo Método STAR e ganhe confiança antes da entrevista decisiva.
+            </p>
+          </div>
+          <span class="text-xs font-black text-indigo-700 flex items-center gap-1">
+            <span>Simular entrevista</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </span>
+        </a>
+
+        <!-- Recurso 5: Calculadora Trabalhista -->
+        <a href="calculadora-trabalhista" class="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs hover:shadow-md hover:border-teal-600 transition-all flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-700 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+              <i data-lucide="calculator" class="w-6 h-6"></i>
+            </div>
+            <span class="text-[10px] uppercase font-black px-2 py-0.5 rounded bg-teal-100 text-teal-800">Financeiro</span>
+            <h2 class="text-lg font-black text-slate-900 mt-2 mb-2 group-hover:text-teal-700">Calculadoras Trabalhistas</h2>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Calcule sua rescisão CLT, horas extras, férias proporcionais, seguro-desemprego e compare CLT vs PJ.
+            </p>
+          </div>
+          <span class="text-xs font-black text-teal-700 flex items-center gap-1">
+            <span>Fazer cálculos</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </span>
+        </a>
+
+        <!-- Recurso 6: Teste Vocacional -->
+        <a href="teste-vocacional" class="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs hover:shadow-md hover:border-rose-600 transition-all flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-700 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+              <i data-lucide="compass" class="w-6 h-6"></i>
+            </div>
+            <span class="text-[10px] uppercase font-black px-2 py-0.5 rounded bg-rose-100 text-rose-800">Orientação</span>
+            <h2 class="text-lg font-black text-slate-900 mt-2 mb-2 group-hover:text-rose-700">Teste Vocacional de Perfil</h2>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Descubra quais áreas combinam mais com o seu perfil e receba recomendações diretas dos cursos certos para iniciar.
+            </p>
+          </div>
+          <span class="text-xs font-black text-rose-700 flex items-center gap-1">
+            <span>Iniciar teste</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </span>
+        </a>
+
+        <!-- Recurso 7: Central de Downloads -->
+        <a href="downloads" class="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs hover:shadow-md hover:border-blue-600 transition-all flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+              <i data-lucide="download" class="w-6 h-6"></i>
+            </div>
+            <span class="text-[10px] uppercase font-black px-2 py-0.5 rounded bg-blue-100 text-blue-800">Materiais</span>
+            <h2 class="text-lg font-black text-slate-900 mt-2 mb-2 group-hover:text-blue-700">Modelos & Downloads Gratuitos</h2>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Baixe modelos prontos de carta de apresentação, e-mails para envio de currículo e cronogramas de estudo em PDF e Word.
+            </p>
+          </div>
+          <span class="text-xs font-black text-blue-700 flex items-center gap-1">
+            <span>Ver downloads</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </span>
+        </a>
+
+        <!-- Recurso 8: Blog Oficial -->
+        <a href="blog" class="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs hover:shadow-md hover:border-emerald-600 transition-all flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+              <i data-lucide="newspaper" class="w-6 h-6"></i>
+            </div>
+            <span class="text-[10px] uppercase font-black px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Conteúdo</span>
+            <h2 class="text-lg font-black text-slate-900 mt-2 mb-2 group-hover:text-emerald-700">Blog de Dicas & Carreira</h2>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Artigos práticos sobre o mercado de trabalho, inteligência artificial nos estudos, soft skills e orientações para entrevistas.
+            </p>
+          </div>
+          <span class="text-xs font-black text-emerald-700 flex items-center gap-1">
+            <span>Ler artigos</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </span>
+        </a>
+
+        <!-- Recurso 9: Central de Ajuda -->
+        <a href="central-de-ajuda" class="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs hover:shadow-md hover:border-slate-800 transition-all flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-800 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+              <i data-lucide="help-circle" class="w-6 h-6"></i>
+            </div>
+            <span class="text-[10px] uppercase font-black px-2 py-0.5 rounded bg-slate-200 text-slate-800">Suporte</span>
+            <h2 class="text-lg font-black text-slate-900 mt-2 mb-2 group-hover:text-slate-950">Central de Ajuda & FAQ</h2>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Tire todas as suas dúvidas sobre validação de certificados, cadastro de alunos, funcionamento do portal e suporte.
+            </p>
+          </div>
+          <span class="text-xs font-black text-slate-800 flex items-center gap-1">
+            <span>Tirar dúvidas</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </span>
+        </a>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Rodapé Oficial Multi-Coluna Padronizado -->
+  <footer class="bg-white border-t border-slate-200 pt-12 pb-8 mt-16 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-slate-200">
+        
+        <!-- Coluna 1: Sobre -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-2">
+            <img src="/assets/logo-icon.png" alt="Você Pode Tudo" width="36" height="36" class="w-8 h-8 object-contain">
+            <span class="text-lg font-black text-[#002776]">Você Pode Tudo</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed font-medium">
+            Portal de utilidade pública que democratiza a educação gratuita e a empregabilidade no Brasil com cursos oficiais, vagas reais e ferramentas de carreira.
+          </p>
+          <div class="text-[11px] text-slate-400 font-semibold">
+            Conhecimento ao seu alcance • 100% Gratuito
+          </div>
+        </div>
+
+        <!-- Coluna 2: Produto -->
+        <div>
+          <h3 class="text-xs font-black uppercase tracking-wider text-slate-900 mb-3.5">Produto</h3>
+          <ul class="space-y-2 text-xs font-semibold text-slate-600">
+            <li><a href="funcionalidades" class="hover:text-[#002776] transition-colors">Funcionalidades</a></li>
+            <li><a href="planos" class="hover:text-[#002776] transition-colors">Planos e Preços</a></li>
+            <li><a href="como-funciona" class="hover:text-[#002776] transition-colors">Como Funciona</a></li>
+            <li><a href="parcerias" class="hover:text-[#002776] transition-colors">Parcerias</a></li>
+          </ul>
+        </div>
+
+        <!-- Coluna 3: Recursos -->
+        <div>
+          <h3 class="text-xs font-black uppercase tracking-wider text-slate-900 mb-3.5">Recursos</h3>
+          <ul class="space-y-2 text-xs font-semibold text-slate-600">
+            <li><a href="recursos" class="text-[#002776] font-bold hover:underline">Todos os recursos</a></li>
+            <li><a href="blog" class="hover:text-[#002776] transition-colors">Blog</a></li>
+            <li><a href="central-de-ajuda" class="hover:text-[#002776] transition-colors">Central de Ajuda</a></li>
+            <li><a href="downloads" class="hover:text-[#002776] transition-colors">Downloads Gratuitos</a></li>
+          </ul>
+        </div>
+
+        <!-- Coluna 4: Legal -->
+        <div>
+          <h3 class="text-xs font-black uppercase tracking-wider text-slate-900 mb-3.5">Legal</h3>
+          <ul class="space-y-2 text-xs font-semibold text-slate-600">
+            <li><a href="termos-de-uso" class="hover:text-[#002776] transition-colors">Termos de Serviço</a></li>
+            <li><a href="politica-privacidade" class="hover:text-[#002776] transition-colors">Política de Privacidade</a></li>
+            <li><a href="politica-de-cookies" class="hover:text-[#002776] transition-colors">Política de Cookies</a></li>
+            <li><a href="lgpd" class="hover:text-[#002776] transition-colors">LGPD</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Linha Inferior -->
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-medium text-center sm:text-left">
+        <div>
+          © 2026 Você Pode Tudo (vocepodetudo.com) — Todos os direitos reservados.
+        </div>
+        <div class="flex items-center gap-3 flex-wrap justify-center">
+          <a href="exclusao-de-dados" class="hover:underline">Exclusão de Dados</a>
+          <span>•</span>
+          <a href="politica-editorial" class="hover:underline">Diretrizes Editoriais</a>
+          <span>•</span>
+          <a href="contato" class="hover:underline">Contato</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide && window.lucide.createIcons) {
+        window.lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>

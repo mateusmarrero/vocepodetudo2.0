@@ -96,6 +96,60 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://vocepodetudo.com/funcionalidades</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://vocepodetudo.com/planos</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://vocepodetudo.com/como-funciona</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://vocepodetudo.com/parcerias</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vocepodetudo.com/recursos</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://vocepodetudo.com/central-de-ajuda</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://vocepodetudo.com/politica-de-cookies</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://vocepodetudo.com/lgpd</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://vocepodetudo.com/termos-de-servico</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://vocepodetudo.com/cursos-gratis-informatica</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -139,6 +193,24 @@
   </url>
 
   <!-- Artigos do Blog Efetivamente Publicados (Data/Hora alcançada) -->
+  <url>
+    <loc>https://vocepodetudo.com/artigo/ticktick-estudantes-tarefas-calendario-habitos</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vocepodetudo.com/artigo/hackers-do-bem-como-comecar-carreira-ciberseguranca</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vocepodetudo.com/artigo/calendarios-compartilhados-cronogramas-trabalhos-grupo</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
   <url>
     <loc>https://vocepodetudo.com/artigo/logica-de-programacao-primeiro-passo-para-entrar-em-ti</loc>
     <lastmod>2026-11-21</lastmod>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO & Metadados -->
+  <title>Funcionalidades da Plataforma — Você Pode Tudo</title>
+  <meta name="description" content="Conheça todas as funcionalidades gratuitas do Você Pode Tudo: catálogo de 155 cursos com certificado, mural de vagas, gerador de currículos ATS, simulador de entrevista e calculadoras trabalhistas.">
+  <meta name="keywords" content="funcionalidades você pode tudo, recursos vocepodetudo, cursos gratuitos certificado, gerador de curriculo gratis, mural de vagas, simulador entrevista">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://vocepodetudo.com/funcionalidades">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vocepodetudo.com/funcionalidades">
+  <meta property="og:title" content="Funcionalidades da Plataforma — Você Pode Tudo">
+  <meta property="og:description" content="Tudo o que você precisa para impulsionar seus estudos e carreira em um só lugar, 100% gratuito.">
+  <meta property="og:image" content="https://vocepodetudo.com/assets/logo-icon.png">
+
+  <!-- Favicon & PWA -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo-icon.png">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#002776">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              green: '#009B3A',
+              yellow: '#FFDF00',
+              blue: '#002776'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Lucide Icons -->
+  <script defer src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="./src/style.css?v=4.86.0">
+
+  <!-- Google AdSense Oficial -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9421145457118515" crossorigin="anonymous"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col font-sans transition-colors duration-200">
+
+  <!-- Barra Superior Institucional -->
+  <aside class="bg-gradient-to-r from-[#002776] via-[#091a42] to-[#001f5c] text-white border-b-2 border-[#ffcc29] text-xs py-1.5 px-3 select-none relative z-30">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2 flex-wrap">
+      <div class="flex items-center gap-2">
+        <a href="/" class="inline-flex items-center gap-1 text-white hover:text-[#ffdf00] font-black transition-colors" title="Voltar ao portal principal">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Portal Principal</span>
+        </a>
+        <span class="text-white/40">•</span>
+        <span class="font-bold flex items-center gap-1 text-[#ffdf00]">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          <span>Produto & Funcionalidades</span>
+        </span>
+      </div>
+      <div class="flex items-center gap-3 font-semibold text-[11px]">
+        <a href="como-funciona" class="text-blue-100 hover:text-white transition-colors">Como Funciona</a>
+        <span class="text-white/40">•</span>
+        <a href="planos" class="text-blue-100 hover:text-white transition-colors">Planos & Preços</a>
+        <span class="text-white/40">•</span>
+        <a href="parcerias" class="text-blue-100 hover:text-white transition-colors">Parcerias</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Cabeçalho Principal -->
+  <header class="bg-white/95 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 py-3.5 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-3 group">
+        <img 
+          src="/assets/logo-icon.png" 
+          alt="Logo Oficial Você Pode Tudo" 
+          width="36" 
+          height="36" 
+          decoding="async" 
+          class="h-8 sm:h-9 w-auto object-contain drop-shadow-xs group-hover:scale-105 transition-transform flex-shrink-0"
+        >
+        <div>
+          <span class="text-lg font-black tracking-tight text-slate-900">Você<span class="text-[#009639]">Pode</span><span class="text-[#FFDF00]">Tudo</span></span>
+          <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Funcionalidades</span>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-4 text-xs font-bold text-slate-600">
+        <a href="/" class="hover:text-[#002776] transition-colors">Cursos</a>
+        <a href="vagas" class="hover:text-[#002776] transition-colors">Vagas</a>
+        <a href="curriculo" class="hover:text-[#002776] transition-colors">Currículo</a>
+        <a href="recursos" class="hover:text-[#002776] transition-colors">Recursos</a>
+        <a href="blog" class="hover:text-[#002776] transition-colors">Blog</a>
+        <a href="planos" class="px-3.5 py-1.5 rounded-xl bg-[#ffcc29] hover:bg-amber-300 text-slate-950 font-black transition-all shadow-xs">
+          100% Gratuito
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+    <section class="bg-gradient-to-br from-[#002776] via-[#091a42] to-[#005e24] rounded-3xl p-8 sm:p-12 text-white shadow-xl border-4 border-[#ffcc29] relative overflow-hidden mb-12">
+      <div class="max-w-3xl relative z-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black bg-[#ffcc29] text-slate-950 shadow-sm uppercase tracking-wider mb-4">
+          <i data-lucide="layers" class="w-3.5 h-3.5 text-slate-950"></i>
+          <span>Ecossistema Completo de Empregabilidade</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black mb-4 text-white leading-tight">
+          Tudo o que você precisa para conquistar sua vaga e crescer profissionalmente.
+        </h1>
+        <p class="text-base sm:text-lg text-slate-200 font-medium leading-relaxed mb-8">
+          O <strong>Você Pode Tudo</strong> combina cursos gratuitos certificados pelas maiores instituições do país com ferramentas de ponta para criação de currículos, busca de vagas e preparação para entrevistas.
+        </p>
+
+        <div class="flex items-center gap-3 flex-wrap text-xs font-bold">
+          <a href="/" class="px-5 py-3 rounded-xl font-black bg-[#ffdf00] text-slate-950 hover:bg-amber-300 transition-all shadow-md flex items-center gap-2">
+            <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+            <span>Explorar Cursos Gratuitos</span>
+          </a>
+          <a href="curriculo" class="px-5 py-3 rounded-xl font-black bg-white/15 hover:bg-white/25 text-white border border-white/25 transition-all shadow-md flex items-center gap-2">
+            <i data-lucide="file-text" class="w-4 h-4 text-[#ffdf00]"></i>
+            <span>Criar Meu Currículo</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grid de Funcionalidades Principais -->
+    <section class="mb-14">
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          Funcionalidades Desenvolvidas para o Seu Sucesso
+        </h2>
+        <p class="text-sm text-slate-600 mt-2">
+          Ferramentas modernas, intuitivas e livres de qualquer mensalidade ou taxa escondida.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Funcionalidade 1 -->
+        <article class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs hover:shadow-md hover:border-[#002776] transition-all flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-blue-50 text-[#002776] flex items-center justify-center mb-4 border border-blue-100">
+              <i data-lucide="award" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-black text-slate-900 mb-2">155 Cursos com Certificado Oficial</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+              Curadoria rigorosa das instituições mais respeitadas: Fundação Bradesco, Escola Virtual Gov.br, Microsoft, Cisco, Oracle, PoCA UFSCar, USP e Hackers do Bem. Todos com certificado válido nacionalmente.
+            </p>
+          </div>
+          <a href="/" class="text-xs font-black text-[#002776] hover:underline inline-flex items-center gap-1">
+            <span>Acessar catálogo de cursos</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </article>
+
+        <!-- Funcionalidade 2 -->
+        <article class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs hover:shadow-md hover:border-emerald-600 transition-all flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center mb-4 border border-emerald-100">
+              <i data-lucide="briefcase" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-black text-slate-900 mb-2">Mural de Vagas & Oportunidades</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+              Agregador automático de empregos, estágios, jovem aprendiz e vagas remotas. Filtro ativo anti-golpes, deduplicação em tempo real e candidatura 100% gratuita nas fontes oficiais.
+            </p>
+          </div>
+          <a href="vagas" class="text-xs font-black text-emerald-700 hover:underline inline-flex items-center gap-1">
+            <span>Ver vagas abertas hoje</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </article>
+
+        <!-- Funcionalidade 3 -->
+        <article class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs hover:shadow-md hover:border-amber-500 transition-all flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-800 flex items-center justify-center mb-4 border border-amber-100">
+              <i data-lucide="file-text" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-black text-slate-900 mb-2">Gerador de Currículo Otimizado para ATS</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+              Crie currículos compatíveis com robôs de recrutamento (Gupy, Kenoby, LinkedIn). Exportação em PDF de alta qualidade, sem marca d’água e com proteção total de dados no seu navegador.
+            </p>
+          </div>
+          <a href="curriculo" class="text-xs font-black text-amber-800 hover:underline inline-flex items-center gap-1">
+            <span>Criar currículo agora</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </article>
+
+        <!-- Funcionalidade 4 -->
+        <article class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs hover:shadow-md hover:border-indigo-600 transition-all flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center mb-4 border border-indigo-100">
+              <i data-lucide="bot" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-black text-slate-900 mb-2">Simulador de Entrevistas Prático</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+              Treine para processos seletivos reais com perguntas comportamentais baseadas no método STAR. Receba feedback instantâneo e modelos de respostas que impressionam recrutadores.
+            </p>
+          </div>
+          <a href="simulador-entrevista" class="text-xs font-black text-indigo-700 hover:underline inline-flex items-center gap-1">
+            <span>Simular entrevista agora</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </article>
+
+        <!-- Funcionalidade 5 -->
+        <article class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs hover:shadow-md hover:border-teal-600 transition-all flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-700 flex items-center justify-center mb-4 border border-teal-100">
+              <i data-lucide="calculator" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-black text-slate-900 mb-2">Calculadoras Trabalhistas Atualizadas</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+              Faça simulações confiáveis de Rescisão de Contrato CLT, Salário Líquido, Seguro-Desemprego, Horas Extras, Férias proporcionais e comparativo direto entre contratação CLT e PJ.
+            </p>
+          </div>
+          <a href="calculadora-trabalhista" class="text-xs font-black text-teal-700 hover:underline inline-flex items-center gap-1">
+            <span>Abrir calculadoras</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </article>
+
+        <!-- Funcionalidade 6 -->
+        <article class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs hover:shadow-md hover:border-rose-600 transition-all flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-700 flex items-center justify-center mb-4 border border-rose-100">
+              <i data-lucide="compass" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-black text-slate-900 mb-2">Teste Vocacional & Trilhas de Carreira</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+              Identifique suas afinidades profissionais e descubra quais áreas (Tecnologia, Negócios, Saúde, Criatividade) combinam melhor com suas metas, com indicação dos cursos exatos para começar.
+            </p>
+          </div>
+          <a href="teste-vocacional" class="text-xs font-black text-rose-700 hover:underline inline-flex items-center gap-1">
+            <span>Fazer teste vocacional</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Comparativo de Vantagens -->
+    <section class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-12">
+      <h2 class="text-xl sm:text-2xl font-black text-slate-900 mb-6 text-center">
+        Por Que Escolher o Você Pode Tudo?
+      </h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs sm:text-sm">
+          <thead>
+            <tr class="border-b border-slate-200 text-slate-500 font-bold">
+              <th class="py-3 px-4">Recurso</th>
+              <th class="py-3 px-4 text-[#002776] font-black">Você Pode Tudo</th>
+              <th class="py-3 px-4 text-slate-400">Outras Plataformas</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <tr>
+              <td class="py-3 px-4 font-bold text-slate-800">Custo de Acesso</td>
+              <td class="py-3 px-4 font-black text-emerald-600">100% Gratuito (Sem pegadinhas)</td>
+              <td class="py-3 px-4 text-slate-500">Cobrança de mensalidade / assinaturas</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-bold text-slate-800">Certificados Reconhecidos</td>
+              <td class="py-3 px-4 font-black text-emerald-600">Sim (Fundação Bradesco, Gov.br, etc.)</td>
+              <td class="py-3 px-4 text-slate-500">Muitas vezes cobram taxa de emissão</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-bold text-slate-800">Exportação de Currículo</td>
+              <td class="py-3 px-4 font-black text-emerald-600">Ilimitada em PDF de alta qualidade</td>
+              <td class="py-3 px-4 text-slate-500">Limitada ou com marca d'água</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-bold text-slate-800">Vagas Verificadas</td>
+              <td class="py-3 px-4 font-black text-emerald-600">Filtro anti-golpes ativo e link oficial</td>
+              <td class="py-3 px-4 text-slate-500">Muitos anúncios falsos ou links pagos</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-bold text-slate-800">Privacidade (LGPD)</td>
+              <td class="py-3 px-4 font-black text-emerald-600">Processamento local no navegador</td>
+              <td class="py-3 px-4 text-slate-500">Venda de cadastros a terceiros</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Chamada para Ação Final -->
+    <section class="bg-gradient-to-r from-emerald-600 to-teal-700 rounded-3xl p-8 sm:p-10 text-white text-center shadow-lg">
+      <h2 class="text-2xl sm:text-3xl font-black mb-3">Pronto para dar o próximo passo na sua carreira?</h2>
+      <p class="text-sm sm:text-base text-emerald-100 max-w-xl mx-auto mb-6">
+        Junte-se a milhares de brasileiros que estão aprendendo, emitindo certificados e conquistando vagas sem gastar um único centavo.
+      </p>
+      <div class="flex items-center justify-center gap-3 flex-wrap">
+        <a href="/" class="px-6 py-3 rounded-xl font-black text-sm bg-[#ffcc29] text-slate-950 hover:bg-amber-300 transition-all shadow-md">
+          Acessar Todos os Cursos
+        </a>
+        <a href="como-funciona" class="px-6 py-3 rounded-xl font-black text-sm bg-white/20 hover:bg-white/30 text-white transition-all">
+          Entenda Como Funciona
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Rodapé Oficial Multi-Coluna Padronizado -->
+  <footer class="bg-white border-t border-slate-200 pt-12 pb-8 mt-16 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-slate-200">
+        
+        <!-- Coluna 1: Sobre -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-2">
+            <img src="/assets/logo-icon.png" alt="Você Pode Tudo" width="36" height="36" class="w-8 h-8 object-contain">
+            <span class="text-lg font-black text-[#002776]">Você Pode Tudo</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed font-medium">
+            Portal de utilidade pública que democratiza a educação gratuita e a empregabilidade no Brasil com cursos oficiais, vagas reais e ferramentas de carreira.
+          </p>
+          <div class="text-[11px] text-slate-400 font-semibold">
+            Conhecimento ao seu alcance • 100% Gratuito
+          </div>
+        </div>
+
+        <!-- Coluna 2: Produto -->
+        <div>
+          <h3 class="text-xs font-black uppercase tracking-wider text-slate-900 mb-3.5">Produto</h3>
+          <ul class="space-y-2 text-xs font-semibold text-slate-600">
+            <li><a href="funcionalidades" class="text-[#002776] font-bold hover:underline">Funcionalidades</a></li>
+            <li><a href="planos" class="hover:text-[#002776] transition-colors">Planos e Preços</a></li>
+            <li><a href="como-funciona" class="hover:text-[#002776] transition-colors">Como Funciona</a></li>
+            <li><a href="parcerias" class="hover:text-[#002776] transition-colors">Parcerias</a></li>
+          </ul>
+        </div>
+
+        <!-- Coluna 3: Recursos -->
+        <div>
+          <h3 class="text-xs font-black uppercase tracking-wider text-slate-900 mb-3.5">Recursos</h3>
+          <ul class="space-y-2 text-xs font-semibold text-slate-600">
+            <li><a href="recursos" class="hover:text-[#002776] transition-colors">Todos os recursos</a></li>
+            <li><a href="blog" class="hover:text-[#002776] transition-colors">Blog</a></li>
+            <li><a href="central-de-ajuda" class="hover:text-[#002776] transition-colors">Central de Ajuda</a></li>
+            <li><a href="downloads" class="hover:text-[#002776] transition-colors">Downloads Gratuitos</a></li>
+          </ul>
+        </div>
+
+        <!-- Coluna 4: Legal -->
+        <div>
+          <h3 class="text-xs font-black uppercase tracking-wider text-slate-900 mb-3.5">Legal</h3>
+          <ul class="space-y-2 text-xs font-semibold text-slate-600">
+            <li><a href="termos-de-uso" class="hover:text-[#002776] transition-colors">Termos de Serviço</a></li>
+            <li><a href="politica-privacidade" class="hover:text-[#002776] transition-colors">Política de Privacidade</a></li>
+            <li><a href="politica-de-cookies" class="hover:text-[#002776] transition-colors">Política de Cookies</a></li>
+            <li><a href="lgpd" class="hover:text-[#002776] transition-colors">LGPD</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Linha Inferior -->
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-medium text-center sm:text-left">
+        <div>
+          © 2026 Você Pode Tudo (vocepodetudo.com) — Todos os direitos reservados.
+        </div>
+        <div class="flex items-center gap-3 flex-wrap justify-center">
+          <a href="exclusao-de-dados" class="hover:underline">Exclusão de Dados</a>
+          <span>•</span>
+          <a href="politica-editorial" class="hover:underline">Diretrizes Editoriais</a>
+          <span>•</span>
+          <a href="contato" class="hover:underline">Contato</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide && window.lucide.createIcons) {
+        window.lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>

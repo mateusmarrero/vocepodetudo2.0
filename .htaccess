@@ -37,6 +37,10 @@ ErrorDocument 404 /404.html
   RewriteRule ^media-kit/?$ /midia-kit [R=301,L]
   RewriteRule ^anuncie/?$ /midia-kit [R=301,L]
   RewriteRule ^publicidade/?$ /midia-kit [R=301,L]
+  RewriteRule ^planos-e-precos/?$ /planos [R=301,L]
+  RewriteRule ^todos-os-recursos/?$ /recursos [R=301,L]
+  RewriteRule ^ajuda/?$ /central-de-ajuda [R=301,L]
+  RewriteRule ^cookies/?$ /politica-de-cookies [R=301,L]
 
   # Roteamento Dinâmico para Sitemap e Feed RSS (Proteção contra vazamento de agendamentos)
   RewriteRule ^sitemap\.xml$ sitemap.php [L]

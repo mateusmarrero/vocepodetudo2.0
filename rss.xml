@@ -5,13 +5,49 @@
     <link>https://vocepodetudo.com/blog</link>
     <description>Dicas de currículo, entrevistas de emprego, mercado de trabalho e cursos gratuitos com certificado.</description>
     <language>pt-BR</language>
-    <lastBuildDate>Sat, 21 Nov 2026 11:06:11 -0300</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2026 16:14:35 -0300</lastBuildDate>
     <atom:link href="https://www.vocepodetudo.com/api/rss.php" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://www.vocepodetudo.com/assets/logo-icon.png</url>
       <title>Você Pode Tudo</title>
       <link>https://vocepodetudo.com/blog</link>
     </image>
+        <item>
+      <title>TickTick para Estudantes: Como Unir Lista de Tarefas, Calendário e Hábitos Sem Pagar Nada</title>
+      <link>https://vocepodetudo.com/artigo/ticktick-estudantes-tarefas-calendario-habitos</link>
+      <guid isPermaLink="true">https://vocepodetudo.com/artigo/ticktick-estudantes-tarefas-calendario-habitos</guid>
+      <description>Descubra como transformar o TickTick em sua central definitiva de produtividade escolar, combinando gerenciamento de tarefas, controle de prazos e rastreador de hábitos em um só lugar.</description>
+      <category>estudos_e_ferramentas</category>
+      <author>contato@vocepodetudo.com (Mateus S. Marrero — Fundador e Responsável Editorial)</author>
+      <pubDate>Sun, 22 Nov 2026 14:00:00 -0300</pubDate>
+            <enclosure url="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1200&amp;h=630&amp;auto=format&amp;fit=crop&amp;q=85" type="image/jpeg" length="120000" />
+      <media:thumbnail url="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1200&amp;h=630&amp;auto=format&amp;fit=crop&amp;q=85" />
+      <media:content url="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1200&amp;h=630&amp;auto=format&amp;fit=crop&amp;q=85" medium="image" />
+          </item>
+        <item>
+      <title>Hackers do Bem: Como Começar uma Carreira em Segurança Cibernética</title>
+      <link>https://vocepodetudo.com/artigo/hackers-do-bem-como-comecar-carreira-ciberseguranca</link>
+      <guid isPermaLink="true">https://vocepodetudo.com/artigo/hackers-do-bem-como-comecar-carreira-ciberseguranca</guid>
+      <description>Conheça a maior iniciativa pública de formação em segurança cibernética do Brasil: capacitação gratuita, laboratórios práticos virtuais e certificação oficial para atuar na área de defesa digital.</description>
+      <category>estudos</category>
+      <author>contato@vocepodetudo.com (Mateus S. Marrero — Fundador e Responsável Editorial)</author>
+      <pubDate>Sun, 22 Nov 2026 08:00:00 -0300</pubDate>
+            <enclosure url="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&amp;h=630&amp;auto=format&amp;fit=crop&amp;q=85" type="image/jpeg" length="120000" />
+      <media:thumbnail url="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&amp;h=630&amp;auto=format&amp;fit=crop&amp;q=85" />
+      <media:content url="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&amp;h=630&amp;auto=format&amp;fit=crop&amp;q=85" medium="image" />
+          </item>
+        <item>
+      <title>Calendários Compartilhados e Cronogramas: Como Coordenar Trabalhos em Grupo com Apps Grátis</title>
+      <link>https://vocepodetudo.com/artigo/calendarios-compartilhados-cronogramas-trabalhos-grupo</link>
+      <guid isPermaLink="true">https://vocepodetudo.com/artigo/calendarios-compartilhados-cronogramas-trabalhos-grupo</guid>
+      <description>Acabe com os atritos e desencontros em trabalhos de faculdade ou colégio criando calendários compartilhados e cronogramas visuais com ferramentas 100% gratuitas.</description>
+      <category>estudos_e_ferramentas</category>
+      <author>contato@vocepodetudo.com (Mateus S. Marrero — Fundador e Responsável Editorial)</author>
+      <pubDate>Sat, 21 Nov 2026 14:00:00 -0300</pubDate>
+            <enclosure url="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1200&amp;h=630&amp;auto=format&amp;fit=crop&amp;q=85" type="image/jpeg" length="120000" />
+      <media:thumbnail url="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1200&amp;h=630&amp;auto=format&amp;fit=crop&amp;q=85" />
+      <media:content url="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1200&amp;h=630&amp;auto=format&amp;fit=crop&amp;q=85" medium="image" />
+          </item>
         <item>
       <title>Lógica de Programação: O Primeiro Passo para Entrar na Tecnologia</title>
       <link>https://vocepodetudo.com/artigo/logica-de-programacao-primeiro-passo-para-entrar-em-ti</link>

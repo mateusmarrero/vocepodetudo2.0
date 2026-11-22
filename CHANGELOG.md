@@ -6,6 +6,23 @@ O formato é baseado no [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.
 
 ---
 
+## [4.88.0] - 2026-11-22
+### ✍️ Auditoria e Correção Ortográfica Abrangente (pt-BR)
+
+- **Correções de Acentuação e Ortografia em HTMLs:**
+  - `admin.html`: Correção de acentuação em avisos, rótulos e botões ("todas as páginas", "Prévia Visual em Tempo Real", "Configurações do Banner no Topo", "Status de Exibição no Portal", "O aviso está atualmente visível", "Modelos de Texto Rápidos", "instituições oficiais", "Fundação Bradesco", "estágio", "currículo", "Vagas & Estágio", "Alerta Crítico / Urgente", "Link de Ação", "Texto do Botão").
+  - Metatags de SEO atualizadas com ortografia rigorosa em `calculadora-trabalhista.html`, `central-de-ajuda.html`, `cursos-gratis-administracao.html`, `cursos-gratis-excel.html`, `cursos-gratis-ia.html`, `cursos-gratis-informatica.html`, `cursos-gratis-ingles.html`, `funcionalidades.html`, `index.html`, `parcerias.html`, `planos.html`, `politica-de-cookies.html`, `recursos.html` e `vagas-jovem-aprendiz-2026.html`.
+- **Padronização e Acentuação de Categorias de Cursos:**
+  - `src/data/courses.js`, `api/seed_courses.json` e `api/cache_courses.json`: Padronização de todos os rótulos de `categoryName` para o padrão formal com acentuação e caixa alta ("Saúde", "Gestão", "Negócios", "Finanças", "Tecnologia", "Inteligência Artificial", "Empreendedorismo", "Concursos Públicos", "Idiomas", "Acessibilidade", "Educação", "Artes & Design", "Produtividade", "Computação em Nuvem", "Agronegócio", "Profissionalização").
+- **Acentuação de Áreas no Mural de Vagas:**
+  - `api/seed_jobs.json` e `api/cache_jobs.json`: Normalização e acentuação das áreas de atuação ("Saúde", "Administração", "Operações", "Tecnologia", "Marketing", "Comercial", "Atendimento", "Geral").
+- **Proteção de URLs e Slugs Técnicos:**
+  - Preservação estrita de identificadores de rotas, slugs técnicos e URLs (`/curriculo`, `administracao`, `programacao`, etc.), evitando qualquer quebra de navegação.
+- **Service Worker (`sw.js`):**
+  - Atualização do cache para `vocepodetudo-pwa-v4.88.0` para renovação instantânea dos arquivos estáticos corrigidos nos navegadores dos usuários.
+
+---
+
 ## [4.87.0] - 2026-11-22
 ### 🏛️ Novas Páginas de Produto, Recursos e Jurídico & Rodapé Multi-Coluna Padronizado
 

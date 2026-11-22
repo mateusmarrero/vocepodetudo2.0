@@ -1,0 +1,779 @@
+[
+  {
+    "file": "admin.html",
+    "context": "HTML text node",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...l e aprovação humana antes da publicação...."
+  },
+  {
+    "file": "admin.html",
+    "context": "HTML text node",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...Acompanhe o cronograma de publicações automáticas diárias, ante..."
+  },
+  {
+    "file": "admin.html",
+    "context": "HTML text node",
+    "found": "paginas",
+    "suggested": "páginas",
+    "snippet": "...o exibida no topo de todas as paginas para os visitantes do Você Po..."
+  },
+  {
+    "file": "admin.html",
+    "context": "HTML text node",
+    "found": "Critico",
+    "suggested": "crítico",
+    "snippet": "...Alerta Critico / Urgente (Vermelho)..."
+  },
+  {
+    "file": "admin.html",
+    "context": "HTML text node",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...Antecipe a publicação ou mude a data programada...."
+  },
+  {
+    "file": "calculadora-trabalhista.html",
+    "context": "meta content",
+    "found": "salario",
+    "suggested": "salário",
+    "snippet": "...calculadora salario liquido, calcular inss 2026, ..."
+  },
+  {
+    "file": "central-de-ajuda.html",
+    "context": "meta content",
+    "found": "duvidas",
+    "suggested": "dúvidas",
+    "snippet": "...odetudo, certificado gratuito duvidas, horas complementares faculda..."
+  },
+  {
+    "file": "cursos-gratis-administracao.html",
+    "context": "meta content",
+    "found": "gestao",
+    "suggested": "gestão",
+    "snippet": "...urso de administração gratis, gestao financeira sebrae, administra..."
+  },
+  {
+    "file": "cursos-gratis-excel.html",
+    "context": "meta content",
+    "found": "avancado",
+    "suggested": "avançado",
+    "snippet": "...excel gratis, excel basico ao avancado, formulas excel, procv gratis..."
+  },
+  {
+    "file": "cursos-gratis-excel.html",
+    "context": "meta content",
+    "found": "dinamica",
+    "suggested": "dinâmica",
+    "snippet": "...s excel, procv gratis, tabela dinamica, fundação bradesco excel, voc..."
+  },
+  {
+    "file": "cursos-gratis-excel.html",
+    "context": "meta content",
+    "found": "basico",
+    "suggested": "básico",
+    "snippet": "...curso de excel gratis, excel basico ao avancado, formulas excel, ..."
+  },
+  {
+    "file": "cursos-gratis-ia.html",
+    "context": "meta content",
+    "found": "inteligencia",
+    "suggested": "inteligência",
+    "snippet": "...cursos gratis de inteligencia artificial, ia generativa gra..."
+  },
+  {
+    "file": "cursos-gratis-informatica.html",
+    "context": "meta content",
+    "found": "basica",
+    "suggested": "básica",
+    "snippet": "...rmatica, curso de informatica basica, aprender computador gratis, ..."
+  },
+  {
+    "file": "funcionalidades.html",
+    "context": "meta content",
+    "found": "curriculo",
+    "suggested": "currículo",
+    "snippet": "...uitos certificado, gerador de curriculo gratis, mural de vagas, simul..."
+  },
+  {
+    "file": "index.html",
+    "context": "meta content",
+    "found": "publico",
+    "suggested": "público",
+    "snippet": "...y, primeiro emprego, concurso publico cursos gratis, você pode tudo..."
+  },
+  {
+    "file": "midia-kit.html",
+    "context": "HTML text node",
+    "found": "Especifica",
+    "suggested": "específica",
+    "snippet": "...Formatos Publicitários & Especificações IAB..."
+  },
+  {
+    "file": "parcerias.html",
+    "context": "meta content",
+    "found": "educacao",
+    "suggested": "educação",
+    "snippet": "...itos, responsabilidade social educacao brasil..."
+  },
+  {
+    "file": "planos.html",
+    "context": "meta content",
+    "found": "curriculo",
+    "suggested": "currículo",
+    "snippet": "... cursos gratuitos, gerador de curriculo gratis, mural de vagas gratis..."
+  },
+  {
+    "file": "politica-de-cookies.html",
+    "context": "meta content",
+    "found": "politica",
+    "suggested": "política",
+    "snippet": "...politica de cookies você pode tudo, co..."
+  },
+  {
+    "file": "recursos.html",
+    "context": "meta content",
+    "found": "curriculo",
+    "suggested": "currículo",
+    "snippet": "...entas gratis emprego, gerador curriculo pdf, vagas estagio, simulador..."
+  },
+  {
+    "file": "vagas-jovem-aprendiz-2026.html",
+    "context": "meta content",
+    "found": "salario",
+    "suggested": "salário",
+    "snippet": "... emprego 2026, jovem aprendiz salario, ciee jovem aprendiz, vocepod..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "negocios",
+    "suggested": "negócios",
+    "snippet": "...negocios..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "gestao",
+    "suggested": "gestão",
+    "snippet": "...gestao..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "negocios",
+    "suggested": "negócios",
+    "snippet": "...negocios..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "gestao",
+    "suggested": "gestão",
+    "snippet": "...gestao..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "gestao",
+    "suggested": "gestão",
+    "snippet": "...gestao..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "gestao",
+    "suggested": "gestão",
+    "snippet": "...gestao..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "negocios",
+    "suggested": "negócios",
+    "snippet": "...negocios..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "gestao",
+    "suggested": "gestão",
+    "snippet": "...gestao..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "gestao",
+    "suggested": "gestão",
+    "snippet": "...gestao..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: description",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...ts, branches, pull requests e publicação de projetos no GitHub...."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: description",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...rge, resolução de conflitos e publicação de portfólio de projetos n..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "gestao",
+    "suggested": "gestão",
+    "snippet": "...gestao..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "gestao",
+    "suggested": "gestão",
+    "snippet": "...gestao..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "negocios",
+    "suggested": "negócios",
+    "snippet": "...negocios..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "gestao",
+    "suggested": "gestão",
+    "snippet": "...gestao..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "src/data/courses.js",
+    "context": "field: categoryName",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "...saude..."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[3].content",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...</tr> <tr> <td>Zero publicações ou interações com conteúd..."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[3].content",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...ar todos os dias. Uma ou duas publicações por semana compartilhando..."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[10].content",
+    "found": "redacao",
+    "suggested": "redação",
+    "snippet": "...alto/pt-br/assuntos/manual-de-redacao-da-presidencia-da-republica\" ..."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[10].content",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...em competitiva antes mesmo da publicação dos editais específicos. N..."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[11].content",
+    "found": "educacao",
+    "suggested": "educação",
+    "snippet": "...ça pelo site <a href=\"https://educacao-executiva.fgv.br/cursos/gratu..."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[11].content",
+    "found": "Gestao",
+    "suggested": "gestão",
+    "snippet": "... Exemplo: <code>2026 - Enap - Gestao de Projetos - 30h.pdf</code>...."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[23].content",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...argos que você almeja, elogie publicações técnicas deles e envie um..."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[26].content",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "... (<a href=\"https://www.gov.br/saude/pt-br\" target=\"_blank\" rel=\"n..."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[32].content",
+    "found": "Publica",
+    "suggested": "pública",
+    "snippet": "...postura pública do candidato. Publicações com conteúdos discriminat..."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[40].content",
+    "found": "programacao",
+    "suggested": "programação",
+    "snippet": "...na de <a href=\\\"cursos-gratis-programacao.html\\\" class=\\\"font-bold unde..."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[43].content",
+    "found": "exercicio",
+    "suggested": "exercício",
+    "snippet": "...<code>#leitura</code>, <code>#exercicio</code>, <code>#trabalho-grupo..."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[49].content",
+    "found": "alem",
+    "suggested": "além",
+    "snippet": "...al do século XIX, o psicólogo alemão Hermann Ebbinghaus descobri..."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[54].content",
+    "found": "administracao",
+    "suggested": "administração",
+    "snippet": "...na de <a href=\\\"cursos-gratis-administracao.html\\\" class=\\\"font-bold unde..."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[61].content",
+    "found": "alem",
+    "suggested": "além",
+    "snippet": "...do pelo jornalista científico alemão Sebastian Leitner na década..."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[73].content",
+    "found": "alem",
+    "suggested": "além",
+    "snippet": "...00 mb-6\">Em 1885, o psicólogo alemão Hermann Ebbinghaus publicou..."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[92].content",
+    "found": "Salario",
+    "suggested": "salário",
+    "snippet": "...onsulte sites como Glassdoor, Salario.com.br ou o piso do sindicato..."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[96].content",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...iais:</strong> Planejamento e publicação em redes corporativas.</li..."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[134].content",
+    "found": "Publica",
+    "suggested": "pública",
+    "snippet": "...i><strong>Verifique a Data da Publicação:</strong> Muitas vezes, um..."
+  },
+  {
+    "file": "api/seed_blog.json",
+    "context": "item[143].content",
+    "found": "seguranca",
+    "suggested": "segurança",
+    "snippet": "...am links estranhos como <code>seguranca-caixa-atualiza.site</code>.</..."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[3].content",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...</tr> <tr> <td>Zero publicações ou interações com conteúd..."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[3].content",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...ar todos os dias. Uma ou duas publicações por semana compartilhando..."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[10].content",
+    "found": "redacao",
+    "suggested": "redação",
+    "snippet": "...alto/pt-br/assuntos/manual-de-redacao-da-presidencia-da-republica\" ..."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[10].content",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...em competitiva antes mesmo da publicação dos editais específicos. N..."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[11].content",
+    "found": "educacao",
+    "suggested": "educação",
+    "snippet": "...ça pelo site <a href=\"https://educacao-executiva.fgv.br/cursos/gratu..."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[11].content",
+    "found": "Gestao",
+    "suggested": "gestão",
+    "snippet": "... Exemplo: <code>2026 - Enap - Gestao de Projetos - 30h.pdf</code>...."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[23].content",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...argos que você almeja, elogie publicações técnicas deles e envie um..."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[26].content",
+    "found": "saude",
+    "suggested": "saúde",
+    "snippet": "... (<a href=\"https://www.gov.br/saude/pt-br\" target=\"_blank\" rel=\"n..."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[32].content",
+    "found": "Publica",
+    "suggested": "pública",
+    "snippet": "...postura pública do candidato. Publicações com conteúdos discriminat..."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[40].content",
+    "found": "programacao",
+    "suggested": "programação",
+    "snippet": "...na de <a href=\\\"cursos-gratis-programacao.html\\\" class=\\\"font-bold unde..."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[43].content",
+    "found": "exercicio",
+    "suggested": "exercício",
+    "snippet": "...<code>#leitura</code>, <code>#exercicio</code>, <code>#trabalho-grupo..."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[49].content",
+    "found": "alem",
+    "suggested": "além",
+    "snippet": "...al do século XIX, o psicólogo alemão Hermann Ebbinghaus descobri..."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[54].content",
+    "found": "administracao",
+    "suggested": "administração",
+    "snippet": "...na de <a href=\\\"cursos-gratis-administracao.html\\\" class=\\\"font-bold unde..."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[61].content",
+    "found": "alem",
+    "suggested": "além",
+    "snippet": "...do pelo jornalista científico alemão Sebastian Leitner na década..."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[73].content",
+    "found": "alem",
+    "suggested": "além",
+    "snippet": "...00 mb-6\">Em 1885, o psicólogo alemão Hermann Ebbinghaus publicou..."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[92].content",
+    "found": "Salario",
+    "suggested": "salário",
+    "snippet": "...onsulte sites como Glassdoor, Salario.com.br ou o piso do sindicato..."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[96].content",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...iais:</strong> Planejamento e publicação em redes corporativas.</li..."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[134].content",
+    "found": "Publica",
+    "suggested": "pública",
+    "snippet": "...i><strong>Verifique a Data da Publicação:</strong> Muitas vezes, um..."
+  },
+  {
+    "file": "api/cache_blog.json",
+    "context": "item[143].content",
+    "found": "seguranca",
+    "suggested": "segurança",
+    "snippet": "...am links estranhos como <code>seguranca-caixa-atualiza.site</code>.</..."
+  },
+  {
+    "file": "api/seed_jobs.json",
+    "context": "item[44].description",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...gendamento e monitoramento de publicações no Instagram, TikTok e Li..."
+  },
+  {
+    "file": "api/cache_jobs.json",
+    "context": "item[44].description",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...gendamento e monitoramento de publicações no Instagram, TikTok e Li..."
+  },
+  {
+    "file": "api/seed_courses.json",
+    "context": "item[126].description",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...ts, branches, pull requests e publicação de projetos no GitHub...."
+  },
+  {
+    "file": "api/seed_courses.json",
+    "context": "item[133].description",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...rge, resolução de conflitos e publicação de portfólio de projetos n..."
+  },
+  {
+    "file": "api/cache_courses.json",
+    "context": "item[126].description",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...ts, branches, pull requests e publicação de projetos no GitHub...."
+  },
+  {
+    "file": "api/cache_courses.json",
+    "context": "item[133].description",
+    "found": "publica",
+    "suggested": "pública",
+    "snippet": "...rge, resolução de conflitos e publicação de portfólio de projetos n..."
+  }
+]

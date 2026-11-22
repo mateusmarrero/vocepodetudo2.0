@@ -1984,7 +1984,10 @@
 
         btnSync.disabled = true;
         btnSync.classList.add('opacity-75');
+        const iconEl = btnSync.querySelector('i, svg');
+        if (iconEl) iconEl.outerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i>';
         if (btnSyncText) btnSyncText.textContent = 'Buscando vagas na web...';
+        if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
 
         try {
           const res = await fetch('api/jobs_sync.php', {
@@ -2007,6 +2010,8 @@
         } finally {
           btnSync.disabled = false;
           btnSync.classList.remove('opacity-75');
+          const currentIcon = btnSync.querySelector('i, svg');
+          if (currentIcon) currentIcon.outerHTML = '<i data-lucide="sparkles" class="w-4 h-4"></i>';
           if (btnSyncText) btnSyncText.textContent = 'Buscar Vagas Automaticamente';
           if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
         }

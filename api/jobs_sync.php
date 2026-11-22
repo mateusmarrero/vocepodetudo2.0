@@ -11,6 +11,8 @@
 
 declare(strict_types=1);
 
+ob_start();
+
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: SAMEORIGIN');
@@ -55,8 +57,11 @@ if ($isCli) {
 }
 
 if (!$isAuthorized) {
+    if (ob_get_length()) ob_clean();
     http_response_code(401);
-    echo json_encode([
+    if (ob_get_length()) ob_clean();
+
+echo json_encode([
         'success' => false,
         'error' => 'Acesso não autorizado para sincronização de vagas.',
         'hint' => 'Forneça o Bearer Token do administrador ou utilize o parâmetro cron_key.'
@@ -278,6 +283,8 @@ if (!empty($newImported)) {
 } else {
     $totalCount = count($existingJobs);
 }
+
+if (ob_get_length()) ob_clean();
 
 echo json_encode([
     'success' => true,

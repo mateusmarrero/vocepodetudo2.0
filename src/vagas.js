@@ -582,9 +582,12 @@
       });
     }
 
-    // Busca textual & Botão Limpar
+    // Busca textual, Formulário & Botão Buscar Vagas
+    const searchForm = document.getElementById('jobs-search-form');
     const searchInput = document.getElementById('jobs-search-input');
+    const searchBtn = document.getElementById('jobs-search-btn');
     const searchClearBtn = document.getElementById('jobs-search-clear-btn');
+    const heroBtnBuscarVagas = document.getElementById('hero-btn-buscar-vagas');
 
     function updateSearchClearBtn() {
       if (!searchClearBtn) return;
@@ -595,11 +598,57 @@
       }
     }
 
+    function triggerSearch(scroll = false) {
+      if (!searchInput) return;
+      currentJobSearchFilter = searchInput.value.trim();
+      updateSearchClearBtn();
+      applyJobsFilters();
+      if (scroll) {
+        const grid = document.getElementById('jobs-cards-grid');
+        if (grid) {
+          const top = grid.getBoundingClientRect().top + window.pageYOffset - 100;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      }
+    }
+
     if (searchInput) {
       searchInput.addEventListener('input', () => {
-        currentJobSearchFilter = searchInput.value.trim();
-        updateSearchClearBtn();
-        applyJobsFilters();
+        triggerSearch(false);
+      });
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          triggerSearch(true);
+        }
+      });
+    }
+
+    if (searchForm) {
+      searchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        triggerSearch(true);
+      });
+    }
+
+    if (searchBtn) {
+      searchBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        triggerSearch(true);
+      });
+    }
+
+    if (heroBtnBuscarVagas) {
+      heroBtnBuscarVagas.addEventListener('click', (e) => {
+        e.preventDefault();
+        const searchSection = document.getElementById('jobs-search-section');
+        if (searchSection) {
+          const top = searchSection.getBoundingClientRect().top + window.pageYOffset - 80;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+        if (searchInput) {
+          setTimeout(() => searchInput.focus(), 300);
+        }
       });
     }
 

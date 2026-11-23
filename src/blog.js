@@ -115,7 +115,7 @@
       const readTime = post.read_time_minutes ? `${post.read_time_minutes} min de leitura` : '5 min de leitura';
       const coverHtml = post.cover_image 
         ? `<div class="h-48 w-full overflow-hidden bg-slate-100 relative">
-             <img src="${escapeHTML(post.cover_image)}" alt="${escapeHTML(post.title)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+             <img src="${escapeHTML(post.cover_image)}" alt="${escapeHTML(post.title)}" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&auto=format&fit=crop&q=80';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent"></div>
              <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-white/95 text-slate-900 shadow-sm">
                ${catLabel}

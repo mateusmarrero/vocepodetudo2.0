@@ -948,7 +948,7 @@ if ($isPreview) {
           src="<?= htmlspecialchars($coverImage, ENT_QUOTES, 'UTF-8') ?>" 
           alt="<?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?>" 
           loading="eager"
-          class="w-full h-auto max-h-[460px] object-cover"
+          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=630&auto=format&fit=crop&q=85';" class="w-full h-auto max-h-[460px] object-cover"
         >
         <figcaption class="px-4 py-2 text-center text-xs text-slate-400 bg-white border-t border-slate-100">
           Guia prático e editorial do portal Você Pode Tudo • Reprodução autorizada com citação da fonte

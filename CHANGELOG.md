@@ -6,6 +6,22 @@ O formato é baseado no [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.
 
 ---
 
+## [4.89.0] - 2026-11-23
+### 🖼️ Correção de Imagens do Blog e Padronização de E-mail de Contato
+
+- **Correção e Diversificação de Imagens de Capa do Blog:**
+  - Substituição de URLs do Unsplash que retornavam erro 404 por imagens verificadas de alta definição nos artigos: ID 48 (Profissões Acessíveis), ID 55 (Maior Defeito em Entrevistas), ID 84 (Golpes e Vagas Falsas), ID 106 (Segurança de Crianças na Internet), ID 128 (E-commerce / Vendas Online) e ID 173 (Cronobiologia Estudantil).
+  - Diversificação e contextualização de 22 artigos da trilha de estudos e produtividade que compartilhavam a mesma capa genérica (Google Agenda, Todoist, Notion, Trello, Anki, Método Cornell, Mapas Mentais, Obsidian, etc.).
+  - Implementação de fallback defensivo `onerror` em [src/blog.js](file:///c:/Users/usuario/Downloads/VCPDTD%20ANTIGRAVITY/src/blog.js) e [artigo.php](file:///c:/Users/usuario/Downloads/VCPDTD%20ANTIGRAVITY/artigo.php), garantindo que nenhuma falha de rede ou link externo exiba imagem quebrada aos visitantes.
+  - Teste automatizado atestando 100% das 81 URLs únicas de capa do blog respondendo com status 200 OK.
+- **Padronização Oficial do E-mail de Contato (`contato@vocepodetudo.com`):**
+  - Substituição de todas as menções legadas a `contato.vocepodetudo@gmail.com` pelo e-mail institucional oficial `contato@vocepodetudo.com` em: `central-de-ajuda.html`, `index.html`, `lgpd.html`, `parcerias.html`, `politica-de-cookies.html`, `politica-editorial.html`, `politica-privacidade.html`, `termos-de-servico.html` e `termos-de-uso.html`.
+  - Reestruturação completa da página [contato.html](file:///c:/Users/usuario/Downloads/VCPDTD%20ANTIGRAVITY/contato.html) com formulário funcional integrado à API, canais diretos de atendimento por e-mail com botão de cópia com 1 clique e canal de DPO/LGPD.
+- **Service Worker (`sw.js`):**
+  - Cache atualizado para a versão `vocepodetudo-pwa-v4.89.0`.
+
+---
+
 ## [4.88.0] - 2026-11-22
 ### ✍️ Auditoria e Correção Ortográfica Abrangente (pt-BR)
 

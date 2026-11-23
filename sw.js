@@ -1,9 +1,9 @@
 /**
- * Service Worker - Você Pode Tudo PWA (v4.88.0)
+ * Service Worker - Você Pode Tudo PWA (v4.89.0)
  * Resiliente, seguro e com expurgo ativo de cache.
  */
 
-const CACHE_NAME = 'vocepodetudo-pwa-v4.88.0';
+const CACHE_NAME = 'vocepodetudo-pwa-v4.89.0';
 
 const PRECACHE_ASSETS = [
   '/',

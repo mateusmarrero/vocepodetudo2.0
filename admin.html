@@ -1132,6 +1132,83 @@
           </div>
         </div>
 
+        <!-- Origem dos Cliques, Canais de Aquisição & Dispositivos -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Canais de Origem Externa dos Cliques -->
+          <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+              <div class="flex items-center gap-2">
+                <i data-lucide="mouse-pointer-click" class="w-4 h-4 text-[#009639]"></i>
+                <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider">
+                  De Onde Vêm os Cliques (Canais de Origem)
+                </h3>
+              </div>
+              <span class="text-xs font-bold text-slate-400">Referrer / UTM / IAs</span>
+            </div>
+            <div id="click-traffic-sources-container" class="space-y-2.5 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+              <div class="text-center py-8 text-xs text-slate-400 font-bold">Aguardando novos cliques com rastreamento de origem...</div>
+            </div>
+          </div>
+
+          <!-- Onde o Clique Aconteceu & Dispositivos -->
+          <div class="space-y-6">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+              <div class="flex items-center gap-2 mb-3 pb-2 border-b border-slate-100">
+                <i data-lucide="layout" class="w-4 h-4 text-[#002776]"></i>
+                <h3 class="text-xs font-black text-slate-900 uppercase tracking-wider">
+                  Página / Seção do Clique
+                </h3>
+              </div>
+              <div id="click-origin-pages-container" class="space-y-2 text-xs">
+                <div class="text-slate-400 text-center py-4 font-bold">Sem registros ainda.</div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+              <div class="flex items-center gap-2 mb-3 pb-2 border-b border-slate-100">
+                <i data-lucide="smartphone" class="w-4 h-4 text-emerald-600"></i>
+                <h3 class="text-xs font-black text-slate-900 uppercase tracking-wider">
+                  Dispositivos dos Visitantes
+                </h3>
+              </div>
+              <div id="click-devices-container" class="space-y-2 text-xs">
+                <div class="text-slate-400 text-center py-4 font-bold">Sem registros ainda.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Registro em Tempo Real: Últimos Cliques com Origem Detalhada -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider">
+                Últimos Cliques Registrados e Suas Origens
+              </h3>
+            </div>
+            <span class="text-xs font-bold text-slate-400">Histórico em Tempo Real (Últimos 50)</span>
+          </div>
+          
+          <div class="overflow-x-auto max-h-[360px] overflow-y-auto custom-scrollbar">
+            <table class="w-full text-left text-xs">
+              <thead class="sticky top-0 bg-white">
+                <tr class="border-b border-slate-200 text-slate-400 font-black uppercase text-[10px]">
+                  <th class="py-2.5 px-3">Data / Hora</th>
+                  <th class="py-2.5 px-3">Curso Clicado</th>
+                  <th class="py-2.5 px-3">Canal de Origem</th>
+                  <th class="py-2.5 px-3">Página do Clique</th>
+                  <th class="py-2.5 px-3">Dispositivo</th>
+                  <th class="py-2.5 px-3">Localidade</th>
+                </tr>
+              </thead>
+              <tbody id="recent-clicks-tbody" class="divide-y divide-slate-100 font-bold text-slate-700">
+                <tr><td colspan="6" class="py-6 text-center text-slate-400">Carregando histórico de cliques...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <!-- Top Cursos Mais Clicados -->
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
           <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
@@ -5431,7 +5508,7 @@ Sitemap: https://vocepodetudo.com/sitemap.xml</pre>
 
   <!-- SCRIPT CENTRAL DA ADMINISTRAÇÃO (com Cache-Busting v=4.38.0) -->
   <script src="./src/data/courses.js?v=4.83.0"></script>
-  <script src="./src/admin.js?v=4.85.0"></script>
+  <script src="./src/admin.js?v=4.94.0"></script>
   <script>
     // Garantir que a área administrativa não seja afetada por Service Worker
     if ('serviceWorker' in navigator) {

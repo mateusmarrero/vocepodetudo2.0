@@ -825,6 +825,98 @@
       `).join('');
     }
 
+    // Renderizar Canais de Origem dos Cliques
+    const clickSourcesEl = document.getElementById('click-traffic-sources-container');
+    if (clickSourcesEl) {
+      const sources = Array.isArray(data.click_traffic_sources) && data.click_traffic_sources.length > 0
+        ? data.click_traffic_sources
+        : (Array.isArray(data.traffic_sources) ? data.traffic_sources : []);
+      if (sources.length === 0) {
+        clickSourcesEl.innerHTML = '<div class="text-xs text-slate-400 py-6 text-center">Nenhum clique com origem registrada ainda. Os próximos cliques aparecerão aqui automaticamente.</div>';
+      } else {
+        clickSourcesEl.innerHTML = sources.map((item, i) => `
+          <div class="flex items-center justify-between text-xs font-bold gap-3">
+            <span class="w-44 truncate text-slate-800 flex items-center gap-1.5" title="${escapeHTML(item.source)}">
+              <span class="text-[10px] text-slate-400 font-mono w-4">${i+1}º</span>
+              <span class="truncate">${escapeHTML(item.source)}</span>
+            </span>
+            <div class="flex-1 bg-slate-100 rounded-full h-2.5 overflow-hidden">
+              <div class="bg-[#002776] h-2.5 rounded-full transition-all duration-500" style="width: ${Number(item.percent) || 0}%"></div>
+            </div>
+            <span class="text-slate-900 font-black w-24 text-right">${Number(item.count || 0).toLocaleString('pt-BR')} (${Number(item.percent) || 0}%)</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Renderizar Páginas onde o Clique Aconteceu
+    const clickPagesEl = document.getElementById('click-origin-pages-container');
+    if (clickPagesEl) {
+      const pages = Array.isArray(data.click_origins_pages) ? data.click_origins_pages : [];
+      if (pages.length === 0) {
+        clickPagesEl.innerHTML = '<div class="text-xs text-slate-400 py-4 text-center">Nenhum clique registrado ainda.</div>';
+      } else {
+        clickPagesEl.innerHTML = pages.map(p => `
+          <div class="flex items-center justify-between font-bold py-1.5 border-b border-slate-50 gap-2">
+            <span class="text-slate-700 truncate" title="${escapeHTML(p.page)}">${escapeHTML(p.page)}</span>
+            <span class="text-[#002776] font-black whitespace-nowrap">${Number(p.count || 0).toLocaleString('pt-BR')} (${Number(p.percent) || 0}%)</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Renderizar Dispositivos
+    const devicesEl = document.getElementById('click-devices-container');
+    if (devicesEl) {
+      const devices = Array.isArray(data.device_types) ? data.device_types : [];
+      if (devices.length === 0) {
+        devicesEl.innerHTML = '<div class="text-xs text-slate-400 py-4 text-center">Nenhum dispositivo registrado ainda.</div>';
+      } else {
+        devicesEl.innerHTML = devices.map(d => `
+          <div class="flex items-center justify-between font-bold py-1.5 border-b border-slate-50 gap-2">
+            <span class="text-slate-700 truncate">${escapeHTML(d.device)}</span>
+            <span class="text-emerald-700 font-black whitespace-nowrap">${Number(d.count || 0).toLocaleString('pt-BR')} (${Number(d.percent) || 0}%)</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Renderizar Histórico Recente de Cliques com Origem
+    const recentClicksTbody = document.getElementById('recent-clicks-tbody');
+    if (recentClicksTbody) {
+      const recent = Array.isArray(data.recent_clicks) ? data.recent_clicks : [];
+      if (recent.length === 0) {
+        recentClicksTbody.innerHTML = '<tr><td colspan="6" class="py-6 text-center text-slate-400">Nenhum clique detalhado registrado ainda após esta atualização.</td></tr>';
+      } else {
+        recentClicksTbody.innerHTML = recent.map(rc => {
+          let dtStr = '-';
+          try {
+            if (rc.timestamp) {
+              const d = new Date(rc.timestamp);
+              dtStr = d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) + ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            }
+          } catch (e) {}
+          const localStr = [rc.city, rc.region].filter(Boolean).join('/') || 'Brasil';
+          const srcLabel = rc.traffic_source || 'Acesso Direto';
+          const utmNote = rc.utm_campaign ? ` (${escapeHTML(rc.utm_campaign)})` : '';
+          return `
+            <tr class="hover:bg-slate-50 transition-colors">
+              <td class="py-2.5 px-3 text-slate-500 whitespace-nowrap font-mono text-[11px]">${escapeHTML(dtStr)}</td>
+              <td class="py-2.5 px-3 font-black text-slate-900 max-w-[220px] truncate" title="${escapeHTML(rc.course_title || '')}">${escapeHTML(rc.course_title || 'Curso')}</td>
+              <td class="py-2.5 px-3">
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-black bg-emerald-50 text-[#00702a] border border-emerald-200 whitespace-nowrap">
+                  ${escapeHTML(srcLabel)}${utmNote}
+                </span>
+              </td>
+              <td class="py-2.5 px-3 text-slate-600 text-[11px]">${escapeHTML(rc.click_page || '-')}</td>
+              <td class="py-2.5 px-3 text-slate-600 text-[11px] whitespace-nowrap">${escapeHTML(rc.device || '-')}</td>
+              <td class="py-2.5 px-3 text-slate-600 text-[11px] whitespace-nowrap">${escapeHTML(localStr)}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+    }
+
     // Renderizar Gráfico de Tráfego & Audiência em Tempo Real
     renderTrafficRealtimeChart(data);
 

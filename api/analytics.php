@@ -67,8 +67,80 @@ function getDefaultAnalyticsData() {
         'locations_world' => [],
         'top_courses' => [],
         'career_test_areas' => [],
+        'traffic_sources' => [],
+        'click_traffic_sources' => [],
+        'click_origins_pages' => [],
+        'device_types' => [],
+        'utm_campaigns' => [],
+        'recent_clicks' => [],
         'last_updated' => date('c')
     ];
+}
+
+/**
+ * Classifica o canal de origem a partir de UTM ou Referrer
+ */
+function classifyTrafficSource($sourceInput = '', $referrer = '', $utmSource = '') {
+    $src = trim((string) $sourceInput);
+    if (!empty($src) && $src !== 'Desconhecido') {
+        return mb_substr($src, 0, 80, 'UTF-8');
+    }
+
+    $utm = strtolower(trim((string) $utmSource));
+    if (!empty($utm)) {
+        if (strpos($utm, 'whatsapp') !== false || $utm === 'wa') return 'WhatsApp';
+        if (strpos($utm, 'instagram') !== false || $utm === 'ig') return 'Instagram';
+        if (strpos($utm, 'facebook') !== false || $utm === 'fb') return 'Facebook';
+        if (strpos($utm, 'tiktok') !== false) return 'TikTok';
+        if (strpos($utm, 'google') !== false) return 'Google Ads / Busca';
+        if (strpos($utm, 'youtube') !== false || $utm === 'yt') return 'YouTube';
+        if (strpos($utm, 'linkedin') !== false) return 'LinkedIn';
+        if (strpos($utm, 'email') !== false || strpos($utm, 'newsletter') !== false) return 'Newsletter / E-mail';
+        return 'UTM: ' . ucfirst(mb_substr($utm, 0, 50, 'UTF-8'));
+    }
+
+    $ref = strtolower(trim((string) $referrer));
+    if (empty($ref)) {
+        return 'Acesso Direto';
+    }
+
+    $host = parse_url($ref, PHP_URL_HOST) ?: $ref;
+    $host = preg_replace('/^www\./', '', $host);
+
+    if (strpos($host, 'vocepodetudo.com') !== false || strpos($host, 'localhost') !== false) {
+        return 'Navegação Interna';
+    }
+    if (strpos($host, 'google.') !== false) return 'Google Orgânico';
+    if (strpos($host, 'bing.com') !== false || strpos($host, 'yahoo.') !== false || strpos($host, 'duckduckgo.') !== false) return 'Outros Buscadores (Bing/Yahoo)';
+    if (strpos($host, 'chatgpt.com') !== false || strpos($host, 'openai.com') !== false || strpos($host, 'perplexity.ai') !== false || strpos($host, 'claude.ai') !== false || strpos($host, 'copilot.microsoft.com') !== false || strpos($host, 'gemini.google.com') !== false) return 'Buscadores IA (ChatGPT/Perplexity/Gemini)';
+    if (strpos($host, 'instagram.com') !== false) return 'Instagram';
+    if (strpos($host, 'facebook.com') !== false || strpos($host, 'fb.com') !== false) return 'Facebook';
+    if (strpos($host, 'whatsapp.com') !== false || strpos($host, 'wa.me') !== false) return 'WhatsApp';
+    if (strpos($host, 'tiktok.com') !== false) return 'TikTok';
+    if (strpos($host, 'youtube.com') !== false || strpos($host, 'youtu.be') !== false) return 'YouTube';
+    if (strpos($host, 'linkedin.com') !== false || strpos($host, 'lnkd.in') !== false) return 'LinkedIn';
+    if (strpos($host, 't.co') !== false || strpos($host, 'twitter.com') !== false || strpos($host, 'x.com') !== false) return 'X (Twitter)';
+
+    return 'Referência: ' . mb_substr($host, 0, 60, 'UTF-8');
+}
+
+/**
+ * Detecta tipo de dispositivo do visitante
+ */
+function detectDeviceType($clientDevice = '', $userAgent = '') {
+    $dev = trim((string) $clientDevice);
+    if (in_array($dev, ['Celular (Mobile)', 'Computador (Desktop)', 'Tablet'], true)) {
+        return $dev;
+    }
+    $ua = strtolower((string) $userAgent);
+    if (empty($ua)) return 'Computador (Desktop)';
+    if (preg_match('/(ipad|tablet|playbook|silk)|(android(?!.*mobile))/i', $ua)) {
+        return 'Tablet';
+    }
+    if (preg_match('/(mobi|iphone|ipod|android|blackberry|opera mini|iemobile)/i', $ua)) {
+        return 'Celular (Mobile)';
+    }
+    return 'Computador (Desktop)';
 }
 
 /**
@@ -80,20 +152,16 @@ function loadAnalyticsData($cacheFile) {
         if ($content) {
             $data = json_decode($content, true);
             if (is_array($data) && isset($data['summary'])) {
-                if (!isset($data['locations_brazil_states']) || !is_array($data['locations_brazil_states'])) {
-                    $data['locations_brazil_states'] = [];
-                }
-                if (!isset($data['locations_brazil_cities']) || !is_array($data['locations_brazil_cities'])) {
-                    $data['locations_brazil_cities'] = [];
-                }
-                if (!isset($data['locations_world']) || !is_array($data['locations_world'])) {
-                    $data['locations_world'] = [];
-                }
-                if (!isset($data['top_courses']) || !is_array($data['top_courses'])) {
-                    $data['top_courses'] = [];
-                }
-                if (!isset($data['career_test_areas']) || !is_array($data['career_test_areas'])) {
-                    $data['career_test_areas'] = [];
+                $arrayKeys = [
+                    'locations_brazil_states', 'locations_brazil_cities', 'locations_world',
+                    'top_courses', 'career_test_areas', 'traffic_sources',
+                    'click_traffic_sources', 'click_origins_pages', 'device_types',
+                    'utm_campaigns', 'recent_clicks'
+                ];
+                foreach ($arrayKeys as $key) {
+                    if (!isset($data[$key]) || !is_array($data[$key])) {
+                        $data[$key] = [];
+                    }
                 }
                 if (!isset($data['summary']['career_tests_count'])) {
                     $data['summary']['career_tests_count'] = 0;
@@ -129,8 +197,24 @@ switch ($action) {
         $city = trim($input['city'] ?? '');
         $region = strtoupper(trim($input['region'] ?? ''));
         $country = trim($input['country'] ?? 'Brasil');
+        $referrer = trim((string)($input['referrer'] ?? ($_SERVER['HTTP_REFERER'] ?? '')));
+        $utmSource = trim((string)($input['utm_source'] ?? ''));
+        $utmCampaign = trim((string)($input['utm_campaign'] ?? ''));
+        $trafficSource = classifyTrafficSource($input['traffic_source'] ?? '', $referrer, $utmSource);
+        $deviceType = detectDeviceType($input['device'] ?? '', $_SERVER['HTTP_USER_AGENT'] ?? '');
+        $clickPage = trim((string)($input['click_page'] ?? ''));
 
         $data = loadAnalyticsData($cacheFile);
+
+        // Registrar origem de tráfego e dispositivo nas interações principais
+        if (in_array($event, ['pageview_home', 'pageview_tracks', 'pageview_course', 'pageview_blog', 'course_click'], true)) {
+            $data['traffic_sources'][$trafficSource] = ($data['traffic_sources'][$trafficSource] ?? 0) + 1;
+            $data['device_types'][$deviceType] = ($data['device_types'][$deviceType] ?? 0) + 1;
+            if (!empty($utmCampaign)) {
+                $campKey = ($utmSource ? $utmSource . ' / ' : '') . mb_substr($utmCampaign, 0, 60, 'UTF-8');
+                $data['utm_campaigns'][$campKey] = ($data['utm_campaigns'][$campKey] ?? 0) + 1;
+            }
+        }
 
         // 1. Atualizar Contadores de Evento
         if ($event === 'pageview_home') {
@@ -139,12 +223,19 @@ switch ($action) {
         } elseif ($event === 'pageview_tracks') {
             $data['summary']['tracks_views']++;
             $data['summary']['total_visits']++;
+        } elseif ($event === 'pageview_course' || $event === 'pageview_blog') {
+            $data['summary']['total_visits']++;
         } elseif ($event === 'course_click') {
             $data['summary']['course_clicks']++;
             $courseId = trim($input['course_id'] ?? '');
             $title = trim($input['course_title'] ?? 'Curso Oficial');
             $provider = trim($input['course_provider'] ?? 'Parceiro');
             $category = trim($input['course_category'] ?? 'Geral');
+            $pageLabel = !empty($clickPage) ? mb_substr($clickPage, 0, 80, 'UTF-8') : 'Catálogo Principal (Home)';
+
+            // Contadores específicos de Origem dos Cliques
+            $data['click_traffic_sources'][$trafficSource] = ($data['click_traffic_sources'][$trafficSource] ?? 0) + 1;
+            $data['click_origins_pages'][$pageLabel] = ($data['click_origins_pages'][$pageLabel] ?? 0) + 1;
 
             if (!empty($courseId)) {
                 if (!isset($data['top_courses'][$courseId])) {
@@ -156,6 +247,30 @@ switch ($action) {
                     ];
                 }
                 $data['top_courses'][$courseId]['clicks']++;
+            }
+
+            // Registrar no histórico recente (últimos 50 cliques)
+            $refHost = '';
+            if (!empty($referrer)) {
+                $refHost = parse_url($referrer, PHP_URL_HOST) ?: $referrer;
+                $refHost = preg_replace('/^www\./', '', (string)$refHost);
+            }
+            array_unshift($data['recent_clicks'], [
+                'timestamp' => date('c'),
+                'course_id' => $courseId,
+                'course_title' => mb_substr($title, 0, 100, 'UTF-8'),
+                'course_provider' => mb_substr($provider, 0, 60, 'UTF-8'),
+                'traffic_source' => $trafficSource,
+                'click_page' => $pageLabel,
+                'device' => $deviceType,
+                'city' => $city ?: 'Brasil',
+                'region' => $region ?: '',
+                'utm_source' => $utmSource,
+                'utm_campaign' => $utmCampaign,
+                'referrer_host' => $refHost
+            ]);
+            if (count($data['recent_clicks']) > 50) {
+                $data['recent_clicks'] = array_slice($data['recent_clicks'], 0, 50);
             }
         } elseif ($event === 'favorite') {
             $data['summary']['total_favorites']++;
@@ -314,6 +429,31 @@ switch ($action) {
 
         $data['summary']['total_students'] = $totalStudents;
 
+        $formatAssocStats = function($assoc, $keyName = 'name', $limit = 15) {
+            $result = [];
+            if (!empty($assoc) && is_array($assoc)) {
+                $total = array_sum($assoc) ?: 1;
+                arsort($assoc);
+                $countItems = 0;
+                foreach ($assoc as $label => $cnt) {
+                    $result[] = [
+                        $keyName => (string)$label,
+                        'count' => (int)$cnt,
+                        'percent' => round(($cnt / $total) * 100, 1)
+                    ];
+                    if (++$countItems >= $limit) break;
+                }
+            }
+            return $result;
+        };
+
+        $clickTrafficSourcesList = $formatAssocStats($data['click_traffic_sources'] ?? [], 'source', 12);
+        $trafficSourcesList = $formatAssocStats($data['traffic_sources'] ?? [], 'source', 12);
+        $clickOriginsPagesList = $formatAssocStats($data['click_origins_pages'] ?? [], 'page', 10);
+        $deviceTypesList = $formatAssocStats($data['device_types'] ?? [], 'device', 5);
+        $utmCampaignsList = $formatAssocStats($data['utm_campaigns'] ?? [], 'campaign', 10);
+        $recentClicksList = array_slice($data['recent_clicks'] ?? [], 0, 50);
+
         echo json_encode([
             'success' => true,
             'summary' => $data['summary'],
@@ -322,6 +462,12 @@ switch ($action) {
             'locations_world' => $worldList,
             'top_courses' => $coursesList,
             'career_test_areas_ascending' => $quizAreasAscending,
+            'click_traffic_sources' => $clickTrafficSourcesList,
+            'traffic_sources' => $trafficSourcesList,
+            'click_origins_pages' => $clickOriginsPagesList,
+            'device_types' => $deviceTypesList,
+            'utm_campaigns' => $utmCampaignsList,
+            'recent_clicks' => $recentClicksList,
             'last_updated' => $data['last_updated'] ?? date('c')
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         exit;

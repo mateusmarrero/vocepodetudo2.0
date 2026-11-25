@@ -1128,6 +1128,110 @@ foreach ($faqs as $faqItem) {
           }
         });
       }
+
+      // Telemetria de Origem do Tráfego & Rastreamento de Cliques para a Administração
+      function getOriginPayload() {
+        try {
+          var saved = sessionStorage.getItem('vpt_origin_data');
+          if (saved) {
+            var parsed = JSON.parse(saved);
+            if (parsed && parsed.traffic_source) return parsed;
+          }
+        } catch (e) {}
+
+        var utmSource = '';
+        var utmCampaign = '';
+        try {
+          var urlParams = new URLSearchParams(window.location.search);
+          utmSource = (urlParams.get('utm_source') || '').trim();
+          utmCampaign = (urlParams.get('utm_campaign') || '').trim();
+        } catch (e) {}
+
+        var rawRef = (document.referrer || '').trim();
+        var refHost = '';
+        if (rawRef) {
+          try {
+            refHost = new URL(rawRef).hostname.replace(/^www\./i, '').toLowerCase();
+          } catch (e) {}
+        }
+        var isInternal = refHost && (refHost.indexOf('vocepodetudo.com') !== -1 || refHost === window.location.hostname);
+        var effectiveRef = isInternal ? '' : rawRef;
+
+        var trafficSource = 'Acesso Direto';
+        if (utmSource) {
+          var u = utmSource.toLowerCase();
+          if (u.indexOf('whatsapp') !== -1 || u === 'wa') trafficSource = 'WhatsApp';
+          else if (u.indexOf('instagram') !== -1 || u === 'ig') trafficSource = 'Instagram';
+          else if (u.indexOf('facebook') !== -1 || u === 'fb') trafficSource = 'Facebook';
+          else if (u.indexOf('tiktok') !== -1) trafficSource = 'TikTok';
+          else if (u.indexOf('google') !== -1) trafficSource = 'Google Ads / Busca';
+          else if (u.indexOf('youtube') !== -1 || u === 'yt') trafficSource = 'YouTube';
+          else if (u.indexOf('linkedin') !== -1) trafficSource = 'LinkedIn';
+          else trafficSource = 'UTM: ' + utmSource;
+        } else if (refHost && !isInternal) {
+          if (refHost.indexOf('google.') !== -1) trafficSource = 'Google Orgânico';
+          else if (refHost.indexOf('bing.com') !== -1 || refHost.indexOf('yahoo.') !== -1 || refHost.indexOf('duckduckgo.com') !== -1) trafficSource = 'Outros Buscadores (Bing/Yahoo)';
+          else if (refHost.indexOf('chatgpt.com') !== -1 || refHost.indexOf('openai.com') !== -1 || refHost.indexOf('perplexity.ai') !== -1 || refHost.indexOf('claude.ai') !== -1 || refHost.indexOf('gemini.google.com') !== -1) trafficSource = 'Buscadores IA (ChatGPT/Perplexity/Gemini)';
+          else if (refHost.indexOf('instagram.com') !== -1) trafficSource = 'Instagram';
+          else if (refHost.indexOf('facebook.com') !== -1 || refHost.indexOf('fb.com') !== -1) trafficSource = 'Facebook';
+          else if (refHost.indexOf('whatsapp.com') !== -1 || refHost.indexOf('wa.me') !== -1) trafficSource = 'WhatsApp';
+          else if (refHost.indexOf('tiktok.com') !== -1) trafficSource = 'TikTok';
+          else if (refHost.indexOf('youtube.com') !== -1 || refHost.indexOf('youtu.be') !== -1) trafficSource = 'YouTube';
+          else if (refHost.indexOf('linkedin.com') !== -1 || refHost.indexOf('lnkd.in') !== -1) trafficSource = 'LinkedIn';
+          else if (refHost.indexOf('t.co') !== -1 || refHost.indexOf('twitter.com') !== -1 || refHost.indexOf('x.com') !== -1) trafficSource = 'X (Twitter)';
+          else trafficSource = 'Referência: ' + refHost;
+        }
+
+        var ua = navigator.userAgent || '';
+        var device = 'Computador (Desktop)';
+        if (/(ipad|tablet|playbook|silk)|(android(?!.*mobi))/i.test(ua)) device = 'Tablet';
+        else if (/Mobile|Android|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua)) device = 'Celular (Mobile)';
+
+        var obj = {
+          traffic_source: trafficSource,
+          referrer: effectiveRef,
+          utm_source: utmSource,
+          utm_campaign: utmCampaign,
+          device: device
+        };
+        try { sessionStorage.setItem('vpt_origin_data', JSON.stringify(obj)); } catch (e) {}
+        return obj;
+      }
+
+      function sendCourseBeacon(eventType, clickPage) {
+        var origin = getOriginPayload();
+        var params = new URLSearchParams({
+          action: 'track',
+          event: eventType,
+          course_id: <?= json_encode((string)($course['id'] ?? ''), JSON_UNESCAPED_UNICODE) ?>,
+          course_title: <?= json_encode((string)($course['title'] ?? ''), JSON_UNESCAPED_UNICODE) ?>,
+          course_provider: <?= json_encode((string)($course['provider'] ?? ''), JSON_UNESCAPED_UNICODE) ?>,
+          course_category: <?= json_encode((string)($course['categoryName'] ?? $course['category'] ?? 'Geral'), JSON_UNESCAPED_UNICODE) ?>,
+          traffic_source: origin.traffic_source || '',
+          referrer: origin.referrer || '',
+          utm_source: origin.utm_source || '',
+          utm_campaign: origin.utm_campaign || '',
+          device: origin.device || '',
+          click_page: clickPage || 'Página do Curso'
+        });
+        var url = '/api/analytics.php?' + params.toString();
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon(url);
+        } else {
+          fetch(url, { method: 'GET', keepalive: true }).catch(function() {});
+        }
+      }
+
+      // Registrar visualização da página individual do curso
+      sendCourseBeacon('pageview_course', 'Página Interna do Curso');
+
+      // Registrar clique nos botões oficiais de inscrição
+      var officialBtns = document.querySelectorAll('a[href="<?= $courseUrl ?>"]');
+      officialBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          sendCourseBeacon('course_click', 'Página do Curso (Botão Oficial)');
+        });
+      });
     });
   </script>
 </body>

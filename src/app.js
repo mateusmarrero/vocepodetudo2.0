@@ -1387,7 +1387,8 @@
           course_id: courseId,
           course_title: title,
           course_provider: provider,
-          course_category: category
+          course_category: category,
+          click_page: 'Catálogo Principal (Home)'
         });
       });
     });
@@ -4137,13 +4138,89 @@ function renderCourses(resetPagination = true) {
   // PAINEL DE CONTROLE DE INFORMAÇÕES, MÉTRICAS E ACESSOS (ADMINISTRAÇÃO)
   // ============================================================
 
+  // Captura e persiste na sessão a origem do tráfego (Referrer, UTM e Dispositivo)
+  function getSessionTrafficOrigin() {
+    try {
+      const saved = sessionStorage.getItem('vpt_origin_data');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && parsed.traffic_source) return parsed;
+      }
+    } catch (e) {}
+
+    let utmSource = '';
+    let utmCampaign = '';
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      utmSource = (urlParams.get('utm_source') || '').trim();
+      utmCampaign = (urlParams.get('utm_campaign') || '').trim();
+    } catch (e) {}
+
+    const rawRef = (document.referrer || '').trim();
+    let refHost = '';
+    if (rawRef) {
+      try {
+        refHost = new URL(rawRef).hostname.replace(/^www\./i, '').toLowerCase();
+      } catch (e) {}
+    }
+    const isInternalRef = refHost && (refHost.includes('vocepodetudo.com') || refHost === window.location.hostname);
+    const effectiveReferrer = isInternalRef ? '' : rawRef;
+
+    let trafficSource = 'Acesso Direto';
+    if (utmSource) {
+      const u = utmSource.toLowerCase();
+      if (u.includes('whatsapp') || u === 'wa') trafficSource = 'WhatsApp';
+      else if (u.includes('instagram') || u === 'ig') trafficSource = 'Instagram';
+      else if (u.includes('facebook') || u === 'fb') trafficSource = 'Facebook';
+      else if (u.includes('tiktok')) trafficSource = 'TikTok';
+      else if (u.includes('google')) trafficSource = 'Google Ads / Busca';
+      else if (u.includes('youtube') || u === 'yt') trafficSource = 'YouTube';
+      else if (u.includes('linkedin')) trafficSource = 'LinkedIn';
+      else if (u.includes('email') || u.includes('newsletter')) trafficSource = 'Newsletter / E-mail';
+      else trafficSource = `UTM: ${utmSource}`;
+    } else if (refHost && !isInternalRef) {
+      if (refHost.includes('google.')) trafficSource = 'Google Orgânico';
+      else if (refHost.includes('bing.com') || refHost.includes('yahoo.') || refHost.includes('duckduckgo.com')) trafficSource = 'Outros Buscadores (Bing/Yahoo)';
+      else if (refHost.includes('chatgpt.com') || refHost.includes('openai.com') || refHost.includes('perplexity.ai') || refHost.includes('claude.ai') || refHost.includes('gemini.google.com') || refHost.includes('copilot.microsoft.com')) trafficSource = 'Buscadores IA (ChatGPT/Perplexity/Gemini)';
+      else if (refHost.includes('instagram.com')) trafficSource = 'Instagram';
+      else if (refHost.includes('facebook.com') || refHost.includes('fb.com')) trafficSource = 'Facebook';
+      else if (refHost.includes('whatsapp.com') || refHost.includes('wa.me')) trafficSource = 'WhatsApp';
+      else if (refHost.includes('tiktok.com')) trafficSource = 'TikTok';
+      else if (refHost.includes('youtube.com') || refHost.includes('youtu.be')) trafficSource = 'YouTube';
+      else if (refHost.includes('linkedin.com') || refHost.includes('lnkd.in')) trafficSource = 'LinkedIn';
+      else if (refHost.includes('t.co') || refHost.includes('twitter.com') || refHost.includes('x.com')) trafficSource = 'X (Twitter)';
+      else trafficSource = `Referência: ${refHost}`;
+    }
+
+    const ua = navigator.userAgent || '';
+    let device = 'Computador (Desktop)';
+    if (/(ipad|tablet|playbook|silk)|(android(?!.*mobi))/i.test(ua)) device = 'Tablet';
+    else if (/Mobile|Android|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua)) device = 'Celular (Mobile)';
+
+    const originData = {
+      traffic_source: trafficSource,
+      referrer: effectiveReferrer,
+      utm_source: utmSource,
+      utm_campaign: utmCampaign,
+      device: device
+    };
+
+    try {
+      sessionStorage.setItem('vpt_origin_data', JSON.stringify(originData));
+    } catch (e) {}
+
+    return originData;
+  }
+
   // Rastreamento seguro e anônimo de eventos (Home, Trilhas, Cursos e Localização)
   function trackAnalyticsEvent(eventType, payload = {}) {
+    const origin = getSessionTrafficOrigin();
     const body = {
       event: eventType,
       city: state.visitorCity || 'Brasil',
       region: state.visitorRegion || 'DF',
       country: state.visitorCountry || 'Brasil',
+      ...origin,
       ...payload
     };
 
@@ -4219,7 +4296,13 @@ function renderCourses(resetPagination = true) {
         course_title: payload.course_title || '',
         course_provider: payload.course_provider || '',
         course_category: payload.course_category || '',
-        primary_area: payload.primary_area || payload.career_area || ''
+        primary_area: payload.primary_area || payload.career_area || '',
+        traffic_source: body.traffic_source || '',
+        referrer: body.referrer || '',
+        utm_source: body.utm_source || '',
+        utm_campaign: body.utm_campaign || '',
+        device: body.device || '',
+        click_page: payload.click_page || ''
       });
 
       fetch(`api/analytics.php?${params.toString()}`, {

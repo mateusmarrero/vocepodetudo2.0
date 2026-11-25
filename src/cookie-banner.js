@@ -1,19 +1,56 @@
 /**
- * Banner de Consentimento de Cookies & LGPD — Você Pode Tudo
+ * Banner de Consentimento de Cookies & LGPD com Google Consent Mode v2 — Você Pode Tudo
  * Totalmente compatível com as diretrizes do Google AdSense e LGPD (Lei nº 13.709/2018).
  */
 
 (function () {
   'use strict';
 
-  const STORAGE_KEY = 'vcpd_cookie_consent_v1';
+  const STORAGE_KEY = 'vpt_lgpd_consent';
 
-  // Verificar se o usuário já fez sua escolha
-  if (localStorage.getItem(STORAGE_KEY)) {
+  // 1. Inicializar dataLayer e definir estado padrão do Google Consent Mode v2
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  window.gtag = window.gtag || gtag;
+
+  let currentConsent = null;
+  try {
+    currentConsent = localStorage.getItem(STORAGE_KEY);
+  } catch (e) {}
+
+  if (currentConsent === 'all') {
+    gtag('consent', 'default', {
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'granted',
+      'analytics_storage': 'granted'
+    });
+  } else if (currentConsent === 'essential') {
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied'
+    });
+  } else {
+    // Padrão defensivo conforme LGPD até interação explícita do usuário
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'wait_for_update': 500
+    });
+  }
+
+  // Se já consentiu ou se estiver na página inicial (onde já existe banner nativo), não duplicar
+  if (currentConsent || document.getElementById('lgpd-consent-banner')) {
     return;
   }
 
   function createBanner() {
+    if (document.getElementById('vcpd-cookie-banner')) return;
+
     const banner = document.createElement('div');
     banner.id = 'vcpd-cookie-banner';
     banner.className = 'fixed bottom-0 inset-x-0 z-50 p-3 sm:p-4 transition-all duration-300 transform translate-y-0';
@@ -28,8 +65,8 @@
           </div>
           <p class="text-xs text-slate-600 leading-relaxed font-medium">
             Utilizamos cookies essenciais e tecnologias de parceiros confiáveis como o <strong>Google AdSense</strong> para manter nossa plataforma, cursos e ferramentas 100% gratuitos e exibir conteúdos relevantes. Consulte nossa 
-            <a href="politica-privacidade.html" class="text-[#00702a] hover:text-[#005e24] underline font-bold transition-colors">Política de Privacidade</a> e 
-            <a href="termos-de-uso.html" class="text-[#00702a] hover:text-[#005e24] underline font-bold transition-colors">Termos de Uso</a>.
+            <a href="politica-privacidade" class="text-[#00702a] hover:text-[#005e24] underline font-bold transition-colors">Política de Privacidade</a> e 
+            <a href="termos-de-uso" class="text-[#00702a] hover:text-[#005e24] underline font-bold transition-colors">Termos de Uso</a>.
           </p>
         </div>
         <div class="flex items-center gap-2.5 w-full md:w-auto flex-wrap sm:flex-nowrap flex-shrink-0">
@@ -55,12 +92,28 @@
 
     // Handlers
     document.getElementById('vcpd-cookie-accept').addEventListener('click', function () {
-      localStorage.setItem(STORAGE_KEY, 'accepted');
+      try {
+        localStorage.setItem(STORAGE_KEY, 'all');
+      } catch (e) {}
+      gtag('consent', 'update', {
+        'ad_storage': 'granted',
+        'ad_user_data': 'granted',
+        'ad_personalization': 'granted',
+        'analytics_storage': 'granted'
+      });
       dismissBanner(banner);
     });
 
     document.getElementById('vcpd-cookie-essential').addEventListener('click', function () {
-      localStorage.setItem(STORAGE_KEY, 'essential');
+      try {
+        localStorage.setItem(STORAGE_KEY, 'essential');
+      } catch (e) {}
+      gtag('consent', 'update', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied'
+      });
       dismissBanner(banner);
     });
   }

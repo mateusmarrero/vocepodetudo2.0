@@ -12,6 +12,11 @@ Disallow: /backups/
 Disallow: /curadoria_pendente/
 Disallow: /scratch/
 Disallow: /.git/
+Disallow: /admin.html
+Disallow: /painel-gestao
+Disallow: /gestao-interna
+Disallow: /*?*preview=true
+Disallow: /*?*admin=true
 
 # Localização do Mapa do Site Oficial
 Sitemap: https://vocepodetudo.com/sitemap.xml

@@ -1610,10 +1610,10 @@
         </div>
         <div class="w-full flex-1 flex flex-col items-center justify-center py-2 overflow-hidden">
           <ins class="adsbygoogle"
-               style="display:block; text-align:center; min-width:250px; min-height:200px;"
+               style="display:block; text-align:center; min-width:250px; min-height:280px;"
                data-ad-layout="in-article"
                data-ad-format="fluid"
-               data-ad-client="ca-pub-9923838612147321"
+               data-ad-client="ca-pub-9421145457118515"
                data-ad-slot="1234567890"></ins>
           <div class="ad-fallback text-xs text-slate-500 dark:text-slate-400 font-semibold mt-3 max-w-xs">
             Apoie o portal gratuito Você Pode Tudo conhecendo os cursos recomendados por nossos parceiros!
@@ -3920,10 +3920,33 @@ function renderCourses(resetPagination = true) {
       }
     } catch (e) {}
 
+    function updateGoogleConsent(type) {
+      try {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        if (type === 'all') {
+          gtag('consent', 'update', {
+            'ad_storage': 'granted',
+            'ad_user_data': 'granted',
+            'ad_personalization': 'granted',
+            'analytics_storage': 'granted'
+          });
+        } else {
+          gtag('consent', 'update', {
+            'ad_storage': 'denied',
+            'ad_user_data': 'denied',
+            'ad_personalization': 'denied',
+            'analytics_storage': 'denied'
+          });
+        }
+      } catch (err) {}
+    }
+
     function saveConsent(type) {
       try {
         localStorage.setItem('vpt_lgpd_consent', type);
       } catch (e) {}
+      updateGoogleConsent(type);
       if (banner) banner.classList.add('hidden');
     }
 
@@ -3944,10 +3967,7 @@ function renderCourses(resetPagination = true) {
     function openModal() {
       if (modal) {
         modal.classList.remove('hidden');
-            // Renderizar Gráfico de Tráfego em Tempo Real
-    renderHomeTrafficRealtimeChart(data);
-
-    if (window.lucide && window.lucide.createIcons) {
+        if (window.lucide && window.lucide.createIcons) {
           window.lucide.createIcons({ root: modal });
         }
       }

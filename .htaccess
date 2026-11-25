@@ -41,6 +41,8 @@ ErrorDocument 404 /404.html
   RewriteRule ^todos-os-recursos/?$ /recursos [R=301,L]
   RewriteRule ^ajuda/?$ /central-de-ajuda [R=301,L]
   RewriteRule ^cookies/?$ /politica-de-cookies [R=301,L]
+  RewriteRule ^privacidade/?$ /politica-privacidade [R=301,L]
+  RewriteRule ^termos/?$ /termos-de-uso [R=301,L]
 
   # Roteamento Dinâmico para Sitemap e Feed RSS (Proteção contra vazamento de agendamentos)
   RewriteRule ^sitemap\.xml$ sitemap.php [L]

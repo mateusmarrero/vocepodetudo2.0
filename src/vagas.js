@@ -111,10 +111,10 @@
         </div>
         <div class="w-full flex-1 flex flex-col items-center justify-center py-2">
           <ins class="adsbygoogle"
-               style="display:block; text-align:center; min-width:250px; min-height:180px;"
+               style="display:block; text-align:center; min-width:250px; min-height:280px;"
                data-ad-layout="in-article"
                data-ad-format="fluid"
-               data-ad-client="ca-pub-9923838612147321"
+               data-ad-client="ca-pub-9421145457118515"
                data-ad-slot="1234567890"></ins>
           <div class="ad-fallback text-xs text-slate-500 dark:text-slate-400 font-semibold mt-2 max-w-xs">
             Prepare seu currículo com cursos gratuitos certificados pelo MEC no Você Pode Tudo!

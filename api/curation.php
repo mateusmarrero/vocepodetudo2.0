@@ -220,7 +220,8 @@ switch ($action) {
                 if ($pdo->inTransaction()) {
                     $pdo->rollBack();
                 }
-                jsonResponse(['error' => true, 'message' => 'Erro ao persistir no MariaDB: ' . $e->getMessage()], 500);
+                error_log('[curation] Falha MariaDB ao persistir curso: ' . $e->getMessage());
+                jsonResponse(['error' => true, 'message' => 'Falha ao persistir curso no banco de dados.'], 500);
             }
         }
 

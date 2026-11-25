@@ -134,8 +134,9 @@ if ($action === 'toggle_status' && $_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode(['success' => true, 'message' => 'Status do aluno atualizado com sucesso!', 'is_active' => $isActive], JSON_UNESCAPED_UNICODE);
             exit;
         } catch (Exception $e) {
+            error_log('[admin_students] Erro SQL: ' . $e->getMessage());
             http_response_code(500);
-            echo json_encode(['success' => false, 'error' => 'Erro no banco: ' . $e->getMessage()], JSON_UNESCAPED_UNICODE);
+            echo json_encode(['success' => false, 'error' => 'Falha interna ao atualizar status do aluno.'], JSON_UNESCAPED_UNICODE);
             exit;
         }
     }

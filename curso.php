@@ -600,6 +600,48 @@ foreach ($faqs as $faqItem) {
             <p class="text-slate-600">
               Ministrado oficialmente por <strong><?= $provider ?></strong>, este programa foi desenvolvido sob os mais altos critérios pedagógicos, com linguagem didática e ritmo autoinstrucional. O conteúdo permanece disponível 24 horas por dia para que você avance conforme sua rotina, seja pelo smartphone, tablet ou computador.
             </p>
+
+            <!-- Tabela Semântica de Ficha Técnica (Otimização GEO / IA & Google Search Central) -->
+            <div class="mt-6 overflow-hidden rounded-2xl border border-slate-200">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead class="bg-slate-100 text-slate-700 font-black">
+                  <tr>
+                    <th scope="col" class="py-3 px-4 border-b border-slate-200">Especificação Oficial</th>
+                    <th scope="col" class="py-3 px-4 border-b border-slate-200">Detalhe e Condições</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-slate-700">
+                  <tr class="hover:bg-slate-50/50">
+                    <td class="py-2.5 px-4 font-bold text-slate-900">Instituição Ministrante</td>
+                    <td class="py-2.5 px-4"><?= $provider ?></td>
+                  </tr>
+                  <tr class="hover:bg-slate-50/50">
+                    <td class="py-2.5 px-4 font-bold text-slate-900">Investimento / Mensalidade</td>
+                    <td class="py-2.5 px-4 text-[#00702a] font-black">R$ 0,00 (Totalmente Gratuito)</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50/50">
+                    <td class="py-2.5 px-4 font-bold text-slate-900">Carga Horária Certificada</td>
+                    <td class="py-2.5 px-4"><?= $workload ?> horas</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50/50">
+                    <td class="py-2.5 px-4 font-bold text-slate-900">Modalidade de Ensino</td>
+                    <td class="py-2.5 px-4">100% Online (EAD Autoinstrucional)</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50/50">
+                    <td class="py-2.5 px-4 font-bold text-slate-900">Certificado Oficial Incluso</td>
+                    <td class="py-2.5 px-4"><?= $hasCert ? 'Sim (PDF autenticável com código de registro)' : 'Modo Ouvinte Gratuito' ?></td>
+                  </tr>
+                  <tr class="hover:bg-slate-50/50">
+                    <td class="py-2.5 px-4 font-bold text-slate-900">Critério de Aprovação</td>
+                    <td class="py-2.5 px-4">Nota mínima <?= $passingScore ?> nas avaliações</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50/50">
+                    <td class="py-2.5 px-4 font-bold text-slate-900">Fundamentação Jurídica</td>
+                    <td class="py-2.5 px-4">Cursos Livres — Lei Federal nº 9.394/96 (LDB) e Decreto nº 5.154/04</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
         </div>
@@ -1028,6 +1070,18 @@ foreach ($faqs as $faqItem) {
           </ul>
         </div>
       </div>
+
+      <!-- Declaração Oficial de Independência Institucional e Curadoria -->
+      <div class="my-6 p-4 rounded-2xl bg-slate-800/80 border border-slate-700 text-[11px] text-slate-400 leading-relaxed">
+        <p class="font-bold text-slate-200 mb-1 flex items-center gap-1.5">
+          <i data-lucide="shield-alert" class="w-4 h-4 text-[#ffcc29]"></i>
+          <span>Aviso de Independência Institucional & Isenção de Vínculos</span>
+        </p>
+        <p>
+          O <strong>Você Pode Tudo (vocepodetudo.com)</strong> é um portal brasileiro de utilidade pública e curadoria independente. <strong>Não somos uma instituição de ensino, não comercializamos vagas e não emitimos certificados em nosso nome.</strong> Todas as marcas, logotipos e nomes de instituições mencionadas (como Fundação Bradesco, Sebrae, MEC / Aprenda Mais, Escola Virtual Gov, Microsoft, Cisco, SENAI, FGV, etc.) pertencem exclusivamente aos seus respectivos titulares de direitos. A menção a tais entidades tem caráter estritamente informativo e de utilidade pública, não implicando parceria comercial, patrocínio societário ou endosso recíproco. O acesso oficial, matrícula e emissão de certificados ocorrem unicamente dentro das plataformas externas de cada instituição responsável.
+        </p>
+      </div>
+
       <div class="pt-6 border-t border-slate-800 text-center text-slate-500 text-[11px]">
         <p>© <?= date('Y') ?> Você Pode Tudo. Todos os direitos reservados. Feito com excelência para todos os brasileiros.</p>
       </div>

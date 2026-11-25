@@ -53,6 +53,13 @@ ErrorDocument 404 /404.html
   RewriteRule ^artigo/([a-zA-Z0-9_-]+)/?$ artigo.php?slug=$1 [L,QSA]
   RewriteRule ^blog/([a-zA-Z0-9_-]+)/?$ artigo.php?slug=$1 [L,QSA]
 
+  # Rotas Amigáveis para Páginas Individuais de Cursos (com redirecionamento canônico de parâmetros legados)
+  RewriteCond %{QUERY_STRING} (?:^|&)curso=([a-zA-Z0-9_-]+)(?:&|$)
+  RewriteRule ^(?:index\.html)?$ /curso/%1? [R=301,L]
+
+  RewriteRule ^curso/([a-zA-Z0-9_-]+)/?$ curso.php?id=$1 [L,QSA]
+  RewriteRule ^cursos/([a-zA-Z0-9_-]+)/?$ curso.php?id=$1 [L,QSA]
+
   # Rotas Amigáveis para o Painel Administrativo
   RewriteRule ^painel-gestao/?$ admin.html [L,QSA]
   RewriteRule ^gestao-interna/?$ admin.html [L,QSA]

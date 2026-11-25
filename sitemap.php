@@ -90,6 +90,34 @@ if (empty($articles)) {
     usort($articles, fn($a, $b) => strcmp($b['created_at'], $a['created_at']));
 }
 
+
+$coursesList = [];
+if ($pdo) {
+    try {
+        $cStmt = $pdo->query("SELECT `id`, `created_at` FROM `courses` WHERE `is_active` = 1 ORDER BY `featured` DESC, `id` DESC");
+        $coursesList = $cStmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Throwable $e) {}
+}
+if (empty($coursesList)) {
+    $courseCacheFile = __DIR__ . '/api/cache_courses.json';
+    $courseSeedFile  = __DIR__ . '/api/seed_courses.json';
+    $rawC = [];
+    if (file_exists($courseCacheFile)) {
+        $rawC = @json_decode(@file_get_contents($courseCacheFile), true) ?: [];
+    }
+    if (empty($rawC) && file_exists($courseSeedFile)) {
+        $rawC = @json_decode(@file_get_contents($courseSeedFile), true) ?: [];
+    }
+    foreach ($rawC as $rc) {
+        if (!empty($rc['id']) && (!isset($rc['isActive']) || $rc['isActive'])) {
+            $coursesList[] = [
+                'id' => $rc['id'],
+                'created_at' => $rc['createdAt'] ?? '2026-11-20'
+            ];
+        }
+    }
+}
+
 echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
@@ -117,6 +145,19 @@ echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
     <lastmod><?= $lastmod ?></lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+<?php endforeach; ?>
+
+  <!-- Páginas Individuais Oficiais de Cursos Gratuitos -->
+<?php foreach ($coursesList as $cr): 
+    $courseIdClean = htmlspecialchars((string)$cr['id'], ENT_XML1, 'UTF-8');
+    $lastmodC = !empty($cr['created_at']) ? date('Y-m-d', strtotime((string)$cr['created_at'])) : date('Y-m-d');
+?>
+  <url>
+    <loc>https://vocepodetudo.com/curso/<?= $courseIdClean ?></loc>
+    <lastmod><?= $lastmodC ?></lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
   </url>
 <?php endforeach; ?>
 </urlset>

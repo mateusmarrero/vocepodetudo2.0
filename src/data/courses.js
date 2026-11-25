@@ -302,7 +302,7 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "usp-coursera-ciencia-computação-python",
+    "id": "usp-coursera-ciencia-computacao-python",
     "title": "Introdução à Ciência da Computação com Python",
     "provider": "USP / Coursera",
     "providerTag": "USP",
@@ -435,7 +435,7 @@ const localCourses = [
     "reviewsCount": 2410,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "evg-lgpd-privacidade-conformidade",
@@ -548,12 +548,12 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "ev-comunicação-escrita-redação",
+    "id": "ev-comunicacao-escrita-redacao",
     "title": "Comunicação Escrita e Redação Corporativa",
     "provider": "Fundação Bradesco",
     "providerTag": "Bradesco",
     "providerColor": "bg-red-50 text-red-700 border-red-200 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Produção de correspondências corporativas, e-mails comerciais e relatórios, enfatizando clareza, coesão, objetividade e norma culta no ambiente de trabalho.",
     "url": "https://www.ev.org.br/cursos/comunicacao-escrita",
@@ -678,7 +678,7 @@ const localCourses = [
     "reviewsCount": 6406,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1533750516457-a7f992034fec?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "ingles-basico",
@@ -707,7 +707,7 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "hdb-formação-completa",
+    "id": "hdb-formacao-completa",
     "title": "Hackers do Bem: Formação Nacional em Cibersegurança",
     "provider": "Hackers do Bem (RNP / MCTI)",
     "providerTag": "Hackers do Bem",
@@ -982,7 +982,7 @@ const localCourses = [
     "provider": "Santander Open Academy",
     "providerTag": "Santander",
     "providerColor": "bg-red-50 text-red-800 border-red-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Passo a passo para transformar seu LinkedIn em um ímã de recrutadores: título atrativo, resumo persuasivo, recomendações e criação de conteúdo.",
     "url": "https://www.santanderopenacademy.com",
@@ -1004,7 +1004,7 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "ifrs-redação-enem",
+    "id": "ifrs-redacao-enem",
     "title": "Redação para o ENEM e Vestibulares (Nota 1000)",
     "provider": "IFRS (Inst. Federal do RS)",
     "providerTag": "Instituto Federal",
@@ -1135,7 +1135,7 @@ const localCourses = [
     "reviewsCount": 25400,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "google-ia-generativa",
@@ -1325,12 +1325,12 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "currículo-ats",
+    "id": "curriculo-ats",
     "title": "Currículo Estratégico e Otimização para Robôs ATS",
     "provider": "Fundação Bradesco (Escola Virtual)",
     "providerTag": "Fund. Bradesco",
     "providerColor": "bg-red-50 text-red-900 border-red-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Como estruturar um currículo de alto impacto aprovado pelos filtros automáticos de inteligência artificial (ATS), escolha de palavras-chave e formatação ideal.",
     "url": "https://www.ev.org.br/cursos/curriculo-sem-segredo",
@@ -1352,12 +1352,12 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "como-fazer-currículo",
+    "id": "como-fazer-curriculo",
     "title": "Como Fazer um Currículo Profissional",
     "provider": "Fundação Bradesco",
     "providerTag": "Fund. Bradesco",
     "providerColor": "bg-red-50 text-red-900 border-red-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Modelos ATS-friendly, palavras-chave, formatação, erros comuns e como adaptar para cada vaga.",
     "url": "https://www.ev.org.br/cursos/curriculo-sem-segredo",
@@ -1367,7 +1367,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "Fundação Bradesco",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": true,
@@ -1565,7 +1565,7 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "logica-programação",
+    "id": "logica-programacao",
     "title": "Lógica de Programação e Algoritmos",
     "provider": "Curso em Vídeo",
     "providerTag": "Curso em Vídeo",
@@ -1648,7 +1648,7 @@ const localCourses = [
     "provider": "Fundação Bradesco",
     "providerTag": "Fundação Bradesco",
     "providerColor": "bg-red-50 text-red-800 border-red-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Fórmulas, funções, tabelas dinâmicas, gráficos e automação de planilhas para o mercado de trabalho.",
     "url": "https://www.ev.org.br/cursos/microsoft-excel-2016-basico",
@@ -1658,7 +1658,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "Fundação Bradesco",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": true,
@@ -1669,12 +1669,12 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "avamec-tecnologia-educação",
+    "id": "avamec-tecnologia-educacao",
     "title": "Tecnologias Digitais na Educação e Metodologias Ativas",
     "provider": "AVAMEC (MEC)",
     "providerTag": "Ministério da Educação",
     "providerColor": "bg-sky-50 text-sky-800 border-sky-300 font-black",
-    "category": "educação",
+    "category": "educacao",
     "categoryName": "Educação",
     "description": "Capacitação oficial do Ministério da Educação para professores aplicarem recursos digitais, metodologias ativas e gamificação no ensino básico.",
     "url": "https://avamec.mec.gov.br/",
@@ -1701,7 +1701,7 @@ const localCourses = [
     "provider": "Fundação Bradesco",
     "providerTag": "Fundação Bradesco",
     "providerColor": "bg-red-50 text-red-800 border-red-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Formatação, tabelas, imagens, mala direta e documentos profissionais prontos para o trabalho.",
     "url": "https://www.ev.org.br/cursos/microsoft-word-2016-basico",
@@ -1711,7 +1711,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "Fundação Bradesco",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -1808,7 +1808,7 @@ const localCourses = [
     "provider": "SENAI-SP",
     "providerTag": "SENAI-SP",
     "providerColor": "bg-orange-50 text-orange-900 border-orange-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Programas gratuitos de qualificação profissional online com certificado, em diversas áreas para impulsionar sua carreira.",
     "url": "https://online.sp.senai.br/",
@@ -1818,7 +1818,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "SENAI-SP",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -1878,7 +1878,7 @@ const localCourses = [
     "reviewsCount": 4571,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "sebrae-preco-venda",
@@ -1904,7 +1904,7 @@ const localCourses = [
     "reviewsCount": 4160,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "sebrae-neuromarketing",
@@ -1930,7 +1930,7 @@ const localCourses = [
     "reviewsCount": 4982,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "sebrae-fluxo-caixa",
@@ -1956,7 +1956,7 @@ const localCourses = [
     "reviewsCount": 3749,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "redes-cisco",
@@ -1990,7 +1990,7 @@ const localCourses = [
     "provider": "Qualifica SP (Governo de SP)",
     "providerTag": "Governo Federal",
     "providerColor": "bg-emerald-50 text-emerald-900 border-emerald-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Capacitação em empreendedorismo, gestão, finanças e formalização para quem deseja abrir ou fortalecer o próprio negócio.",
     "url": "https://www.qualificasp.sp.gov.br/",
@@ -2000,7 +2000,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "Governo Federal",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -2037,12 +2037,12 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "preparação-entrevistas",
+    "id": "preparacao-entrevistas",
     "title": "Preparação Completa para Entrevistas",
     "provider": "Fundação Bradesco",
     "providerTag": "Fund. Bradesco",
     "providerColor": "bg-red-50 text-red-900 border-red-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Perguntas comportamentais (STAR), linguagem corporal, perguntas para o recrutador e simulações.",
     "url": "https://www.ev.org.br/cursos/postura-e-imagem-profissional",
@@ -2052,7 +2052,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "Fundação Bradesco",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -2141,7 +2141,7 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "ios-programação-web",
+    "id": "ios-programacao-web",
     "title": "Programação Web",
     "provider": "IOS - Instituto da Oportunidade Social",
     "providerTag": "IOS - Instituto da Oportunidade Social",
@@ -2198,7 +2198,7 @@ const localCourses = [
     "provider": "Escola Virtual Gov",
     "providerTag": "Governo Federal",
     "providerColor": "bg-emerald-50 text-emerald-900 border-emerald-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Navegação segura, pesquisa, e-mail, armazenamento em nuvem e serviços públicos online.",
     "url": "https://www.escolavirtual.gov.br/",
@@ -2208,7 +2208,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "Governo Federal",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -2294,7 +2294,7 @@ const localCourses = [
     "reviewsCount": 6817,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "financas-pessoais",
@@ -2302,7 +2302,7 @@ const localCourses = [
     "provider": "Banco Central do Brasil",
     "providerTag": "Governo Federal",
     "providerColor": "bg-emerald-50 text-emerald-900 border-emerald-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Orçamento familiar, reserva de emergência, dívidas e planejamento de metas financeiras.",
     "url": "https://www.bcb.gov.br/cidadaniafinanceira",
@@ -2312,7 +2312,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "Governo Federal",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -2351,7 +2351,7 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "evg-seguranca-informação-todos",
+    "id": "evg-seguranca-informacao-todos",
     "title": "Segurança da Informação para Todos",
     "provider": "Escola Virtual de Governo (EV.G / RNP)",
     "providerTag": "Escola Virtual ",
@@ -2408,7 +2408,7 @@ const localCourses = [
     "provider": "Sebrae",
     "providerTag": "Sebrae",
     "providerColor": "bg-cyan-50 text-cyan-900 border-cyan-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Pontualidade, vestimenta, convivência, reuniões e comportamento ético no ambiente corporativo.",
     "url": "https://sebrae.com.br/sites/PortalSebrae/cursosonline",
@@ -2418,7 +2418,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "Sebrae",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -2426,7 +2426,7 @@ const localCourses = [
     "reviewsCount": 4762,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "et40-produtividade-microsoft-365",
@@ -2513,7 +2513,7 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "et40-computação-nuvem-azure",
+    "id": "et40-computacao-nuvem-azure",
     "title": "Fundamentos de Computação em Nuvem com Microsoft Azure",
     "provider": "Escola do Trabalhador 4.0 (MTE / Microsoft)",
     "providerTag": "Escola do Traba",
@@ -2793,7 +2793,7 @@ const localCourses = [
     "provider": "CIEE - Saber Virtual",
     "providerTag": "CIEE - Saber Virtual",
     "providerColor": "bg-slate-50 text-slate-800 border-slate-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Lei Geral de Proteção de Dados Pessoais, direitos, responsabilidades e boas práticas no dia a dia.",
     "url": "https://portal.ciee.org.br/quero-me-preparar/saber-virtual/",
@@ -2803,7 +2803,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "CIEE - Saber Virtual",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -3006,7 +3006,7 @@ const localCourses = [
     "provider": "Fundação Bradesco",
     "providerTag": "Fundação Bradesco",
     "providerColor": "bg-red-50 text-red-800 border-red-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Arquivos, pastas, atalhos, configurações e tarefas essenciais do dia a dia no computador.",
     "url": "https://www.ev.org.br/",
@@ -3016,7 +3016,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "Fundação Bradesco",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -3130,7 +3130,7 @@ const localCourses = [
     "reviewsCount": 5100,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "sebrae-marketing-primeiros-passos",
@@ -3156,7 +3156,7 @@ const localCourses = [
     "reviewsCount": 4023,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "sebrae-gestao-financeira",
@@ -3182,7 +3182,7 @@ const localCourses = [
     "reviewsCount": 3612,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "sebrae-dropshipping",
@@ -3208,7 +3208,7 @@ const localCourses = [
     "reviewsCount": 4434,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "sebrae-customer-success",
@@ -3234,7 +3234,7 @@ const localCourses = [
     "reviewsCount": 4845,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "saude-mental",
@@ -3320,7 +3320,7 @@ const localCourses = [
     "provider": "Qualifica SP (Governo de SP)",
     "providerTag": "Governo Federal",
     "providerColor": "bg-emerald-50 text-emerald-900 border-emerald-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Programa gratuito de qualificação profissional para jovens e adultos que buscam a primeira oportunidade no mercado de trabalho.",
     "url": "https://www.qualificasp.sp.gov.br/",
@@ -3330,7 +3330,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "Governo Federal",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -3346,7 +3346,7 @@ const localCourses = [
     "provider": "Fundação Bradesco",
     "providerTag": "Fundação Bradesco",
     "providerColor": "bg-red-50 text-red-800 border-red-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Slides claros e profissionais: estrutura, design, transições e dicas para apresentar sem medo.",
     "url": "https://www.ev.org.br/cursos/microsoft-powerpoint-2016-basico",
@@ -3356,7 +3356,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "Fundação Bradesco",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -3425,7 +3425,7 @@ const localCourses = [
     "provider": "Fundação Estudar",
     "providerTag": "Fundação Estudar",
     "providerColor": "bg-slate-50 text-slate-800 border-slate-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Defina objetivos, mapeie habilidades, crie um plano de 5 anos e acompanhe seu progresso.",
     "url": "https://www.napratica.org.br/",
@@ -3435,7 +3435,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "Fundação Estudar",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -3495,7 +3495,7 @@ const localCourses = [
     "reviewsCount": 5256,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "oracle-java-explorer",
@@ -3551,7 +3551,7 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "ifsp-ia-educação",
+    "id": "ifsp-ia-educacao",
     "title": "Letramento em Inteligência Artificial na Educação",
     "provider": "IFSP - Cursos Mooc",
     "providerTag": "Instituto Federal",
@@ -3655,7 +3655,7 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "formalização-mei",
+    "id": "formalizacao-mei",
     "title": "Como Formalizar seu MEI",
     "provider": "Gov.br",
     "providerTag": "Governo Federal",
@@ -3678,7 +3678,7 @@ const localCourses = [
     "reviewsCount": 6680,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "financas-empreendedor",
@@ -3704,7 +3704,7 @@ const localCourses = [
     "reviewsCount": 6269,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "escrita-profissional",
@@ -3839,12 +3839,12 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "comunicação-profissional",
+    "id": "comunicacao-profissional",
     "title": "Comunicação no Ambiente de Trabalho",
     "provider": "Escola Virtual Gov",
     "providerTag": "Governo Federal",
     "providerColor": "bg-emerald-50 text-emerald-900 border-emerald-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Fala, escrita, escuta ativa, feedback e comunicação não violenta para se destacar profissionalmente.",
     "url": "https://www.escolavirtual.gov.br/",
@@ -3854,7 +3854,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "Governo Federal",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -3896,7 +3896,7 @@ const localCourses = [
     "provider": "CIEE - Saber Virtual",
     "providerTag": "CIEE - Saber Virtual",
     "providerColor": "bg-slate-50 text-slate-800 border-slate-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Equidade, respeito, vieses inconscientes, acessibilidade e construção de ambientes inclusivos e colaborativos.",
     "url": "https://portal.ciee.org.br/quero-me-preparar/saber-virtual/",
@@ -3906,7 +3906,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "CIEE - Saber Virtual",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -3922,7 +3922,7 @@ const localCourses = [
     "provider": "CIEE - Saber Virtual",
     "providerTag": "CIEE - Saber Virtual",
     "providerColor": "bg-slate-50 text-slate-800 border-slate-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Comunicação oral, dicção, clareza, escuta e técnicas para falar com segurança em diferentes situações.",
     "url": "https://portal.ciee.org.br/quero-me-preparar/saber-virtual/",
@@ -3932,7 +3932,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "CIEE - Saber Virtual",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -3966,10 +3966,10 @@ const localCourses = [
     "reviewsCount": 6543,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1534536281715-e28d76689b4d?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "validação-ideia",
+    "id": "validacao-ideia",
     "title": "Validação de Ideia de Negócio",
     "provider": "Sebrae",
     "providerTag": "Sebrae",
@@ -3992,7 +3992,7 @@ const localCourses = [
     "reviewsCount": 6132,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "unasus-autocuidado-literacia",
@@ -4026,7 +4026,7 @@ const localCourses = [
     "provider": "Fundação Bradesco",
     "providerTag": "Fundação Bradesco",
     "providerColor": "bg-red-50 text-red-800 border-red-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Papéis, conflitos, confiança e ferramentas para colaborar bem em qualquer equipe.",
     "url": "https://www.ev.org.br/",
@@ -4036,7 +4036,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "Fundação Bradesco",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -4079,7 +4079,7 @@ const localCourses = [
     "provider": "Escola Virtual Gov",
     "providerTag": "Governo Federal",
     "providerColor": "bg-emerald-50 text-emerald-900 border-emerald-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Senhas fortes, golpes comuns, phishing e como proteger sua vida digital e seus dados pessoais.",
     "url": "https://www.escolavirtual.gov.br/",
@@ -4089,7 +4089,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "Governo Federal",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -4123,7 +4123,7 @@ const localCourses = [
     "reviewsCount": 4708,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "sebrae-canva",
@@ -4175,7 +4175,7 @@ const localCourses = [
     "reviewsCount": 4297,
     "isActive": true,
     "icon": "accessibility",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "proa-plataforma",
@@ -4183,7 +4183,7 @@ const localCourses = [
     "provider": "PROA",
     "providerTag": "PROA",
     "providerColor": "bg-slate-50 text-slate-800 border-slate-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Capacitação em autoconhecimento, projeto profissional, comunicação, raciocínio lógico e orientação para o primeiro emprego.",
     "url": "https://www.proa.org.br/plataformaproa/",
@@ -4193,7 +4193,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "PROA",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -4235,7 +4235,7 @@ const localCourses = [
     "provider": "IFRS (Inst. Federal do RS)",
     "providerTag": "IFRS",
     "providerColor": "bg-emerald-50 text-emerald-900 border-emerald-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Crie um portfólio prático na web para demonstrar suas habilidades, projetos reais, código ou trabalhos gráficos de forma profissional.",
     "url": "https://moodle.ifrs.edu.br/course/index.php?categoryid=38",
@@ -4280,7 +4280,7 @@ const localCourses = [
     "reviewsCount": 5119,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "orango-scrum-kanban",
@@ -4340,7 +4340,7 @@ const localCourses = [
     "provider": "Governo Federal (EV.G / ENAP)",
     "providerTag": "Gov.br (EV.G)",
     "providerColor": "bg-blue-50 text-blue-900 border-blue-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Desenvolvimento de conexões profissionais genuínas, abordagem ética a recrutadores, participação em comunidades e feiras de oportunidades.",
     "url": "https://www.escolavirtual.gov.br",
@@ -4439,7 +4439,7 @@ const localCourses = [
     "reviewsCount": 5721,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "ios-suporte-ti",
@@ -4704,7 +4704,7 @@ const localCourses = [
     "reviewsCount": 2200,
     "isActive": true,
     "icon": "trending-up",
-    "imageUrl": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
+    "imageUrl": "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80"
   },
   {
     "id": "fb-seguranca-info",
@@ -4761,7 +4761,7 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "fb-comunicação-escrita",
+    "id": "fb-comunicacao-escrita",
     "title": "Comunicação Escrita e Redação Corporativa",
     "provider": "Fundação Bradesco (Escola Virtual)",
     "providerTag": "Fundação Bradesco",
@@ -4841,12 +4841,12 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "educação-financeira",
+    "id": "educacao-financeira",
     "title": "Cidadania Financeira na Prática",
     "provider": "Banco Central do Brasil",
     "providerTag": "Governo Federal",
     "providerColor": "bg-emerald-50 text-emerald-900 border-emerald-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Consumo consciente, crédito, investimentos básicos e prevenção à inadimplência.",
     "url": "https://www.bcb.gov.br/cidadaniafinanceira",
@@ -4856,7 +4856,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "Governo Federal",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -4872,7 +4872,7 @@ const localCourses = [
     "provider": "Escola Virtual Gov",
     "providerTag": "Governo Federal",
     "providerColor": "bg-emerald-50 text-emerald-900 border-emerald-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "CLT, contrato, jornada, férias, 13º, FGTS e o que fazer em caso de assédio ou demissão.",
     "url": "https://www.escolavirtual.gov.br/",
@@ -4882,7 +4882,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "Governo Federal",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -4951,7 +4951,7 @@ const localCourses = [
     "provider": "CIEE - Saber Virtual",
     "providerTag": "CIEE - Saber Virtual",
     "providerColor": "bg-slate-50 text-slate-800 border-slate-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Currículo, LinkedIn, entrevistas, testes e como se preparar para conquistar a vaga com mais confiança.",
     "url": "https://portal.ciee.org.br/quero-me-preparar/saber-virtual/",
@@ -4961,7 +4961,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "CIEE - Saber Virtual",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -5003,7 +5003,7 @@ const localCourses = [
     "provider": "CIEE - Saber Virtual",
     "providerTag": "CIEE - Saber Virtual",
     "providerColor": "bg-slate-50 text-slate-800 border-slate-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Como dar e receber feedback construtivo, desenvolver-se e melhorar o relacionamento no trabalho.",
     "url": "https://portal.ciee.org.br/quero-me-preparar/saber-virtual/",
@@ -5013,7 +5013,7 @@ const localCourses = [
     "level": "Iniciante",
     "tags": [
       "CIEE - Saber Virtual",
-      "profissionalização",
+      "profissionalizacao",
       "Iniciante"
     ],
     "featured": false,
@@ -5183,12 +5183,12 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80"
   },
   {
-    "id": "carta-apresentação",
+    "id": "carta-apresentacao",
     "title": "Comunicação Corporativa e Carta de Apresentação",
     "provider": "Fundação Bradesco (Escola Virtual)",
     "providerTag": "Fund. Bradesco",
     "providerColor": "bg-red-50 text-red-900 border-red-300 font-black",
-    "category": "profissionalização",
+    "category": "profissionalizacao",
     "categoryName": "Profissionalização",
     "description": "Elaboração de cartas de apresentação modernas, e-mails de candidatura que chamam a atenção e técnicas de escrita persuasiva para recrutadores.",
     "url": "https://www.ev.org.br/cursos/comunicacao-empresarial",
@@ -5610,7 +5610,6 @@ const localCourses = [
     "imageUrl": "https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=600&q=80"
   }
 ];
-
 if (typeof window !== 'undefined') {
   window.localCourses = localCourses;
   window.COURSES_DATA = localCourses;

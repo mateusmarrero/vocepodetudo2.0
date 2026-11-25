@@ -6,6 +6,18 @@ O formato é baseado no [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.
 
 ---
 
+## [4.90.0] - 2026-11-25
+### 🚀 Páginas Próprias de Cursos (SEO), Imagens nos Cards e Otimização Mobile
+
+- **Páginas Oficiais de Cursos (curso.php):** Criação da página Server-Side Rendered (SSR) com rotas amigáveis (/curso/<id>) no Apache/StackCP para os 200 cursos catalogados.
+- **Dados Estruturados Schema.org (Course & BreadcrumbList):** Marcação JSON-LD completa para Rich Snippets no Google Search (avaliações, carga horária, modalidade online, certificação e gratuidade).
+- **Imagens de Capa nos Cards do Catálogo:** Exibição de capas fotográficas em alta resolução com lazy-loading e aspect-ratio anti-CLS no catálogo principal.
+- **Auditoria de Imagens e Diversificação:** Substituição da imagem quebrada 404 em 24 cursos e diversificação temática por área, com 100% das URLs validadas (HTTP 200 OK).
+- **Expansão do Sitemap XML Oficial:** Inclusão de todos os 200 cursos em sitemap.php e sitemap.xml (total de 280 URLs indexáveis com prioridade 0.85).
+- **Otimizações Mobile & Core Web Vitals:** Preconnect para Unsplash, barra inferior flutuante de conversão em telas mobile, dicas ATS e Service Worker atualizado para PWA offline (v4.90.0).
+
+---
+
 ## [4.89.0] - 2026-11-23
 ### 🖼️ Correção de Imagens do Blog e Padronização de E-mail de Contato
 

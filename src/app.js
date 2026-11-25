@@ -552,17 +552,50 @@
               ${safeDesc}
             </p>
           </div>
-          <div class="mt-2.5 pt-2 border-t ${isSelected ? 'border-white/20' : 'border-slate-100'} flex items-center justify-between text-[10px] font-bold">
+          <div class="mt-2.5 pt-2 border-t ${isSelected ? 'border-white/20' : 'border-slate-100'} flex items-center justify-between gap-2 text-[10px] font-bold">
             <span class="${isSelected ? 'text-[#ffcc29]' : 'text-[#009639]'}">
               ${isSelected ? '✓ Trilha Ativa' : 'Iniciar Trilha →'}
             </span>
-            <span class="${isSelected ? 'text-blue-200' : 'text-slate-400'}">
-              ${(track.courses || []).length} cursos
-            </span>
+            <div class="flex items-center gap-1.5">
+              <span class="${isSelected ? 'text-blue-200' : 'text-slate-400'}">
+                ${(track.courses || []).length} cursos
+              </span>
+              <span
+                role="button"
+                tabindex="0"
+                data-share-track-id="${escapeHTML(track.id)}"
+                data-share-track-title="${safeTitle}"
+                data-share-track-count="${(track.courses || []).length}"
+                data-share-track-duration="${safeDuration}"
+                class="share-quick-track-btn p-1 rounded-lg ${isSelected ? 'bg-white/15 hover:bg-white/25 text-white' : 'bg-slate-100 hover:bg-emerald-50 text-slate-600 hover:text-[#009639]'} transition-colors"
+                title="Compartilhar trilha ${safeTitle}"
+                aria-label="Compartilhar trilha ${safeTitle}"
+              >
+                <i data-lucide="share-2" class="w-3 h-3 pointer-events-none"></i>
+              </span>
+            </div>
           </div>
         </button>
       `;
     }).join('');
+
+    container.querySelectorAll('.share-quick-track-btn').forEach(shareBtn => {
+      const handleShare = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const tId = shareBtn.getAttribute('data-share-track-id');
+        const tTitle = shareBtn.getAttribute('data-share-track-title') || 'Trilha de Aprendizagem';
+        const tCount = shareBtn.getAttribute('data-share-track-count') || '0';
+        const tDur = shareBtn.getAttribute('data-share-track-duration') || '';
+        const trackUrl = `https://vocepodetudo.com/?trilha=${encodeURIComponent(tId)}`;
+        const customText = `Olha essa Trilha de Aprendizagem 100% gratuita no Você Pode Tudo: "${tTitle}" (${tCount} cursos gratuitos${tDur ? ' • ' + tDur : ''})! Comece agora: ${trackUrl}`;
+        openShareModal(tTitle, `Trilha Guiada • ${tCount} cursos gratuitos`, trackUrl, customText);
+      };
+      shareBtn.addEventListener('click', handleShare);
+      shareBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') handleShare(e);
+      });
+    });
 
     container.querySelectorAll('.track-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -675,18 +708,64 @@
             </div>
           </div>
 
-          <div class="pt-4 border-t border-slate-100">
+          <div class="pt-4 border-t border-slate-100 flex items-center gap-2">
             <button 
               data-start-track-id="${escapeHTML(track.id)}"
-              class="start-track-btn w-full py-3 px-4 rounded-xl font-black text-sm bg-[#009639] hover:bg-[#00702a] text-white shadow-md transition-all flex items-center justify-center gap-2"
+              class="start-track-btn flex-1 py-3 px-4 rounded-xl font-black text-xs sm:text-sm bg-[#009639] hover:bg-[#00702a] text-white shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
-              <i data-lucide="play" class="w-4 h-4 text-[#ffcc29]"></i>
-              <span>Estudar Esta Trilha no Catálogo</span>
+              <i data-lucide="play" class="w-4 h-4 text-[#ffcc29] flex-shrink-0"></i>
+              <span class="truncate">Estudar Esta Trilha no Catálogo</span>
+            </button>
+
+            <a
+              href="https://api.whatsapp.com/send?text=${encodeURIComponent(`Olha essa Trilha de Aprendizagem 100% gratuita no Você Pode Tudo: "${track.title}" (${trackCourses.length} cursos com certificado grátis • ${track.duration || '40h'})! Acesse: https://vocepodetudo.com/?trilha=${encodeURIComponent(track.id)}`)}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="p-3 rounded-xl border border-emerald-300 bg-emerald-50 text-[#00702a] hover:bg-emerald-100 transition-colors flex-shrink-0"
+              title="Compartilhar trilha no WhatsApp"
+              aria-label="Compartilhar trilha ${escapeHTML(track.title)} no WhatsApp"
+            >
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+
+            <button
+              type="button"
+              data-share-track-id="${escapeHTML(track.id)}"
+              data-share-track-title="${escapeHTML(track.title)}"
+              data-share-track-count="${trackCourses.length}"
+              data-share-track-duration="${escapeHTML(track.duration || '40h')}"
+              class="share-roadmap-track-btn p-3 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 transition-colors flex-shrink-0 cursor-pointer"
+              title="Mais opções de compartilhamento"
+              aria-label="Compartilhar trilha ${escapeHTML(track.title)}"
+            >
+              <i data-lucide="share-2" class="w-4 h-4 pointer-events-none"></i>
             </button>
           </div>
         </article>
       `;
     }).join('');
+
+    grid.querySelectorAll('.share-roadmap-track-btn').forEach(shareBtn => {
+      shareBtn.addEventListener('click', () => {
+        const tId = shareBtn.getAttribute('data-share-track-id');
+        const tTitle = shareBtn.getAttribute('data-share-track-title') || 'Trilha de Aprendizagem';
+        const tCount = shareBtn.getAttribute('data-share-track-count') || '0';
+        const tDur = shareBtn.getAttribute('data-share-track-duration') || '';
+        const trackUrl = `https://vocepodetudo.com/?trilha=${encodeURIComponent(tId)}`;
+        const customText = `Olha essa Trilha de Aprendizagem 100% gratuita no Você Pode Tudo: "${tTitle}" (${tCount} cursos com certificado grátis${tDur ? ' • ' + tDur : ''})! Comece agora: ${trackUrl}`;
+        openShareModal(tTitle, `Trilha de Aprendizagem • ${tCount} cursos`, trackUrl, customText);
+      });
+    });
+
+    const shareAllTracksBtn = document.getElementById('share-all-tracks-btn');
+    if (shareAllTracksBtn && !shareAllTracksBtn.dataset.bound) {
+      shareAllTracksBtn.dataset.bound = '1';
+      shareAllTracksBtn.addEventListener('click', () => {
+        const tracksUrl = 'https://vocepodetudo.com/?view=tracks';
+        const customText = `Confira as Trilhas de Aprendizagem Guiadas 100% gratuitas com certificado do Você Pode Tudo: ${tracksUrl}`;
+        openShareModal('Trilhas de Aprendizagem Guiadas', 'Roteiros Oficiais Gratuitos • Você Pode Tudo', tracksUrl, customText);
+      });
+    }
 
     grid.querySelectorAll('.start-track-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -768,7 +847,7 @@
   // Espaços publicitários desativados temporariamente conforme solicitação do usuário.
 
   // Abre o modal de compartilhamento com opções para redes sociais
-  function openShareModal(title, provider, url) {
+  function openShareModal(title, provider, url, customShareText = '') {
     const modal = document.getElementById('share-course-modal');
     if (!modal) return;
 
@@ -780,7 +859,7 @@
     if (providerEl) providerEl.textContent = provider;
     if (inputUrl) inputUrl.value = url;
 
-    const shareText = `Olha esse curso 100% gratuito que encontrei no Você Pode Tudo: "${title}" (${provider}). Acesse o link oficial: ${url}`;
+    const shareText = customShareText || `Olha esse curso 100% gratuito que encontrei no Você Pode Tudo: "${title}" (${provider}). Acesse o link oficial: ${url}`;
     const encodedText = encodeURIComponent(shareText);
     const encodedUrl = encodeURIComponent(url);
 

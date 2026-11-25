@@ -1684,17 +1684,30 @@
     <!-- Visualização Exclusiva de Trilhas de Aprendizagem (Roadmap Guiado) -->
     <section id="tracks-view" class="hidden mb-12 animate-fade-in" aria-label="Visualização de Trilhas de Aprendizagem">
       <div class="bg-gradient-to-r from-[#002776] via-[#001a4e] to-[#00702a] rounded-3xl p-6 sm:p-10 text-white mb-8 shadow-xl border-4 border-[#ffcc29]">
-        <div class="max-w-3xl">
-          <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-black bg-[#ffcc29] text-slate-950 mb-3 shadow-sm uppercase">
-            <i data-lucide="compass" class="w-3.5 h-3.5"></i>
-            <span>Currículos Oficiais Estruturados</span>
-          </span>
-          <h2 class="text-2xl sm:text-4xl font-black mb-3 text-white leading-tight">
-            Trilhas de Aprendizagem Guiadas 🚀
-          </h2>
-          <p class="text-sm sm:text-base text-blue-100 font-medium leading-relaxed">
-            Currículos completos organizados do primeiro passo até a conquista do certificado oficial. Escolha sua meta e siga o caminho recomendado.
-          </p>
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div class="max-w-3xl">
+            <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-black bg-[#ffcc29] text-slate-950 mb-3 shadow-sm uppercase">
+              <i data-lucide="compass" class="w-3.5 h-3.5"></i>
+              <span>Currículos Oficiais Estruturados</span>
+            </span>
+            <h2 class="text-2xl sm:text-4xl font-black mb-3 text-white leading-tight">
+              Trilhas de Aprendizagem Guiadas 🚀
+            </h2>
+            <p class="text-sm sm:text-base text-blue-100 font-medium leading-relaxed">
+              Currículos completos organizados do primeiro passo até a conquista do certificado oficial. Escolha sua meta e siga o caminho recomendado.
+            </p>
+          </div>
+          <div class="flex-shrink-0">
+            <button 
+              id="share-all-tracks-btn"
+              type="button"
+              class="inline-flex items-center gap-2 px-4 py-3 rounded-xl font-black text-xs sm:text-sm bg-white/15 hover:bg-white/25 text-white border border-white/30 backdrop-blur-xs shadow-md transition-all cursor-pointer active:scale-95"
+              aria-label="Compartilhar página de Trilhas de Aprendizagem Guiadas"
+            >
+              <i data-lucide="share-2" class="w-4 h-4 text-[#ffcc29]"></i>
+              <span>Compartilhar Trilhas</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -4257,10 +4270,10 @@
   
 
 
-  <!-- Carregamento dos Scripts da Aplicação (com Cache-Busting v=4.94.0) -->
-  <script src="./src/data/courses.js?v=4.94.0"></script>
-  <script src="./src/data/course_details.js?v=4.94.0"></script>
-  <script src="./src/data/career_quiz.js?v=4.94.0"></script>
-  <script src="./src/app.js?v=4.94.0"></script>
+  <!-- Carregamento dos Scripts da Aplicação (com Cache-Busting v=4.95.0) -->
+  <script src="./src/data/courses.js?v=4.95.0"></script>
+  <script src="./src/data/course_details.js?v=4.95.0"></script>
+  <script src="./src/data/career_quiz.js?v=4.95.0"></script>
+  <script src="./src/app.js?v=4.95.0"></script>
 </body>
 </html>

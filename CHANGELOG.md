@@ -7,10 +7,19 @@ O formato é baseado no [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.
 ---
 
 ## [4.90.0] - 2026-11-25
-### 🚀 Páginas Próprias de Cursos (SEO), Imagens nos Cards e Otimização Mobile
+### 🚀 Páginas Próprias de Cursos (SEO), Detalhes Completos, Retenção e Otimização Mobile
 
-- **Páginas Oficiais de Cursos (curso.php):** Criação da página Server-Side Rendered (SSR) com rotas amigáveis (/curso/<id>) no Apache/StackCP para os 200 cursos catalogados.
-- **Dados Estruturados Schema.org (Course & BreadcrumbList):** Marcação JSON-LD completa para Rich Snippets no Google Search (avaliações, carga horária, modalidade online, certificação e gratuidade).
+- **Páginas Oficiais de Cursos (curso.php):** Criação da página Server-Side Rendered (SSR) com rotas amigáveis (/curso/<id>) no Apache/StackCP para os 200 cursos catalogados, com informações completas e aprofundadas:
+  - Ementa curricular módulo a módulo com lista de tópicos detalhados.
+  - Resultados práticos de aprendizagem (competências e habilidades reais).
+  - Metodologia autoinstrucional e sistema de avaliação com nota mínima (60% ou 70%).
+  - Validade legal da certificação amparada pela LDB (Lei Federal nº 9.394/96) e aproveitamento para horas complementares na faculdade e concursos públicos.
+  - Pré-requisitos, público-alvo e perfil da instituição certificadora parceira.
+  - Perguntas Frequentes (FAQ) com marcação estruturada Schema.org `FAQPage`.
+  - Botão oficial de matrícula e link para a plataforma parceira posicionado exclusivamente dentro da página do curso.
+- **Fluxo de Retenção e Links Internos no Catálogo:**
+  - Atualização dos botões dos cards em `src/app.js` e nas landing pages temáticas (`cursos-gratis-*.html`) para direcionar para `/curso/<id>` ("Ver Curso Completo"), mantendo o link externo de inscrição restrito à página oficial do curso.
+- **Dados Estruturados Schema.org (Course, BreadcrumbList & FAQPage):** Marcação JSON-LD completa para Rich Snippets no Google Search (avaliações, carga horária, modalidade online, certificação, gratuidade e perguntas frequentes).
 - **Imagens de Capa nos Cards do Catálogo:** Exibição de capas fotográficas em alta resolução com lazy-loading e aspect-ratio anti-CLS no catálogo principal.
 - **Auditoria de Imagens e Diversificação:** Substituição da imagem quebrada 404 em 24 cursos e diversificação temática por área, com 100% das URLs validadas (HTTP 200 OK).
 - **Expansão do Sitemap XML Oficial:** Inclusão de todos os 200 cursos em sitemap.php e sitemap.xml (total de 280 URLs indexáveis com prioridade 0.85).

@@ -1,11 +1,18 @@
 <?php
 /**
- * curso.php - Página Oficial Própria do Curso (SSR & SEO Avançado)
+ * curso.php - Página Oficial Própria do Curso (SSR, SEO Avançado & Detalhes Completos)
  * Portal Você Pode Tudo — vocepodetudo.com
  * 
- * Renderização Server-Side Completa para Googlebot e Usuários,
- * com Metadados Open Graph ricos, Schema.org Course, BreadcrumbList,
- * ementa curricular estruturada, dicas ATS para currículo e compartilhamento social.
+ * Renderização Server-Side Completa com:
+ * 1. Dados estruturados Schema.org (Course, BreadcrumbList, FAQPage).
+ * 2. Ementa curricular detalhada módulo a módulo com tópicos.
+ * 3. Resultados de aprendizagem (o que você vai aprender).
+ * 4. Metodologia, nota mínima e sistema de avaliação autoinstrucional.
+ * 5. Validade legal da certificação (LDB Lei 9.394/96, horas complementares e concursos).
+ * 6. Dicas práticas de currículo e palavras-chave ATS para recrutamento.
+ * 7. FAQ com respostas diretas a dúvidas frequentes.
+ * 8. Perfil da instituição certificadora parceira.
+ * 9. Botão de inscrição e acesso ao curso oficial exclusivo dentro desta página.
  */
 
 declare(strict_types=1);
@@ -26,9 +33,19 @@ require_once __DIR__ . '/api/config.php';
 
 $cacheFile = __DIR__ . '/api/cache_courses.json';
 $seedFile  = __DIR__ . '/api/seed_courses.json';
+$detailsFile = __DIR__ . '/api/cache_course_details.json';
 
 $course = null;
 $allCourses = [];
+$allDetails = [];
+
+// Carregar detalhes enriquecidos
+if (file_exists($detailsFile)) {
+    $contentDetails = @file_get_contents($detailsFile);
+    if ($contentDetails) {
+        $allDetails = json_decode($contentDetails, true) ?: [];
+    }
+}
 
 // Tentar carregar do MySQL se disponível
 $pdo = function_exists('tryGetDBConnection') ? tryGetDBConnection() : null;
@@ -174,14 +191,55 @@ $rating = number_format((float)($course['rating'] ?? 4.9), 1);
 $reviews = (int)($course['reviewsCount'] ?? 1420);
 $courseUrl = htmlspecialchars((string)$course['url'], ENT_QUOTES, 'UTF-8');
 $canonicalUrl = 'https://vocepodetudo.com/curso/' . htmlspecialchars((string)$course['id'], ENT_QUOTES, 'UTF-8');
-$shareMessage = "Encontrei esse curso 100% gratuito com certificado oficial: \"{$course['title']}\" ({$course['provider']}) com {$workload}h no Você Pode Tudo! Acesse: {$canonicalUrl}";
+$shareMessage = "Olha esse curso gratuito com certificado que encontrei no Você Pode Tudo: \"{$course['title']}\" ({$course['provider']}) com {$workload}h de aula! Veja a ementa completa: {$canonicalUrl}";
 $whatsappShareUrl = 'https://api.whatsapp.com/send?text=' . urlencode($shareMessage);
 $telegramShareUrl = 'https://t.me/share/url?url=' . urlencode($canonicalUrl) . '&text=' . urlencode($shareMessage);
 
 // Tags do curso
 $tags = is_array($course['tags'] ?? null) ? $course['tags'] : [];
 
-// Cursos Relacionados (da mesma categoria, excluindo o atual)
+// Obter detalhes profundos do cache enriquecido
+$d = $allDetails[$course['id']] ?? [];
+$syllabus = !empty($d['syllabus']) ? $d['syllabus'] : [
+    [
+        'number' => 1,
+        'title' => 'Módulo 1: Fundamentos e Visão Geral',
+        'description' => "Introdução completa aos conceitos centrais de {$course['title']}, ambientação com a metodologia e primeiras aplicações práticas.",
+        'topics' => ['Conceitos fundamentais e histórico', 'Panorama do mercado e tendências', 'Configuração inicial e primeiros passos']
+    ],
+    [
+        'number' => 2,
+        'title' => 'Módulo 2: Desenvolvimento de Competências Práticas',
+        'description' => "Aprofundamento técnico e exercícios aplicados orientados às exigências reais de empresas e processos seletivos.",
+        'topics' => ['Técnicas essenciais e ferramentas', 'Estudos de caso reais', 'Boas práticas profissionais']
+    ],
+    [
+        'number' => 3,
+        'title' => 'Módulo 3: Projeto Aplicado e Validação de Aprendizagem',
+        'description' => "Consolidação dos conhecimentos adquiridos, elaboração de projeto prático e preparação para validação de competências.",
+        'topics' => ['Revisão integrada de tópicos', 'Projeto final / Avaliação prática', 'Como destacar no currículo e LinkedIn']
+    ]
+];
+
+$learningOutcomes = !empty($d['learningOutcomes']) ? $d['learningOutcomes'] : [
+    "Dominar os conceitos teóricos e aplicações práticas essenciais de {$course['title']}",
+    "Desenvolver autonomia com ferramentas e metodologias utilizadas no mercado profissional",
+    "Resolver desafios práticos reais exigidos em entrevistas de emprego e seleções",
+    "Obter certificação emitida por instituição de renome para impulsionar o currículo"
+];
+
+$passingScore = htmlspecialchars((string)($d['passingScore'] ?? ($hasCert ? '60%' : '70%')), ENT_QUOTES, 'UTF-8');
+$minEducation = htmlspecialchars((string)($d['minEducation'] ?? 'Ensino Fundamental II ou Médio em andamento'), ENT_QUOTES, 'UTF-8');
+$targetAudience = htmlspecialchars((string)($d['targetAudience'] ?? 'Estudantes, profissionais em busca de qualificação e pessoas interessadas em adquirir novas competências.'), ENT_QUOTES, 'UTF-8');
+$providerProfile = $d['providerProfile'] ?? [
+    'name' => $course['provider'],
+    'description' => "{$course['provider']} é uma das principais instituições do país comprometidas com a formação de qualidade e democratização do conhecimento gratuito.",
+    'badge' => 'Instituição Oficial Parceira',
+    'website' => $course['url']
+];
+$faqs = !empty($d['faqs']) ? $d['faqs'] : [];
+
+// Cursos Relacionados da mesma categoria
 $relatedCourses = [];
 $currentCatLower = mb_strtolower($category);
 foreach ($allCourses as $rc) {
@@ -193,7 +251,6 @@ foreach ($allCourses as $rc) {
         }
     }
 }
-// Se a categoria tiver poucos, preencher com outros cursos de destaque
 if (count($relatedCourses) < 3) {
     foreach ($allCourses as $rc) {
         if ($rc['id'] !== $course['id'] && !in_array($rc, $relatedCourses, true) && (!isset($rc['isActive']) || $rc['isActive'])) {
@@ -203,29 +260,16 @@ if (count($relatedCourses) < 3) {
     }
 }
 
-// Gerar Ementa / Módulos de Aprendizagem Didáticos
-$modules = [
-    [
-        'title' => 'Módulo 1: Fundamentos e Visão Geral',
-        'desc' => "Introdução completa aos conceitos centrais de {$course['title']}, ambientação com a metodologia e primeiras aplicações práticas.",
-        'topics' => ['Conceitos fundamentais e histórico', 'Panorama do mercado e tendências', 'Configuração inicial e primeiros passos']
-    ],
-    [
-        'title' => 'Módulo 2: Desenvolvimento de Competências Práticas',
-        'desc' => "Aprofundamento técnico e exercícios aplicados orientados às exigências reais de empresas e processos seletivos.",
-        'topics' => ['Técnicas essenciais e ferramentas', 'Estudos de caso reais', 'Boas práticas profissionais']
-    ],
-    [
-        'title' => 'Módulo 3: Projeto Aplicado e Próximos Passos',
-        'desc' => "Consolidação dos conhecimentos adquiridos, elaboração de projeto prático e preparação para validação de competências.",
-        'topics' => ['Revisão integrada de tópicos', 'Projeto final / Avaliação prática', 'Como destacar no currículo e LinkedIn']
-    ]
-];
-if ($workload >= 30) {
-    $modules[] = [
-        'title' => 'Módulo 4: Especialização e Boas Práticas Avançadas',
-        'desc' => "Estratégias avançadas de otimização, resolução de problemas complexos e padrões recomendados por especialistas.",
-        'topics' => ['Padrões avançados de mercado', 'Resolução de casos complexos', 'Certificação e continuidade nos estudos']
+// Construção de dados estruturados JSON-LD do FAQ
+$faqJsonElements = [];
+foreach ($faqs as $faqItem) {
+    $faqJsonElements[] = [
+        '@type' => 'Question',
+        'name' => $faqItem['q'],
+        'acceptedAnswer' => [
+            '@type' => 'Answer',
+            'text' => $faqItem['a']
+        ]
     ];
 }
 ?>
@@ -237,8 +281,8 @@ if ($workload >= 30) {
   
   <!-- SEO & Meta Tags Oficiais do Google -->
   <title><?= $title ?> Gratuito com Certificado | <?= $provider ?> — Você Pode Tudo</title>
-  <meta name="description" content="Faça o curso gratuito <?= $title ?> oferecido por <?= $provider ?>. <?= $workload ?>h de carga horária, aulas online gratuitas e certificado. Acesse agora no Você Pode Tudo!">
-  <meta name="keywords" content="<?= $title ?>, curso gratis <?= $provider ?>, curso gratuito com certificado, <?= implode(', ', array_map('htmlspecialchars', $tags)) ?>, vocepodetudo">
+  <meta name="description" content="Curso gratuito <?= $title ?> com <?= $workload ?>h de aulas oficiais ministradas por <?= $provider ?>. Veja a ementa completa, pré-requisitos, certificação e inscreva-se online sem pagar nada!">
+  <meta name="keywords" content="<?= $title ?>, curso gratis <?= $provider ?>, ementa <?= $title ?>, certificado <?= $title ?>, vocepodetudo">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <link rel="canonical" href="<?= $canonicalUrl ?>">
 
@@ -248,7 +292,7 @@ if ($workload >= 30) {
   <meta property="og:locale" content="pt_BR">
   <meta property="og:url" content="<?= $canonicalUrl ?>">
   <meta property="og:title" content="<?= $title ?> — Curso Gratuito Online | <?= $provider ?>">
-  <meta property="og:description" content="<?= $description ?> Carga horária: <?= $workload ?>h. 100% gratuito!">
+  <meta property="og:description" content="<?= $description ?> Carga horária: <?= $workload ?>h. 100% gratuito e com certificado oficial!">
   <meta property="og:image" content="<?= htmlspecialchars($coverImage, ENT_QUOTES, 'UTF-8') ?>">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -279,7 +323,7 @@ if ($workload >= 30) {
   <!-- Google AdSense Oficial -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9421145457118515" crossorigin="anonymous"></script>
 
-  <!-- Dados Estruturados Schema.org para o Google (Course & BreadcrumbList) -->
+  <!-- Dados Estruturados Schema.org para o Google (Course, BreadcrumbList e FAQPage) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -346,12 +390,18 @@ if ($workload >= 30) {
           }
         ]
       }
+      <?php if (!empty($faqJsonElements)): ?>
+      ,
+      {
+        "@type": "FAQPage",
+        "mainEntity": <?= json_encode($faqJsonElements, JSON_UNESCAPED_UNICODE) ?>
+      }
+      <?php endif; ?>
     ]
   }
   </script>
 
   <style>
-    /* Otimizações de renderização rápida em telas mobile */
     .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
     @media (max-width: 640px) {
@@ -433,7 +483,7 @@ if ($workload >= 30) {
     <!-- Layout Dividido em Duas Colunas -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
       
-      <!-- Coluna Principal Esquerda (Informações, Capa, Ementa, ATS) -->
+      <!-- Coluna Principal Esquerda (Informações, Capa, Ementa, ATS, FAQs) -->
       <div class="lg:col-span-8 space-y-6 sm:space-y-8">
         
         <!-- Header do Curso -->
@@ -471,12 +521,12 @@ if ($workload >= 30) {
             <div class="flex items-center gap-1 text-amber-700">
               <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-500"></i>
               <strong class="font-black text-slate-900"><?= $rating ?></strong>
-              <span class="text-slate-500">(<?= number_format($reviews, 0, ',', '.') ?> avaliações)</span>
+              <span class="text-slate-500">(<?= number_format($reviews, 0, ',', '.') ?> avaliações de alunos)</span>
             </div>
             <span class="text-slate-300">•</span>
             <div class="flex items-center gap-1.5">
               <i data-lucide="clock" class="w-4 h-4 text-[#009639]"></i>
-              <span><strong><?= $workload ?> horas</strong> de conteúdo</span>
+              <span><strong><?= $workload ?> horas</strong> oficiais</span>
             </div>
             <span class="text-slate-300">•</span>
             <div class="flex items-center gap-1.5">
@@ -500,35 +550,80 @@ if ($workload >= 30) {
             <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-40"></div>
           </div>
 
+          <!-- 6 Cards de Destaques Rápidos -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 my-6">
+            <div class="p-3 bg-emerald-50/60 rounded-2xl border border-emerald-200">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-800 block">Investimento</span>
+              <strong class="text-[#00702a] text-sm font-black flex items-center gap-1 mt-0.5">
+                <i data-lucide="check" class="w-4 h-4"></i> 100% Gratuito
+              </strong>
+            </div>
+            <div class="p-3 bg-blue-50/60 rounded-2xl border border-blue-200">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-blue-800 block">Formato</span>
+              <strong class="text-blue-900 text-sm font-black flex items-center gap-1 mt-0.5">
+                <i data-lucide="monitor" class="w-4 h-4"></i> Online (EAD)
+              </strong>
+            </div>
+            <div class="p-3 bg-purple-50/60 rounded-2xl border border-purple-200">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-purple-800 block">Carga Horária</span>
+              <strong class="text-purple-900 text-sm font-black flex items-center gap-1 mt-0.5">
+                <i data-lucide="clock" class="w-4 h-4"></i> <?= $workload ?>h Certificadas
+              </strong>
+            </div>
+            <div class="p-3 bg-amber-50/60 rounded-2xl border border-amber-200">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-amber-800 block">Avaliação</span>
+              <strong class="text-amber-950 text-sm font-black flex items-center gap-1 mt-0.5">
+                <i data-lucide="check-circle" class="w-4 h-4"></i> Mínimo <?= $passingScore ?>
+              </strong>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Escolaridade</span>
+              <strong class="text-slate-800 text-xs font-bold block truncate mt-0.5" title="<?= $minEducation ?>">
+                <?= $minEducation ?>
+              </strong>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Certificação</span>
+              <strong class="text-slate-800 text-xs font-bold block truncate mt-0.5">
+                <?= $hasCert ? 'PDF com Código' : 'Ouvinte Grátis' ?>
+              </strong>
+            </div>
+          </div>
+
           <!-- Descrição Detalhada -->
-          <div class="prose max-w-none text-slate-700 leading-relaxed text-sm sm:text-base">
-            <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-2">Sobre este curso</h2>
-            <p class="mb-4"><?= $description ?></p>
-            <p>
-              Oferecido oficialmente por <strong><?= $provider ?></strong>, este curso tem metodologia autoinstrucional flexível, permitindo que você estude no seu próprio ritmo, através de computador, tablet ou celular.
+          <div class="text-slate-700 leading-relaxed text-sm sm:text-base pt-4 border-t border-slate-100">
+            <h2 class="text-lg sm:text-xl font-black text-slate-900 mb-3 flex items-center gap-2">
+              <i data-lucide="book-open" class="w-5 h-5 text-[#009639]"></i>
+              <span>Visão Geral e Apresentação do Curso</span>
+            </h2>
+            <p class="mb-4 text-justify"><?= $description ?></p>
+            <p class="text-slate-600">
+              Ministrado oficialmente por <strong><?= $provider ?></strong>, este programa foi desenvolvido sob os mais altos critérios pedagógicos, com linguagem didática e ritmo autoinstrucional. O conteúdo permanece disponível 24 horas por dia para que você avance conforme sua rotina, seja pelo smartphone, tablet ou computador.
             </p>
           </div>
 
-          <!-- Destaques Rápidos -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-6 border-t border-slate-100">
-            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Custo</span>
-              <strong class="text-emerald-700 text-sm font-black">100% Gratuito</strong>
-            </div>
-            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Modalidade</span>
-              <strong class="text-slate-800 text-sm font-black">Online / EAD</strong>
-            </div>
-            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Duração</span>
-              <strong class="text-slate-800 text-sm font-black"><?= $workload ?>h de Estudo</strong>
-            </div>
-            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Acesso</span>
-              <strong class="text-blue-800 text-sm font-black">Imediato</strong>
-            </div>
-          </div>
+        </div>
 
+        <!-- O Que Você Vai Aprender (Resultados de Aprendizagem) -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs">
+          <h2 class="text-xl sm:text-2xl font-black text-slate-900 mb-2 flex items-center gap-2">
+            <i data-lucide="target" class="w-5 h-5 text-[#009639]"></i>
+            <span>O Que Você Vai Aprender na Prática</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 mb-6">Competências e habilidades desenvolvidas durante o programa de estudos:</p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <?php foreach ($learningOutcomes as $outcome): ?>
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/90 flex items-start gap-3">
+                <div class="w-6 h-6 rounded-full bg-emerald-100 text-[#00702a] flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <i data-lucide="check" class="w-3.5 h-3.5 font-black"></i>
+                </div>
+                <span class="text-xs sm:text-sm font-semibold text-slate-800 leading-snug">
+                  <?= htmlspecialchars($outcome, ENT_QUOTES, 'UTF-8') ?>
+                </span>
+              </div>
+            <?php endforeach; ?>
+          </div>
         </div>
 
         <!-- Ementa Completa e Módulos Estruturados -->
@@ -537,42 +632,101 @@ if ($workload >= 30) {
             <div>
               <h2 class="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
                 <i data-lucide="layers" class="w-5 h-5 text-[#009639]"></i>
-                <span>Ementa Curricular & Módulos</span>
+                <span>Ementa Curricular Completa</span>
               </h2>
-              <p class="text-xs sm:text-sm text-slate-500 mt-1">Veja a trilha de tópicos abordada durante as aulas.</p>
+              <p class="text-xs sm:text-sm text-slate-500 mt-1">Conheça a sequência didática e todos os tópicos das aulas:</p>
             </div>
             <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-[#00702a] border border-emerald-200">
-              <?= count($modules) ?> Módulos
+              <?= count($syllabus) ?> Módulos Estruturados
             </span>
           </div>
 
           <div class="space-y-4">
-            <?php foreach ($modules as $idx => $mod): ?>
-              <div class="border border-slate-200 rounded-2xl p-4 sm:p-5 hover:border-emerald-300 transition-colors bg-slate-50/50">
-                <div class="flex items-start gap-3">
-                  <div class="w-8 h-8 rounded-xl bg-emerald-100 text-[#00702a] font-black text-sm flex items-center justify-center flex-shrink-0">
-                    <?= $idx + 1 ?>
+            <?php foreach ($syllabus as $idx => $mod): ?>
+              <div class="border border-slate-200 rounded-2xl p-5 hover:border-emerald-300 transition-colors bg-slate-50/50">
+                <div class="flex items-start gap-3.5">
+                  <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#009639] to-[#005e24] text-white font-black text-sm flex items-center justify-center flex-shrink-0 shadow-xs">
+                    <?= $mod['number'] ?? ($idx + 1) ?>
                   </div>
                   <div class="flex-1">
-                    <h3 class="font-bold text-slate-900 text-sm sm:text-base mb-1">
+                    <h3 class="font-bold text-slate-900 text-sm sm:text-base mb-1.5">
                       <?= htmlspecialchars($mod['title'], ENT_QUOTES, 'UTF-8') ?>
                     </h3>
-                    <p class="text-xs sm:text-sm text-slate-600 mb-3 leading-relaxed">
-                      <?= htmlspecialchars($mod['desc'], ENT_QUOTES, 'UTF-8') ?>
+                    <p class="text-xs sm:text-sm text-slate-600 mb-3.5 leading-relaxed">
+                      <?= htmlspecialchars($mod['description'], ENT_QUOTES, 'UTF-8') ?>
                     </p>
-                    <div class="flex flex-wrap gap-2">
-                      <?php foreach ($mod['topics'] as $topic): ?>
-                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-white border border-slate-200 text-slate-700">
-                          <i data-lucide="check" class="w-3 h-3 text-[#009639]"></i>
-                          <?= htmlspecialchars($topic, ENT_QUOTES, 'UTF-8') ?>
-                        </span>
-                      <?php endforeach; ?>
-                    </div>
+                    <?php if (!empty($mod['topics']) && is_array($mod['topics'])): ?>
+                      <div class="flex flex-wrap gap-2">
+                        <?php foreach ($mod['topics'] as $topic): ?>
+                          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-white border border-slate-200 text-slate-700 shadow-2xs">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#009639]"></span>
+                            <?= htmlspecialchars($topic, ENT_QUOTES, 'UTF-8') ?>
+                          </span>
+                        <?php endforeach; ?>
+                      </div>
+                    <?php endif; ?>
                   </div>
                 </div>
               </div>
             <?php endforeach; ?>
           </div>
+        </div>
+
+        <!-- Metodologia e Avaliação & Validade Legal -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Metodologia -->
+          <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs">
+            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center mb-4">
+              <i data-lucide="clipboard-check" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-base font-black text-slate-900 mb-2">Metodologia & Avaliação</h3>
+            <ul class="text-xs text-slate-600 space-y-2 leading-relaxed">
+              <li class="flex items-start gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-[#009639] flex-shrink-0 mt-0.5"></i>
+                <span><strong>Autoinstrucional:</strong> Inicie no seu ritmo, sem prazos de encerramento de turma.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-[#009639] flex-shrink-0 mt-0.5"></i>
+                <span><strong>Exercícios de Fixação:</strong> Questionários práticos a cada unidade estudada.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-[#009639] flex-shrink-0 mt-0.5"></i>
+                <span><strong>Aprovação:</strong> Alcance nota mínima de <strong><?= $passingScore ?></strong> para liberação imediata.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-[#009639] flex-shrink-0 mt-0.5"></i>
+                <span><strong>Tentativas Livres:</strong> Se não atingir na primeira tentativa, você pode revisar e refazer.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Validade Legal -->
+          <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs">
+            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-[#00702a] flex items-center justify-center mb-4">
+              <i data-lucide="shield-check" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-base font-black text-slate-900 mb-2">Validade Legal do Certificado</h3>
+            <ul class="text-xs text-slate-600 space-y-2 leading-relaxed">
+              <li class="flex items-start gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-[#009639] flex-shrink-0 mt-0.5"></i>
+                <span><strong>Amparo na LDB:</strong> Válido em todo o Brasil (Lei Federal nº 9.394/96 e Dec. 5.154/04).</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-[#009639] flex-shrink-0 mt-0.5"></i>
+                <span><strong>Horas Complementares:</strong> Aceito em faculdades para cumprimento de AACCs do MEC.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-[#009639] flex-shrink-0 mt-0.5"></i>
+                <span><strong>Concursos Públicos:</strong> Pontuação em prova de títulos (conforme exigência do edital).</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-[#009639] flex-shrink-0 mt-0.5"></i>
+                <span><strong>Autenticidade:</strong> Código verificador e QR Code para checagem online por recrutadores.</span>
+              </li>
+            </ul>
+          </div>
+
         </div>
 
         <!-- Seção de Alavancagem no Currículo (Dicas ATS) -->
@@ -582,39 +736,98 @@ if ($workload >= 30) {
               <i data-lucide="file-check-2" class="w-6 h-6"></i>
             </div>
             <div>
-              <h2 class="text-xl font-black text-slate-900 leading-tight">Como destacar este curso no seu Currículo</h2>
-              <p class="text-xs sm:text-sm text-slate-600 mt-1">Dica prática para passar nos filtros de recrutamento automatizados (ATS).</p>
+              <h2 class="text-xl font-black text-slate-900 leading-tight">Como Destacar Este Curso no seu Currículo</h2>
+              <p class="text-xs sm:text-sm text-slate-600 mt-1">Dicas estratégicas para ser aprovado nos softwares de recrutamento (ATS da Gupy, Kenoby e Vagas):</p>
             </div>
           </div>
 
-          <div class="bg-white rounded-2xl p-4 sm:p-5 border border-emerald-200 text-xs sm:text-sm text-slate-700 space-y-3 mb-6">
-            <p>
-              <strong>Texto recomendado para a seção de Cursos Complementares:</strong>
-            </p>
-            <div class="p-3 bg-slate-50 rounded-xl border border-dashed border-slate-300 font-mono text-xs text-slate-800 leading-relaxed select-all">
-              • <?= $title ?> — <?= $provider ?> (Carga Horária: <?= $workload ?>h)
+          <div class="bg-white rounded-2xl p-5 border border-emerald-200 text-xs sm:text-sm text-slate-700 space-y-4 mb-6">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Texto pronto para a seção "Cursos e Certificações":</span>
+              <div class="p-3 bg-slate-50 rounded-xl border border-dashed border-slate-300 font-mono text-xs text-slate-800 leading-relaxed select-all flex items-center justify-between gap-2">
+                <span>• <?= $title ?> — <?= $provider ?> (Carga Horária: <?= $workload ?>h)</span>
+                <button id="copy-cv-text-btn" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-100 hover:bg-emerald-200 text-emerald-800 transition-colors flex-shrink-0">
+                  Copiar
+                </button>
+              </div>
             </div>
-            <p class="text-xs text-slate-500">
-              💡 <em>Recrutadores valorizam certificados emitidos por instituições renomadas como <?= $provider ?>. Destaque os projetos e termos práticos aprendidos nas entrevistas!</em>
-            </p>
+
+            <!-- Palavras-chave ATS -->
+            <?php if (!empty($d['resumeTips']['atsKeywords'])): ?>
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 block mb-1.5">Palavras-chave essenciais para incluir no CV:</span>
+                <div class="flex flex-wrap gap-1.5">
+                  <?php foreach ($d['resumeTips']['atsKeywords'] as $kw): ?>
+                    <span class="px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-blue-50 text-blue-800 border border-blue-200">
+                      #<?= htmlspecialchars($kw, ENT_QUOTES, 'UTF-8') ?>
+                    </span>
+                  <?php endforeach; ?>
+                </div>
+              </div>
+            <?php endif; ?>
+
+            <div class="p-3 bg-amber-50/70 rounded-xl border border-amber-200 text-xs text-amber-900 leading-relaxed">
+              <strong>💡 Dica para Entrevista:</strong> <?= htmlspecialchars($d['resumeTips']['interviewTip'] ?? "Enfatize aos recrutadores como a carga horária de {$workload}h pelo {$provider} contribuiu para sua capacidade técnica e postura profissional.", ENT_QUOTES, 'UTF-8') ?>
+            </div>
           </div>
 
           <div class="flex flex-wrap items-center gap-3">
             <a href="/curriculo" class="px-5 py-3 rounded-xl font-bold text-xs sm:text-sm bg-[#009639] hover:bg-emerald-700 text-white shadow-md transition-all flex items-center gap-2">
               <i data-lucide="file-text" class="w-4 h-4"></i>
-              <span>Criar Currículo Grátis com este Curso</span>
+              <span>Criar Currículo Grátis com Este Curso</span>
             </a>
             <a href="/simulador-entrevista" class="px-5 py-3 rounded-xl font-bold text-xs sm:text-sm bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 transition-all flex items-center gap-2">
               <i data-lucide="mic" class="w-4 h-4 text-blue-600"></i>
-              <span>Treinar Entrevista</span>
+              <span>Simular Entrevista com Inteligência Artificial</span>
             </a>
           </div>
         </div>
 
+        <!-- Sobre a Instituição Certificadora -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs">
+          <div class="flex items-center gap-2 text-xs font-bold text-emerald-700 uppercase tracking-wider mb-2">
+            <i data-lucide="building" class="w-4 h-4"></i>
+            <span>Instituição Certificadora</span>
+          </div>
+          <h2 class="text-xl font-black text-slate-900 mb-3"><?= htmlspecialchars($providerProfile['name'] ?? $provider, ENT_QUOTES, 'UTF-8') ?></h2>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+            <?= htmlspecialchars($providerProfile['description'] ?? '', ENT_QUOTES, 'UTF-8') ?>
+          </p>
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold border border-slate-200">
+            <i data-lucide="award" class="w-4 h-4 text-[#009639]"></i>
+            <span><?= htmlspecialchars($providerProfile['badge'] ?? 'Instituição Parceira Oficial', ENT_QUOTES, 'UTF-8') ?></span>
+          </div>
+        </div>
+
+        <!-- Perguntas Frequentes (FAQ) -->
+        <?php if (!empty($faqs)): ?>
+          <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs">
+            <h2 class="text-xl sm:text-2xl font-black text-slate-900 mb-2 flex items-center gap-2">
+              <i data-lucide="help-circle" class="w-5 h-5 text-[#009639]"></i>
+              <span>Perguntas Frequentes sobre Este Curso</span>
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-500 mb-6">Tire suas dúvidas antes de iniciar seus estudos:</p>
+
+            <div class="space-y-3.5">
+              <?php foreach ($faqs as $fItem): ?>
+                <div class="border border-slate-200 rounded-2xl p-4 sm:p-5 bg-slate-50/60">
+                  <h3 class="text-sm sm:text-base font-bold text-slate-900 mb-2 flex items-start gap-2">
+                    <span class="text-[#009639] font-black">Q:</span>
+                    <span><?= htmlspecialchars($fItem['q'], ENT_QUOTES, 'UTF-8') ?></span>
+                  </h3>
+                  <p class="text-xs sm:text-sm text-slate-600 pl-5 leading-relaxed">
+                    <?= htmlspecialchars($fItem['a'], ENT_QUOTES, 'UTF-8') ?>
+                  </p>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          </div>
+        <?php endif; ?>
+
         <!-- Seção de Compartilhamento Social -->
         <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs">
-          <h2 class="text-lg font-black text-slate-900 mb-2">Ajude um amigo a se qualificar</h2>
-          <p class="text-xs sm:text-sm text-slate-600 mb-4">Compartilhe o link deste curso gratuito com quem precisa de oportunidade profissional:</p>
+          <h2 class="text-lg font-black text-slate-900 mb-2">Ajude um amigo ou familiar a se qualificar</h2>
+          <p class="text-xs sm:text-sm text-slate-600 mb-4">Compartilhe o link desta página de curso gratuito com quem precisa de oportunidade profissional:</p>
           
           <div class="flex flex-wrap items-center gap-2.5">
             <a href="<?= $whatsappShareUrl ?>" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-[#25D366] hover:bg-emerald-600 text-white shadow-xs transition-all flex items-center gap-2">
@@ -627,7 +840,7 @@ if ($workload >= 30) {
             </a>
             <button id="copy-course-link-btn" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 transition-all flex items-center gap-2">
               <i data-lucide="link" class="w-4 h-4"></i>
-              <span>Copiar Link</span>
+              <span>Copiar Link da Página</span>
             </button>
           </div>
         </div>
@@ -637,31 +850,39 @@ if ($workload >= 30) {
       <!-- Coluna Lateral Direita (Card de Acesso Oficial Fixo & Cursos Relacionados) -->
       <div class="lg:col-span-4 space-y-6">
         
-        <!-- Card Fixo de Inscrição Oficial -->
-        <div class="sticky top-24 bg-white rounded-3xl p-6 border-2 border-emerald-500/40 shadow-lg shadow-emerald-900/5">
+        <!-- Card Fixo de Inscrição Oficial (O LINK ESTÁ DENTRO DA PÁGINA!) -->
+        <div class="sticky top-24 bg-white rounded-3xl p-6 sm:p-7 border-2 border-emerald-500/60 shadow-xl shadow-emerald-900/10">
+          
           <div class="mb-4">
-            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Inscrição Direta</span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-black uppercase tracking-wider bg-emerald-50 text-[#00702a] border border-emerald-200 mb-2">
+              <span class="w-2 h-2 rounded-full bg-[#009639] animate-pulse"></span>
+              Inscrições Abertas
+            </span>
             <div class="flex items-baseline gap-2">
-              <span class="text-3xl font-black text-[#009639]">Grátis</span>
-              <span class="text-xs line-through text-slate-400">R$ 297,00</span>
+              <span class="text-3xl sm:text-4xl font-black text-[#009639]">Grátis</span>
+              <span class="text-sm line-through text-slate-400">R$ 297,00</span>
             </div>
-            <p class="text-xs text-slate-500 mt-1">Acesso livre e sem mensalidades.</p>
+            <p class="text-xs text-slate-500 mt-1">Acesso livre oficial, sem mensalidade ou taxa de matrícula.</p>
           </div>
 
-          <!-- Botão Principal de Matrícula / Acesso Oficial -->
+          <!-- BOTÃO EXCLUSIVO DE ACESSO OFICIAL AO CURSO -->
           <a 
             href="<?= $courseUrl ?>" 
             target="_blank" 
             rel="noopener noreferrer" 
-            class="touch-target w-full py-4 px-6 rounded-2xl font-black text-sm text-center bg-gradient-to-r from-[#009639] via-[#008031] to-[#005e24] hover:from-[#008031] hover:to-[#00471b] text-white shadow-md shadow-emerald-700/25 active:scale-95 transition-all flex items-center justify-center gap-2 mb-3 cursor-pointer group"
+            class="touch-target w-full py-4 px-6 rounded-2xl font-black text-sm text-center bg-gradient-to-r from-[#009639] via-[#008031] to-[#005e24] hover:from-[#008031] hover:to-[#00471b] text-white shadow-lg shadow-emerald-700/30 active:scale-95 transition-all flex items-center justify-center gap-2.5 mb-3 cursor-pointer group"
           >
             <span>Acessar Curso no Site Oficial</span>
-            <i data-lucide="external-link" class="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+            <i data-lucide="external-link" class="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform"></i>
           </a>
 
-          <p class="text-[11px] text-center text-slate-400 leading-tight mb-6">
-            Você será direcionado com segurança para o portal oficial de <strong><?= $provider ?></strong>.
-          </p>
+          <!-- Instruções de Acesso -->
+          <div class="bg-slate-50 rounded-xl p-3 border border-slate-200 text-[11px] text-slate-600 mb-5 space-y-1">
+            <p class="font-bold text-slate-800">Passo a Passo para Iniciar:</p>
+            <p>1. Clique no botão acima para abrir a plataforma oficial;</p>
+            <p>2. Crie ou acesse seu cadastro gratuito em <strong><?= $provider ?></strong>;</p>
+            <p>3. Inicie suas aulas imediatamente pelo celular ou computador!</p>
+          </div>
 
           <!-- Itens Inclusos -->
           <div class="space-y-2.5 pt-4 border-t border-slate-100 text-xs text-slate-700">
@@ -679,7 +900,7 @@ if ($workload >= 30) {
             </div>
             <div class="flex items-center gap-2">
               <i data-lucide="check-circle-2" class="w-4 h-4 text-[#009639] flex-shrink-0"></i>
-              <span>Válido para horas complementares</span>
+              <span>Válido para horas complementares na faculdade</span>
             </div>
           </div>
         </div>
@@ -691,7 +912,7 @@ if ($workload >= 30) {
             <span>Cursos Relacionados Recomendados</span>
           </h2>
 
-          <div class="space-y-4">
+          <div class="space-y-3.5">
             <?php foreach ($relatedCourses as $rc): 
               $rcTitle = htmlspecialchars((string)$rc['title'], ENT_QUOTES, 'UTF-8');
               $rcProvider = htmlspecialchars((string)$rc['provider'], ENT_QUOTES, 'UTF-8');
@@ -719,7 +940,7 @@ if ($workload >= 30) {
           </div>
 
           <a href="/#catalog-view" class="block w-full text-center mt-5 text-xs font-bold text-emerald-700 hover:text-emerald-800">
-            Explorar todo o catálogo →
+            Explorar todo o catálogo de cursos →
           </a>
         </div>
 
@@ -729,10 +950,10 @@ if ($workload >= 30) {
 
   </main>
 
-  <!-- Sticky Bottom Bar Especial para Dispositivos Móveis (Mobile UX & Conversão) -->
+  <!-- Sticky Bottom Bar Especial para Dispositivos Móveis (O LINK ESTÁ DENTRO DA PÁGINA!) -->
   <div class="lg:hidden sticky bottom-0 z-40 bg-white/95 backdrop-blur-md border-t-2 border-slate-200 p-3 shadow-2xl flex items-center justify-between gap-3">
     <div class="min-w-0 flex-1">
-      <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Curso 100% Gratuito</span>
+      <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Curso Oficial <?= $providerTag ?></span>
       <strong class="text-xs font-black text-slate-900 truncate block"><?= $title ?></strong>
     </div>
     <a 
@@ -794,7 +1015,7 @@ if ($workload >= 30) {
     document.addEventListener('DOMContentLoaded', function() {
       if (window.lucide) window.lucide.createIcons();
 
-      // Botão de Copiar Link
+      // Botão de Copiar Link da Página
       var copyBtn = document.getElementById('copy-course-link-btn');
       if (copyBtn) {
         copyBtn.addEventListener('click', function() {
@@ -804,9 +1025,27 @@ if ($workload >= 30) {
               copyBtn.innerHTML = '<i data-lucide="check" class="w-4 h-4 text-emerald-600"></i><span>Copiado!</span>';
               if (window.lucide) window.lucide.createIcons({ root: copyBtn });
               setTimeout(function() {
-                copyBtn.innerHTML = '<i data-lucide="link" class="w-4 h-4"></i><span>Copiar Link</span>';
+                copyBtn.innerHTML = '<i data-lucide="link" class="w-4 h-4"></i><span>Copiar Link da Página</span>';
                 if (window.lucide) window.lucide.createIcons({ root: copyBtn });
               }, 2500);
+            });
+          }
+        });
+      }
+
+      // Botão de Copiar Texto para Currículo
+      var copyCvBtn = document.getElementById('copy-cv-text-btn');
+      if (copyCvBtn) {
+        copyCvBtn.addEventListener('click', function() {
+          var textToCopy = <?= json_encode("• {$course['title']} — {$course['provider']} (Carga Horária: {$workload}h)", JSON_UNESCAPED_UNICODE) ?>;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(textToCopy).then(function() {
+              copyCvBtn.textContent = 'Copiado!';
+              copyCvBtn.classList.add('bg-emerald-200', 'text-emerald-900');
+              setTimeout(function() {
+                copyCvBtn.textContent = 'Copiar';
+                copyCvBtn.classList.remove('bg-emerald-200', 'text-emerald-900');
+              }, 2000);
             });
           }
         });

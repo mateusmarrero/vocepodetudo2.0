@@ -109,6 +109,7 @@ async function deploy() {
       { local: 'api/resumes.php', remote: 'api/resumes.php' },
       { local: 'api/cache_generated_resumes.json', remote: 'api/cache_generated_resumes.json' },
       { local: 'api/cache_courses.json', remote: 'api/cache_courses.json' },
+      { local: 'api/cache_course_details.json', remote: 'api/cache_course_details.json' },
       { local: 'api/seed_courses.json', remote: 'api/seed_courses.json' },
       { local: 'api/student.php', remote: 'api/student.php' },
       { local: 'api/admin_students.php', remote: 'api/admin_students.php' },

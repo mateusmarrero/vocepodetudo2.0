@@ -113,7 +113,23 @@ if ($course && empty($course['imageUrl'])) {
 
 // Imagem padrão defensiva
 $defaultImage = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80';
-$coverImage = !empty($course['imageUrl']) ? $course['imageUrl'] : $defaultImage;
+$rawCoverImage = !empty($course['imageUrl']) ? trim((string)$course['imageUrl']) : '';
+if (!empty($rawCoverImage)) {
+    if (preg_match('#^https?://#i', $rawCoverImage)) {
+        $coverImage = $rawCoverImage;
+        if (strpos($coverImage, 'images.unsplash.com') !== false) {
+            $baseUnsplash = explode('?', $coverImage)[0];
+            $coverImage = $baseUnsplash . '?w=1200&h=630&auto=format&fit=crop&q=85';
+        }
+    } else {
+        $cleanPath = ltrim($rawCoverImage, './');
+        $coverImage = 'https://vocepodetudo.com/' . $cleanPath;
+    }
+} else {
+    $coverImage = $defaultImage;
+}
+$imageExt = strtolower(pathinfo(parse_url($coverImage, PHP_URL_PATH) ?? '', PATHINFO_EXTENSION));
+$imageMimeType = ($imageExt === 'png') ? 'image/png' : (($imageExt === 'webp') ? 'image/webp' : 'image/jpeg');
 
 // Se o curso não existe, retornar 404 amigável
 if (!$course) {
@@ -294,8 +310,10 @@ foreach ($faqs as $faqItem) {
   <meta property="og:title" content="<?= $title ?> — Curso Gratuito Online | <?= $provider ?>">
   <meta property="og:description" content="<?= $description ?> Carga horária: <?= $workload ?>h. 100% gratuito e com certificado oficial!">
   <meta property="og:image" content="<?= htmlspecialchars($coverImage, ENT_QUOTES, 'UTF-8') ?>">
+  <meta property="og:image:secure_url" content="<?= htmlspecialchars($coverImage, ENT_QUOTES, 'UTF-8') ?>">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="<?= $imageMimeType ?>">
   <meta property="og:image:alt" content="Capa do curso <?= $title ?>">
 
   <!-- Twitter Cards -->

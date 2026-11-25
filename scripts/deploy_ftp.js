@@ -88,6 +88,7 @@ async function deploy() {
       { local: 'assets/icon-512.png', remote: 'assets/icon-512.png' },
       { local: 'assets/logo.png', remote: 'assets/logo.png' },
       { local: 'assets/logo-icon.png', remote: 'assets/logo-icon.png' },
+      { local: 'assets/og-banner.jpg', remote: 'assets/og-banner.jpg' },
       { local: 'assets/mascote.png', remote: 'assets/mascote.png' },
       { local: 'src/app.js', remote: 'src/app.js' },
       { local: 'src/admin.js', remote: 'src/admin.js' },

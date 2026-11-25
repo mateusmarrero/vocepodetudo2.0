@@ -847,11 +847,11 @@ foreach ($faqs as $faqItem) {
 
       </div>
 
-      <!-- Coluna Lateral Direita (Card de Acesso Oficial Fixo & Cursos Relacionados) -->
-      <div class="lg:col-span-4 space-y-6">
+      <!-- Coluna Lateral Direita (Card de Acesso Oficial Fixo) -->
+      <div class="lg:col-span-4">
         
         <!-- Card Fixo de Inscrição Oficial (O LINK ESTÁ DENTRO DA PÁGINA!) -->
-        <div class="sticky top-24 bg-white rounded-3xl p-6 sm:p-7 border-2 border-emerald-500/60 shadow-xl shadow-emerald-900/10">
+        <div class="sticky top-24 z-20 bg-white rounded-3xl p-6 sm:p-7 border-2 border-emerald-500/60 shadow-xl shadow-emerald-900/10">
           
           <div class="mb-4">
             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-black uppercase tracking-wider bg-emerald-50 text-[#00702a] border border-emerald-200 mb-2">
@@ -905,46 +905,70 @@ foreach ($faqs as $faqItem) {
           </div>
         </div>
 
-        <!-- Cursos Relacionados da Mesma Categoria -->
-        <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs">
-          <h2 class="text-base font-black text-slate-900 mb-4 flex items-center gap-2">
-            <i data-lucide="sparkles" class="w-4 h-4 text-[#009639]"></i>
-            <span>Cursos Relacionados Recomendados</span>
-          </h2>
+      </div>
 
-          <div class="space-y-3.5">
-            <?php foreach ($relatedCourses as $rc): 
-              $rcTitle = htmlspecialchars((string)$rc['title'], ENT_QUOTES, 'UTF-8');
-              $rcProvider = htmlspecialchars((string)$rc['provider'], ENT_QUOTES, 'UTF-8');
-              $rcImg = htmlspecialchars((string)($rc['imageUrl'] ?? $defaultImage), ENT_QUOTES, 'UTF-8');
-              $rcUrl = '/curso/' . htmlspecialchars((string)$rc['id'], ENT_QUOTES, 'UTF-8');
-              $rcHours = (int)($rc['workloadHours'] ?? 20);
-            ?>
-              <a href="<?= $rcUrl ?>" class="group block border border-slate-200 hover:border-[#009639] rounded-2xl p-3 transition-all bg-slate-50/50 hover:bg-white hover:shadow-sm">
-                <div class="flex items-center gap-3">
-                  <div class="w-16 h-16 rounded-xl overflow-hidden bg-slate-200 flex-shrink-0 relative">
-                    <img src="<?= $rcImg ?>" alt="<?= $rcTitle ?>" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=200&q=80';">
-                  </div>
-                  <div class="flex-1 min-w-0">
-                    <span class="text-[10px] font-bold text-slate-500 uppercase block truncate"><?= $rcProvider ?></span>
-                    <h3 class="font-bold text-xs text-slate-900 group-hover:text-[#009639] transition-colors line-clamp-2 leading-snug">
-                      <?= $rcTitle ?>
-                    </h3>
-                    <span class="text-[11px] font-semibold text-emerald-700 flex items-center gap-1 mt-1">
-                      <i data-lucide="clock" class="w-3 h-3"></i> <?= $rcHours ?>h • Grátis
-                    </span>
-                  </div>
-                </div>
-              </a>
-            <?php endforeach; ?>
+    </div>
+
+    <!-- Cursos Relacionados da Mesma Categoria em Grade de Destaque -->
+    <?php if (!empty($relatedCourses)): ?>
+      <section class="mt-12 pt-10 border-t border-slate-200" aria-label="Cursos Relacionados Recomendados">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-50 text-[#00702a] border border-emerald-200 mb-1.5">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#009639]"></i>
+              Outras Oportunidades Gratuitas
+            </span>
+            <h2 class="text-xl sm:text-2xl font-black text-slate-900">
+              Cursos Relacionados Recomendados
+            </h2>
           </div>
-
-          <a href="/#catalog-view" class="block w-full text-center mt-5 text-xs font-bold text-emerald-700 hover:text-emerald-800">
-            Explorar todo o catálogo de cursos →
+          <a href="/#catalog-view" class="text-xs sm:text-sm font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-1">
+            <span>Ver todo o catálogo</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
         </div>
 
-      </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <?php foreach ($relatedCourses as $rc): 
+            $rcTitle = htmlspecialchars((string)$rc['title'], ENT_QUOTES, 'UTF-8');
+            $rcProvider = htmlspecialchars((string)$rc['provider'], ENT_QUOTES, 'UTF-8');
+            $rcImg = htmlspecialchars((string)($rc['imageUrl'] ?? $defaultImage), ENT_QUOTES, 'UTF-8');
+            $rcUrl = '/curso/' . htmlspecialchars((string)$rc['id'], ENT_QUOTES, 'UTF-8');
+            $rcHours = (int)($rc['workloadHours'] ?? 20);
+          ?>
+            <article class="bg-white rounded-2xl border border-slate-200 hover:border-[#009639] p-4 transition-all hover:shadow-lg flex flex-col justify-between group">
+              <div>
+                <a href="<?= $rcUrl ?>" class="block relative w-full aspect-video rounded-xl overflow-hidden bg-slate-100 mb-3 border border-slate-200">
+                  <img src="<?= $rcImg ?>" alt="<?= $rcTitle ?>" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80';">
+                  <div class="absolute top-2 left-2">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-black bg-white/95 text-slate-800 border border-slate-200 shadow-xs">
+                      <?= $rcProvider ?>
+                    </span>
+                  </div>
+                  <div class="absolute bottom-2 right-2">
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-slate-900/80 text-white backdrop-blur-xs">
+                      <i data-lucide="clock" class="w-3 h-3 text-emerald-400"></i> <?= $rcHours ?>h
+                    </span>
+                  </div>
+                </a>
+                <h3 class="font-bold text-sm text-slate-900 group-hover:text-[#009639] transition-colors line-clamp-2 leading-snug mb-2">
+                  <a href="<?= $rcUrl ?>">
+                    <?= $rcTitle ?>
+                  </a>
+                </h3>
+              </div>
+              <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-2 mt-2">
+                <span class="text-xs font-black text-[#00702a]">100% Gratuito</span>
+                <a href="<?= $rcUrl ?>" class="inline-flex items-center gap-1 text-xs font-black text-emerald-700 hover:text-emerald-900">
+                  <span>Ver Curso</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </a>
+              </div>
+            </article>
+          <?php endforeach; ?>
+        </div>
+      </section>
+    <?php endif; ?>
 
     </div>
 

@@ -628,14 +628,12 @@
               <div class="flex items-center justify-between gap-2 text-[11px] text-slate-500">
                 <span class="truncate font-semibold text-slate-600">${safeProvider}</span>
                 <a 
-                  href="${safeUrl}" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                  href="/curso/${encodeURIComponent(course.id || '')}" 
                   class="font-bold text-[#009639] hover:underline flex items-center gap-1 flex-shrink-0"
-                  aria-label="Abrir aula do curso ${safeTitle} (abre em nova aba com segurança)"
+                  aria-label="Ver página e ementa do curso ${safeTitle}"
                 >
-                  <span>Abrir Aula</span>
-                  <i data-lucide="external-link" class="w-3 h-3"></i>
+                  <span>Ver Curso</span>
+                  <i data-lucide="arrow-right" class="w-3 h-3"></i>
                 </a>
               </div>
             </div>
@@ -2323,17 +2321,15 @@ function renderCourses(resetPagination = true) {
 
             <div class="flex items-center gap-2 w-full md:w-auto flex-shrink-0 justify-end">
               <a 
-                href="${escapeHTML(course.url)}"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/curso/${encodeURIComponent(course.id)}"
                 class="w-full md:w-auto px-5 py-2.5 rounded-xl font-black text-xs sm:text-sm bg-[#009639] hover:bg-[#00702a] text-white transition-all shadow-sm flex items-center justify-center gap-2"
                 data-course-id="${escapeHTML(course.id)}"
                 data-course-title="${escapeHTML(course.title)}"
                 data-course-provider="${escapeHTML(course.provider)}"
                 data-course-category="${escapeHTML(course.category || 'Geral')}"
               >
-                <span>Acessar Curso Oficial</span>
-                <i data-lucide="external-link" class="w-4 h-4"></i>
+                <span>Ver Curso Completo</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
               </a>
             </div>
           </div>
@@ -2383,15 +2379,13 @@ function renderCourses(resetPagination = true) {
             <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
               <span class="font-bold text-[#009639]">${c.workloadHours}h • 100% Grátis</span>
               <a 
-                href="${escapeHTML(c.url)}" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+                href="/curso/${encodeURIComponent(c.id)}" 
                 class="font-black text-[#002776] hover:underline flex items-center gap-1"
                 data-course-id="${escapeHTML(c.id)}"
                 data-course-title="${escapeHTML(c.title)}"
                 data-course-provider="${escapeHTML(c.provider)}"
               >
-                <span>Acessar</span>
+                <span>Ver Curso</span>
                 <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
               </a>
             </div>
@@ -3449,13 +3443,11 @@ function renderCourses(resetPagination = true) {
           <h4 class="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">${escapeHTML(c.title)}</h4>
         </div>
         <a 
-          href="${sanitizeUrl(c.url)}" 
-          target="_blank" 
-          rel="noopener noreferrer" 
+          href="/curso/${encodeURIComponent(c.id)}" 
           class="flex-shrink-0 px-2.5 py-1.5 rounded-lg bg-[#009639] hover:bg-[#00702a] text-white text-[11px] font-bold flex items-center gap-1 shadow-2xs transition-colors"
-          title="Continuar estudando este curso"
+          title="Ver página e detalhes deste curso"
         >
-          <span>Continuar</span>
+          <span>Ver Curso</span>
           <i data-lucide="arrow-right" class="w-3 h-3"></i>
         </a>
       </div>

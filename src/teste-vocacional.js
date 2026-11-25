@@ -274,7 +274,7 @@
     if (trackStepsEl && res.stepCourses) {
       trackStepsEl.innerHTML = res.stepCourses.map(step => {
         const course = step.course;
-        const link = course ? `index.html?c=${course.id}` : 'index.html';
+        const link = course ? `/curso/${encodeURIComponent(course.id)}` : '/#catalog-view';
         const providerName = course ? course.provider : 'Portal Você Pode Tudo';
 
         return `
@@ -296,11 +296,10 @@
 
             <a 
               href="${link}" 
-              target="_blank" 
               class="px-4 py-2 rounded-xl bg-[#002776] hover:bg-emerald-600 text-white text-xs font-black transition-all flex items-center justify-center gap-1.5 flex-shrink-0 shadow-2xs"
             >
-              <span>Acessar Curso</span>
-              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+              <span>Ver Curso Completo</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </a>
           </div>
         `;

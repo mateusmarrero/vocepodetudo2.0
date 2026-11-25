@@ -56,6 +56,12 @@ const PROVIDER_INFO = {
     description: 'Plataforma internacional de ensino superior que conecta estudantes às melhores universidades e indústrias do planeta, permitindo assistir aulas gratuitamente no Modo Ouvinte.',
     badge: 'Rede Universitária Global',
     website: 'https://www.coursera.org'
+  },
+  'fiap': {
+    name: 'FIAP ON — Nano Courses',
+    description: 'A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.',
+    badge: 'Centro de Excelência em Tecnologia e Negócios',
+    website: 'https://on.fiap.com.br/nano-courses/'
   }
 };
 

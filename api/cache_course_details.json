@@ -23618,5 +23618,2365 @@
         "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de Sebrae, onde poderá criar sua conta gratuita e começar imediatamente."
       }
     ]
+  },
+  "fiap-on-big-data-analytics": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Fundamentos de Análise de Dados e Inteligência Artificial",
+        "description": "Conceitos essenciais de dados brutos versus dados estruturados, ciclo de vida dos dados e panorama das soluções de IA.",
+        "topics": [
+          "Tipos de dados e métricas de negócio",
+          "Diferença entre análise preditiva e descritiva",
+          "Ética e responsabilidade no uso de IA"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Extração, Limpeza e Tratamento de Bases (ETL)",
+        "description": "Importação de dados de planilhas e bancos relacionais, remoção de duplicatas, tratamento de valores nulos e padronização.",
+        "topics": [
+          "Conexão com fontes de dados",
+          "Transformação e enriquecimento de bases",
+          "Tratamento de outliers e inconsistências"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Modelagem, Consultas e Cálculos Estratégicos",
+        "description": "Relacionamento entre tabelas, criação de métricas de negócio (KPIs), consultas estruturadas e formulações analíticas.",
+        "topics": [
+          "Modelagem dimensional",
+          "Consultas estruturadas e filtros lógicos",
+          "Criação de indicadores-chave de desempenho"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Visualização de Dados, Dashboards e Tomada de Decisão",
+        "description": "Construção de painéis interativos, contação de histórias com dados (Data Storytelling) e geração de relatórios executivos.",
+        "topics": [
+          "Escolha correta dos tipos de gráficos",
+          "Design visual de relatórios corporativos",
+          "Apresentação de insights para tomadores de decisão"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Transformar dados brutos em relatórios gerenciais claros e impactantes",
+      "Construir dashboards dinâmicos para acompanhamento de metas da empresa",
+      "Utilizar ferramentas de IA para aumentar a produtividade analítica",
+      "Destacar-se para posições disputadas em Business Intelligence e Análise de Dados"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Médio em andamento ou completo",
+    "targetAudience": "Analistas, assistentes administrativos, estudantes de TI, gestores e profissionais que trabalham com métricas e relatórios.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 120,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• Big Data & Analytics (Nano Course) — FIAP ON (120h)",
+      "atsKeywords": [
+        "Big Data & Analytics (Nano Course)",
+        "FIAP ON",
+        "Tecnologia",
+        "120h",
+        "Certificado Oficial",
+        "Big Data",
+        "Analytics"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em Big Data & Analytics (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"Big Data & Analytics (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 120 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-blockchain-advanced": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Lógica Computacional e Fundamentos da Linguagem",
+        "description": "Variáveis, tipos de dados primitivos, estruturas condicionais (if/else), laços de repetição (for/while) e resolução algorítmica.",
+        "topics": [
+          "Configuração do ambiente e IDE (VS Code)",
+          "Tipos de dados, operadores e variáveis",
+          "Estruturas lógicas de controle de fluxo"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Funções, Modularização e Estruturas de Dados",
+        "description": "Criação de funções reutilizáveis, escopo, coleções (arrays, listas, dicionários/objetos) e manipulação eficiente de dados.",
+        "topics": [
+          "Declaração de funções e parâmetros",
+          "Manipulação de listas e matrizes",
+          "Tratamento de exceções e erros comuns"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Programação Orientada a Objetos e Boas Práticas",
+        "description": "Classes, objetos, encapsulamento, herança, modularização e princípios de código limpo (Clean Code).",
+        "topics": [
+          "Modelagem orientada a objetos",
+          "Organização de arquivos e módulos",
+          "Padrões de nomenclatura e legibilidade"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Projeto Prático, Integração e Versionamento com Git",
+        "description": "Desenvolvimento de uma aplicação real do zero, versionamento com Git/GitHub e publicação de projeto para portfólio.",
+        "topics": [
+          "Comandos essenciais do Git (commit, push, branch)",
+          "Construção do projeto prático final",
+          "Documentação em README profissional"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Escrever código funcional, limpo e estruturado para solucionar problemas reais",
+      "Construir projetos completos para publicar no GitHub pessoal",
+      "Dominar a sintaxe fundamental da tecnologia e ferramentas do mercado",
+      "Preparar-se para vagas júnior, estágios de TI e desafios técnicos"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Fundamental II ou Médio em andamento",
+    "targetAudience": "Iniciantes em tecnologia, estudantes de computação, profissionais em transição de carreira e desenvolvedores em busca de reciclagem.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 100,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• Blockchain Advanced (Nano Course) — FIAP ON (100h)",
+      "atsKeywords": [
+        "Blockchain Advanced (Nano Course)",
+        "FIAP ON",
+        "Tecnologia",
+        "100h",
+        "Certificado Oficial",
+        "Blockchain",
+        "Smart Contracts"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em Blockchain Advanced (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"Blockchain Advanced (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 100 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-business-intelligence": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Fundamentos de Análise de Dados e Inteligência Artificial",
+        "description": "Conceitos essenciais de dados brutos versus dados estruturados, ciclo de vida dos dados e panorama das soluções de IA.",
+        "topics": [
+          "Tipos de dados e métricas de negócio",
+          "Diferença entre análise preditiva e descritiva",
+          "Ética e responsabilidade no uso de IA"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Extração, Limpeza e Tratamento de Bases (ETL)",
+        "description": "Importação de dados de planilhas e bancos relacionais, remoção de duplicatas, tratamento de valores nulos e padronização.",
+        "topics": [
+          "Conexão com fontes de dados",
+          "Transformação e enriquecimento de bases",
+          "Tratamento de outliers e inconsistências"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Modelagem, Consultas e Cálculos Estratégicos",
+        "description": "Relacionamento entre tabelas, criação de métricas de negócio (KPIs), consultas estruturadas e formulações analíticas.",
+        "topics": [
+          "Modelagem dimensional",
+          "Consultas estruturadas e filtros lógicos",
+          "Criação de indicadores-chave de desempenho"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Visualização de Dados, Dashboards e Tomada de Decisão",
+        "description": "Construção de painéis interativos, contação de histórias com dados (Data Storytelling) e geração de relatórios executivos.",
+        "topics": [
+          "Escolha correta dos tipos de gráficos",
+          "Design visual de relatórios corporativos",
+          "Apresentação de insights para tomadores de decisão"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Transformar dados brutos em relatórios gerenciais claros e impactantes",
+      "Construir dashboards dinâmicos para acompanhamento de metas da empresa",
+      "Utilizar ferramentas de IA para aumentar a produtividade analítica",
+      "Destacar-se para posições disputadas em Business Intelligence e Análise de Dados"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Médio em andamento ou completo",
+    "targetAudience": "Analistas, assistentes administrativos, estudantes de TI, gestores e profissionais que trabalham com métricas e relatórios.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 40,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• Business Intelligence (Nano Course) — FIAP ON (40h)",
+      "atsKeywords": [
+        "Business Intelligence (Nano Course)",
+        "FIAP ON",
+        "Gestão",
+        "40h",
+        "Certificado Oficial",
+        "Business Intelligence",
+        "BI"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em Business Intelligence (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"Business Intelligence (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 40 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-cloud-computing-data-science": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Fundamentos de Análise de Dados e Inteligência Artificial",
+        "description": "Conceitos essenciais de dados brutos versus dados estruturados, ciclo de vida dos dados e panorama das soluções de IA.",
+        "topics": [
+          "Tipos de dados e métricas de negócio",
+          "Diferença entre análise preditiva e descritiva",
+          "Ética e responsabilidade no uso de IA"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Extração, Limpeza e Tratamento de Bases (ETL)",
+        "description": "Importação de dados de planilhas e bancos relacionais, remoção de duplicatas, tratamento de valores nulos e padronização.",
+        "topics": [
+          "Conexão com fontes de dados",
+          "Transformação e enriquecimento de bases",
+          "Tratamento de outliers e inconsistências"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Modelagem, Consultas e Cálculos Estratégicos",
+        "description": "Relacionamento entre tabelas, criação de métricas de negócio (KPIs), consultas estruturadas e formulações analíticas.",
+        "topics": [
+          "Modelagem dimensional",
+          "Consultas estruturadas e filtros lógicos",
+          "Criação de indicadores-chave de desempenho"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Visualização de Dados, Dashboards e Tomada de Decisão",
+        "description": "Construção de painéis interativos, contação de histórias com dados (Data Storytelling) e geração de relatórios executivos.",
+        "topics": [
+          "Escolha correta dos tipos de gráficos",
+          "Design visual de relatórios corporativos",
+          "Apresentação de insights para tomadores de decisão"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Transformar dados brutos em relatórios gerenciais claros e impactantes",
+      "Construir dashboards dinâmicos para acompanhamento de metas da empresa",
+      "Utilizar ferramentas de IA para aumentar a produtividade analítica",
+      "Destacar-se para posições disputadas em Business Intelligence e Análise de Dados"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Médio em andamento ou completo",
+    "targetAudience": "Analistas, assistentes administrativos, estudantes de TI, gestores e profissionais que trabalham com métricas e relatórios.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 40,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• Cloud Computing & Data Science (Nano Course) — FIAP ON (40h)",
+      "atsKeywords": [
+        "Cloud Computing & Data Science (Nano Course)",
+        "FIAP ON",
+        "Tecnologia",
+        "40h",
+        "Certificado Oficial",
+        "Cloud Computing",
+        "Data Science"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em Cloud Computing & Data Science (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"Cloud Computing & Data Science (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 40 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-cybersecurity": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Lógica Computacional e Fundamentos da Linguagem",
+        "description": "Variáveis, tipos de dados primitivos, estruturas condicionais (if/else), laços de repetição (for/while) e resolução algorítmica.",
+        "topics": [
+          "Configuração do ambiente e IDE (VS Code)",
+          "Tipos de dados, operadores e variáveis",
+          "Estruturas lógicas de controle de fluxo"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Funções, Modularização e Estruturas de Dados",
+        "description": "Criação de funções reutilizáveis, escopo, coleções (arrays, listas, dicionários/objetos) e manipulação eficiente de dados.",
+        "topics": [
+          "Declaração de funções e parâmetros",
+          "Manipulação de listas e matrizes",
+          "Tratamento de exceções e erros comuns"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Programação Orientada a Objetos e Boas Práticas",
+        "description": "Classes, objetos, encapsulamento, herança, modularização e princípios de código limpo (Clean Code).",
+        "topics": [
+          "Modelagem orientada a objetos",
+          "Organização de arquivos e módulos",
+          "Padrões de nomenclatura e legibilidade"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Projeto Prático, Integração e Versionamento com Git",
+        "description": "Desenvolvimento de uma aplicação real do zero, versionamento com Git/GitHub e publicação de projeto para portfólio.",
+        "topics": [
+          "Comandos essenciais do Git (commit, push, branch)",
+          "Construção do projeto prático final",
+          "Documentação em README profissional"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Escrever código funcional, limpo e estruturado para solucionar problemas reais",
+      "Construir projetos completos para publicar no GitHub pessoal",
+      "Dominar a sintaxe fundamental da tecnologia e ferramentas do mercado",
+      "Preparar-se para vagas júnior, estágios de TI e desafios técnicos"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Fundamental II ou Médio em andamento",
+    "targetAudience": "Iniciantes em tecnologia, estudantes de computação, profissionais em transição de carreira e desenvolvedores em busca de reciclagem.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 40,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• Cybersecurity (Nano Course) — FIAP ON (40h)",
+      "atsKeywords": [
+        "Cybersecurity (Nano Course)",
+        "FIAP ON",
+        "Tecnologia",
+        "40h",
+        "Certificado Oficial",
+        "Cybersecurity",
+        "Segurança Digital"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em Cybersecurity (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"Cybersecurity (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 40 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-customer-experience-management": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Fundamentos de Análise de Dados e Inteligência Artificial",
+        "description": "Conceitos essenciais de dados brutos versus dados estruturados, ciclo de vida dos dados e panorama das soluções de IA.",
+        "topics": [
+          "Tipos de dados e métricas de negócio",
+          "Diferença entre análise preditiva e descritiva",
+          "Ética e responsabilidade no uso de IA"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Extração, Limpeza e Tratamento de Bases (ETL)",
+        "description": "Importação de dados de planilhas e bancos relacionais, remoção de duplicatas, tratamento de valores nulos e padronização.",
+        "topics": [
+          "Conexão com fontes de dados",
+          "Transformação e enriquecimento de bases",
+          "Tratamento de outliers e inconsistências"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Modelagem, Consultas e Cálculos Estratégicos",
+        "description": "Relacionamento entre tabelas, criação de métricas de negócio (KPIs), consultas estruturadas e formulações analíticas.",
+        "topics": [
+          "Modelagem dimensional",
+          "Consultas estruturadas e filtros lógicos",
+          "Criação de indicadores-chave de desempenho"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Visualização de Dados, Dashboards e Tomada de Decisão",
+        "description": "Construção de painéis interativos, contação de histórias com dados (Data Storytelling) e geração de relatórios executivos.",
+        "topics": [
+          "Escolha correta dos tipos de gráficos",
+          "Design visual de relatórios corporativos",
+          "Apresentação de insights para tomadores de decisão"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Transformar dados brutos em relatórios gerenciais claros e impactantes",
+      "Construir dashboards dinâmicos para acompanhamento de metas da empresa",
+      "Utilizar ferramentas de IA para aumentar a produtividade analítica",
+      "Destacar-se para posições disputadas em Business Intelligence e Análise de Dados"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Médio em andamento ou completo",
+    "targetAudience": "Analistas, assistentes administrativos, estudantes de TI, gestores e profissionais que trabalham com métricas e relatórios.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 40,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• Customer Experience Management (Nano Course) — FIAP ON (40h)",
+      "atsKeywords": [
+        "Customer Experience Management (Nano Course)",
+        "FIAP ON",
+        "Gestão",
+        "40h",
+        "Certificado Oficial",
+        "Customer Experience",
+        "CX"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em Customer Experience Management (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"Customer Experience Management (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 40 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-design-grafico": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Lógica Computacional e Fundamentos da Linguagem",
+        "description": "Variáveis, tipos de dados primitivos, estruturas condicionais (if/else), laços de repetição (for/while) e resolução algorítmica.",
+        "topics": [
+          "Configuração do ambiente e IDE (VS Code)",
+          "Tipos de dados, operadores e variáveis",
+          "Estruturas lógicas de controle de fluxo"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Funções, Modularização e Estruturas de Dados",
+        "description": "Criação de funções reutilizáveis, escopo, coleções (arrays, listas, dicionários/objetos) e manipulação eficiente de dados.",
+        "topics": [
+          "Declaração de funções e parâmetros",
+          "Manipulação de listas e matrizes",
+          "Tratamento de exceções e erros comuns"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Programação Orientada a Objetos e Boas Práticas",
+        "description": "Classes, objetos, encapsulamento, herança, modularização e princípios de código limpo (Clean Code).",
+        "topics": [
+          "Modelagem orientada a objetos",
+          "Organização de arquivos e módulos",
+          "Padrões de nomenclatura e legibilidade"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Projeto Prático, Integração e Versionamento com Git",
+        "description": "Desenvolvimento de uma aplicação real do zero, versionamento com Git/GitHub e publicação de projeto para portfólio.",
+        "topics": [
+          "Comandos essenciais do Git (commit, push, branch)",
+          "Construção do projeto prático final",
+          "Documentação em README profissional"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Escrever código funcional, limpo e estruturado para solucionar problemas reais",
+      "Construir projetos completos para publicar no GitHub pessoal",
+      "Dominar a sintaxe fundamental da tecnologia e ferramentas do mercado",
+      "Preparar-se para vagas júnior, estágios de TI e desafios técnicos"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Fundamental II ou Médio em andamento",
+    "targetAudience": "Iniciantes em tecnologia, estudantes de computação, profissionais em transição de carreira e desenvolvedores em busca de reciclagem.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 40,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• Design Gráfico (Nano Course) — FIAP ON (40h)",
+      "atsKeywords": [
+        "Design Gráfico (Nano Course)",
+        "FIAP ON",
+        "Artes",
+        "40h",
+        "Certificado Oficial",
+        "Design Gráfico",
+        "Identidade Visual"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em Design Gráfico (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"Design Gráfico (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 40 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-design-thinking": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Fundamentos de Análise de Dados e Inteligência Artificial",
+        "description": "Conceitos essenciais de dados brutos versus dados estruturados, ciclo de vida dos dados e panorama das soluções de IA.",
+        "topics": [
+          "Tipos de dados e métricas de negócio",
+          "Diferença entre análise preditiva e descritiva",
+          "Ética e responsabilidade no uso de IA"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Extração, Limpeza e Tratamento de Bases (ETL)",
+        "description": "Importação de dados de planilhas e bancos relacionais, remoção de duplicatas, tratamento de valores nulos e padronização.",
+        "topics": [
+          "Conexão com fontes de dados",
+          "Transformação e enriquecimento de bases",
+          "Tratamento de outliers e inconsistências"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Modelagem, Consultas e Cálculos Estratégicos",
+        "description": "Relacionamento entre tabelas, criação de métricas de negócio (KPIs), consultas estruturadas e formulações analíticas.",
+        "topics": [
+          "Modelagem dimensional",
+          "Consultas estruturadas e filtros lógicos",
+          "Criação de indicadores-chave de desempenho"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Visualização de Dados, Dashboards e Tomada de Decisão",
+        "description": "Construção de painéis interativos, contação de histórias com dados (Data Storytelling) e geração de relatórios executivos.",
+        "topics": [
+          "Escolha correta dos tipos de gráficos",
+          "Design visual de relatórios corporativos",
+          "Apresentação de insights para tomadores de decisão"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Transformar dados brutos em relatórios gerenciais claros e impactantes",
+      "Construir dashboards dinâmicos para acompanhamento de metas da empresa",
+      "Utilizar ferramentas de IA para aumentar a produtividade analítica",
+      "Destacar-se para posições disputadas em Business Intelligence e Análise de Dados"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Médio em andamento ou completo",
+    "targetAudience": "Analistas, assistentes administrativos, estudantes de TI, gestores e profissionais que trabalham com métricas e relatórios.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 40,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• Design Thinking (Nano Course) — FIAP ON (40h)",
+      "atsKeywords": [
+        "Design Thinking (Nano Course)",
+        "FIAP ON",
+        "Gestão",
+        "40h",
+        "Certificado Oficial",
+        "Design Thinking",
+        "Inovação"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em Design Thinking (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"Design Thinking (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 40 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-devops-agile-culture": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Lógica Computacional e Fundamentos da Linguagem",
+        "description": "Variáveis, tipos de dados primitivos, estruturas condicionais (if/else), laços de repetição (for/while) e resolução algorítmica.",
+        "topics": [
+          "Configuração do ambiente e IDE (VS Code)",
+          "Tipos de dados, operadores e variáveis",
+          "Estruturas lógicas de controle de fluxo"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Funções, Modularização e Estruturas de Dados",
+        "description": "Criação de funções reutilizáveis, escopo, coleções (arrays, listas, dicionários/objetos) e manipulação eficiente de dados.",
+        "topics": [
+          "Declaração de funções e parâmetros",
+          "Manipulação de listas e matrizes",
+          "Tratamento de exceções e erros comuns"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Programação Orientada a Objetos e Boas Práticas",
+        "description": "Classes, objetos, encapsulamento, herança, modularização e princípios de código limpo (Clean Code).",
+        "topics": [
+          "Modelagem orientada a objetos",
+          "Organização de arquivos e módulos",
+          "Padrões de nomenclatura e legibilidade"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Projeto Prático, Integração e Versionamento com Git",
+        "description": "Desenvolvimento de uma aplicação real do zero, versionamento com Git/GitHub e publicação de projeto para portfólio.",
+        "topics": [
+          "Comandos essenciais do Git (commit, push, branch)",
+          "Construção do projeto prático final",
+          "Documentação em README profissional"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Escrever código funcional, limpo e estruturado para solucionar problemas reais",
+      "Construir projetos completos para publicar no GitHub pessoal",
+      "Dominar a sintaxe fundamental da tecnologia e ferramentas do mercado",
+      "Preparar-se para vagas júnior, estágios de TI e desafios técnicos"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Fundamental II ou Médio em andamento",
+    "targetAudience": "Iniciantes em tecnologia, estudantes de computação, profissionais em transição de carreira e desenvolvedores em busca de reciclagem.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 60,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• DevOps & Agile Culture (Nano Course) — FIAP ON (60h)",
+      "atsKeywords": [
+        "DevOps & Agile Culture (Nano Course)",
+        "FIAP ON",
+        "Tecnologia",
+        "60h",
+        "Certificado Oficial",
+        "DevOps",
+        "Agile"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em DevOps & Agile Culture (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"DevOps & Agile Culture (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 60 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-gestao-infraestrutura-ti": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Fundamentos de Análise de Dados e Inteligência Artificial",
+        "description": "Conceitos essenciais de dados brutos versus dados estruturados, ciclo de vida dos dados e panorama das soluções de IA.",
+        "topics": [
+          "Tipos de dados e métricas de negócio",
+          "Diferença entre análise preditiva e descritiva",
+          "Ética e responsabilidade no uso de IA"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Extração, Limpeza e Tratamento de Bases (ETL)",
+        "description": "Importação de dados de planilhas e bancos relacionais, remoção de duplicatas, tratamento de valores nulos e padronização.",
+        "topics": [
+          "Conexão com fontes de dados",
+          "Transformação e enriquecimento de bases",
+          "Tratamento de outliers e inconsistências"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Modelagem, Consultas e Cálculos Estratégicos",
+        "description": "Relacionamento entre tabelas, criação de métricas de negócio (KPIs), consultas estruturadas e formulações analíticas.",
+        "topics": [
+          "Modelagem dimensional",
+          "Consultas estruturadas e filtros lógicos",
+          "Criação de indicadores-chave de desempenho"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Visualização de Dados, Dashboards e Tomada de Decisão",
+        "description": "Construção de painéis interativos, contação de histórias com dados (Data Storytelling) e geração de relatórios executivos.",
+        "topics": [
+          "Escolha correta dos tipos de gráficos",
+          "Design visual de relatórios corporativos",
+          "Apresentação de insights para tomadores de decisão"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Transformar dados brutos em relatórios gerenciais claros e impactantes",
+      "Construir dashboards dinâmicos para acompanhamento de metas da empresa",
+      "Utilizar ferramentas de IA para aumentar a produtividade analítica",
+      "Destacar-se para posições disputadas em Business Intelligence e Análise de Dados"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Médio em andamento ou completo",
+    "targetAudience": "Analistas, assistentes administrativos, estudantes de TI, gestores e profissionais que trabalham com métricas e relatórios.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 20,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• Gestão de Infraestrutura de TI (Nano Course) — FIAP ON (20h)",
+      "atsKeywords": [
+        "Gestão de Infraestrutura de TI (Nano Course)",
+        "FIAP ON",
+        "Tecnologia",
+        "20h",
+        "Certificado Oficial",
+        "Infraestrutura",
+        "TI"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em Gestão de Infraestrutura de TI (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"Gestão de Infraestrutura de TI (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 20 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-gestao-financeira-empresas": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Fundamentos de Análise de Dados e Inteligência Artificial",
+        "description": "Conceitos essenciais de dados brutos versus dados estruturados, ciclo de vida dos dados e panorama das soluções de IA.",
+        "topics": [
+          "Tipos de dados e métricas de negócio",
+          "Diferença entre análise preditiva e descritiva",
+          "Ética e responsabilidade no uso de IA"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Extração, Limpeza e Tratamento de Bases (ETL)",
+        "description": "Importação de dados de planilhas e bancos relacionais, remoção de duplicatas, tratamento de valores nulos e padronização.",
+        "topics": [
+          "Conexão com fontes de dados",
+          "Transformação e enriquecimento de bases",
+          "Tratamento de outliers e inconsistências"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Modelagem, Consultas e Cálculos Estratégicos",
+        "description": "Relacionamento entre tabelas, criação de métricas de negócio (KPIs), consultas estruturadas e formulações analíticas.",
+        "topics": [
+          "Modelagem dimensional",
+          "Consultas estruturadas e filtros lógicos",
+          "Criação de indicadores-chave de desempenho"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Visualização de Dados, Dashboards e Tomada de Decisão",
+        "description": "Construção de painéis interativos, contação de histórias com dados (Data Storytelling) e geração de relatórios executivos.",
+        "topics": [
+          "Escolha correta dos tipos de gráficos",
+          "Design visual de relatórios corporativos",
+          "Apresentação de insights para tomadores de decisão"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Transformar dados brutos em relatórios gerenciais claros e impactantes",
+      "Construir dashboards dinâmicos para acompanhamento de metas da empresa",
+      "Utilizar ferramentas de IA para aumentar a produtividade analítica",
+      "Destacar-se para posições disputadas em Business Intelligence e Análise de Dados"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Médio em andamento ou completo",
+    "targetAudience": "Analistas, assistentes administrativos, estudantes de TI, gestores e profissionais que trabalham com métricas e relatórios.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 40,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• Gestão Financeira de Empresas (Nano Course) — FIAP ON (40h)",
+      "atsKeywords": [
+        "Gestão Financeira de Empresas (Nano Course)",
+        "FIAP ON",
+        "Finanças",
+        "40h",
+        "Certificado Oficial",
+        "Gestão Financeira",
+        "Fluxo de Caixa"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em Gestão Financeira de Empresas (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"Gestão Financeira de Empresas (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 40 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-inteligencia-artificial-computacional": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Lógica Computacional e Fundamentos da Linguagem",
+        "description": "Variáveis, tipos de dados primitivos, estruturas condicionais (if/else), laços de repetição (for/while) e resolução algorítmica.",
+        "topics": [
+          "Configuração do ambiente e IDE (VS Code)",
+          "Tipos de dados, operadores e variáveis",
+          "Estruturas lógicas de controle de fluxo"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Funções, Modularização e Estruturas de Dados",
+        "description": "Criação de funções reutilizáveis, escopo, coleções (arrays, listas, dicionários/objetos) e manipulação eficiente de dados.",
+        "topics": [
+          "Declaração de funções e parâmetros",
+          "Manipulação de listas e matrizes",
+          "Tratamento de exceções e erros comuns"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Programação Orientada a Objetos e Boas Práticas",
+        "description": "Classes, objetos, encapsulamento, herança, modularização e princípios de código limpo (Clean Code).",
+        "topics": [
+          "Modelagem orientada a objetos",
+          "Organização de arquivos e módulos",
+          "Padrões de nomenclatura e legibilidade"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Projeto Prático, Integração e Versionamento com Git",
+        "description": "Desenvolvimento de uma aplicação real do zero, versionamento com Git/GitHub e publicação de projeto para portfólio.",
+        "topics": [
+          "Comandos essenciais do Git (commit, push, branch)",
+          "Construção do projeto prático final",
+          "Documentação em README profissional"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Escrever código funcional, limpo e estruturado para solucionar problemas reais",
+      "Construir projetos completos para publicar no GitHub pessoal",
+      "Dominar a sintaxe fundamental da tecnologia e ferramentas do mercado",
+      "Preparar-se para vagas júnior, estágios de TI e desafios técnicos"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Fundamental II ou Médio em andamento",
+    "targetAudience": "Iniciantes em tecnologia, estudantes de computação, profissionais em transição de carreira e desenvolvedores em busca de reciclagem.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 40,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• Inteligência Artificial e Computacional (Nano Course) — FIAP ON (40h)",
+      "atsKeywords": [
+        "Inteligência Artificial e Computacional (Nano Course)",
+        "FIAP ON",
+        "Tecnologia",
+        "40h",
+        "Certificado Oficial",
+        "Inteligência Artificial",
+        "Machine Learning"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em Inteligência Artificial e Computacional (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"Inteligência Artificial e Computacional (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 40 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-leadership-communication": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Fundamentos de Análise de Dados e Inteligência Artificial",
+        "description": "Conceitos essenciais de dados brutos versus dados estruturados, ciclo de vida dos dados e panorama das soluções de IA.",
+        "topics": [
+          "Tipos de dados e métricas de negócio",
+          "Diferença entre análise preditiva e descritiva",
+          "Ética e responsabilidade no uso de IA"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Extração, Limpeza e Tratamento de Bases (ETL)",
+        "description": "Importação de dados de planilhas e bancos relacionais, remoção de duplicatas, tratamento de valores nulos e padronização.",
+        "topics": [
+          "Conexão com fontes de dados",
+          "Transformação e enriquecimento de bases",
+          "Tratamento de outliers e inconsistências"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Modelagem, Consultas e Cálculos Estratégicos",
+        "description": "Relacionamento entre tabelas, criação de métricas de negócio (KPIs), consultas estruturadas e formulações analíticas.",
+        "topics": [
+          "Modelagem dimensional",
+          "Consultas estruturadas e filtros lógicos",
+          "Criação de indicadores-chave de desempenho"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Visualização de Dados, Dashboards e Tomada de Decisão",
+        "description": "Construção de painéis interativos, contação de histórias com dados (Data Storytelling) e geração de relatórios executivos.",
+        "topics": [
+          "Escolha correta dos tipos de gráficos",
+          "Design visual de relatórios corporativos",
+          "Apresentação de insights para tomadores de decisão"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Transformar dados brutos em relatórios gerenciais claros e impactantes",
+      "Construir dashboards dinâmicos para acompanhamento de metas da empresa",
+      "Utilizar ferramentas de IA para aumentar a produtividade analítica",
+      "Destacar-se para posições disputadas em Business Intelligence e Análise de Dados"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Médio em andamento ou completo",
+    "targetAudience": "Analistas, assistentes administrativos, estudantes de TI, gestores e profissionais que trabalham com métricas e relatórios.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 60,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• Leadership Communication (Nano Course) — FIAP ON (60h)",
+      "atsKeywords": [
+        "Leadership Communication (Nano Course)",
+        "FIAP ON",
+        "Gestão",
+        "60h",
+        "Certificado Oficial",
+        "Liderança",
+        "Comunicação"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em Leadership Communication (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"Leadership Communication (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 60 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-linux-fundamentos": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Fundamentos de Análise de Dados e Inteligência Artificial",
+        "description": "Conceitos essenciais de dados brutos versus dados estruturados, ciclo de vida dos dados e panorama das soluções de IA.",
+        "topics": [
+          "Tipos de dados e métricas de negócio",
+          "Diferença entre análise preditiva e descritiva",
+          "Ética e responsabilidade no uso de IA"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Extração, Limpeza e Tratamento de Bases (ETL)",
+        "description": "Importação de dados de planilhas e bancos relacionais, remoção de duplicatas, tratamento de valores nulos e padronização.",
+        "topics": [
+          "Conexão com fontes de dados",
+          "Transformação e enriquecimento de bases",
+          "Tratamento de outliers e inconsistências"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Modelagem, Consultas e Cálculos Estratégicos",
+        "description": "Relacionamento entre tabelas, criação de métricas de negócio (KPIs), consultas estruturadas e formulações analíticas.",
+        "topics": [
+          "Modelagem dimensional",
+          "Consultas estruturadas e filtros lógicos",
+          "Criação de indicadores-chave de desempenho"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Visualização de Dados, Dashboards e Tomada de Decisão",
+        "description": "Construção de painéis interativos, contação de histórias com dados (Data Storytelling) e geração de relatórios executivos.",
+        "topics": [
+          "Escolha correta dos tipos de gráficos",
+          "Design visual de relatórios corporativos",
+          "Apresentação de insights para tomadores de decisão"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Transformar dados brutos em relatórios gerenciais claros e impactantes",
+      "Construir dashboards dinâmicos para acompanhamento de metas da empresa",
+      "Utilizar ferramentas de IA para aumentar a produtividade analítica",
+      "Destacar-se para posições disputadas em Business Intelligence e Análise de Dados"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Médio em andamento ou completo",
+    "targetAudience": "Analistas, assistentes administrativos, estudantes de TI, gestores e profissionais que trabalham com métricas e relatórios.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 40,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• Linux Fundamentos (Nano Course) — FIAP ON (40h)",
+      "atsKeywords": [
+        "Linux Fundamentos (Nano Course)",
+        "FIAP ON",
+        "Tecnologia",
+        "40h",
+        "Certificado Oficial",
+        "Linux",
+        "Servidores"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em Linux Fundamentos (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"Linux Fundamentos (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 40 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-java-fundamentos": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Lógica Computacional e Fundamentos da Linguagem",
+        "description": "Variáveis, tipos de dados primitivos, estruturas condicionais (if/else), laços de repetição (for/while) e resolução algorítmica.",
+        "topics": [
+          "Configuração do ambiente e IDE (VS Code)",
+          "Tipos de dados, operadores e variáveis",
+          "Estruturas lógicas de controle de fluxo"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Funções, Modularização e Estruturas de Dados",
+        "description": "Criação de funções reutilizáveis, escopo, coleções (arrays, listas, dicionários/objetos) e manipulação eficiente de dados.",
+        "topics": [
+          "Declaração de funções e parâmetros",
+          "Manipulação de listas e matrizes",
+          "Tratamento de exceções e erros comuns"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Programação Orientada a Objetos e Boas Práticas",
+        "description": "Classes, objetos, encapsulamento, herança, modularização e princípios de código limpo (Clean Code).",
+        "topics": [
+          "Modelagem orientada a objetos",
+          "Organização de arquivos e módulos",
+          "Padrões de nomenclatura e legibilidade"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Projeto Prático, Integração e Versionamento com Git",
+        "description": "Desenvolvimento de uma aplicação real do zero, versionamento com Git/GitHub e publicação de projeto para portfólio.",
+        "topics": [
+          "Comandos essenciais do Git (commit, push, branch)",
+          "Construção do projeto prático final",
+          "Documentação em README profissional"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Escrever código funcional, limpo e estruturado para solucionar problemas reais",
+      "Construir projetos completos para publicar no GitHub pessoal",
+      "Dominar a sintaxe fundamental da tecnologia e ferramentas do mercado",
+      "Preparar-se para vagas júnior, estágios de TI e desafios técnicos"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Fundamental II ou Médio em andamento",
+    "targetAudience": "Iniciantes em tecnologia, estudantes de computação, profissionais em transição de carreira e desenvolvedores em busca de reciclagem.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 80,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• Java Fundamentos (Nano Course) — FIAP ON (80h)",
+      "atsKeywords": [
+        "Java Fundamentos (Nano Course)",
+        "FIAP ON",
+        "Tecnologia",
+        "80h",
+        "Certificado Oficial",
+        "Java",
+        "Programação"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em Java Fundamentos (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"Java Fundamentos (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 80 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-marketing-social-media": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Lógica Computacional e Fundamentos da Linguagem",
+        "description": "Variáveis, tipos de dados primitivos, estruturas condicionais (if/else), laços de repetição (for/while) e resolução algorítmica.",
+        "topics": [
+          "Configuração do ambiente e IDE (VS Code)",
+          "Tipos de dados, operadores e variáveis",
+          "Estruturas lógicas de controle de fluxo"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Funções, Modularização e Estruturas de Dados",
+        "description": "Criação de funções reutilizáveis, escopo, coleções (arrays, listas, dicionários/objetos) e manipulação eficiente de dados.",
+        "topics": [
+          "Declaração de funções e parâmetros",
+          "Manipulação de listas e matrizes",
+          "Tratamento de exceções e erros comuns"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Programação Orientada a Objetos e Boas Práticas",
+        "description": "Classes, objetos, encapsulamento, herança, modularização e princípios de código limpo (Clean Code).",
+        "topics": [
+          "Modelagem orientada a objetos",
+          "Organização de arquivos e módulos",
+          "Padrões de nomenclatura e legibilidade"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Projeto Prático, Integração e Versionamento com Git",
+        "description": "Desenvolvimento de uma aplicação real do zero, versionamento com Git/GitHub e publicação de projeto para portfólio.",
+        "topics": [
+          "Comandos essenciais do Git (commit, push, branch)",
+          "Construção do projeto prático final",
+          "Documentação em README profissional"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Escrever código funcional, limpo e estruturado para solucionar problemas reais",
+      "Construir projetos completos para publicar no GitHub pessoal",
+      "Dominar a sintaxe fundamental da tecnologia e ferramentas do mercado",
+      "Preparar-se para vagas júnior, estágios de TI e desafios técnicos"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Fundamental II ou Médio em andamento",
+    "targetAudience": "Iniciantes em tecnologia, estudantes de computação, profissionais em transição de carreira e desenvolvedores em busca de reciclagem.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 40,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• Marketing em Plataformas de Social Media (Nano Course) — FIAP ON (40h)",
+      "atsKeywords": [
+        "Marketing em Plataformas de Social Media (Nano Course)",
+        "FIAP ON",
+        "Empreendedorismo",
+        "40h",
+        "Certificado Oficial",
+        "Social Media",
+        "Marketing Digital"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em Marketing em Plataformas de Social Media (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"Marketing em Plataformas de Social Media (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 40 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-mobile-marketing": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Lógica Computacional e Fundamentos da Linguagem",
+        "description": "Variáveis, tipos de dados primitivos, estruturas condicionais (if/else), laços de repetição (for/while) e resolução algorítmica.",
+        "topics": [
+          "Configuração do ambiente e IDE (VS Code)",
+          "Tipos de dados, operadores e variáveis",
+          "Estruturas lógicas de controle de fluxo"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Funções, Modularização e Estruturas de Dados",
+        "description": "Criação de funções reutilizáveis, escopo, coleções (arrays, listas, dicionários/objetos) e manipulação eficiente de dados.",
+        "topics": [
+          "Declaração de funções e parâmetros",
+          "Manipulação de listas e matrizes",
+          "Tratamento de exceções e erros comuns"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Programação Orientada a Objetos e Boas Práticas",
+        "description": "Classes, objetos, encapsulamento, herança, modularização e princípios de código limpo (Clean Code).",
+        "topics": [
+          "Modelagem orientada a objetos",
+          "Organização de arquivos e módulos",
+          "Padrões de nomenclatura e legibilidade"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Projeto Prático, Integração e Versionamento com Git",
+        "description": "Desenvolvimento de uma aplicação real do zero, versionamento com Git/GitHub e publicação de projeto para portfólio.",
+        "topics": [
+          "Comandos essenciais do Git (commit, push, branch)",
+          "Construção do projeto prático final",
+          "Documentação em README profissional"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Escrever código funcional, limpo e estruturado para solucionar problemas reais",
+      "Construir projetos completos para publicar no GitHub pessoal",
+      "Dominar a sintaxe fundamental da tecnologia e ferramentas do mercado",
+      "Preparar-se para vagas júnior, estágios de TI e desafios técnicos"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Fundamental II ou Médio em andamento",
+    "targetAudience": "Iniciantes em tecnologia, estudantes de computação, profissionais em transição de carreira e desenvolvedores em busca de reciclagem.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 40,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• Mobile Marketing (Nano Course) — FIAP ON (40h)",
+      "atsKeywords": [
+        "Mobile Marketing (Nano Course)",
+        "FIAP ON",
+        "Empreendedorismo",
+        "40h",
+        "Certificado Oficial",
+        "Mobile Marketing",
+        "Marketing Digital"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em Mobile Marketing (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"Mobile Marketing (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 40 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-python": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Lógica Computacional e Fundamentos da Linguagem",
+        "description": "Variáveis, tipos de dados primitivos, estruturas condicionais (if/else), laços de repetição (for/while) e resolução algorítmica.",
+        "topics": [
+          "Configuração do ambiente e IDE (VS Code)",
+          "Tipos de dados, operadores e variáveis",
+          "Estruturas lógicas de controle de fluxo"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Funções, Modularização e Estruturas de Dados",
+        "description": "Criação de funções reutilizáveis, escopo, coleções (arrays, listas, dicionários/objetos) e manipulação eficiente de dados.",
+        "topics": [
+          "Declaração de funções e parâmetros",
+          "Manipulação de listas e matrizes",
+          "Tratamento de exceções e erros comuns"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Programação Orientada a Objetos e Boas Práticas",
+        "description": "Classes, objetos, encapsulamento, herança, modularização e princípios de código limpo (Clean Code).",
+        "topics": [
+          "Modelagem orientada a objetos",
+          "Organização de arquivos e módulos",
+          "Padrões de nomenclatura e legibilidade"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Projeto Prático, Integração e Versionamento com Git",
+        "description": "Desenvolvimento de uma aplicação real do zero, versionamento com Git/GitHub e publicação de projeto para portfólio.",
+        "topics": [
+          "Comandos essenciais do Git (commit, push, branch)",
+          "Construção do projeto prático final",
+          "Documentação em README profissional"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Escrever código funcional, limpo e estruturado para solucionar problemas reais",
+      "Construir projetos completos para publicar no GitHub pessoal",
+      "Dominar a sintaxe fundamental da tecnologia e ferramentas do mercado",
+      "Preparar-se para vagas júnior, estágios de TI e desafios técnicos"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Fundamental II ou Médio em andamento",
+    "targetAudience": "Iniciantes em tecnologia, estudantes de computação, profissionais em transição de carreira e desenvolvedores em busca de reciclagem.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 80,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• Python (Nano Course) — FIAP ON (80h)",
+      "atsKeywords": [
+        "Python (Nano Course)",
+        "FIAP ON",
+        "Tecnologia",
+        "80h",
+        "Certificado Oficial",
+        "Python",
+        "Programação"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em Python (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"Python (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 80 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-solucoes-tecnologicas-emergentes": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Lógica Computacional e Fundamentos da Linguagem",
+        "description": "Variáveis, tipos de dados primitivos, estruturas condicionais (if/else), laços de repetição (for/while) e resolução algorítmica.",
+        "topics": [
+          "Configuração do ambiente e IDE (VS Code)",
+          "Tipos de dados, operadores e variáveis",
+          "Estruturas lógicas de controle de fluxo"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Funções, Modularização e Estruturas de Dados",
+        "description": "Criação de funções reutilizáveis, escopo, coleções (arrays, listas, dicionários/objetos) e manipulação eficiente de dados.",
+        "topics": [
+          "Declaração de funções e parâmetros",
+          "Manipulação de listas e matrizes",
+          "Tratamento de exceções e erros comuns"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Programação Orientada a Objetos e Boas Práticas",
+        "description": "Classes, objetos, encapsulamento, herança, modularização e princípios de código limpo (Clean Code).",
+        "topics": [
+          "Modelagem orientada a objetos",
+          "Organização de arquivos e módulos",
+          "Padrões de nomenclatura e legibilidade"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Projeto Prático, Integração e Versionamento com Git",
+        "description": "Desenvolvimento de uma aplicação real do zero, versionamento com Git/GitHub e publicação de projeto para portfólio.",
+        "topics": [
+          "Comandos essenciais do Git (commit, push, branch)",
+          "Construção do projeto prático final",
+          "Documentação em README profissional"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Escrever código funcional, limpo e estruturado para solucionar problemas reais",
+      "Construir projetos completos para publicar no GitHub pessoal",
+      "Dominar a sintaxe fundamental da tecnologia e ferramentas do mercado",
+      "Preparar-se para vagas júnior, estágios de TI e desafios técnicos"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Fundamental II ou Médio em andamento",
+    "targetAudience": "Iniciantes em tecnologia, estudantes de computação, profissionais em transição de carreira e desenvolvedores em busca de reciclagem.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 40,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• Soluções Tecnológicas Emergentes (Nano Course) — FIAP ON (40h)",
+      "atsKeywords": [
+        "Soluções Tecnológicas Emergentes (Nano Course)",
+        "FIAP ON",
+        "Tecnologia",
+        "40h",
+        "Certificado Oficial",
+        "Inovação",
+        "IoT"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em Soluções Tecnológicas Emergentes (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"Soluções Tecnológicas Emergentes (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 40 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
+  },
+  "fiap-on-user-experience-ux": {
+    "syllabus": [
+      {
+        "number": 1,
+        "title": "Lógica Computacional e Fundamentos da Linguagem",
+        "description": "Variáveis, tipos de dados primitivos, estruturas condicionais (if/else), laços de repetição (for/while) e resolução algorítmica.",
+        "topics": [
+          "Configuração do ambiente e IDE (VS Code)",
+          "Tipos de dados, operadores e variáveis",
+          "Estruturas lógicas de controle de fluxo"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Funções, Modularização e Estruturas de Dados",
+        "description": "Criação de funções reutilizáveis, escopo, coleções (arrays, listas, dicionários/objetos) e manipulação eficiente de dados.",
+        "topics": [
+          "Declaração de funções e parâmetros",
+          "Manipulação de listas e matrizes",
+          "Tratamento de exceções e erros comuns"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Programação Orientada a Objetos e Boas Práticas",
+        "description": "Classes, objetos, encapsulamento, herança, modularização e princípios de código limpo (Clean Code).",
+        "topics": [
+          "Modelagem orientada a objetos",
+          "Organização de arquivos e módulos",
+          "Padrões de nomenclatura e legibilidade"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Projeto Prático, Integração e Versionamento com Git",
+        "description": "Desenvolvimento de uma aplicação real do zero, versionamento com Git/GitHub e publicação de projeto para portfólio.",
+        "topics": [
+          "Comandos essenciais do Git (commit, push, branch)",
+          "Construção do projeto prático final",
+          "Documentação em README profissional"
+        ]
+      }
+    ],
+    "learningOutcomes": [
+      "Escrever código funcional, limpo e estruturado para solucionar problemas reais",
+      "Construir projetos completos para publicar no GitHub pessoal",
+      "Dominar a sintaxe fundamental da tecnologia e ferramentas do mercado",
+      "Preparar-se para vagas júnior, estágios de TI e desafios técnicos"
+    ],
+    "passingScore": "60%",
+    "minEducation": "Ensino Fundamental II ou Médio em andamento",
+    "targetAudience": "Iniciantes em tecnologia, estudantes de computação, profissionais em transição de carreira e desenvolvedores em busca de reciclagem.",
+    "methodology": {
+      "modality": "100% Online, Gratuito e Autoinstrucional (MOOC)",
+      "schedule": "Estude no seu próprio ritmo, sem horários fixos de aula e com acesso 24 horas por dia.",
+      "learningResources": [
+        "Videoaulas didáticas e explicativas",
+        "Material didático complementar em PDF para leitura e download",
+        "Questionários práticos de autoavaliação ao longo dos módulos",
+        "Estudos de casos e exemplos práticos voltados ao mercado"
+      ],
+      "assessment": "Avaliação final online com questões objetivas de múltipla escolha sobre o conteúdo estudado.",
+      "passingScorePercent": 70,
+      "passingScoreDescription": "Aproveitamento mínimo de 70% para aprovação e liberação imediata do certificado.",
+      "attempts": "Múltiplas tentativas permitidas com correção imediata para reforço e fixação do aprendizado."
+    },
+    "certification": {
+      "isFree": true,
+      "title": "Certificado Digital Oficial em PDF",
+      "issuer": "FIAP ON",
+      "hours": 40,
+      "howToIssue": "Após concluir os módulos e atingir nota igual ou superior a 70%, o certificado em PDF é gerado e disponibilizado para download imediato na própria plataforma oficial do curso.",
+      "authenticityCode": "Contém código de autenticação eletrônica (hash verificador) e/ou QR Code público no verso para conferência instantânea de validade por empresas e faculdades.",
+      "legalValidity": "Emitido oficialmente por FIAP ON, respaldado pela legislação brasileira de Cursos Livres de Capacitação e Aperfeiçoamento Profissional (Lei nº 9.394/96 e Decreto nº 5.154/04).",
+      "complementaryHours": "Totalmente válido como Atividades Curriculares Complementares (ACC / Horas Complementares) em faculdades, universidades e cursos técnicos em todo o Brasil, além de prova de títulos em concursos públicos (conforme as regras de cada edital)."
+    },
+    "resumeTips": {
+      "formattedText": "• User Experience (UX) (Nano Course) — FIAP ON (40h)",
+      "atsKeywords": [
+        "User Experience (UX) (Nano Course)",
+        "FIAP ON",
+        "Artes",
+        "40h",
+        "Certificado Oficial",
+        "UX Design",
+        "Usabilidade"
+      ],
+      "interviewTip": "Destaque a aplicação prática dos conceitos aprendidos em User Experience (UX) (Nano Course) e como a metodologia de FIAP ON auxiliou na organização do seu raciocínio profissional."
+    },
+    "providerProfile": {
+      "name": "FIAP ON — Nano Courses",
+      "description": "A FIAP (Faculdade de Informática e Administração Paulista) é um dos centros de excelência mais respeitados do Brasil em tecnologia, negócios e inovação, oferecendo sua trilha oficial de Nano Courses gratuitos online com certificação.",
+      "badge": "Centro de Excelência em Tecnologia e Negócios",
+      "website": "https://on.fiap.com.br/nano-courses/"
+    },
+    "faqs": [
+      {
+        "q": "O curso \"User Experience (UX) (Nano Course)\" é realmente gratuito?",
+        "a": "Sim! O acesso a todas as videoaulas, textos e materiais do curso ofertado por FIAP ON é 100% gratuito. Não há cobrança de taxa de matrícula nem mensalidade."
+      },
+      {
+        "q": "Como funciona o certificado deste curso?",
+        "a": "Ao concluir todas as aulas e alcançar a nota mínima exigida (60% ou superior na avaliação online), você recebe o Certificado Digital Oficial em PDF emitido por FIAP ON, com código de validação eletrônica e QR Code sem pagar nada."
+      },
+      {
+        "q": "O certificado é válido para horas complementares na faculdade?",
+        "a": "Sim! Os cursos livres estão amparados pela Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/96). As 40 horas comprovadas no certificado oficial podem ser apresentadas para cômputo de Atividades Complementares (AACCs) em faculdades, universidades e cursos técnicos em todo o Brasil."
+      },
+      {
+        "q": "Preciso de computador ou posso estudar pelo celular?",
+        "a": "Você pode estudar normalmente pelo seu smartphone (Android ou iPhone), tablet ou computador. A plataforma de aulas é responsiva e flexível para você estudar em qualquer lugar e no horário que preferir."
+      },
+      {
+        "q": "Como faço para acessar as aulas e iniciar o curso?",
+        "a": "Basta clicar no botão \"Acessar Curso no Site Oficial\" presente nesta página. Você será encaminhado com segurança para o ambiente oficial de FIAP ON, onde poderá criar sua conta gratuita e começar imediatamente."
+      }
+    ]
   }
 }

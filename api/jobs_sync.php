@@ -59,9 +59,7 @@ if ($isCli) {
 if (!$isAuthorized) {
     if (ob_get_length()) ob_clean();
     http_response_code(401);
-    if (ob_get_length()) ob_clean();
-
-echo json_encode([
+    echo json_encode([
         'success' => false,
         'error' => 'Acesso não autorizado para sincronização de vagas.',
         'hint' => 'Forneça o Bearer Token do administrador ou utilize o parâmetro cron_key.'
@@ -285,6 +283,12 @@ if (!empty($newImported)) {
 }
 
 if (ob_get_length()) ob_clean();
+
+$isSilent = (($_GET['silent'] ?? $_POST['silent'] ?? '') === '1');
+if ($isSilent) {
+    http_response_code(200);
+    exit;
+}
 
 echo json_encode([
     'success' => true,

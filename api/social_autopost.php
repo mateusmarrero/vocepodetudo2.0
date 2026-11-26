@@ -220,6 +220,7 @@ function buildPostContent(array $course, string $periodOverride = ''): array {
         . "{$desc}\n\n"
         . "👉 Acesse a ementa completa e o link oficial de inscrição aqui:\n"
         . "{$courseUrl}\n\n"
+        . "📲 Acompanhe o hub oficial: @hub.vocepodetudo\n\n"
         . "#CursosGratuitos #CapacitacaoProfissional #Emprego #Curriculo #VocePodeTudo #{$catTag}";
 
     return [

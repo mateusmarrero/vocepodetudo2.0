@@ -3044,6 +3044,11 @@
           </div>
         </div>
 
+        <!-- Alerta de Vencimento de Tokens Sociais (60 dias) -->
+        <div id="social-token-expiry-alert" class="hidden rounded-2xl border-2 border-amber-400 bg-amber-50 p-4 text-xs text-amber-950 font-bold flex items-center justify-between gap-3">
+          <span id="social-token-expiry-text"></span>
+        </div>
+
         <!-- Prévia da Postagem Sorteada -->
         <div id="social-preview-box" class="hidden bg-white rounded-2xl border-2 border-emerald-300 p-5 shadow-sm space-y-3">
           <div class="flex items-center justify-between border-b border-slate-100 pb-2">
@@ -3163,6 +3168,31 @@
       <!-- ABA 6: SEGURANÇA, DIAGNÓSTICO & ALTERAR SENHA            -->
       <!-- ======================================================== -->
       <section id="section-system" class="admin-tab-section hidden space-y-6">
+        <!-- Verificador Automático de Links dos Cursos -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+            <div>
+              <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
+                <i data-lucide="link-2" class="w-4 h-4 text-[#009639]"></i>
+                <span>Verificador Automático de Links dos Cursos (227 Cursos)</span>
+              </h3>
+              <p class="text-xs text-slate-500 mt-0.5">Testa as URLs oficiais externas de todos os cursos ativos para detectar páginas fora do ar (404/Timeout).</p>
+            </div>
+            <button type="button" id="run-link-checker-btn" class="px-4 py-2.5 rounded-xl font-black text-xs bg-[#002776] hover:bg-blue-900 text-white shadow-sm transition-all cursor-pointer flex-shrink-0">
+              Verificar Links Agora
+            </button>
+          </div>
+          <div id="link-checker-summary" class="text-xs font-bold text-slate-600">Clique em "Verificar Links Agora" ou confira o último relatório salvo.</div>
+          <div id="link-checker-broken-list" class="hidden overflow-x-auto max-h-64 overflow-y-auto border border-slate-200 rounded-xl">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-slate-500 font-black uppercase text-[10px]">
+                <tr><th class="py-2 px-3">Curso</th><th class="py-2 px-3">Instituição</th><th class="py-2 px-3">Erro</th><th class="py-2 px-3">URL</th></tr>
+              </thead>
+              <tbody id="link-checker-broken-tbody" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           
           <!-- Card de Alteração de Senha Segura -->
@@ -5655,7 +5685,7 @@ Sitemap: https://vocepodetudo.com/sitemap.xml</pre>
 
   <!-- SCRIPT CENTRAL DA ADMINISTRAÇÃO (com Cache-Busting v=4.38.0) -->
   <script src="./src/data/courses.js?v=4.83.0"></script>
-  <script src="./src/admin.js?v=4.99.0"></script>
+  <script src="./src/admin.js?v=5.00.0"></script>
   <script>
     // Garantir que a área administrativa não seja afetada por Service Worker
     if ('serviceWorker' in navigator) {

@@ -86,7 +86,8 @@ async function main() {
   // Priorizar cursos em destaque (featured) e mais recentes
   const prioritized = [
     ...active.filter(c => c.featured),
-    ...active.filter(c => !c.featured)
+    ...active.filter(c => !c.featured && (c.id.startsWith('fiap-on-') || c.id.startsWith('evg-'))),
+    ...active.filter(c => !c.featured && !c.id.startsWith('fiap-on-') && !c.id.startsWith('evg-'))
   ].slice(0, limit);
 
   const fontBold = 'C\\:/Windows/Fonts/segoeuib.ttf';

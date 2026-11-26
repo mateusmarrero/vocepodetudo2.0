@@ -586,6 +586,23 @@ if ($action === 'check_video_caps') {
 if ($action === 'get_config') {
     $cfg = getSocialConfig($configFile);
     $history = loadSocialHistory($historyFile);
+    $fallbackDate = (string)($cfg['updated_at'] ?? date('c'));
+    $calcExpiry = function (array $netCfg) use ($fallbackDate): array {
+        $hasTok = !empty($netCfg['access_token']);
+        if (!$hasTok) return ['days_remaining' => null, 'expires_at' => null];
+        $updatedAt = (string)($netCfg['token_updated_at'] ?? $fallbackDate);
+        $ts = strtotime($updatedAt) ?: time();
+        $expTs = $ts + (60 * 86400);
+        $daysLeft = (int)floor(($expTs - time()) / 86400);
+        return [
+            'days_remaining' => max(0, $daysLeft),
+            'expires_at' => date('Y-m-d', $expTs)
+        ];
+    };
+    $fbExp = $calcExpiry($cfg['facebook'] ?? []);
+    $igExp = $calcExpiry($cfg['instagram'] ?? []);
+    $liExp = $calcExpiry($cfg['linkedin'] ?? []);
+
     echo json_encode([
         'success' => true,
         'config' => [
@@ -593,19 +610,25 @@ if ($action === 'get_config') {
                 'enabled' => !empty($cfg['facebook']['enabled']),
                 'page_id' => $cfg['facebook']['page_id'] ?? '',
                 'has_token' => !empty($cfg['facebook']['access_token']),
-                'token_masked' => maskSecret($cfg['facebook']['access_token'] ?? '')
+                'token_masked' => maskSecret($cfg['facebook']['access_token'] ?? ''),
+                'days_remaining' => $fbExp['days_remaining'],
+                'expires_at' => $fbExp['expires_at']
             ],
             'instagram' => [
                 'enabled' => !empty($cfg['instagram']['enabled']),
                 'ig_user_id' => $cfg['instagram']['ig_user_id'] ?? '',
                 'has_token' => !empty($cfg['instagram']['access_token']),
-                'token_masked' => maskSecret($cfg['instagram']['access_token'] ?? '')
+                'token_masked' => maskSecret($cfg['instagram']['access_token'] ?? ''),
+                'days_remaining' => $igExp['days_remaining'],
+                'expires_at' => $igExp['expires_at']
             ],
             'linkedin' => [
                 'enabled' => !empty($cfg['linkedin']['enabled']),
                 'author_urn' => $cfg['linkedin']['author_urn'] ?? '',
                 'has_token' => !empty($cfg['linkedin']['access_token']),
-                'token_masked' => maskSecret($cfg['linkedin']['access_token'] ?? '')
+                'token_masked' => maskSecret($cfg['linkedin']['access_token'] ?? ''),
+                'days_remaining' => $liExp['days_remaining'],
+                'expires_at' => $liExp['expires_at']
             ],
             'updated_at' => $cfg['updated_at'] ?? ''
         ],
@@ -628,6 +651,7 @@ if ($action === 'save_config') {
             $newTok = trim((string)($input[$net]['access_token'] ?? ''));
             if ($newTok !== '' && strpos($newTok, '****') === false) {
                 $current[$net]['access_token'] = $newTok;
+                $current[$net]['token_updated_at'] = date('c');
             }
         }
     }

@@ -550,6 +550,7 @@
       }
       if (tabId === 'tab-btn-announcement' || tabId === 'tab-btn-system') {
         loadAnnouncementData();
+        if (tabId === 'tab-btn-system' && typeof fetchLinkCheckerReport === 'function') fetchLinkCheckerReport();
       }
 
       if (window.lucide) window.lucide.createIcons();
@@ -7816,20 +7817,44 @@ document.addEventListener("DOMContentLoaded", () => { setupNewsletterBroadcastFe
       const setChk = (id, val) => { const el = document.getElementById(id); if (el) el.checked = !!val; };
       const setTxt = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt || ''; };
 
+      const formatExp = (n) => {
+        if (!n.has_token) return null;
+        if (n.days_remaining === null || n.days_remaining === undefined) return '';
+        return ` • ${n.days_remaining}d restantes (até ${n.expires_at})`;
+      };
+
       setChk('social-fb-enabled', fb.enabled);
       setVal('social-fb-page-id', fb.page_id);
       setVal('social-fb-token', '');
-      setTxt('social-fb-token-status', fb.has_token ? `Token salvo: ${fb.token_masked}` : 'Nenhum token salvo');
+      setTxt('social-fb-token-status', fb.has_token ? `Token salvo: ${fb.token_masked}${formatExp(fb)}` : 'Nenhum token salvo');
 
       setChk('social-ig-enabled', ig.enabled);
       setVal('social-ig-user-id', ig.ig_user_id);
       setVal('social-ig-token', '');
-      setTxt('social-ig-token-status', ig.has_token ? `Token salvo: ${ig.token_masked}` : 'Usará o token do Facebook se vazio');
+      setTxt('social-ig-token-status', ig.has_token ? `Token salvo: ${ig.token_masked}${formatExp(ig)}` : 'Usará o token do Facebook se vazio');
 
       setChk('social-li-enabled', li.enabled);
       setVal('social-li-urn', li.author_urn);
       setVal('social-li-token', '');
-      setTxt('social-li-token-status', li.has_token ? `Token salvo: ${li.token_masked}` : 'Nenhum token salvo');
+      setTxt('social-li-token-status', li.has_token ? `Token salvo: ${li.token_masked}${formatExp(li)}` : 'Nenhum token salvo');
+
+      // Alerta visual se alguma rede ativa estiver com token vencendo em <= 10 dias
+      const expAlert = document.getElementById('social-token-expiry-alert');
+      const expText = document.getElementById('social-token-expiry-text');
+      const warnings = [];
+      [['Facebook', fb], ['Instagram', ig], ['LinkedIn', li]].forEach(([name, obj]) => {
+        if (obj.enabled && obj.has_token && typeof obj.days_remaining === 'number' && obj.days_remaining <= 10) {
+          warnings.push(`${name}: ${obj.days_remaining} dia(s) restante(s) (vence em ${obj.expires_at})`);
+        }
+      });
+      if (expAlert && expText) {
+        if (warnings.length > 0) {
+          expText.textContent = `⚠️ Atenção — Renove em breve seus tokens para evitar interrupções: ${warnings.join(' | ')}`;
+          expAlert.classList.remove('hidden');
+        } else {
+          expAlert.classList.add('hidden');
+        }
+      }
 
       const tbody = document.getElementById('social-history-tbody');
       if (tbody) {
@@ -7961,6 +7986,77 @@ document.addEventListener("DOMContentLoaded", () => { setupNewsletterBroadcastFe
       } finally {
         socialTestBtn.disabled = false;
         socialTestBtn.textContent = 'Publicar Agora (Teste)';
+      }
+    });
+  }
+
+  // =========================================================================
+  // MÓDULO VERIFICADOR DE LINKS DOS CURSOS (LINK CHECKER)
+  // =========================================================================
+  function renderLinkCheckerReport(rep) {
+    const sumEl = document.getElementById('link-checker-summary');
+    const listWrap = document.getElementById('link-checker-broken-list');
+    const tbody = document.getElementById('link-checker-broken-tbody');
+    if (!sumEl) return;
+
+    if (!rep) {
+      sumEl.textContent = 'Nenhuma verificação executada ainda. Clique em "Verificar Links Agora".';
+      if (listWrap) listWrap.classList.add('hidden');
+      return;
+    }
+
+    let dt = rep.checked_at || '';
+    try { dt = new Date(rep.checked_at).toLocaleString('pt-BR'); } catch (e) {}
+    sumEl.innerHTML = `Última verificação: <strong>${socialEscapeHtml(dt)}</strong> • Total: <strong>${Number(rep.total_courses || 0)}</strong> cursos • <span class="text-emerald-700">${Number(rep.ok_courses || 0)} OK</span> • <span class="${rep.broken_count > 0 ? 'text-rose-600' : 'text-emerald-700'}">${Number(rep.broken_count || 0)} com erro</span>`;
+
+    if (listWrap && tbody) {
+      const broken = Array.isArray(rep.broken) ? rep.broken : [];
+      if (broken.length === 0) {
+        listWrap.classList.add('hidden');
+      } else {
+        tbody.innerHTML = broken.map(b => `
+          <tr>
+            <td class="py-2 px-3 font-bold text-slate-900">${socialEscapeHtml(b.title)}</td>
+            <td class="py-2 px-3 text-slate-600">${socialEscapeHtml(b.provider)}</td>
+            <td class="py-2 px-3 text-rose-600 font-black">${socialEscapeHtml(b.error)}</td>
+            <td class="py-2 px-3 text-blue-700 truncate max-w-[200px]"><a href="${socialEscapeHtml(b.url)}" target="_blank" rel="noopener noreferrer" class="hover:underline">${socialEscapeHtml(b.url)}</a></td>
+          </tr>
+        `).join('');
+        listWrap.classList.remove('hidden');
+      }
+    }
+  }
+
+  async function fetchLinkCheckerReport() {
+    try {
+      const res = await fetch(`${SOCIAL_API_BASE}/check_course_links.php?action=report&t=${Date.now()}`, {
+        headers: { 'Authorization': `Bearer ${getSocialAdminToken()}` }
+      });
+      const data = await res.json();
+      if (data && data.success) renderLinkCheckerReport(data.report);
+    } catch (e) {}
+  }
+  window.fetchLinkCheckerReport = fetchLinkCheckerReport;
+
+  const runLinkCheckerBtn = document.getElementById('run-link-checker-btn');
+  if (runLinkCheckerBtn) {
+    runLinkCheckerBtn.addEventListener('click', async () => {
+      runLinkCheckerBtn.disabled = true;
+      runLinkCheckerBtn.textContent = 'Verificando URLs...';
+      try {
+        const res = await fetch(`${SOCIAL_API_BASE}/check_course_links.php?action=run&t=${Date.now()}`, {
+          headers: { 'Authorization': `Bearer ${getSocialAdminToken()}` }
+        });
+        const data = await res.json();
+        if (data && data.success) {
+          renderLinkCheckerReport(data.report);
+          socialNotify(`Verificação concluída: ${data.report.broken_count} links com erro.`, data.report.broken_count > 0 ? 'warning' : 'success');
+        }
+      } catch (e) {
+        socialNotify('Erro ao verificar links.', 'error');
+      } finally {
+        runLinkCheckerBtn.disabled = false;
+        runLinkCheckerBtn.textContent = 'Verificar Links Agora';
       }
     });
   }

@@ -120,6 +120,7 @@ async function deploy() {
       { local: 'api/jobs.php', remote: 'api/jobs.php' },
       { local: 'api/jobs_sync.php', remote: 'api/jobs_sync.php' },
       { local: 'api/social_autopost.php', remote: 'api/social_autopost.php' },
+      { local: 'api/check_course_links.php', remote: 'api/check_course_links.php' },
       { local: 'api/courses_sync.php', remote: 'api/courses_sync.php' },
       { local: 'api/cache_jobs.json', remote: 'api/cache_jobs.json' },
       { local: 'api/seed_jobs.json', remote: 'api/seed_jobs.json' },

@@ -144,6 +144,24 @@ function loadActiveCourses(string $cacheFile, string $seedFile): array {
     }));
 }
 
+function loadActiveBlogPosts(): array {
+    $cacheFile = __DIR__ . '/cache_blog.json';
+    $seedFile = __DIR__ . '/seed_blog.json';
+    $raw = [];
+    if (file_exists($cacheFile)) {
+        $raw = json_decode((string)@file_get_contents($cacheFile), true) ?: [];
+    }
+    if (empty($raw) && file_exists($seedFile)) {
+        $raw = json_decode((string)@file_get_contents($seedFile), true) ?: [];
+    }
+    $now = date('Y-m-d H:i:s');
+    return array_values(array_filter($raw, function ($p) use ($now) {
+        $isPub = !isset($p['is_published']) || (int)$p['is_published'] === 1;
+        $dt = (string)($p['created_at'] ?? '2026-01-01 00:00:00');
+        return $isPub && $dt <= $now && !empty($p['slug']) && !empty($p['title']);
+    }));
+}
+
 function pickRandomCourse(array $courses, array $history): ?array {
     if (empty($courses)) return null;
     $recentIds = array_slice(array_column($history, 'course_id'), 0, 12);
@@ -161,6 +179,66 @@ function pickRandomCourse(array $courses, array $history): ?array {
         return $reelsCandidates[array_rand($reelsCandidates)];
     }
     return $candidates[array_rand($candidates)];
+}
+
+function pickRandomContentItem(array $courses, array $blogPosts, array $history, string $forceType = ''): ?array {
+    $useBlog = false;
+    if ($forceType === 'blog') {
+        $useBlog = !empty($blogPosts);
+    } elseif ($forceType !== 'course' && !empty($blogPosts)) {
+        // Alternar / sortear entre cursos (~60%) e artigos do blog (~40%)
+        $useBlog = (rand(1, 100) <= 40);
+    }
+
+    if ($useBlog) {
+        $recentIds = array_slice(array_column($history, 'course_id'), 0, 20);
+        $candidates = array_values(array_filter($blogPosts, function ($p) use ($recentIds) {
+            return !in_array('blog:' . $p['slug'], $recentIds, true);
+        }));
+        if (empty($candidates)) $candidates = $blogPosts;
+        $picked = $candidates[array_rand($candidates)];
+        return ['type' => 'blog', 'id' => 'blog:' . $picked['slug'], 'data' => $picked];
+    }
+
+    $c = pickRandomCourse($courses, $history);
+    if (!$c) return null;
+    return ['type' => 'course', 'id' => (string)$c['id'], 'data' => $c];
+}
+
+function buildBlogPostContent(array $article, string $periodOverride = ''): array {
+    $hour = (int)date('G');
+    $period = $periodOverride ?: ($hour < 12 ? 'manha' : ($hour < 18 ? 'tarde' : 'noite'));
+    $intros = [
+        'manha' => '☀️ Leitura rápida da manhã para acelerar sua carreira:',
+        'tarde' => '💡 Dica prática da tarde no Blog do Você Pode Tudo:',
+        'noite' => '🌙 Leitura da noite para sair na frente no mercado de trabalho:'
+    ];
+    $intro = $intros[$period] ?? $intros['tarde'];
+    $title = trim((string)$article['title']);
+    $desc = trim((string)($article['excerpt'] ?? $article['summary'] ?? 'Confira o guia completo com dicas práticas e gratuitas no portal Você Pode Tudo.'));
+    if (mb_strlen($desc, 'UTF-8') > 180) {
+        $desc = mb_substr($desc, 0, 177, 'UTF-8') . '...';
+    }
+    $articleUrl = 'https://vocepodetudo.com/artigo/' . rawurlencode((string)$article['slug']);
+    $img = resolveCourseImage(['imageUrl' => $article['cover_image'] ?? '']);
+
+    $caption = "{$intro}\n\n"
+        . "📰 {$title}\n\n"
+        . "{$desc}\n\n"
+        . "👉 Leia o artigo completo gratuitamente aqui:\n"
+        . "{$articleUrl}\n\n"
+        . "📲 Acompanhe o hub oficial: @hub.vocepodetudo\n\n"
+        . "#Carreira #Emprego #DicasDeCarreira #BlogVocePodeTudo #Capacitacao";
+
+    return [
+        'period' => $period,
+        'title' => $title,
+        'provider' => 'Blog Você Pode Tudo',
+        'url' => $articleUrl,
+        'image_url' => $img,
+        'caption' => $caption,
+        'description' => $desc
+    ];
 }
 
 function resolveCourseImage(array $course): string {
@@ -508,33 +586,41 @@ if ($action === 'save_config') {
 
 if ($action === 'preview') {
     $courses = loadActiveCourses($coursesCacheFile, $coursesSeedFile);
+    $blogPosts = loadActiveBlogPosts();
     $history = loadSocialHistory($historyFile);
-    $course = pickRandomCourse($courses, $history);
-    if (!$course) {
-        echo json_encode(['success' => false, 'error' => 'Nenhum curso ativo encontrado.'], JSON_UNESCAPED_UNICODE);
+    $picked = pickRandomContentItem($courses, $blogPosts, $history, (string)($_GET['type'] ?? ''));
+    if (!$picked) {
+        echo json_encode(['success' => false, 'error' => 'Nenhum conteúdo ativo encontrado.'], JSON_UNESCAPED_UNICODE);
         exit;
     }
-    $post = buildPostContent($course, (string)($_GET['period'] ?? ''));
-    echo json_encode(['success' => true, 'preview' => $post, 'course_id' => $course['id']], JSON_UNESCAPED_UNICODE);
+    $post = $picked['type'] === 'blog'
+        ? buildBlogPostContent($picked['data'], (string)($_GET['period'] ?? ''))
+        : buildPostContent($picked['data'], (string)($_GET['period'] ?? ''));
+    echo json_encode(['success' => true, 'preview' => $post, 'course_id' => $picked['id'], 'content_type' => $picked['type']], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
 if ($action === 'run' || $action === 'test_post') {
     $cfg = getSocialConfig($configFile);
     $courses = loadActiveCourses($coursesCacheFile, $coursesSeedFile);
+    $blogPosts = loadActiveBlogPosts();
     $history = loadSocialHistory($historyFile);
-    $course = pickRandomCourse($courses, $history);
+    $picked = pickRandomContentItem($courses, $blogPosts, $history, (string)($_GET['type'] ?? ''));
 
-    if (!$course) {
+    if (!$picked) {
         if (($_GET['silent'] ?? '') === '1') { http_response_code(200); exit; }
-        echo json_encode(['success' => false, 'error' => 'Nenhum curso ativo encontrado para postagem.'], JSON_UNESCAPED_UNICODE);
+        echo json_encode(['success' => false, 'error' => 'Nenhum conteúdo ativo encontrado para postagem.'], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
-    $post = buildPostContent($course, (string)($_GET['period'] ?? ''));
+    $post = $picked['type'] === 'blog'
+        ? buildBlogPostContent($picked['data'], (string)($_GET['period'] ?? ''))
+        : buildPostContent($picked['data'], (string)($_GET['period'] ?? ''));
+    $reelId = $picked['type'] === 'course' ? $picked['id'] : '';
+
     $results = [
         'facebook' => publishToFacebook($cfg['facebook'] ?? [], $post),
-        'instagram' => publishToInstagram($cfg['instagram'] ?? [], $post, $cfg['facebook']['access_token'] ?? '', (string)$course['id']),
+        'instagram' => publishToInstagram($cfg['instagram'] ?? [], $post, $cfg['facebook']['access_token'] ?? '', $reelId),
         'linkedin' => publishToLinkedIn($cfg['linkedin'] ?? [], $post)
     ];
 
@@ -543,8 +629,9 @@ if ($action === 'run' || $action === 'test_post') {
     appendSocialHistory($historyFile, [
         'timestamp' => date('c'),
         'period' => $post['period'],
-        'course_id' => $course['id'],
-        'course_title' => $course['title'],
+        'content_type' => $picked['type'],
+        'course_id' => $picked['id'],
+        'course_title' => $post['title'],
         'course_url' => $post['url'],
         'results' => $results
     ]);
@@ -558,8 +645,9 @@ if ($action === 'run' || $action === 'test_post') {
     echo json_encode([
         'success' => true,
         'published_any' => $anyOk,
-        'course_id' => $course['id'],
-        'course_title' => $course['title'],
+        'content_type' => $picked['type'],
+        'course_id' => $picked['id'],
+        'course_title' => $post['title'],
         'period' => $post['period'],
         'results' => $results
     ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

@@ -117,7 +117,28 @@ if ($action === 'run') {
             curl_multi_remove_handle($mh, $ch);
             curl_close($ch);
 
-            // 200-399 ou 403/405/429 (alguns sites bloqueiam HEAD/bots mas existem) são considerados ativos; 404/410/5xx/0 são quebrados
+            // 200-399 ou 403/405/429 (alguns sites bloqueiam HEAD/bots mas existem) são considerados ativos; se falhar no HEAD, tenta GET leve antes de marcar como quebrado
+            if (!($code >= 200 && $code < 400 || in_array($code, [403, 405, 429], true))) {
+                $chGet = curl_init($u);
+                curl_setopt($chGet, CURLOPT_NOBODY, false);
+                curl_setopt($chGet, CURLOPT_RANGE, '0-2047');
+                curl_setopt($chGet, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($chGet, CURLOPT_MAXREDIRS, 4);
+                curl_setopt($chGet, CURLOPT_TIMEOUT, 12);
+                curl_setopt($chGet, CURLOPT_CONNECTTIMEOUT, 6);
+                curl_setopt($chGet, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($chGet, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($chGet, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36');
+                curl_exec($chGet);
+                $codeGet = (int)curl_getinfo($chGet, CURLINFO_HTTP_CODE);
+                $errGet = curl_error($chGet);
+                curl_close($chGet);
+                if ($codeGet > 0) {
+                    $code = $codeGet;
+                    $err = $errGet;
+                }
+            }
+
             if ($code >= 200 && $code < 400 || in_array($code, [403, 405, 429], true)) {
                 $okCount += count($urlMap[$u]);
             } else {

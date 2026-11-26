@@ -366,29 +366,8 @@ function publishToFacebook(array $cfg, array $post): array {
     return ['status' => 'error', 'message' => $json['error']['message'] ?? $res['error'] ?? ('HTTP ' . $res['code'])];
 }
 
-function publishToInstagram(array $cfg, array $post, string $fbFallbackToken = '', string $courseId = ''): array {
-    $token = !empty($cfg['access_token']) ? $cfg['access_token'] : $fbFallbackToken;
-    if (empty($cfg['enabled']) || empty($cfg['ig_user_id']) || empty($token)) {
-        return ['status' => 'skipped', 'message' => 'Instagram desativado ou sem credenciais'];
-    }
-
-    $reelLocalPath = __DIR__ . '/../assets/reels/' . basename($courseId) . '.mp4';
-    $hasReelVideo = !empty($courseId) && file_exists($reelLocalPath);
-
-    // Passo 1: Criar Container de Mídia (REELS via Resumable Upload se houver .mp4, ou Imagem padrão)
-    $createUrl = 'https://graph.facebook.com/v21.0/' . rawurlencode($cfg['ig_user_id']) . '/media';
-    $mediaFields = [
-        'caption' => $post['caption'],
-        'access_token' => $token
-    ];
-    if ($hasReelVideo) {
-        $mediaFields['media_type'] = 'REELS';
-        $mediaFields['upload_type'] = 'resumable';
-        $mediaFields['share_to_feed'] = 'true';
-    } else {
-        $mediaFields['image_url'] = $post['image_url'];
-    }
-
+function publishInstagramMediaContainer(string $igUserId, string $token, array $mediaFields, string $localVideoPath = ''): array {
+    $createUrl = 'https://graph.facebook.com/v21.0/' . rawurlencode($igUserId) . '/media';
     $createRes = httpPostForm($createUrl, $mediaFields);
     $createJson = json_decode((string)$createRes['body'], true);
     if ($createRes['code'] < 200 || $createRes['code'] >= 300 || empty($createJson['id'])) {
@@ -397,13 +376,12 @@ function publishToInstagram(array $cfg, array $post, string $fbFallbackToken = '
 
     $containerId = $createJson['id'];
 
-    // Para Reels (vídeo), enviar binário direto para rupload.facebook.com e aguardar FINISHED
-    if ($hasReelVideo) {
+    if (!empty($localVideoPath)) {
         $uploadUri = $createJson['uri'] ?? ('https://rupload.facebook.com/ig-api-upload/v21.0/' . rawurlencode($containerId));
-        $fileBytes = @file_get_contents($reelLocalPath);
+        $fileBytes = @file_get_contents($localVideoPath);
         $fileSize = $fileBytes !== false ? strlen($fileBytes) : 0;
         if ($fileSize === 0) {
-            return ['status' => 'error', 'message' => 'Arquivo de vídeo Reels vazio ou ilegível.'];
+            return ['status' => 'error', 'message' => 'Arquivo de vídeo vazio ou ilegível.'];
         }
 
         $chUp = curl_init($uploadUri);
@@ -423,7 +401,7 @@ function publishToInstagram(array $cfg, array $post, string $fbFallbackToken = '
         $upJson = json_decode((string)$upResp, true);
 
         if ($upCode < 200 || $upCode >= 300 || empty($upJson['success'])) {
-            return ['status' => 'error', 'message' => 'Upload direto Reels falhou: ' . ($upJson['debug_info']['message'] ?? $upErr ?: ('HTTP ' . $upCode . ' ' . $upResp))];
+            return ['status' => 'error', 'message' => 'Upload direto falhou: ' . ($upJson['debug_info']['message'] ?? $upErr ?: ('HTTP ' . $upCode . ' ' . $upResp))];
         }
 
         $statusUrl = 'https://graph.facebook.com/v21.0/' . rawurlencode($containerId) . '?fields=status,status_code&access_token=' . rawurlencode($token);
@@ -443,25 +421,72 @@ function publishToInstagram(array $cfg, array $post, string $fbFallbackToken = '
             }
             if ($code === 'ERROR' || $code === 'EXPIRED') {
                 $detail = !empty($stJson['status']) ? ' - ' . $stJson['status'] : '';
-                return ['status' => 'error', 'message' => 'Processamento do vídeo Reels falhou na Meta (' . $code . $detail . ')'];
+                return ['status' => 'error', 'message' => 'Processamento na Meta falhou (' . $code . $detail . ')'];
             }
         }
         if (!$ready) {
-            return ['status' => 'error', 'message' => 'Tempo limite aguardando processamento do vídeo Reels na Meta.'];
+            return ['status' => 'error', 'message' => 'Tempo limite aguardando processamento do vídeo na Meta.'];
         }
     }
 
-    // Passo 2: Publicar Mídia
-    $pubUrl = 'https://graph.facebook.com/v21.0/' . rawurlencode($cfg['ig_user_id']) . '/media_publish';
+    $pubUrl = 'https://graph.facebook.com/v21.0/' . rawurlencode($igUserId) . '/media_publish';
     $pubRes = httpPostForm($pubUrl, [
         'creation_id' => $containerId,
         'access_token' => $token
     ]);
     $pubJson = json_decode((string)$pubRes['body'], true);
     if ($pubRes['code'] >= 200 && $pubRes['code'] < 300 && !empty($pubJson['id'])) {
-        return ['status' => 'ok', 'post_id' => $pubJson['id'], 'media_type' => $hasReelVideo ? 'REELS' : 'IMAGE'];
+        return ['status' => 'ok', 'post_id' => $pubJson['id'], 'media_type' => $mediaFields['media_type'] ?? 'IMAGE'];
     }
     return ['status' => 'error', 'message' => $pubJson['error']['message'] ?? $pubRes['error'] ?? ('Publish HTTP ' . $pubRes['code'])];
+}
+
+function publishToInstagram(array $cfg, array $post, string $fbFallbackToken = '', string $courseId = '', string $onlyMode = ''): array {
+    $token = !empty($cfg['access_token']) ? $cfg['access_token'] : $fbFallbackToken;
+    if (empty($cfg['enabled']) || empty($cfg['ig_user_id']) || empty($token)) {
+        return ['status' => 'skipped', 'message' => 'Instagram desativado ou sem credenciais'];
+    }
+
+    $reelLocalPath = __DIR__ . '/../assets/reels/' . basename($courseId) . '.mp4';
+    $hasReelVideo = !empty($courseId) && file_exists($reelLocalPath);
+
+    if ($onlyMode === 'story') {
+        if (!$hasReelVideo) {
+            return ['status' => 'skipped', 'message' => 'Curso selecionado sem vídeo vertical para Story'];
+        }
+        return publishInstagramMediaContainer((string)$cfg['ig_user_id'], $token, [
+            'media_type' => 'STORIES',
+            'upload_type' => 'resumable',
+            'access_token' => $token
+        ], $reelLocalPath);
+    }
+
+    // 1. Publicação Principal (REELS se houver .mp4, ou Imagem padrão no Feed)
+    $mediaFields = [
+        'caption' => $post['caption'],
+        'access_token' => $token
+    ];
+    if ($hasReelVideo) {
+        $mediaFields['media_type'] = 'REELS';
+        $mediaFields['upload_type'] = 'resumable';
+        $mediaFields['share_to_feed'] = 'true';
+    } else {
+        $mediaFields['image_url'] = $post['image_url'];
+    }
+
+    $mainResult = publishInstagramMediaContainer((string)$cfg['ig_user_id'], $token, $mediaFields, $hasReelVideo ? $reelLocalPath : '');
+
+    // 2. Publicar também nos Stories quando houver vídeo vertical 9:16 (.mp4)
+    if ($hasReelVideo && $mainResult['status'] === 'ok') {
+        $storyResult = publishInstagramMediaContainer((string)$cfg['ig_user_id'], $token, [
+            'media_type' => 'STORIES',
+            'upload_type' => 'resumable',
+            'access_token' => $token
+        ], $reelLocalPath);
+        $mainResult['story'] = $storyResult;
+    }
+
+    return $mainResult;
 }
 
 function resolveLinkedInAuthorUrn(string $accessToken, string $configuredUrn = ''): string {
@@ -649,7 +674,7 @@ if ($action === 'run' || $action === 'test_post') {
     $onlyNet = strtolower(trim((string)($_GET['only'] ?? '')));
     $results = [
         'facebook' => (!$onlyNet || $onlyNet === 'facebook') ? publishToFacebook($cfg['facebook'] ?? [], $post) : ['status' => 'skipped', 'message' => 'Ignorado por filtro only'],
-        'instagram' => (!$onlyNet || $onlyNet === 'instagram') ? publishToInstagram($cfg['instagram'] ?? [], $post, $cfg['facebook']['access_token'] ?? '', $reelId) : ['status' => 'skipped', 'message' => 'Ignorado por filtro only'],
+        'instagram' => (!$onlyNet || $onlyNet === 'instagram' || $onlyNet === 'story') ? publishToInstagram($cfg['instagram'] ?? [], $post, $cfg['facebook']['access_token'] ?? '', $reelId, $onlyNet) : ['status' => 'skipped', 'message' => 'Ignorado por filtro only'],
         'linkedin' => (!$onlyNet || $onlyNet === 'linkedin') ? publishToLinkedIn($cfg['linkedin'] ?? [], $post) : ['status' => 'skipped', 'message' => 'Ignorado por filtro only']
     ];
 

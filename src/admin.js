@@ -422,6 +422,7 @@
       { id: 'tab-btn-mediakit', section: 'section-mediakit' },
       { id: 'tab-btn-announcement', section: 'section-announcement' },
       { id: 'tab-btn-push', section: 'section-push' },
+      { id: 'tab-btn-social', section: 'section-social' },
       { id: 'tab-btn-system', section: 'section-system' },
       { id: 'tab-btn-messages', section: 'section-messages' },
       { id: 'tab-btn-ratings', section: 'section-ratings' },
@@ -543,6 +544,9 @@
       }
       if (tabId === 'tab-btn-push') {
         fetchAdminPushData();
+      }
+      if (tabId === 'tab-btn-social') {
+        if (typeof fetchSocialAutopostConfig === 'function') fetchSocialAutopostConfig();
       }
       if (tabId === 'tab-btn-announcement' || tabId === 'tab-btn-system') {
         loadAnnouncementData();
@@ -7736,6 +7740,194 @@ document.addEventListener("DOMContentLoaded", () => { setupNewsletterBroadcastFe
 
       if (typeof showToast === 'function') {
         showToast('Relatório completo de SEO exportado com sucesso!', 'success');
+      }
+    });
+  }
+
+  // =========================================================================
+  // MÓDULO REDES SOCIAIS & AUTOPOST (LINKEDIN, INSTAGRAM, FACEBOOK)
+  // =========================================================================
+  function getSocialAdminToken() {
+    if (typeof state !== 'undefined' && state.token) return state.token;
+    try {
+      return localStorage.getItem('vpt_admin_token') || sessionStorage.getItem('vpt_admin_token') || '';
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function formatSocialStatusBadge(resObj) {
+    if (!resObj || !resObj.status) return '<span class="text-slate-400">-</span>';
+    if (resObj.status === 'ok') {
+      return '<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-black">Publicado</span>';
+    }
+    if (resObj.status === 'skipped') {
+      return '<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-500 text-[10px] font-bold">Inativo</span>';
+    }
+    return `<span class="px-2 py-0.5 rounded bg-rose-100 text-rose-800 text-[10px] font-black" title="${escapeHTML(resObj.message || 'Erro')}">Erro</span>`;
+  }
+
+  async function fetchSocialAutopostConfig() {
+    const token = getSocialAdminToken();
+    try {
+      const res = await fetch(`${API_BASE}/social_autopost.php?action=get_config&t=${Date.now()}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (!data || !data.success) return;
+
+      const c = data.config || {};
+      const fb = c.facebook || {};
+      const ig = c.instagram || {};
+      const li = c.linkedin || {};
+
+      const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
+      const setChk = (id, val) => { const el = document.getElementById(id); if (el) el.checked = !!val; };
+      const setTxt = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt || ''; };
+
+      setChk('social-fb-enabled', fb.enabled);
+      setVal('social-fb-page-id', fb.page_id);
+      setVal('social-fb-token', '');
+      setTxt('social-fb-token-status', fb.has_token ? `Token salvo: ${fb.token_masked}` : 'Nenhum token salvo');
+
+      setChk('social-ig-enabled', ig.enabled);
+      setVal('social-ig-user-id', ig.ig_user_id);
+      setVal('social-ig-token', '');
+      setTxt('social-ig-token-status', ig.has_token ? `Token salvo: ${ig.token_masked}` : 'Usará o token do Facebook se vazio');
+
+      setChk('social-li-enabled', li.enabled);
+      setVal('social-li-urn', li.author_urn);
+      setVal('social-li-token', '');
+      setTxt('social-li-token-status', li.has_token ? `Token salvo: ${li.token_masked}` : 'Nenhum token salvo');
+
+      const tbody = document.getElementById('social-history-tbody');
+      if (tbody) {
+        const hist = Array.isArray(data.history) ? data.history : [];
+        if (hist.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" class="py-4 text-center text-slate-400">Nenhuma postagem registrada ainda.</td></tr>';
+        } else {
+          tbody.innerHTML = hist.map(h => {
+            let dt = '-';
+            try {
+              const d = new Date(h.timestamp);
+              dt = d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) + ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            } catch (e) {}
+            const r = h.results || {};
+            return `
+              <tr class="hover:bg-slate-50">
+                <td class="py-2 px-3 font-mono text-[11px] text-slate-500 whitespace-nowrap">${escapeHTML(dt)}</td>
+                <td class="py-2 px-3 uppercase text-[10px] font-black text-slate-600">${escapeHTML(h.period || '-')}</td>
+                <td class="py-2 px-3 text-slate-900 max-w-[240px] truncate" title="${escapeHTML(h.course_title || '')}">${escapeHTML(h.course_title || '-')}</td>
+                <td class="py-2 px-3">${formatSocialStatusBadge(r.facebook)}</td>
+                <td class="py-2 px-3">${formatSocialStatusBadge(r.instagram)}</td>
+                <td class="py-2 px-3">${formatSocialStatusBadge(r.linkedin)}</td>
+              </tr>
+            `;
+          }).join('');
+        }
+      }
+    } catch (err) {
+      console.warn('Erro ao carregar config de redes sociais:', err);
+    }
+  }
+  window.fetchSocialAutopostConfig = fetchSocialAutopostConfig;
+
+  const socialForm = document.getElementById('social-config-form');
+  if (socialForm) {
+    socialForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const token = getSocialAdminToken();
+      const payload = {
+        facebook: {
+          enabled: document.getElementById('social-fb-enabled')?.checked || false,
+          page_id: document.getElementById('social-fb-page-id')?.value.trim() || '',
+          access_token: document.getElementById('social-fb-token')?.value.trim() || ''
+        },
+        instagram: {
+          enabled: document.getElementById('social-ig-enabled')?.checked || false,
+          ig_user_id: document.getElementById('social-ig-user-id')?.value.trim() || '',
+          access_token: document.getElementById('social-ig-token')?.value.trim() || ''
+        },
+        linkedin: {
+          enabled: document.getElementById('social-li-enabled')?.checked || false,
+          author_urn: document.getElementById('social-li-urn')?.value.trim() || '',
+          access_token: document.getElementById('social-li-token')?.value.trim() || ''
+        }
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/social_autopost.php?action=save_config`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data && data.success) {
+          if (typeof showToast === 'function') showToast('Credenciais salvas com segurança!', 'success');
+          fetchSocialAutopostConfig();
+        } else {
+          if (typeof showToast === 'function') showToast(data.error || 'Erro ao salvar.', 'error');
+        }
+      } catch (err) {
+        if (typeof showToast === 'function') showToast('Erro de conexão ao salvar.', 'error');
+      }
+    });
+  }
+
+  const socialPreviewBtn = document.getElementById('social-preview-btn');
+  if (socialPreviewBtn) {
+    socialPreviewBtn.addEventListener('click', async () => {
+      const token = getSocialAdminToken();
+      try {
+        const res = await fetch(`${API_BASE}/social_autopost.php?action=preview&t=${Date.now()}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (data && data.success && data.preview) {
+          const box = document.getElementById('social-preview-box');
+          const img = document.getElementById('social-preview-img');
+          const cap = document.getElementById('social-preview-caption');
+          const per = document.getElementById('social-preview-period');
+          if (img) img.src = data.preview.image_url;
+          if (cap) cap.textContent = data.preview.caption;
+          if (per) per.textContent = `Período: ${data.preview.period}`;
+          if (box) box.classList.remove('hidden');
+        }
+      } catch (err) {
+        if (typeof showToast === 'function') showToast('Erro ao gerar prévia.', 'error');
+      }
+    });
+  }
+
+  const socialTestBtn = document.getElementById('social-test-post-btn');
+  if (socialTestBtn) {
+    socialTestBtn.addEventListener('click', async () => {
+      const token = getSocialAdminToken();
+      socialTestBtn.disabled = true;
+      socialTestBtn.textContent = 'Publicando...';
+      try {
+        const res = await fetch(`${API_BASE}/social_autopost.php?action=test_post&t=${Date.now()}`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (data && data.success) {
+          const msg = data.published_any
+            ? `Publicado com sucesso: ${data.course_title}`
+            : `Execução concluída (nenhuma rede ativa publicada): ${data.course_title}`;
+          if (typeof showToast === 'function') showToast(msg, data.published_any ? 'success' : 'info');
+          fetchSocialAutopostConfig();
+        } else {
+          if (typeof showToast === 'function') showToast(data.error || 'Erro ao publicar.', 'error');
+        }
+      } catch (err) {
+        if (typeof showToast === 'function') showToast('Erro ao conectar ao publicador.', 'error');
+      } finally {
+        socialTestBtn.disabled = false;
+        socialTestBtn.textContent = 'Publicar Agora (Teste)';
       }
     });
   }

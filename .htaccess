@@ -110,6 +110,10 @@ ErrorDocument 404 /404.html
   Require all denied
 </FilesMatch>
 
+<FilesMatch "^(config_social|cache_social_history)\.json$">
+  Require all denied
+</FilesMatch>
+
 # 4. Proteger arquivos de dados e backups
 <IfModule mod_rewrite.c>
   RewriteRule ^backups/ - [F,L]

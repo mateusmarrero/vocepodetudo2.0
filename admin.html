@@ -789,6 +789,16 @@
                 <span id="badge-total-push" class="px-1.5 py-0.2 rounded-full text-[10px] font-black bg-amber-100 text-amber-800">...</span>
               </button>
               <button 
+                id="tab-btn-social" 
+                class="tab-nav-btn px-3 py-1.5 rounded-xl text-slate-700 hover:text-[#002776] hover:bg-white flex items-center gap-1.5 flex-shrink-0 cursor-pointer transition-all"
+                onclick="if(window.switchAdminTab){window.switchAdminTab('tab-btn-social','section-social')}"
+                title="Autopost LinkedIn, Instagram e Facebook"
+              >
+                <i data-lucide="share-2" class="w-4 h-4 text-emerald-600 pointer-events-none"></i>
+                <span class="pointer-events-none">Redes Sociais</span>
+                <span class="px-1.5 py-0.2 rounded-full text-[9px] font-black bg-emerald-100 text-emerald-800 uppercase pointer-events-none">3x/dia</span>
+              </button>
+              <button 
                 id="tab-btn-system" 
                 class="tab-nav-btn px-3 py-1.5 rounded-xl text-slate-700 hover:text-[#002776] hover:bg-white flex items-center gap-1.5 flex-shrink-0 cursor-pointer transition-all"
                 title="Segurança, Backups e Diagnóstico"
@@ -3008,6 +3018,143 @@
               </button>
             </div>
 
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- ABA REDES SOCIAIS: AUTOPOST 3X/DIA (LINKEDIN / IG / FB)  -->
+      <!-- ======================================================== -->
+      <section id="section-social" class="admin-tab-section hidden space-y-6">
+        <div class="bg-gradient-to-r from-[#002776] to-[#00702a] rounded-2xl p-6 text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-[#ffcc29] text-slate-950 mb-2">
+              Autopost Automático 3x/dia
+            </span>
+            <h2 class="text-lg sm:text-xl font-black">Publicação Automática no LinkedIn, Instagram e Facebook</h2>
+            <p class="text-xs text-blue-100 mt-1">Sorteia cursos gratuitos aleatórios (sem repetir os últimos 40) e publica automaticamente de manhã, tarde e noite via API oficial.</p>
+          </div>
+          <div class="flex items-center gap-2 flex-shrink-0">
+            <button type="button" id="social-preview-btn" class="px-4 py-2.5 rounded-xl text-xs font-black bg-white/15 hover:bg-white/25 text-white border border-white/30 transition-all cursor-pointer">
+              Gerar Prévia
+            </button>
+            <button type="button" id="social-test-post-btn" class="px-4 py-2.5 rounded-xl text-xs font-black bg-[#ffcc29] hover:bg-amber-300 text-slate-950 shadow-md transition-all cursor-pointer">
+              Publicar Agora (Teste)
+            </button>
+          </div>
+        </div>
+
+        <!-- Prévia da Postagem Sorteada -->
+        <div id="social-preview-box" class="hidden bg-white rounded-2xl border-2 border-emerald-300 p-5 shadow-sm space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+            <h3 class="text-xs font-black uppercase text-emerald-700">Prévia da Postagem Aleatória</h3>
+            <span id="social-preview-period" class="text-[10px] font-black px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 uppercase"></span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
+            <img id="social-preview-img" src="" alt="Capa do curso sorteado" class="w-full aspect-video object-cover rounded-xl border border-slate-200">
+            <div class="md:col-span-2 space-y-2">
+              <pre id="social-preview-caption" class="whitespace-pre-wrap font-sans text-xs text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-200 max-h-56 overflow-y-auto"></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulário de Credenciais das 3 Redes -->
+        <form id="social-config-form" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Facebook -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <h3 class="text-sm font-black text-slate-900">Facebook (Página)</h3>
+              <label class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="social-fb-enabled" class="rounded border-slate-300 text-[#009639]">
+                <span>Ativo</span>
+              </label>
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">ID da Página (Page ID)</label>
+              <input type="text" id="social-fb-page-id" placeholder="Ex: 109876543210123" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">Page Access Token (Meta Graph API)</label>
+              <input type="password" id="social-fb-token" placeholder="Cole o token de página permanente..." class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+              <p id="social-fb-token-status" class="text-[10px] text-slate-400 mt-1"></p>
+            </div>
+          </div>
+
+          <!-- Instagram -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <h3 class="text-sm font-black text-slate-900">Instagram (Profissional)</h3>
+              <label class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="social-ig-enabled" class="rounded border-slate-300 text-[#009639]">
+                <span>Ativo</span>
+              </label>
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">Instagram Business ID (IG User ID)</label>
+              <input type="text" id="social-ig-user-id" placeholder="Ex: 17841400000000000" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">Access Token (opcional se igual ao Facebook)</label>
+              <input type="password" id="social-ig-token" placeholder="Deixe vazio para usar o token do Facebook" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+              <p id="social-ig-token-status" class="text-[10px] text-slate-400 mt-1"></p>
+            </div>
+          </div>
+
+          <!-- LinkedIn -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <h3 class="text-sm font-black text-slate-900">LinkedIn (Perfil / Página)</h3>
+              <label class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="social-li-enabled" class="rounded border-slate-300 text-[#009639]">
+                <span>Ativo</span>
+              </label>
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">Author URN (Pessoa ou Empresa)</label>
+              <input type="text" id="social-li-urn" placeholder="urn:li:person:... ou urn:li:organization:..." class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">OAuth2 Access Token (w_member_social / w_organization_social)</label>
+              <input type="password" id="social-li-token" placeholder="Cole o Access Token do LinkedIn..." class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+              <p id="social-li-token-status" class="text-[10px] text-slate-400 mt-1"></p>
+            </div>
+          </div>
+
+          <div class="lg:col-span-3 flex justify-end">
+            <button type="submit" id="social-save-btn" class="px-6 py-3 rounded-xl font-black text-xs sm:text-sm bg-[#009639] hover:bg-[#00702a] text-white shadow-md transition-all cursor-pointer">
+              Salvar Credenciais e Configurações
+            </button>
+          </div>
+        </form>
+
+        <!-- Comandos Cron para Manhã, Tarde e Noite -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-3">
+          <h3 class="text-xs font-black uppercase text-slate-900">Agendamento Cron (StackCP) — Manhã (08h), Tarde (14h) e Noite (20h)</h3>
+          <p class="text-xs text-slate-600">Crie 3 Cron Jobs no painel da sua hospedagem (ou 1 único Cron com horários <code>0 8,14,20 * * *</code>) usando exatamente este comando (sem gerar e-mails):</p>
+          <div class="p-3 rounded-xl bg-slate-900 text-emerald-300 font-mono text-xs overflow-x-auto select-all">
+            curl -s "https://vocepodetudo.com/api/social_autopost.php?action=run&amp;cron_key=vpt_social_cron_2026_secure&amp;silent=1"
+          </div>
+        </div>
+
+        <!-- Histórico de Postagens Automáticas -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+          <h3 class="text-xs font-black uppercase text-slate-900 mb-3 pb-2 border-b border-slate-100">Histórico das Últimas Postagens</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead>
+                <tr class="border-b border-slate-200 text-slate-400 font-black uppercase text-[10px]">
+                  <th class="py-2 px-3">Data / Hora</th>
+                  <th class="py-2 px-3">Período</th>
+                  <th class="py-2 px-3">Curso Publicado</th>
+                  <th class="py-2 px-3">Facebook</th>
+                  <th class="py-2 px-3">Instagram</th>
+                  <th class="py-2 px-3">LinkedIn</th>
+                </tr>
+              </thead>
+              <tbody id="social-history-tbody" class="divide-y divide-slate-100 font-bold text-slate-700">
+                <tr><td colspan="6" class="py-4 text-center text-slate-400">Nenhuma postagem registrada ainda.</td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
@@ -5508,7 +5655,7 @@ Sitemap: https://vocepodetudo.com/sitemap.xml</pre>
 
   <!-- SCRIPT CENTRAL DA ADMINISTRAÇÃO (com Cache-Busting v=4.38.0) -->
   <script src="./src/data/courses.js?v=4.83.0"></script>
-  <script src="./src/admin.js?v=4.94.0"></script>
+  <script src="./src/admin.js?v=4.98.0"></script>
   <script>
     // Garantir que a área administrativa não seja afetada por Service Worker
     if ('serviceWorker' in navigator) {
@@ -5556,6 +5703,7 @@ Sitemap: https://vocepodetudo.com/sitemap.xml</pre>
         'tab-btn-push': 'section-push',
         'tab-btn-quiz': 'section-quiz',
         'tab-btn-mediakit': 'section-mediakit',
+        'tab-btn-social': 'section-social',
         'tab-btn-system': 'section-system'
       };
       var targetId = tabMap[btn.id];

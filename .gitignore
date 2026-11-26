@@ -29,3 +29,5 @@ CHANGELOG_COMPLETO_VOCEPODETUDO.txt
 android_build/
 android_native_app/
 *.apk
+
+assets/reels/*.mp4

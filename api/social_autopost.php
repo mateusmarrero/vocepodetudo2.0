@@ -49,7 +49,7 @@ $isAuthorized = false;
 if ($isCli) {
     $isAuthorized = true;
     $action = $argv[1] ?? 'run';
-} elseif ($action === 'run' && $cronKeyParam === $CRON_SECRET) {
+} elseif (in_array($action, ['run', 'check_video_caps'], true) && $cronKeyParam === $CRON_SECRET) {
     $isAuthorized = true;
 } else {
     // Exige sessão de administrador via Bearer Token
@@ -146,12 +146,19 @@ function loadActiveCourses(string $cacheFile, string $seedFile): array {
 
 function pickRandomCourse(array $courses, array $history): ?array {
     if (empty($courses)) return null;
-    $recentIds = array_slice(array_column($history, 'course_id'), 0, 40);
+    $recentIds = array_slice(array_column($history, 'course_id'), 0, 12);
     $candidates = array_values(array_filter($courses, function ($c) use ($recentIds) {
         return !in_array($c['id'], $recentIds, true);
     }));
     if (empty($candidates)) {
         $candidates = $courses;
+    }
+    // Priorizar cursos que já possuem vídeo vertical Reels (.mp4) quando disponíveis
+    $reelsCandidates = array_values(array_filter($candidates, function ($c) {
+        return file_exists(__DIR__ . '/../assets/reels/' . basename((string)$c['id']) . '.mp4');
+    }));
+    if (!empty($reelsCandidates)) {
+        return $reelsCandidates[array_rand($reelsCandidates)];
     }
     return $candidates[array_rand($candidates)];
 }
@@ -281,32 +288,72 @@ function publishToFacebook(array $cfg, array $post): array {
     return ['status' => 'error', 'message' => $json['error']['message'] ?? $res['error'] ?? ('HTTP ' . $res['code'])];
 }
 
-function publishToInstagram(array $cfg, array $post, string $fbFallbackToken = ''): array {
+function publishToInstagram(array $cfg, array $post, string $fbFallbackToken = '', string $courseId = ''): array {
     $token = !empty($cfg['access_token']) ? $cfg['access_token'] : $fbFallbackToken;
     if (empty($cfg['enabled']) || empty($cfg['ig_user_id']) || empty($token)) {
         return ['status' => 'skipped', 'message' => 'Instagram desativado ou sem credenciais'];
     }
-    // Passo 1: Criar Container de Mídia
+
+    $reelLocalPath = __DIR__ . '/../assets/reels/' . basename($courseId) . '.mp4';
+    $hasReelVideo = !empty($courseId) && file_exists($reelLocalPath);
+
+    // Passo 1: Criar Container de Mídia (REELS se houver .mp4, ou Imagem padrão)
     $createUrl = 'https://graph.facebook.com/v21.0/' . rawurlencode($cfg['ig_user_id']) . '/media';
-    $createRes = httpPostForm($createUrl, [
-        'image_url' => $post['image_url'],
+    $mediaFields = [
         'caption' => $post['caption'],
         'access_token' => $token
-    ]);
+    ];
+    if ($hasReelVideo) {
+        $mediaFields['media_type'] = 'REELS';
+        $mediaFields['video_url'] = 'https://vocepodetudo.com/assets/reels/' . rawurlencode(basename($courseId)) . '.mp4';
+        $mediaFields['share_to_feed'] = 'true';
+    } else {
+        $mediaFields['image_url'] = $post['image_url'];
+    }
+
+    $createRes = httpPostForm($createUrl, $mediaFields);
     $createJson = json_decode((string)$createRes['body'], true);
     if ($createRes['code'] < 200 || $createRes['code'] >= 300 || empty($createJson['id'])) {
         return ['status' => 'error', 'message' => $createJson['error']['message'] ?? $createRes['error'] ?? ('Container HTTP ' . $createRes['code'])];
     }
 
+    $containerId = $createJson['id'];
+
+    // Para Reels (vídeo), aguardar o processamento da Meta até status_code === FINISHED
+    if ($hasReelVideo) {
+        $statusUrl = 'https://graph.facebook.com/v21.0/' . rawurlencode($containerId) . '?fields=status_code&access_token=' . rawurlencode($token);
+        $ready = false;
+        for ($i = 0; $i < 12; $i++) {
+            sleep(3);
+            $ch = curl_init($statusUrl);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+            $stResp = curl_exec($ch);
+            curl_close($ch);
+            $stJson = json_decode((string)$stResp, true);
+            $code = strtoupper((string)($stJson['status_code'] ?? ''));
+            if ($code === 'FINISHED') {
+                $ready = true;
+                break;
+            }
+            if ($code === 'ERROR' || $code === 'EXPIRED') {
+                return ['status' => 'error', 'message' => 'Processamento do vídeo Reels falhou na Meta (' . $code . ')'];
+            }
+        }
+        if (!$ready) {
+            return ['status' => 'error', 'message' => 'Tempo limite aguardando processamento do vídeo Reels na Meta.'];
+        }
+    }
+
     // Passo 2: Publicar Mídia
     $pubUrl = 'https://graph.facebook.com/v21.0/' . rawurlencode($cfg['ig_user_id']) . '/media_publish';
     $pubRes = httpPostForm($pubUrl, [
-        'creation_id' => $createJson['id'],
+        'creation_id' => $containerId,
         'access_token' => $token
     ]);
     $pubJson = json_decode((string)$pubRes['body'], true);
     if ($pubRes['code'] >= 200 && $pubRes['code'] < 300 && !empty($pubJson['id'])) {
-        return ['status' => 'ok', 'post_id' => $pubJson['id']];
+        return ['status' => 'ok', 'post_id' => $pubJson['id'], 'media_type' => $hasReelVideo ? 'REELS' : 'IMAGE'];
     }
     return ['status' => 'error', 'message' => $pubJson['error']['message'] ?? $pubRes['error'] ?? ('Publish HTTP ' . $pubRes['code'])];
 }
@@ -379,6 +426,32 @@ function publishToLinkedIn(array $cfg, array $post): array {
 // =========================================================================
 // ROTEAMENTO DE AÇÕES
 // =========================================================================
+if ($action === 'check_video_caps') {
+    $disabled = array_map('trim', explode(',', (string)ini_get('disable_functions')));
+    $canExec = function_exists('exec') && !in_array('exec', $disabled, true);
+    $ffmpegPath = '';
+    $ffmpegVer = '';
+    if ($canExec) {
+        @exec('which ffmpeg 2>/dev/null', $outPath);
+        $ffmpegPath = trim((string)($outPath[0] ?? ''));
+        if (!empty($ffmpegPath)) {
+            @exec('ffmpeg -version 2>/dev/null | head -n 1', $outVer);
+            $ffmpegVer = trim((string)($outVer[0] ?? ''));
+        }
+    }
+    echo json_encode([
+        'success' => true,
+        'php_version' => PHP_VERSION,
+        'can_exec' => $canExec,
+        'ffmpeg_path' => $ffmpegPath,
+        'ffmpeg_version' => $ffmpegVer,
+        'gd_loaded' => extension_loaded('gd'),
+        'imagick_loaded' => extension_loaded('imagick'),
+        'max_execution_time' => ini_get('max_execution_time')
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
 if ($action === 'get_config') {
     $cfg = getSocialConfig($configFile);
     $history = loadSocialHistory($historyFile);
@@ -461,7 +534,7 @@ if ($action === 'run' || $action === 'test_post') {
     $post = buildPostContent($course, (string)($_GET['period'] ?? ''));
     $results = [
         'facebook' => publishToFacebook($cfg['facebook'] ?? [], $post),
-        'instagram' => publishToInstagram($cfg['instagram'] ?? [], $post, $cfg['facebook']['access_token'] ?? ''),
+        'instagram' => publishToInstagram($cfg['instagram'] ?? [], $post, $cfg['facebook']['access_token'] ?? '', (string)$course['id']),
         'linkedin' => publishToLinkedIn($cfg['linkedin'] ?? [], $post)
     ];
 

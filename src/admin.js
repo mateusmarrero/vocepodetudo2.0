@@ -7747,10 +7747,41 @@ document.addEventListener("DOMContentLoaded", () => { setupNewsletterBroadcastFe
   // =========================================================================
   // MÓDULO REDES SOCIAIS & AUTOPOST (LINKEDIN, INSTAGRAM, FACEBOOK)
   // =========================================================================
+  const SOCIAL_API_BASE = window.location.protocol === 'file:'
+    ? 'https://vocepodetudo.com/api'
+    : './api';
+
+  function socialEscapeHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function socialNotify(msg, type = 'info') {
+    if (typeof window.showToast === 'function') {
+      window.showToast(msg, type);
+      return;
+    }
+    const toast = document.getElementById('admin-toast');
+    const toastMsg = document.getElementById('admin-toast-msg');
+    if (toast && toastMsg) {
+      toastMsg.textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 4000);
+    } else {
+      console.log(`[Social ${type}]`, msg);
+    }
+  }
+
   function getSocialAdminToken() {
-    if (typeof state !== 'undefined' && state.token) return state.token;
     try {
-      return localStorage.getItem('vpt_admin_token') || sessionStorage.getItem('vpt_admin_token') || '';
+      return localStorage.getItem('vpt_admin_token')
+        || sessionStorage.getItem('vpt_auth_token')
+        || sessionStorage.getItem('vpt_admin_token')
+        || '';
     } catch (e) {
       return '';
     }
@@ -7764,13 +7795,13 @@ document.addEventListener("DOMContentLoaded", () => { setupNewsletterBroadcastFe
     if (resObj.status === 'skipped') {
       return '<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-500 text-[10px] font-bold">Inativo</span>';
     }
-    return `<span class="px-2 py-0.5 rounded bg-rose-100 text-rose-800 text-[10px] font-black" title="${escapeHTML(resObj.message || 'Erro')}">Erro</span>`;
+    return `<span class="px-2 py-0.5 rounded bg-rose-100 text-rose-800 text-[10px] font-black" title="${socialEscapeHtml(resObj.message || 'Erro')}">Erro: ${socialEscapeHtml(resObj.message || '')}</span>`;
   }
 
   async function fetchSocialAutopostConfig() {
     const token = getSocialAdminToken();
     try {
-      const res = await fetch(`${API_BASE}/social_autopost.php?action=get_config&t=${Date.now()}`, {
+      const res = await fetch(`${SOCIAL_API_BASE}/social_autopost.php?action=get_config&t=${Date.now()}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -7815,9 +7846,9 @@ document.addEventListener("DOMContentLoaded", () => { setupNewsletterBroadcastFe
             const r = h.results || {};
             return `
               <tr class="hover:bg-slate-50">
-                <td class="py-2 px-3 font-mono text-[11px] text-slate-500 whitespace-nowrap">${escapeHTML(dt)}</td>
-                <td class="py-2 px-3 uppercase text-[10px] font-black text-slate-600">${escapeHTML(h.period || '-')}</td>
-                <td class="py-2 px-3 text-slate-900 max-w-[240px] truncate" title="${escapeHTML(h.course_title || '')}">${escapeHTML(h.course_title || '-')}</td>
+                <td class="py-2 px-3 font-mono text-[11px] text-slate-500 whitespace-nowrap">${socialEscapeHtml(dt)}</td>
+                <td class="py-2 px-3 uppercase text-[10px] font-black text-slate-600">${socialEscapeHtml(h.period || '-')}</td>
+                <td class="py-2 px-3 text-slate-900 max-w-[240px] truncate" title="${socialEscapeHtml(h.course_title || '')}">${socialEscapeHtml(h.course_title || '-')}</td>
                 <td class="py-2 px-3">${formatSocialStatusBadge(r.facebook)}</td>
                 <td class="py-2 px-3">${formatSocialStatusBadge(r.instagram)}</td>
                 <td class="py-2 px-3">${formatSocialStatusBadge(r.linkedin)}</td>
@@ -7856,7 +7887,7 @@ document.addEventListener("DOMContentLoaded", () => { setupNewsletterBroadcastFe
       };
 
       try {
-        const res = await fetch(`${API_BASE}/social_autopost.php?action=save_config`, {
+        const res = await fetch(`${SOCIAL_API_BASE}/social_autopost.php?action=save_config`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -7866,13 +7897,13 @@ document.addEventListener("DOMContentLoaded", () => { setupNewsletterBroadcastFe
         });
         const data = await res.json();
         if (data && data.success) {
-          if (typeof showToast === 'function') showToast('Credenciais salvas com segurança!', 'success');
+          socialNotify('Credenciais salvas com segurança!', 'success');
           fetchSocialAutopostConfig();
         } else {
-          if (typeof showToast === 'function') showToast(data.error || 'Erro ao salvar.', 'error');
+          socialNotify(data.error || 'Erro ao salvar.', 'error');
         }
       } catch (err) {
-        if (typeof showToast === 'function') showToast('Erro de conexão ao salvar.', 'error');
+        socialNotify('Erro de conexão ao salvar.', 'error');
       }
     });
   }
@@ -7882,7 +7913,7 @@ document.addEventListener("DOMContentLoaded", () => { setupNewsletterBroadcastFe
     socialPreviewBtn.addEventListener('click', async () => {
       const token = getSocialAdminToken();
       try {
-        const res = await fetch(`${API_BASE}/social_autopost.php?action=preview&t=${Date.now()}`, {
+        const res = await fetch(`${SOCIAL_API_BASE}/social_autopost.php?action=preview&t=${Date.now()}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
@@ -7895,9 +7926,11 @@ document.addEventListener("DOMContentLoaded", () => { setupNewsletterBroadcastFe
           if (cap) cap.textContent = data.preview.caption;
           if (per) per.textContent = `Período: ${data.preview.period}`;
           if (box) box.classList.remove('hidden');
+        } else {
+          socialNotify((data && data.error) || 'Não foi possível gerar prévia.', 'error');
         }
       } catch (err) {
-        if (typeof showToast === 'function') showToast('Erro ao gerar prévia.', 'error');
+        socialNotify('Erro ao gerar prévia.', 'error');
       }
     });
   }
@@ -7909,7 +7942,7 @@ document.addEventListener("DOMContentLoaded", () => { setupNewsletterBroadcastFe
       socialTestBtn.disabled = true;
       socialTestBtn.textContent = 'Publicando...';
       try {
-        const res = await fetch(`${API_BASE}/social_autopost.php?action=test_post&t=${Date.now()}`, {
+        const res = await fetch(`${SOCIAL_API_BASE}/social_autopost.php?action=test_post&t=${Date.now()}`, {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -7917,14 +7950,14 @@ document.addEventListener("DOMContentLoaded", () => { setupNewsletterBroadcastFe
         if (data && data.success) {
           const msg = data.published_any
             ? `Publicado com sucesso: ${data.course_title}`
-            : `Execução concluída (nenhuma rede ativa publicada): ${data.course_title}`;
-          if (typeof showToast === 'function') showToast(msg, data.published_any ? 'success' : 'info');
+            : `Execução concluída (verifique status no histórico): ${data.course_title}`;
+          socialNotify(msg, data.published_any ? 'success' : 'info');
           fetchSocialAutopostConfig();
         } else {
-          if (typeof showToast === 'function') showToast(data.error || 'Erro ao publicar.', 'error');
+          socialNotify((data && data.error) || 'Erro ao publicar.', 'error');
         }
       } catch (err) {
-        if (typeof showToast === 'function') showToast('Erro ao conectar ao publicador.', 'error');
+        socialNotify('Erro ao conectar ao publicador.', 'error');
       } finally {
         socialTestBtn.disabled = false;
         socialTestBtn.textContent = 'Publicar Agora (Teste)';

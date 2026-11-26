@@ -375,7 +375,7 @@ function publishToInstagram(array $cfg, array $post, string $fbFallbackToken = '
     $reelLocalPath = __DIR__ . '/../assets/reels/' . basename($courseId) . '.mp4';
     $hasReelVideo = !empty($courseId) && file_exists($reelLocalPath);
 
-    // Passo 1: Criar Container de Mídia (REELS se houver .mp4, ou Imagem padrão)
+    // Passo 1: Criar Container de Mídia (REELS via Resumable Upload se houver .mp4, ou Imagem padrão)
     $createUrl = 'https://graph.facebook.com/v21.0/' . rawurlencode($cfg['ig_user_id']) . '/media';
     $mediaFields = [
         'caption' => $post['caption'],
@@ -383,7 +383,7 @@ function publishToInstagram(array $cfg, array $post, string $fbFallbackToken = '
     ];
     if ($hasReelVideo) {
         $mediaFields['media_type'] = 'REELS';
-        $mediaFields['video_url'] = 'https://vocepodetudo.com/assets/reels/' . rawurlencode(basename($courseId)) . '.mp4';
+        $mediaFields['upload_type'] = 'resumable';
         $mediaFields['share_to_feed'] = 'true';
     } else {
         $mediaFields['image_url'] = $post['image_url'];
@@ -397,9 +397,36 @@ function publishToInstagram(array $cfg, array $post, string $fbFallbackToken = '
 
     $containerId = $createJson['id'];
 
-    // Para Reels (vídeo), aguardar o processamento da Meta até status_code === FINISHED
+    // Para Reels (vídeo), enviar binário direto para rupload.facebook.com e aguardar FINISHED
     if ($hasReelVideo) {
-        $statusUrl = 'https://graph.facebook.com/v21.0/' . rawurlencode($containerId) . '?fields=status_code&access_token=' . rawurlencode($token);
+        $uploadUri = $createJson['uri'] ?? ('https://rupload.facebook.com/ig-api-upload/v21.0/' . rawurlencode($containerId));
+        $fileBytes = @file_get_contents($reelLocalPath);
+        $fileSize = $fileBytes !== false ? strlen($fileBytes) : 0;
+        if ($fileSize === 0) {
+            return ['status' => 'error', 'message' => 'Arquivo de vídeo Reels vazio ou ilegível.'];
+        }
+
+        $chUp = curl_init($uploadUri);
+        curl_setopt($chUp, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($chUp, CURLOPT_POST, true);
+        curl_setopt($chUp, CURLOPT_POSTFIELDS, $fileBytes);
+        curl_setopt($chUp, CURLOPT_TIMEOUT, 60);
+        curl_setopt($chUp, CURLOPT_HTTPHEADER, [
+            'Authorization: OAuth ' . $token,
+            'offset: 0',
+            'file_size: ' . $fileSize
+        ]);
+        $upResp = curl_exec($chUp);
+        $upCode = (int)curl_getinfo($chUp, CURLINFO_HTTP_CODE);
+        $upErr = curl_error($chUp);
+        curl_close($chUp);
+        $upJson = json_decode((string)$upResp, true);
+
+        if ($upCode < 200 || $upCode >= 300 || empty($upJson['success'])) {
+            return ['status' => 'error', 'message' => 'Upload direto Reels falhou: ' . ($upJson['debug_info']['message'] ?? $upErr ?: ('HTTP ' . $upCode . ' ' . $upResp))];
+        }
+
+        $statusUrl = 'https://graph.facebook.com/v21.0/' . rawurlencode($containerId) . '?fields=status,status_code&access_token=' . rawurlencode($token);
         $ready = false;
         for ($i = 0; $i < 12; $i++) {
             sleep(3);
@@ -415,7 +442,8 @@ function publishToInstagram(array $cfg, array $post, string $fbFallbackToken = '
                 break;
             }
             if ($code === 'ERROR' || $code === 'EXPIRED') {
-                return ['status' => 'error', 'message' => 'Processamento do vídeo Reels falhou na Meta (' . $code . ')'];
+                $detail = !empty($stJson['status']) ? ' - ' . $stJson['status'] : '';
+                return ['status' => 'error', 'message' => 'Processamento do vídeo Reels falhou na Meta (' . $code . $detail . ')'];
             }
         }
         if (!$ready) {
@@ -618,10 +646,11 @@ if ($action === 'run' || $action === 'test_post') {
         : buildPostContent($picked['data'], (string)($_GET['period'] ?? ''));
     $reelId = $picked['type'] === 'course' ? $picked['id'] : '';
 
+    $onlyNet = strtolower(trim((string)($_GET['only'] ?? '')));
     $results = [
-        'facebook' => publishToFacebook($cfg['facebook'] ?? [], $post),
-        'instagram' => publishToInstagram($cfg['instagram'] ?? [], $post, $cfg['facebook']['access_token'] ?? '', $reelId),
-        'linkedin' => publishToLinkedIn($cfg['linkedin'] ?? [], $post)
+        'facebook' => (!$onlyNet || $onlyNet === 'facebook') ? publishToFacebook($cfg['facebook'] ?? [], $post) : ['status' => 'skipped', 'message' => 'Ignorado por filtro only'],
+        'instagram' => (!$onlyNet || $onlyNet === 'instagram') ? publishToInstagram($cfg['instagram'] ?? [], $post, $cfg['facebook']['access_token'] ?? '', $reelId) : ['status' => 'skipped', 'message' => 'Ignorado por filtro only'],
+        'linkedin' => (!$onlyNet || $onlyNet === 'linkedin') ? publishToLinkedIn($cfg['linkedin'] ?? [], $post) : ['status' => 'skipped', 'message' => 'Ignorado por filtro only']
     ];
 
     $anyOk = ($results['facebook']['status'] === 'ok' || $results['instagram']['status'] === 'ok' || $results['linkedin']['status'] === 'ok');

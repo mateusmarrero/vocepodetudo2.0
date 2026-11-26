@@ -310,13 +310,38 @@ function publishToInstagram(array $cfg, array $post, string $fbFallbackToken = '
     return ['status' => 'error', 'message' => $pubJson['error']['message'] ?? $pubRes['error'] ?? ('Publish HTTP ' . $pubRes['code'])];
 }
 
+function resolveLinkedInAuthorUrn(string $accessToken, string $configuredUrn = ''): string {
+    $urn = trim($configuredUrn);
+    if (!empty($urn) && strtolower($urn) !== 'auto') {
+        return $urn;
+    }
+    $ch = curl_init('https://api.linkedin.com/v2/userinfo');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: Bearer ' . $accessToken]);
+    $resp = curl_exec($ch);
+    $code = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    if ($code >= 200 && $code < 300 && $resp) {
+        $data = json_decode((string)$resp, true);
+        if (!empty($data['sub'])) {
+            return 'urn:li:person:' . $data['sub'];
+        }
+    }
+    return '';
+}
+
 function publishToLinkedIn(array $cfg, array $post): array {
-    if (empty($cfg['enabled']) || empty($cfg['author_urn']) || empty($cfg['access_token'])) {
-        return ['status' => 'skipped', 'message' => 'LinkedIn desativado ou sem credenciais'];
+    if (empty($cfg['enabled']) || empty($cfg['access_token'])) {
+        return ['status' => 'skipped', 'message' => 'LinkedIn desativado ou sem token'];
+    }
+    $authorUrn = resolveLinkedInAuthorUrn((string)$cfg['access_token'], (string)($cfg['author_urn'] ?? ''));
+    if (empty($authorUrn)) {
+        return ['status' => 'error', 'message' => 'Não foi possível identificar o Author URN do LinkedIn (preencha ou verifique o scope openid/profile).'];
     }
     $url = 'https://api.linkedin.com/v2/ugcPosts';
     $payload = [
-        'author' => $cfg['author_urn'],
+        'author' => $authorUrn,
         'lifecycleState' => 'PUBLISHED',
         'specificContent' => [
             'com.linkedin.ugc.ShareContent' => [

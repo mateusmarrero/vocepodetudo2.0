@@ -5495,6 +5495,68 @@ function renderCourses(resetPagination = true) {
       if (authModal) authModal.classList.add('hidden');
     }
 
+    // Integração Google Sign-In (Google Identity Services)
+    const GOOGLE_CLIENT_ID = '37658331837-j28kd107lpchocldtrplb8ompm6082cc.apps.googleusercontent.com';
+    let googleSignInInitialized = false;
+
+    async function handleGoogleCredentialResponse(response) {
+      if (!response || !response.credential) return;
+      if (alertBox) {
+        alertBox.classList.add('hidden');
+        alertBox.textContent = '';
+      }
+      try {
+        const res = await fetch('api/student.php?action=google_login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ credential: response.credential })
+        });
+        const json = await res.json();
+        if (!res.ok || json.error) {
+          throw new Error(json.message || 'Falha ao autenticar com o Google.');
+        }
+        localStorage.setItem('vpt_student_token', json.token);
+        state.studentToken = json.token;
+        state.student = json.student;
+        updateStudentUI();
+        closeModal();
+        showToast(json.message || `Bem-vindo, ${json.student.name.split(' ')[0]}!`, 'success');
+        openStudentDashboard('courses');
+      } catch (err) {
+        if (alertBox) {
+          alertBox.className = 'mb-4 p-3 rounded-xl text-xs font-bold bg-rose-100 text-rose-900 border border-rose-300';
+          alertBox.textContent = err.message || 'Não foi possível entrar com o Google.';
+          alertBox.classList.remove('hidden');
+        }
+      }
+    }
+
+    function initGoogleSignIn(retries = 0) {
+      if (googleSignInInitialized) return;
+      const container = document.getElementById('google-signin-btn-container');
+      if (!container) return;
+      if (window.google && window.google.accounts && window.google.accounts.id) {
+        googleSignInInitialized = true;
+        window.google.accounts.id.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          callback: handleGoogleCredentialResponse
+        });
+        window.google.accounts.id.renderButton(container, {
+          theme: 'outline',
+          size: 'large',
+          type: 'standard',
+          shape: 'pill',
+          text: 'continue_with',
+          locale: 'pt-BR',
+          width: 320
+        });
+      } else if (retries < 20) {
+        setTimeout(() => initGoogleSignIn(retries + 1), 300);
+      }
+    }
+
+    initGoogleSignIn();
+
     if (openBtn) openBtn.addEventListener('click', () => openModal('register'));
     if (quizSaveBtn) quizSaveBtn.addEventListener('click', () => openModal('register'));
     if (closeBtn) closeBtn.addEventListener('click', closeModal);

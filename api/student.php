@@ -375,6 +375,11 @@ try {
                 jsonResponse(['error' => true, 'message' => 'Token do Google inválido ou expirado.'], 401);
             }
 
+            $expectedGoogleClientId = getenv('GOOGLE_CLIENT_ID') ?: '37658331837-j28kd107lpchocldtrplb8ompm6082cc.apps.googleusercontent.com';
+            if (($googlePayload['aud'] ?? '') !== $expectedGoogleClientId || ($googlePayload['email_verified'] ?? '') !== 'true') {
+                jsonResponse(['error' => true, 'message' => 'Token do Google não pertence a esta aplicação ou e-mail não verificado.'], 401);
+            }
+
             $email = strtolower(trim($googlePayload['email']));
             $name = trim($googlePayload['name'] ?? $googlePayload['given_name'] ?? 'Aluno');
             $avatarColor = '#002776';

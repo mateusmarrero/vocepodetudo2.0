@@ -2550,6 +2550,16 @@
       <!-- Alerta de Erro/Sucesso -->
       <div id="student-auth-alert" class="hidden mb-4 p-3 rounded-xl text-xs font-bold"></div>
 
+      <!-- Login Rápido com Google -->
+      <div class="mb-4">
+        <div id="google-signin-btn-container" class="flex justify-center min-h-[40px]"></div>
+        <div class="relative flex py-3 items-center">
+          <div class="flex-grow border-t border-slate-200"></div>
+          <span class="flex-shrink mx-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">ou continue com e-mail</span>
+          <div class="flex-grow border-t border-slate-200"></div>
+        </div>
+      </div>
+
       <!-- Formulário de Autenticação -->
       <form id="student-auth-form" class="space-y-3.5">
         
@@ -4270,10 +4280,13 @@
   
 
 
-  <!-- Carregamento dos Scripts da Aplicação (com Cache-Busting v=4.97.0) -->
-  <script src="./src/data/courses.js?v=4.97.0"></script>
-  <script src="./src/data/course_details.js?v=4.97.0"></script>
-  <script src="./src/data/career_quiz.js?v=4.97.0"></script>
-  <script src="./src/app.js?v=4.97.0"></script>
+  <!-- Google Identity Services (Login com Google) -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <!-- Carregamento dos Scripts da Aplicação (com Cache-Busting v=5.01.0) -->
+  <script src="./src/data/courses.js?v=5.01.0"></script>
+  <script src="./src/data/course_details.js?v=5.01.0"></script>
+  <script src="./src/data/career_quiz.js?v=5.01.0"></script>
+  <script src="./src/app.js?v=5.01.0"></script>
 </body>
 </html>

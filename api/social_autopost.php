@@ -673,7 +673,17 @@ if ($action === 'preview') {
     $post = $picked['type'] === 'blog'
         ? buildBlogPostContent($picked['data'], (string)($_GET['period'] ?? ''))
         : buildPostContent($picked['data'], (string)($_GET['period'] ?? ''));
-    echo json_encode(['success' => true, 'preview' => $post, 'course_id' => $picked['id'], 'content_type' => $picked['type']], JSON_UNESCAPED_UNICODE);
+    $reelFile = __DIR__ . '/../assets/reels/' . basename((string)$picked['id']) . '.mp4';
+    $reelUrl = file_exists($reelFile)
+        ? 'https://vocepodetudo.com/assets/reels/' . rawurlencode(basename((string)$picked['id'])) . '.mp4'
+        : '';
+    echo json_encode([
+        'success' => true,
+        'preview' => $post,
+        'course_id' => $picked['id'],
+        'content_type' => $picked['type'],
+        'reel_url' => $reelUrl
+    ], JSON_UNESCAPED_UNICODE);
     exit;
 }
 

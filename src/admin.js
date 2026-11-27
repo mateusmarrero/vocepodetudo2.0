@@ -7933,29 +7933,112 @@ document.addEventListener("DOMContentLoaded", () => { setupNewsletterBroadcastFe
     });
   }
 
+  let lastSocialPreview = null;
+
+  async function loadSocialPreviewAndRender() {
+    const token = getSocialAdminToken();
+    try {
+      const res = await fetch(`${SOCIAL_API_BASE}/social_autopost.php?action=preview&t=${Date.now()}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (data && data.success && data.preview) {
+        lastSocialPreview = { ...data.preview, reel_url: data.reel_url || '' };
+        const box = document.getElementById('social-preview-box');
+        const img = document.getElementById('social-preview-img');
+        const cap = document.getElementById('social-preview-caption');
+        const per = document.getElementById('social-preview-period');
+        const waLink = document.getElementById('social-wa-share-link');
+        const reelLink = document.getElementById('social-reel-download-link');
+        const nativeBtn = document.getElementById('social-native-share-btn');
+
+        if (img) img.src = data.preview.image_url;
+        if (cap) cap.textContent = data.preview.caption;
+        if (per) per.textContent = `Período: ${data.preview.period}${data.reel_url ? ' • Com Vídeo Reel' : ''}`;
+        if (waLink) waLink.href = `https://wa.me/?text=${encodeURIComponent(data.preview.caption || '')}`;
+        if (reelLink) {
+          if (data.reel_url) {
+            reelLink.href = data.reel_url;
+            reelLink.classList.remove('hidden');
+          } else {
+            reelLink.classList.add('hidden');
+          }
+        }
+        if (nativeBtn) {
+          if (data.reel_url && typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+            nativeBtn.classList.remove('hidden');
+          } else {
+            nativeBtn.classList.add('hidden');
+          }
+        }
+        if (box) box.classList.remove('hidden');
+        return lastSocialPreview;
+      } else {
+        socialNotify((data && data.error) || 'Não foi possível gerar prévia.', 'error');
+      }
+    } catch (err) {
+      socialNotify('Erro ao gerar prévia.', 'error');
+    }
+    return null;
+  }
+
   const socialPreviewBtn = document.getElementById('social-preview-btn');
   if (socialPreviewBtn) {
-    socialPreviewBtn.addEventListener('click', async () => {
-      const token = getSocialAdminToken();
+    socialPreviewBtn.addEventListener('click', loadSocialPreviewAndRender);
+  }
+
+  const socialWaQuickBtn = document.getElementById('social-whatsapp-quick-btn');
+  if (socialWaQuickBtn) {
+    socialWaQuickBtn.addEventListener('click', async () => {
+      const preview = await loadSocialPreviewAndRender();
+      const box = document.getElementById('social-preview-box');
+      if (box) box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (preview) {
+        socialNotify('Post pronto! Copie a legenda, baixe o vídeo Reel ou envie direto pelo WhatsApp.', 'success');
+      }
+    });
+  }
+
+  const socialCopyCapBtn = document.getElementById('social-copy-caption-btn');
+  if (socialCopyCapBtn) {
+    socialCopyCapBtn.addEventListener('click', async () => {
+      const text = lastSocialPreview?.caption || document.getElementById('social-preview-caption')?.textContent || '';
+      if (!text) return;
       try {
-        const res = await fetch(`${SOCIAL_API_BASE}/social_autopost.php?action=preview&t=${Date.now()}`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await res.json();
-        if (data && data.success && data.preview) {
-          const box = document.getElementById('social-preview-box');
-          const img = document.getElementById('social-preview-img');
-          const cap = document.getElementById('social-preview-caption');
-          const per = document.getElementById('social-preview-period');
-          if (img) img.src = data.preview.image_url;
-          if (cap) cap.textContent = data.preview.caption;
-          if (per) per.textContent = `Período: ${data.preview.period}`;
-          if (box) box.classList.remove('hidden');
+        await navigator.clipboard.writeText(text);
+        socialNotify('Legenda copiada! Agora cole no Status do WhatsApp.', 'success');
+      } catch {
+        socialNotify('Não foi possível copiar automaticamente. Selecione o texto da prévia.', 'info');
+      }
+    });
+  }
+
+  const socialNativeShareBtn = document.getElementById('social-native-share-btn');
+  if (socialNativeShareBtn) {
+    socialNativeShareBtn.addEventListener('click', async () => {
+      if (!lastSocialPreview?.reel_url) return;
+      socialNativeShareBtn.disabled = true;
+      socialNativeShareBtn.textContent = 'Preparando vídeo...';
+      try {
+        const resp = await fetch(lastSocialPreview.reel_url);
+        const blob = await resp.blob();
+        const file = new File([blob], 'vocepodetudo-status.mp4', { type: 'video/mp4' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: 'Você Pode Tudo',
+            text: lastSocialPreview.caption || ''
+          });
         } else {
-          socialNotify((data && data.error) || 'Não foi possível gerar prévia.', 'error');
+          window.open(`https://wa.me/?text=${encodeURIComponent(lastSocialPreview.caption || '')}`, '_blank', 'noopener');
         }
       } catch (err) {
-        socialNotify('Erro ao gerar prévia.', 'error');
+        if (err && err.name !== 'AbortError') {
+          socialNotify('Use "Baixar Vídeo Reel (MP4)" para publicar no Status.', 'info');
+        }
+      } finally {
+        socialNativeShareBtn.disabled = false;
+        socialNativeShareBtn.textContent = 'Enviar Vídeo p/ Status (Celular)';
       }
     });
   }

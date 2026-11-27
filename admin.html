@@ -3034,9 +3034,12 @@
             <h2 class="text-lg sm:text-xl font-black">Publicação Automática no LinkedIn, Instagram e Facebook</h2>
             <p class="text-xs text-blue-100 mt-1">Sorteia cursos gratuitos aleatórios (sem repetir os últimos 40) e publica automaticamente de manhã, tarde e noite via API oficial.</p>
           </div>
-          <div class="flex items-center gap-2 flex-shrink-0">
+          <div class="flex flex-wrap items-center gap-2 flex-shrink-0">
             <button type="button" id="social-preview-btn" class="px-4 py-2.5 rounded-xl text-xs font-black bg-white/15 hover:bg-white/25 text-white border border-white/30 transition-all cursor-pointer">
               Gerar Prévia
+            </button>
+            <button type="button" id="social-whatsapp-quick-btn" class="px-4 py-2.5 rounded-xl text-xs font-black bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-md transition-all cursor-pointer">
+              Status WhatsApp
             </button>
             <button type="button" id="social-test-post-btn" class="px-4 py-2.5 rounded-xl text-xs font-black bg-[#ffcc29] hover:bg-amber-300 text-slate-950 shadow-md transition-all cursor-pointer">
               Publicar Agora (Teste)
@@ -3059,6 +3062,20 @@
             <img id="social-preview-img" src="" alt="Capa do curso sorteado" class="w-full aspect-video object-cover rounded-xl border border-slate-200">
             <div class="md:col-span-2 space-y-2">
               <pre id="social-preview-caption" class="whitespace-pre-wrap font-sans text-xs text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-200 max-h-56 overflow-y-auto"></pre>
+              <div class="flex flex-wrap items-center gap-2 pt-1">
+                <button type="button" id="social-copy-caption-btn" class="px-3 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 transition-all cursor-pointer">
+                  Copiar Legenda
+                </button>
+                <a id="social-wa-share-link" href="#" target="_blank" rel="noopener" class="px-3 py-2 rounded-xl text-xs font-black bg-emerald-600 hover:bg-emerald-700 text-white transition-all inline-flex items-center gap-1.5">
+                  Abrir no WhatsApp
+                </a>
+                <a id="social-reel-download-link" href="#" download class="hidden px-3 py-2 rounded-xl text-xs font-black bg-purple-700 hover:bg-purple-800 text-white transition-all inline-flex items-center gap-1.5">
+                  Baixar Vídeo Reel (MP4)
+                </a>
+                <button type="button" id="social-native-share-btn" class="hidden px-3 py-2 rounded-xl text-xs font-black bg-[#002776] hover:bg-blue-900 text-white transition-all cursor-pointer">
+                  Enviar Vídeo p/ Status (Celular)
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -50,6 +50,39 @@
     }, 3500);
   }
 
+  // Abertura ultra-resiliente do Leitor Modal globalmente disponível
+  window.openBlogReaderById = function (postId) {
+    if (!postId) return;
+    const strId = String(postId);
+    const post = (blogData || []).find(p => String(p.id) === strId || String(p.slug) === strId);
+    if (post) {
+      openBlogReader(post);
+      return;
+    }
+    const modal = document.getElementById('blog-reader-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      const titleEl = document.getElementById('blog-modal-title');
+      if (titleEl) titleEl.textContent = 'Carregando artigo...';
+      const contentEl = document.getElementById('blog-modal-content');
+      if (contentEl) contentEl.innerHTML = '<div class="py-12 text-center text-slate-400 font-bold"><i data-lucide="loader" class="w-7 h-7 animate-spin mx-auto mb-2 text-[#005e24]"></i><span>Buscando artigo...</span></div>';
+      if (window.lucide) window.lucide.createIcons();
+    }
+    fetch(`api/blog.php?action=get&id=${encodeURIComponent(postId)}`)
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.success && data.post) {
+          openBlogReader(data.post);
+        } else {
+          window.location.href = '/artigo/' + encodeURIComponent(postId);
+        }
+      })
+      .catch(() => {
+        window.location.href = '/artigo/' + encodeURIComponent(postId);
+      });
+  };
+
   function initDarkMode() {
     const toggleBtn = document.getElementById('btn-dark-mode-toggle');
     const icon = document.getElementById('dark-mode-icon');
@@ -176,6 +209,7 @@
               type="button" 
               class="read-post-btn px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-emerald-50 hover:text-[#005e24] border border-slate-200 transition-all cursor-pointer flex items-center justify-center shadow-2xs hover:scale-105 active:scale-95"
               data-post-id="${post.id}"
+              onclick="window.openBlogReaderById && window.openBlogReaderById('${post.id}'); return false;"
               title="Pré-visualizar em tela cheia (modal)"
               aria-label="Abrir pré-visualização rápida do artigo"
             >
@@ -191,10 +225,12 @@
         e.preventDefault();
         e.stopPropagation();
         const targetBtn = e.target.closest('.read-post-btn') || btn;
-        const id = Number(targetBtn.dataset.postId);
-        const post = blogData.find(p => Number(p.id) === id);
-        if (post) {
-          openBlogReader(post);
+        const id = targetBtn.dataset.postId;
+        if (window.openBlogReaderById) {
+          window.openBlogReaderById(id);
+        } else {
+          const post = (blogData || []).find(p => String(p.id) === String(id) || String(p.slug) === String(id));
+          if (post) openBlogReader(post);
         }
       });
     });
@@ -690,9 +726,14 @@
   }
 
   async function openBlogReader(post) {
+    if (!post) return;
     const modal = document.getElementById('blog-reader-modal');
-    if (!modal) return;
+    if (!modal) {
+      window.location.href = '/artigo/' + encodeURIComponent(post.slug || post.id);
+      return;
+    }
     modal.classList.remove('hidden'); // Exibir modal imediatamente para resposta tátil instantânea
+    document.body.style.overflow = 'hidden';
 
     // Interromper qualquer reprodução de áudio anterior
     stopSpeech();
@@ -875,10 +916,19 @@
     function closeBlogModal() {
       stopSpeech();
       if (modal) modal.classList.add('hidden');
+      document.body.style.overflow = '';
       if (window.history && window.history.replaceState) {
         window.history.replaceState(null, '', '/blog');
       }
     }
+    window.closeBlogModal = closeBlogModal;
+    window.openBlogReader = openBlogReader;
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+        closeBlogModal();
+      }
+    });
 
     // Configurar barra de progresso de leitura ao rolar o artigo
     const scrollContainer = document.getElementById('blog-reader-scroll-container');

@@ -978,9 +978,19 @@
     </div>
   </nav>
 
-  <!-- Script da Página do Blog -->
-  <script src="./src/blog.js?v=4.84.0"></script>
-  <script src="./src/cookie-banner.js?v=4.83.0"></script>
+  <!-- Script da Página do Blog com Cache Busting Ativo -->
+  <script src="./src/blog.js?v=5.02.0"></script>
+  <script src="./src/cookie-banner.js?v=5.02.0"></script>
+  <script>
+    // Registro e auto-atualização do Service Worker para expurgar cache de versões legadas
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js?v=5.02.0')
+        .then(function(reg) {
+          reg.update();
+        })
+        .catch(function() {});
+    }
+  </script>
 
   <!-- Botão Flutuante Oficial do WhatsApp (Apenas Ícone Circular na Lateral) -->
   <aside 

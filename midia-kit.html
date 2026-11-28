@@ -2122,8 +2122,11 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js?v=4.83.0')
-          .then(reg => console.log('Service Worker VPT registrado:', reg.scope))
+        navigator.serviceWorker.register('/sw.js?v=5.02.0')
+          .then(reg => {
+            reg.update();
+            console.log('Service Worker VPT registrado:', reg.scope);
+          })
           .catch(err => console.warn('SW falhou:', err));
       });
     }

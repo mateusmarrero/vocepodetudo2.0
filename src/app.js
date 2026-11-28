@@ -6544,10 +6544,10 @@ function renderCourses(resetPagination = true) {
     // 1. Registro do Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=4.81.0')
+        navigator.serviceWorker.register('./sw.js?v=5.02.0')
           .then((registration) => {
             registration.update();
-            console.log('[PWA] Service Worker v4.81.0 registrado com sucesso:', registration.scope);
+            console.log('[PWA] Service Worker v5.02.0 registrado com sucesso:', registration.scope);
           })
           .catch((error) => {
             console.warn('[PWA] Erro ao registrar Service Worker:', error);

@@ -3982,7 +3982,9 @@ E-mail: ${email}`;
     initCurriculoDarkMode();
 
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js?v=4.81.0').catch(() => {});
+      navigator.serviceWorker.register('./sw.js?v=5.02.0')
+        .then(reg => reg.update())
+        .catch(() => {});
     }
 
     loadFromLocalStorage();

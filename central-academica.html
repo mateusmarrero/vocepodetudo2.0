@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Completo e Metadados Sociais -->
+  <title>Central Acadêmica — Ferramentas ABNT, Lattes e Pesquisa Grátis | Você Pode Tudo</title>
+  <meta name="description" content="O portal definitivo do estudante e pesquisador brasileiro: Gerador de Referências ABNT NBR 6023, Assistente de Currículo Lattes, guias de TCC, fontes científicas e 227 cursos gratuitos com certificado.">
+  <meta name="keywords" content="central academica, ferramentas academicas gratis, gerador de referencias abnt, assistente curriculo lattes, normas abnt tcc, fontes confiaveis pesquisa, vocepodetudo">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://vocepodetudo.com/central-academica">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vocepodetudo.com/central-academica">
+  <meta property="og:title" content="Central Acadêmica — Ferramentas ABNT, Lattes e Pesquisa Grátis | Você Pode Tudo">
+  <meta property="og:description" content="Tudo para o seu sucesso acadêmico: Gerador ABNT NBR 6023, Assistente de Lattes, guias práticos e cursos gratuitos com certificado.">
+  <meta property="og:image" content="https://vocepodetudo.com/assets/og-banner.jpg">
+  <meta property="og:image:secure_url" content="https://vocepodetudo.com/assets/og-banner.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/jpeg">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Central Acadêmica — Você Pode Tudo">
+  <meta name="twitter:description" content="Geradores ABNT, Assistente de Lattes, guias de metodologia e cursos gratuitos com certificado.">
+  <meta name="twitter:image" content="https://vocepodetudo.com/assets/og-banner.jpg">
+
+  <!-- Resource Hints -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+
+  <!-- Favicon & PWA Icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icon-512.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#002776">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              green: '#009B3A',
+              yellow: '#FFDF00',
+              blue: '#002776'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Lucide Icons -->
+  <script defer src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+
+  <!-- Schema.org EducationalOrganization / WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Central Acadêmica Você Pode Tudo",
+    "url": "https://vocepodetudo.com/central-academica",
+    "description": "Hub integrado de ferramentas acadêmicas gratuitas, incluindo gerador de referências ABNT, assistente para Currículo Lattes e cursos gratuitos com certificado.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Você Pode Tudo",
+      "url": "https://vocepodetudo.com"
+    }
+  }
+  </script>
+
+  <!-- Google AdSense Oficial -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9421145457118515" crossorigin="anonymous"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col font-sans">
+
+  <!-- Barra Superior de Utilidades -->
+  <aside class="bg-gradient-to-r from-[#002776] via-[#003da5] to-[#002776] text-white border-b-2 border-[#ffcc29] text-xs py-1.5 px-3 select-none relative z-30">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2 flex-wrap">
+      <div class="flex items-center gap-2">
+        <a href="/" class="inline-flex items-center gap-1 text-white hover:text-[#ffdf00] font-black transition-colors" title="Voltar ao portal principal">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Voltar ao Você Pode Tudo</span>
+        </a>
+        <span class="text-white/40">|</span>
+        <a href="/#cursos" class="inline-flex items-center gap-1 text-blue-200 hover:text-white font-bold transition-colors">
+          <i data-lucide="book-open" class="w-3.5 h-3.5 text-[#ffdf00]"></i>
+          <span>227 Cursos Gratuitos</span>
+        </a>
+      </div>
+      <div class="flex items-center gap-2 text-[11px] text-blue-100 hidden sm:flex">
+        <span>Hub Acadêmico e Científico</span>
+        <span class="text-white/40">•</span>
+        <span class="font-bold text-[#ffdf00]">100% Gratuito e Aberto</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Hero Section da Central Acadêmica -->
+  <header class="bg-gradient-to-b from-[#002776] to-[#001c55] text-white py-12 md:py-16 px-4 relative overflow-hidden">
+    <!-- Efeito decorativo de fundo -->
+    <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -left-20 -top-20 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto relative z-10 text-center space-y-4">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-white/10 text-[#ffdf00] border border-white/20 backdrop-blur-sm">
+        <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+        <span>Portal de Apoio ao Estudante e Pesquisador</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight max-w-4xl mx-auto">
+        Central Acadêmica <span class="text-[#ffdf00]">Você Pode Tudo</span>
+      </h1>
+
+      <p class="text-sm sm:text-base text-blue-100 max-w-2xl mx-auto leading-relaxed">
+        Suas ferramentas essenciais reunidas em um só lugar: gere referências ABNT automáticas, estruture seu Currículo Lattes, acesse bases de dados oficiais e acelere seu TCC ou graduação.
+      </p>
+
+      <!-- Indicadores Rápidos -->
+      <div class="pt-4 flex items-center justify-center gap-3 sm:gap-6 flex-wrap text-xs text-blue-200">
+        <div class="flex items-center gap-1.5">
+          <i data-lucide="check-circle" class="w-4 h-4 text-[#ffdf00]"></i>
+          <span>ABNT NBR 6023 Atualizada</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <i data-lucide="check-circle" class="w-4 h-4 text-[#ffdf00]"></i>
+          <span>Padrão Oficial Lattes / CNPq</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <i data-lucide="check-circle" class="w-4 h-4 text-[#ffdf00]"></i>
+          <span>227 Cursos com Certificado</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <i data-lucide="check-circle" class="w-4 h-4 text-[#ffdf00]"></i>
+          <span>Sem Cadastro Obrigatório</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal do Hub -->
+  <main class="max-w-7xl mx-auto px-4 py-10 flex-1 w-full space-y-12">
+    
+    <!-- SEÇÃO 1: Ferramentas Acadêmicas Principais -->
+    <section>
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-6 border-b border-slate-200 pb-4">
+        <div>
+          <span class="text-xs font-black uppercase tracking-wider text-blue-700">Ferramentas Gratuitas</span>
+          <h2 class="text-2xl font-black text-slate-900">Aplicativos de Apoio ao Estudo e Pesquisa</h2>
+        </div>
+        <p class="text-xs text-slate-500 max-w-md">Soluções digitais desenvolvidas para economizar seu tempo na formatação de trabalhos e currículos.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- CARD 1: Gerador ABNT -->
+        <div class="bg-white rounded-3xl p-6 border-2 border-slate-200 hover:border-[#002776] shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="p-3 rounded-2xl bg-blue-50 text-[#002776] group-hover:scale-105 transition-transform">
+                <i data-lucide="book-check" class="w-6 h-6"></i>
+              </span>
+              <span class="text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-blue-50 text-[#002776] border border-blue-200">
+                NBR 6023
+              </span>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-black text-slate-900 group-hover:text-[#002776] transition-colors">
+                Gerador de Referências ABNT
+              </h3>
+              <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                Formate livros, artigos de revistas com DOI, sites da internet, TCCs e legislações no padrão ABNT NBR 6023 atualizado. Inclui gerador de citações diretas e indiretas e lista de referências acumulada com cópia em 1 clique para Word e Google Docs.
+              </p>
+            </div>
+
+            <div class="flex items-center gap-2 flex-wrap text-[11px] text-slate-500 pt-1">
+              <span class="px-2 py-0.5 rounded-lg bg-slate-100">Livros</span>
+              <span class="px-2 py-0.5 rounded-lg bg-slate-100">Artigos Científicos</span>
+              <span class="px-2 py-0.5 rounded-lg bg-slate-100">Sites & Leis</span>
+              <span class="px-2 py-0.5 rounded-lg bg-slate-100">Ordem Alfabética</span>
+            </div>
+          </div>
+
+          <div class="pt-6 mt-6 border-t border-slate-100">
+            <a href="gerador-referencias-abnt.html" class="w-full py-2.5 rounded-xl text-xs font-black bg-[#002776] hover:bg-blue-900 text-white flex items-center justify-center gap-2 transition-colors shadow-sm">
+              <span>Abrir Gerador ABNT</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 text-[#ffdf00]"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- CARD 2: Assistente de Currículo Lattes -->
+        <div class="bg-white rounded-3xl p-6 border-2 border-slate-200 hover:border-amber-500 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="p-3 rounded-2xl bg-amber-50 text-amber-700 group-hover:scale-105 transition-transform">
+                <i data-lucide="award" class="w-6 h-6"></i>
+              </span>
+              <span class="text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-200">
+                Padrão CNPq
+              </span>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-black text-slate-900 group-hover:text-amber-800 transition-colors">
+                Assistente de Currículo Lattes
+              </h3>
+              <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                Estruture suas informações acadêmicas, gere automaticamente o texto de resumo biográfico em terceira pessoa no padrão oficial do CNPq e tenha todos os dados organizados por módulos prontos para copiar e colar na plataforma do Lattes.
+              </p>
+            </div>
+
+            <div class="flex items-center gap-2 flex-wrap text-[11px] text-slate-500 pt-1">
+              <span class="px-2 py-0.5 rounded-lg bg-slate-100">Resumo Padrão</span>
+              <span class="px-2 py-0.5 rounded-lg bg-slate-100">Citações Bibliográficas</span>
+              <span class="px-2 py-0.5 rounded-lg bg-slate-100">Cursos de Extensão</span>
+              <span class="px-2 py-0.5 rounded-lg bg-slate-100">Exportar TXT</span>
+            </div>
+          </div>
+
+          <div class="pt-6 mt-6 border-t border-slate-100">
+            <a href="assistente-curriculo-lattes.html" class="w-full py-2.5 rounded-xl text-xs font-black bg-amber-600 hover:bg-amber-700 text-white flex items-center justify-center gap-2 transition-colors shadow-sm">
+              <span>Abrir Assistente Lattes</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 text-[#ffdf00]"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- CARD 3: Guia Completo do Lattes (Artigo) -->
+        <div class="bg-white rounded-3xl p-6 border-2 border-slate-200 hover:border-emerald-600 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="p-3 rounded-2xl bg-emerald-50 text-emerald-700 group-hover:scale-105 transition-transform">
+                <i data-lucide="file-text" class="w-6 h-6"></i>
+              </span>
+              <span class="text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+                Guia Completo
+              </span>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-black text-slate-900 group-hover:text-emerald-800 transition-colors">
+                Como Criar um Currículo Lattes
+              </h3>
+              <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                Tutorial aprofundado para iniciantes, graduandos e pós-graduandos. Aprenda passo a passo o que preencher em cada campo, como evitar os 5 erros mais comuns, o que colocar no resumo mesmo sem publicações e como enviar para publicação oficial.
+              </p>
+            </div>
+
+            <div class="flex items-center gap-2 flex-wrap text-[11px] text-slate-500 pt-1">
+              <span class="px-2 py-0.5 rounded-lg bg-slate-100">Tutorial Passo a Passo</span>
+              <span class="px-2 py-0.5 rounded-lg bg-slate-100">Bolsas PIBIC</span>
+              <span class="px-2 py-0.5 rounded-lg bg-slate-100">Pós-Graduação</span>
+              <span class="px-2 py-0.5 rounded-lg bg-slate-100">Dicas Práticas</span>
+            </div>
+          </div>
+
+          <div class="pt-6 mt-6 border-t border-slate-100">
+            <a href="artigo/como-criar-curriculo-lattes-guia-iniciantes-passo-a-passo" class="w-full py-2.5 rounded-xl text-xs font-black bg-[#009B3A] hover:bg-emerald-700 text-white flex items-center justify-center gap-2 transition-colors shadow-sm">
+              <span>Ler Guia do Lattes</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SEÇÃO 2: Diretório de Portais e Fontes Científicas Oficiais -->
+    <section class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+      <div class="border-b border-slate-100 pb-4">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide bg-blue-50 text-[#002776] border border-blue-200 mb-2">
+          <i data-lucide="database" class="w-3.5 h-3.5"></i>
+          <span>Bases Científicas e Órgãos Oficiais</span>
+        </div>
+        <h2 class="text-2xl font-black text-slate-900">Fontes Oficiais e Confiáveis para sua Pesquisa</h2>
+        <p class="text-xs text-slate-600 mt-1 max-w-3xl">
+          Evite citar blogs genéricos ou fontes não verificadas em trabalhos acadêmicos e TCCs. Utilize os portais oficiais mantidos pelas principais agências de fomento e repositórios científicos do Brasil.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        
+        <!-- Fonte 1: Lattes / CNPq -->
+        <a href="https://lattes.cnpq.br" target="_blank" rel="noopener noreferrer" class="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-[#002776] hover:bg-white transition-all flex items-start gap-3 group">
+          <span class="p-2.5 rounded-xl bg-blue-100 text-[#002776] flex-shrink-0 group-hover:scale-105 transition-transform">
+            <i data-lucide="user-check" class="w-5 h-5"></i>
+          </span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-black text-slate-900 group-hover:text-[#002776] transition-colors">Plataforma Lattes (CNPq)</h4>
+              <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-[#002776]"></i>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-1 line-clamp-2">Cadastro e consulta oficial da trajetória de pesquisadores brasileiros.</p>
+          </div>
+        </a>
+
+        <!-- Fonte 2: Portal de Periódicos CAPES -->
+        <a href="https://www.periodicos.capes.gov.br" target="_blank" rel="noopener noreferrer" class="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-[#002776] hover:bg-white transition-all flex items-start gap-3 group">
+          <span class="p-2.5 rounded-xl bg-emerald-100 text-[#009B3A] flex-shrink-0 group-hover:scale-105 transition-transform">
+            <i data-lucide="newspaper" class="w-5 h-5"></i>
+          </span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-black text-slate-900 group-hover:text-[#002776] transition-colors">Periódicos CAPES</h4>
+              <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-[#002776]"></i>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-1 line-clamp-2">Maior acervo virtual de periódicos científicos e teses do Brasil.</p>
+          </div>
+        </a>
+
+        <!-- Fonte 3: SciELO Brasil -->
+        <a href="https://www.scielo.br" target="_blank" rel="noopener noreferrer" class="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-[#002776] hover:bg-white transition-all flex items-start gap-3 group">
+          <span class="p-2.5 rounded-xl bg-amber-100 text-amber-800 flex-shrink-0 group-hover:scale-105 transition-transform">
+            <i data-lucide="library" class="w-5 h-5"></i>
+          </span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-black text-slate-900 group-hover:text-[#002776] transition-colors">SciELO Brasil</h4>
+              <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-[#002776]"></i>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-1 line-clamp-2">Biblioteca eletrônica que abrange periódicos científicos em acesso aberto.</p>
+          </div>
+        </a>
+
+        <!-- Fonte 4: Google Acadêmico -->
+        <a href="https://scholar.google.com.br" target="_blank" rel="noopener noreferrer" class="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-[#002776] hover:bg-white transition-all flex items-start gap-3 group">
+          <span class="p-2.5 rounded-xl bg-purple-100 text-purple-800 flex-shrink-0 group-hover:scale-105 transition-transform">
+            <i data-lucide="search" class="w-5 h-5"></i>
+          </span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-black text-slate-900 group-hover:text-[#002776] transition-colors">Google Acadêmico</h4>
+              <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-[#002776]"></i>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-1 line-clamp-2">Mecanismo de busca abrangente para literatura acadêmica, teses e citações.</p>
+          </div>
+        </a>
+
+        <!-- Fonte 5: BDTD - IBICT -->
+        <a href="https://bdtd.ibict.br" target="_blank" rel="noopener noreferrer" class="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-[#002776] hover:bg-white transition-all flex items-start gap-3 group">
+          <span class="p-2.5 rounded-xl bg-rose-100 text-rose-800 flex-shrink-0 group-hover:scale-105 transition-transform">
+            <i data-lucide="book" class="w-5 h-5"></i>
+          </span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-black text-slate-900 group-hover:text-[#002776] transition-colors">BDTD (IBICT)</h4>
+              <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-[#002776]"></i>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-1 line-clamp-2">Biblioteca Digital Brasileira de Teses e Dissertações defendidas no país.</p>
+          </div>
+        </a>
+
+        <!-- Fonte 6: Plataforma Brasil -->
+        <a href="https://plataformabrasil.saude.gov.br" target="_blank" rel="noopener noreferrer" class="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-[#002776] hover:bg-white transition-all flex items-start gap-3 group">
+          <span class="p-2.5 rounded-xl bg-cyan-100 text-cyan-800 flex-shrink-0 group-hover:scale-105 transition-transform">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+          </span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-black text-slate-900 group-hover:text-[#002776] transition-colors">Plataforma Brasil</h4>
+              <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-[#002776]"></i>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-1 line-clamp-2">Base nacional para submissão de projetos aos Comitês de Ética em Pesquisa (CEP/CONEP).</p>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- SEÇÃO 3: Guia de Normas ABNT Fundamentais -->
+    <section class="space-y-6">
+      <div class="border-b border-slate-200 pb-4">
+        <span class="text-xs font-black uppercase tracking-wider text-emerald-700">Normas da ABNT</span>
+        <h2 class="text-2xl font-black text-slate-900">As Principais Normas para Trabalhos Acadêmicos</h2>
+        <p class="text-xs text-slate-600 mt-1">Conheça o papel de cada norma técnica da ABNT aplicada à elaboração de TCCs, artigos e monografias.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-[#002776]">NBR 6023</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-bold">2018 (Emenda 2020)</span>
+          </div>
+          <h4 class="text-sm font-black text-slate-900">Referências Bibliográficas</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Padroniza os elementos obrigatórios e complementares para citar livros, periódicos, artigos com DOI, teses e páginas de internet no final do trabalho.
+          </p>
+          <a href="gerador-referencias-abnt.html" class="inline-flex items-center gap-1 text-xs font-bold text-[#002776] hover:underline pt-2">
+            <span>Usar Gerador Automático</span>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-emerald-700">NBR 10520</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold">Atualizada 2023</span>
+          </div>
+          <h4 class="text-sm font-black text-slate-900">Citações em Documentos</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Regula citações diretas (curtas entre aspas ou longas com recuo de 4cm) e citações indiretas (paráfrases com ano de publicação no sistema autor-data).
+          </p>
+          <span class="text-[11px] text-slate-400 block pt-2">Suporte integrado no Gerador</span>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-amber-700">NBR 14724</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-bold">Estrutura</span>
+          </div>
+          <h4 class="text-sm font-black text-slate-900">Trabalhos Acadêmicos</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Define a estrutura completa de teses, dissertações e TCCs: elementos pré-textuais (capa, folha de rosto, resumo), textuais (introdução, desenvolvimento) e pós-textuais.
+          </p>
+          <span class="text-[11px] text-slate-400 block pt-2">Guia em breve no portal</span>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-purple-700">NBR 6028</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-purple-50 text-purple-700 font-bold">Redação</span>
+          </div>
+          <h4 class="text-sm font-black text-slate-900">Resumo de Documentos</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Estabelece as diretrizes para a elaboração do resumo em parágrafo único (150 a 500 palavras em trabalhos acadêmicos), acompanhado de 3 a 5 palavras-chave.
+          </p>
+          <span class="text-[11px] text-slate-400 block pt-2">Apoiado pelo Assistente Lattes</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SEÇÃO 4: Cursos Gratuitos Recomendados para Fortalecer o Lattes -->
+    <section class="bg-gradient-to-br from-emerald-900 via-[#005e24] to-[#002776] text-white rounded-3xl p-6 sm:p-10 shadow-lg relative overflow-hidden">
+      <div class="max-w-3xl space-y-4 relative z-10">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-white/10 text-[#ffdf00] border border-white/20">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          <span>Enriqueça sua Formação Complementar</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl font-black tracking-tight">
+          Precisa de Certificados para Pontuar no Lattes ou Cumprir Horas Complementares?
+        </h2>
+
+        <p class="text-xs sm:text-sm text-emerald-100 leading-relaxed">
+          O portal <em>Você Pode Tudo</em> disponibiliza <strong>227 cursos livres gratuitos com certificado reconhecido em todo o território nacional</strong> (Lei nº 9.394/96). Estude no seu ritmo, emita seu certificado e adicione diretamente ao módulo de Formação Complementar do seu Lattes.
+        </p>
+
+        <div class="pt-2 flex items-center gap-3 flex-wrap">
+          <a href="/#cursos" class="px-5 py-3 rounded-xl text-xs font-black bg-[#ffdf00] text-[#002776] hover:bg-yellow-300 transition-all inline-flex items-center gap-2 shadow-md">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            <span>Explorar os 227 Cursos Gratuitos</span>
+          </a>
+          <a href="assistente-curriculo-lattes.html" class="px-5 py-3 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all inline-flex items-center gap-2">
+            <i data-lucide="award" class="w-4 h-4 text-[#ffdf00]"></i>
+            <span>Como Cadastrar Cursos no Lattes</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="bg-slate-900 text-slate-400 text-xs border-t border-slate-800 py-10 px-4 mt-auto">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <span class="font-black text-base text-white tracking-tight">Você Pode Tudo</span>
+        </div>
+        <p class="text-slate-400 leading-relaxed text-[11px]">
+          Plataforma educacional com cursos gratuitos com certificado, ferramentas acadêmicas e geradores inteligentes para capacitar brasileiros em todo o país.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-3">Central Acadêmica</h4>
+        <ul class="space-y-2 text-[11px]">
+          <li><a href="central-academica.html" class="text-white font-bold">Hub Central Acadêmica</a></li>
+          <li><a href="gerador-referencias-abnt.html" class="hover:text-white transition-colors">Gerador de Referências ABNT</a></li>
+          <li><a href="assistente-curriculo-lattes.html" class="hover:text-white transition-colors">Assistente de Currículo Lattes</a></li>
+          <li><a href="artigo/como-criar-curriculo-lattes-guia-iniciantes-passo-a-passo" class="hover:text-white transition-colors">Como Criar o Lattes (Artigo)</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-3">Ferramentas de Carreira</h4>
+        <ul class="space-y-2 text-[11px]">
+          <li><a href="curriculo.html" class="hover:text-white transition-colors">Gerador de Currículo Profissional (ATS)</a></li>
+          <li><a href="calculadora-trabalhista.html" class="hover:text-white transition-colors">Calculadora Trabalhista</a></li>
+          <li><a href="teste-vocacional.html" class="hover:text-white transition-colors">Teste Vocacional Grátis</a></li>
+          <li><a href="simulador-entrevista.html" class="hover:text-white transition-colors">Simulador de Entrevista</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-3">Transparência</h4>
+        <p class="text-[11px] text-slate-400 leading-relaxed mb-2">
+          Todas as ferramentas da Central Acadêmica são 100% gratuitas e abertas. O Você Pode Tudo não é vinculado ao CNPq, CAPES ou órgãos do governo.
+        </p>
+        <span class="text-[10px] text-slate-500 block">&copy; 2026 Você Pode Tudo. Todos os direitos reservados.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script Lucide Icons Init -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) window.lucide.createIcons();
+    });
+  </script>
+
+  <!-- VLibras Widget Oficial -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+
+</body>
+</html>

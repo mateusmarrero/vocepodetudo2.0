@@ -23,7 +23,8 @@
     'cidadania_digital': 'Cidadania Digital',
     'produtividade': 'Produtividade',
     'acessibilidade': 'Acessibilidade & Inclusão',
-    'empreendedorismo': 'Empreendedorismo'
+    'empreendedorismo': 'Empreendedorismo',
+    'academico': 'Vida Acadêmica & Lattes'
   };
 
   function escapeHTML(str) {
@@ -298,6 +299,25 @@
   }
 
   function getSmartCTA(category, title) {
+    if (cat === 'academico' || t.includes('lattes') || t.includes('abnt') || t.includes('acadêm') || t.includes('academ')) {
+      return `
+        <div class="p-5 rounded-3xl bg-gradient-to-r from-teal-950 via-slate-900 to-emerald-950 text-white shadow-lg border-2 border-emerald-400 flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
+          <div class="space-y-1 text-center sm:text-left">
+            <span class="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-emerald-300">
+              <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i>
+              <span>Central Acadêmica & Ferramentas</span>
+            </span>
+            <strong class="block text-sm sm:text-base font-black">Preencha seu Currículo Lattes e Gere Referências ABNT</strong>
+            <p class="text-xs text-emerald-100/90">Acesse o Assistente de Preenchimento do Lattes CNPq e o Gerador de Referências ABNT NBR 6023:2018. 100% gratuito.</p>
+          </div>
+          <a href="central-academica.html" class="px-4 py-2.5 rounded-xl text-xs font-black bg-[#ffdf00] text-slate-950 hover:bg-amber-300 transition-all shadow-md flex items-center gap-1.5 flex-shrink-0 cursor-pointer">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-slate-950"></i>
+            <span>Acessar Ferramentas</span>
+          </a>
+        </div>
+      `;
+    }
+
     const cat = category || '';
     const t = (title || '').toLowerCase();
 
@@ -516,6 +536,99 @@
   // ==========================================
   // NAVEGAÇÃO CONTÍNUA: PRÓXIMO ARTIGO DA SÉRIE
   // ==========================================
+  
+  // ==========================================
+  // SUMÁRIO DINÂMICO DOS PRINCIPAIS TEMAS NO LEITOR
+  // ==========================================
+  function injectReaderTableOfContents(contentContainer) {
+    if (!contentContainer) return;
+    // Remover sumário anterior se existir
+    const existingToc = contentContainer.querySelector('.reader-dynamic-toc');
+    if (existingToc) existingToc.remove();
+
+    let headings = Array.from(contentContainer.querySelectorAll('h2'));
+    let headingTag = 'h2';
+    if (headings.length < 2) {
+      headings = Array.from(contentContainer.querySelectorAll('h3'));
+      headingTag = 'h3';
+    }
+    if (headings.length < 2) return;
+
+    const tocNav = document.createElement('nav');
+    tocNav.className = 'reader-dynamic-toc my-6 p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border-2 border-emerald-500/30 dark:border-emerald-600/30 shadow-2xs print:hidden';
+    tocNav.setAttribute('aria-label', 'Sumário dos principais temas do artigo');
+
+    const header = document.createElement('div');
+    header.className = 'flex items-center justify-between gap-2 mb-3 pb-2.5 border-b border-slate-200 dark:border-slate-700/80';
+    header.innerHTML = `
+      <div class="flex items-center gap-2">
+        <span class="w-7 h-7 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 flex items-center justify-center text-xs font-black">
+          <i data-lucide="list-ordered" class="w-4 h-4 text-[#009639]"></i>
+        </span>
+        <div>
+          <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white leading-tight">Sumário dos Principais Temas</h4>
+          <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">${headings.length} tópicos para leitura rápida</span>
+        </div>
+      </div>
+      <button type="button" class="reader-toc-toggle px-2 py-1 rounded-md text-[11px] font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer" aria-expanded="true" title="Expandir ou recolher lista de temas">
+        <span class="reader-toc-toggle-txt">Ocultar</span>
+      </button>
+    `;
+
+    const ol = document.createElement('ol');
+    ol.className = 'reader-toc-list space-y-1 text-xs text-slate-700 dark:text-slate-300 font-medium pl-0 list-none transition-all';
+
+    headings.forEach((heading, idx) => {
+      const num = idx + 1;
+      const cleanTitle = heading.innerText.trim();
+      let anchorId = heading.getAttribute('id');
+      if (!anchorId) {
+        anchorId = 'reader-tema-' + num + '-' + cleanTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 35);
+        heading.setAttribute('id', anchorId);
+      }
+      heading.classList.add('scroll-mt-20');
+
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <a href="#${anchorId}" class="reader-toc-link flex items-start gap-2.5 p-1.5 rounded-lg hover:bg-emerald-50 dark:hover:bg-slate-700/60 hover:text-[#005e24] dark:hover:text-emerald-400 transition-colors group">
+          <span class="w-5 h-5 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-black text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-[#009639] group-hover:text-white transition-colors">${num}</span>
+          <span class="leading-relaxed group-hover:underline font-semibold">${escapeHTML(cleanTitle)}</span>
+        </a>
+      `;
+
+      const link = li.querySelector('a');
+      link.onclick = (e) => {
+        e.preventDefault();
+        const target = document.getElementById(anchorId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      };
+
+      ol.appendChild(li);
+    });
+
+    const toggleBtn = header.querySelector('.reader-toc-toggle');
+    const toggleTxt = header.querySelector('.reader-toc-toggle-txt');
+    toggleBtn.onclick = () => {
+      const isHidden = ol.classList.contains('hidden');
+      if (isHidden) {
+        ol.classList.remove('hidden');
+        toggleTxt.textContent = 'Ocultar';
+        toggleBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        ol.classList.add('hidden');
+        toggleTxt.textContent = 'Expandir';
+        toggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    };
+
+    tocNav.appendChild(header);
+    tocNav.appendChild(ol);
+    contentContainer.prepend(tocNav);
+    if (window.lucide) window.lucide.createIcons();
+  }
+
   function renderNextArticleBox(currentPost) {
     const nextBox = document.getElementById('blog-modal-next-article');
     if (!nextBox) return;
@@ -683,6 +796,7 @@
         contentEl.innerHTML = `<div class="py-8 text-center text-slate-400 font-bold"><i data-lucide="loader" class="w-6 h-6 animate-spin mx-auto mb-2 text-[#005e24]"></i><span>Carregando texto completo...</span></div>`;
       }
       applyReaderFontSize(currentFontIdx);
+      injectReaderTableOfContents(contentEl);
     }
 
     // Injetar Próximo Artigo da Série (Navegação Contínua)
@@ -723,7 +837,10 @@
         if (data.success && data.post) {
           post.content = data.post.content;
           post.views_count = data.post.views_count;
-          if (contentEl) contentEl.innerHTML = data.post.content;
+          if (contentEl) {
+            contentEl.innerHTML = data.post.content;
+            injectReaderTableOfContents(contentEl);
+          }
           if (viewsEl) viewsEl.innerHTML = `<i data-lucide="eye" class="w-3.5 h-3.5"></i> <span>${data.post.views_count} leituras</span>`;
           if (window.lucide) window.lucide.createIcons();
         }

@@ -264,6 +264,103 @@ $contentHtml = (string)($post['content'] ?? '<p>' . htmlspecialchars($excerpt, E
 // Sanitizar qualquer quebra de linha escapada como texto literal (\r\n, \n) que possa ter vazado de dumps legados
 $contentHtml = str_replace(["\\r\\n", "\\r", "\\n"], "\n", $contentHtml);
 
+
+
+
+// Função para gerar o Sumário Clicável dos Principais Temas (Table of Contents Dinâmico)
+function generateArticleTableOfContents(string &$contentHtml): string {
+    $headingTag = 'h2';
+    preg_match_all('/<h2([^>]*)>(.*?)<\/h2>/is', $contentHtml, $matches, PREG_SET_ORDER);
+    if (count($matches) < 2) {
+        $headingTag = 'h3';
+        preg_match_all('/<h3([^>]*)>(.*?)<\/h3>/is', $contentHtml, $matches, PREG_SET_ORDER);
+    }
+    if (count($matches) < 2) return '';
+
+    $tocItems = [];
+    $index = 0;
+
+    $pattern = '/<' . $headingTag . '([^>]*)>(.*?)<\/' . $headingTag . '>/is';
+    $contentHtml = preg_replace_callback($pattern, function($m) use (&$tocItems, &$index, $headingTag) {
+        $index++;
+        $attributes = $m[1];
+        $innerHtml = $m[2];
+        $cleanText = trim(strip_tags($innerHtml));
+        if (empty($cleanText)) {
+            $cleanText = "Tópico {$index}";
+        }
+
+        // Determinar ID da âncora de navegação rápida
+        if (preg_match('~id=["\']([^"\']+)["\']~i', $attributes, $idM)) {
+            $anchorId = $idM[1];
+        } else {
+            $trans = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $cleanText) ?: $cleanText;
+            $slugPart = strtolower(preg_replace('/[^a-zA-Z0-9]+/', '-', $trans));
+            $slugPart = trim($slugPart, '-');
+            $anchorId = 'tema-' . $index . ($slugPart !== '' ? '-' . substr($slugPart, 0, 40) : '');
+            $attributes .= ' id="' . htmlspecialchars($anchorId, ENT_QUOTES, 'UTF-8') . '"';
+        }
+
+        // Adicionar classe scroll-mt-24 para compensar a navbar fixa
+        if (preg_match('~class=["\']([^"\']+)["\']~i', $attributes, $clsM)) {
+            if (strpos($clsM[1], 'scroll-mt') === false) {
+                $attributes = preg_replace('~class=["\']([^"\']+)["\']~i', 'class="$1 scroll-mt-24"', $attributes);
+            }
+        } else {
+            $attributes .= ' class="scroll-mt-24"';
+        }
+
+        $tocItems[] = [
+            'num' => $index,
+            'id' => $anchorId,
+            'title' => $cleanText
+        ];
+
+        return "<{$headingTag}{$attributes}>{$innerHtml}</{$headingTag}>";
+    }, $contentHtml);
+
+    if (empty($tocItems)) return '';
+
+    $count = count($tocItems);
+    $html = "\n      <!-- Sumário Clicável dos Principais Temas (Índice de Leitura Rápida) -->\n";
+    $html .= "      <nav aria-label=\"Sumário dos temas do artigo\" id=\"article-toc\" class=\"my-8 p-5 sm:p-6 rounded-3xl bg-slate-50/95 border-2 border-emerald-500/30 shadow-xs transition-all print:hidden\">\n";
+    $html .= "        <div class=\"flex items-center justify-between gap-3 mb-3 pb-3 border-b border-slate-200\">\n";
+    $html .= "          <div class=\"flex items-center gap-2.5\">\n";
+    $html .= "            <span class=\"w-8 h-8 rounded-xl bg-emerald-100 text-[#005e24] flex items-center justify-center flex-shrink-0 shadow-2xs\">\n";
+    $html .= "              <i data-lucide=\"list-ordered\" class=\"w-4 h-4 text-[#009639]\"></i>\n";
+    $html .= "            </span>\n";
+    $html .= "            <div>\n";
+    $html .= "              <h3 class=\"text-sm sm:text-base font-black text-slate-900 leading-tight\">Sumário dos Principais Temas</h3>\n";
+    $html .= "              <span class=\"text-[10px] font-bold text-slate-500 uppercase tracking-wider\">{$count} seções para navegação rápida</span>\n";
+    $html .= "            </div>\n";
+    $html .= "          </div>\n";
+    $html .= "          <button type=\"button\" id=\"toc-toggle-btn\" onclick=\"toggleArticleToc()\" class=\"px-2.5 py-1 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-200 transition-colors flex items-center gap-1 cursor-pointer\" aria-expanded=\"true\" title=\"Expandir ou recolher lista de temas\">\n";
+    $html .= "            <span id=\"toc-toggle-text\">Ocultar</span>\n";
+    $html .= "            <i data-lucide=\"chevron-up\" class=\"w-3.5 h-3.5 transition-transform duration-200\" id=\"toc-toggle-icon\"></i>\n";
+    $html .= "          </button>\n";
+    $html .= "        </div>\n";
+    $html .= "        <ol id=\"toc-list\" class=\"space-y-1 text-xs text-slate-700 font-medium pl-0 list-none transition-all\">\n";
+
+    foreach ($tocItems as $item) {
+        $safeTitle = htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8');
+        $safeId = htmlspecialchars($item['id'], ENT_QUOTES, 'UTF-8');
+        $num = $item['num'];
+        $html .= "          <li>\n";
+        $html .= "            <a href=\"#{$safeId}\" class=\"toc-jump-link flex items-start gap-2.5 p-2 rounded-xl hover:bg-emerald-50/80 hover:text-[#005e24] transition-colors group\">\n";
+        $html .= "              <span class=\"w-5 h-5 rounded-lg bg-emerald-100 text-emerald-800 font-black text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-[#009639] group-hover:text-white transition-colors\">{$num}</span>\n";
+        $html .= "              <span class=\"leading-relaxed group-hover:underline font-semibold\">{$safeTitle}</span>\n";
+        $html .= "            </a>\n";
+        $html .= "          </li>\n";
+    }
+
+    $html .= "        </ol>\n";
+    $html .= "      </nav>\n";
+
+    return $html;
+}
+
+$tocHtml = generateArticleTableOfContents($contentHtml);
+
 // Dicionário de Categorias Amigáveis e Cores
 $categoryMap = [
     'carreira'   => ['label' => 'Carreira & Emprego',       'badgeBg' => 'bg-emerald-500', 'badgeText' => 'text-white', 'border' => 'border-emerald-500'],
@@ -272,7 +369,8 @@ $categoryMap = [
     'estudos'    => ['label' => 'Cursos & Capacitação',     'badgeBg' => 'bg-purple-600',  'badgeText' => 'text-white', 'border' => 'border-purple-600'],
     'financas'   => ['label' => 'Educação Financeira',      'badgeBg' => 'bg-amber-500',   'badgeText' => 'text-slate-950', 'border' => 'border-amber-500'],
     'tecnologia' => ['label' => 'Tecnologia & Inovação',    'badgeBg' => 'bg-cyan-600',    'badgeText' => 'text-white', 'border' => 'border-cyan-600'],
-    'clt'        => ['label' => 'Direitos Trabalhistas',    'badgeBg' => 'bg-rose-600',    'badgeText' => 'text-white', 'border' => 'border-rose-600']
+    'clt'        => ['label' => 'Direitos Trabalhistas',    'badgeBg' => 'bg-rose-600',    'badgeText' => 'text-white', 'border' => 'border-rose-600'],
+    'academico'  => ['label' => 'Vida Acadêmica & Lattes',  'badgeBg' => 'bg-teal-600',    'badgeText' => 'text-white', 'border' => 'border-teal-600']
 ];
 $currentCat = $categoryMap[$categoryKey] ?? ['label' => ucfirst($categoryKey), 'badgeBg' => 'bg-emerald-600', 'badgeText' => 'text-white', 'border' => 'border-emerald-600'];
 
@@ -352,7 +450,17 @@ $ctaConfig = [
 ];
 
 $titleLower = mb_strtolower($title, 'UTF-8');
-if ($categoryKey === 'curriculo' || str_contains($titleLower, 'currículo') || str_contains($titleLower, 'curriculo') || str_contains($titleLower, 'ats')) {
+if ($categoryKey === 'academico' || str_contains($titleLower, 'lattes') || str_contains($titleLower, 'abnt') || str_contains($titleLower, 'acadêmica') || str_contains($titleLower, 'academico') || str_contains($titleLower, 'artigo científico')) {
+    $ctaConfig = [
+        'badge' => 'Central Acadêmica & Ferramentas',
+        'title' => 'Crie seu Currículo Lattes e Referências ABNT',
+        'desc'  => 'Acesse gratuitamente o Assistente de Preenchimento do Lattes CNPq e o Gerador Automático de Referências ABNT NBR 6023:2018.',
+        'btn'   => 'Acessar Ferramentas Acadêmicas',
+        'url'   => '/central-academica',
+        'icon'  => 'book-open',
+        'bg'    => 'from-teal-700 to-emerald-900'
+    ];
+} elseif ($categoryKey === 'curriculo' || str_contains($titleLower, 'currículo') || str_contains($titleLower, 'curriculo') || str_contains($titleLower, 'ats')) {
     $ctaConfig = [
         'badge' => 'Criador Profissional ATS',
         'title' => 'Crie seu Currículo Perfeito em Minutos',
@@ -496,7 +604,16 @@ if ($isPreview) {
     .article-body p {
       margin-bottom: 1.4rem;
     }
-    .article-body h2 {
+    
+    .article-body h2, .article-body h3 {
+      scroll-margin-top: 5.5rem;
+    }
+    .toc-jump-link.active-toc {
+      background-color: rgba(16, 185, 129, 0.15) !important;
+      color: #005e24 !important;
+      font-weight: 700 !important;
+    }
+      .article-body h2 {
       font-size: 1.55rem;
       font-weight: 800;
       color: #0f172a;
@@ -958,6 +1075,7 @@ if ($isPreview) {
 
       <!-- Corpo do Artigo Renderizado com Tipografia Rica -->
       <div id="article-content-body" class="article-body mb-10">
+        <?= $tocHtml ?>
         <?= $contentHtml ?>
       </div>
 
@@ -1350,6 +1468,70 @@ if ($isPreview) {
         toast.classList.add('opacity-0', 'pointer-events-none');
       }, 3000);
     }
+
+    
+    // Alternar visibilidade do Sumário de Temas
+    function toggleArticleToc() {
+      const list = document.getElementById('toc-list');
+      const text = document.getElementById('toc-toggle-text');
+      const icon = document.getElementById('toc-toggle-icon');
+      const btn = document.getElementById('toc-toggle-btn');
+      if (!list || !text || !icon || !btn) return;
+      const isHidden = list.classList.contains('hidden');
+      if (isHidden) {
+        list.classList.remove('hidden');
+        text.textContent = 'Ocultar';
+        icon.classList.remove('rotate-180');
+        btn.setAttribute('aria-expanded', 'true');
+      } else {
+        list.classList.add('hidden');
+        text.textContent = 'Expandir';
+        icon.classList.add('rotate-180');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    // Scrollspy e rolagem suave para os links do sumário
+    (function initTocScrollspy() {
+      const tocLinks = document.querySelectorAll('.toc-jump-link');
+      if (!tocLinks || tocLinks.length === 0) return;
+
+      tocLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          const href = link.getAttribute('href');
+          if (href && href.startsWith('#')) {
+            const target = document.querySelector(href);
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              history.pushState(null, '', href);
+            }
+          }
+        });
+      });
+
+      const headings = document.querySelectorAll('.article-body h2[id], .article-body h3[id]');
+      if (!headings || headings.length === 0 || !('IntersectionObserver' in window)) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+            tocLinks.forEach(l => {
+              if (l.getAttribute('href') === '#' + id) {
+                l.classList.add('active-toc');
+              } else {
+                l.classList.remove('active-toc');
+              }
+            });
+          }
+        });
+      }, {
+        rootMargin: '-80px 0px -70% 0px'
+      });
+
+      headings.forEach(h => observer.observe(h));
+    })();
 
     // Copiar Link
     function setupCopyLinkBtn(btnId) {

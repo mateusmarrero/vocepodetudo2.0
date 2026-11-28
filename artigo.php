@@ -660,14 +660,33 @@ if ($isPreview) {
       padding-bottom: 0.75rem;
       border-radius: 0 0.75rem 0.75rem 0;
     }
-    .article-body a {
+    /* Links em linha regulares no corpo do texto */
+    .article-body a:not([class*="bg-"]):not([class*="btn"]):not([class*="rounded"]):not(.toc-jump-link) {
       color: #008031;
       text-decoration: underline;
       font-weight: 600;
       transition: color 0.15s ease;
     }
-    .article-body a:hover {
+    .article-body a:not([class*="bg-"]):not([class*="btn"]):not([class*="rounded"]):not(.toc-jump-link):hover {
       color: #005e24;
+    }
+
+    /* Botões de Ação dentro do Conteúdo (Legibilidade & Alto Contraste AAA) */
+    .article-body a[class*="bg-"],
+    .article-body a[class*="btn"],
+    .article-body a.text-white {
+      text-decoration: none !important;
+      color: #ffffff !important;
+    }
+    .article-body a[class*="bg-"] *,
+    .article-body a[class*="btn"] *,
+    .article-body a.text-white * {
+      color: #ffffff !important;
+    }
+
+    /* Links do Sumário (TOC) */
+    .article-body a.toc-jump-link {
+      text-decoration: none !important;
     }
 
     /* Tabelas Comparativas Ricas e Responsivas */

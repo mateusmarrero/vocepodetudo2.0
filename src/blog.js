@@ -163,21 +163,23 @@
               </div>
             </div>
           </div>
-          <div class="px-5 pb-5 flex gap-2">
+          <div class="px-5 pb-5 flex gap-2 items-center">
             <a 
               href="/artigo/${encodeURIComponent(post.slug || post.id)}" 
-              class="flex-1 py-2.5 rounded-xl text-xs font-black text-[#005e24] bg-emerald-50 hover:bg-[#005e24] hover:text-white transition-all cursor-pointer text-center flex items-center justify-center gap-1.5 shadow-xs group-hover:bg-[#005e24] group-hover:text-white"
+              class="flex-1 py-2.5 px-3 rounded-xl text-xs font-black text-white bg-[#005e24] hover:bg-[#00471b] active:scale-98 transition-all cursor-pointer text-center flex items-center justify-center gap-2 shadow-sm hover:shadow-md"
+              title="Ler artigo completo em página dedicada"
             >
-              <span>Ler Artigo</span>
-              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              <span>Ler Artigo Completo</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 text-[#ffdf00]"></i>
             </a>
             <button 
               type="button" 
-              class="read-post-btn px-3 py-2.5 rounded-xl text-xs font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 transition-colors cursor-pointer"
+              class="read-post-btn px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-emerald-50 hover:text-[#005e24] border border-slate-200 transition-all cursor-pointer flex items-center justify-center shadow-2xs hover:scale-105 active:scale-95"
               data-post-id="${post.id}"
-              title="Pré-visualizar em modal rápido"
+              title="Pré-visualizar em tela cheia (modal)"
+              aria-label="Abrir pré-visualização rápida do artigo"
             >
-              <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+              <i data-lucide="maximize-2" class="w-4 h-4 text-slate-700 pointer-events-none"></i>
             </button>
           </div>
         </article>
@@ -186,9 +188,14 @@
 
     grid.querySelectorAll('.read-post-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        const id = Number(e.currentTarget.dataset.postId);
+        e.preventDefault();
+        e.stopPropagation();
+        const targetBtn = e.target.closest('.read-post-btn') || btn;
+        const id = Number(targetBtn.dataset.postId);
         const post = blogData.find(p => Number(p.id) === id);
-        if (post) openBlogReader(post);
+        if (post) {
+          openBlogReader(post);
+        }
       });
     });
 
@@ -299,6 +306,9 @@
   }
 
   function getSmartCTA(category, title) {
+    const cat = category || '';
+    const t = (title || '').toLowerCase();
+
     if (cat === 'academico' || t.includes('lattes') || t.includes('abnt') || t.includes('acadêm') || t.includes('academ')) {
       return `
         <div class="p-5 rounded-3xl bg-gradient-to-r from-teal-950 via-slate-900 to-emerald-950 text-white shadow-lg border-2 border-emerald-400 flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
@@ -317,9 +327,6 @@
         </div>
       `;
     }
-
-    const cat = category || '';
-    const t = (title || '').toLowerCase();
 
     if (cat === 'curriculo_linkedin' || t.includes('currículo') || t.includes('curriculo') || t.includes('ats')) {
       return `
@@ -590,9 +597,9 @@
 
       const li = document.createElement('li');
       li.innerHTML = `
-        <a href="#${anchorId}" class="reader-toc-link flex items-start gap-2.5 p-1.5 rounded-lg hover:bg-emerald-50 dark:hover:bg-slate-700/60 hover:text-[#005e24] dark:hover:text-emerald-400 transition-colors group">
-          <span class="w-5 h-5 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-black text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-[#009639] group-hover:text-white transition-colors">${num}</span>
-          <span class="leading-relaxed group-hover:underline font-semibold">${escapeHTML(cleanTitle)}</span>
+        <a href="#${anchorId}" class="reader-toc-link flex items-start gap-2.5 p-2 rounded-xl hover:bg-emerald-50/90 dark:hover:bg-slate-700/60 transition-colors group">
+          <span class="toc-num w-5 h-5 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-black text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-[#009639] group-hover:text-white transition-colors">${num}</span>
+          <span class="toc-title leading-relaxed group-hover:underline font-semibold text-slate-800 dark:text-slate-200">${escapeHTML(cleanTitle)}</span>
         </a>
       `;
 
@@ -685,6 +692,7 @@
   async function openBlogReader(post) {
     const modal = document.getElementById('blog-reader-modal');
     if (!modal) return;
+    modal.classList.remove('hidden'); // Exibir modal imediatamente para resposta tátil instantânea
 
     // Interromper qualquer reprodução de áudio anterior
     stopSpeech();

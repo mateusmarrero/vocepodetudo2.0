@@ -929,21 +929,21 @@
     </div>
   </footer>
 
-  <!-- Banner Flutuante de Instalação do Aplicativo (PWA) -->
-  <div id="pwa-install-banner" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md z-40 bg-gradient-to-r from-slate-900 to-slate-950 text-white p-3.5 sm:p-4 rounded-2xl shadow-2xl border border-slate-700 hidden animate-fade-in flex items-center justify-between gap-3">
-    <div class="flex items-center gap-3">
-      <img src="/assets/logo-icon.png" alt="App Você Pode Tudo" class="w-10 h-10 rounded-xl shadow-xs">
-      <div>
-        <h5 class="text-xs font-black text-white leading-tight">Instalar Aplicativo Oficial</h5>
-        <p class="text-[11px] text-slate-300">Cursos gratuitos, vagas e artigos na palma da mão.</p>
+  <!-- Banner Flutuante de Instalação do Aplicativo (PWA) - Compacto, discreto e sem sobrepor o WhatsApp -->
+  <div id="pwa-install-banner" class="fixed bottom-20 left-4 right-20 sm:bottom-6 sm:left-6 sm:right-auto sm:max-w-xs z-30 bg-slate-900/95 dark:bg-slate-950/95 backdrop-blur-md text-white p-2.5 sm:p-3 rounded-2xl shadow-xl border border-slate-700/80 hidden animate-fade-in flex items-center justify-between gap-2.5">
+    <div class="flex items-center gap-2.5 min-w-0">
+      <img src="/assets/logo-icon.png" alt="App Você Pode Tudo" class="w-8 h-8 rounded-lg shadow-xs flex-shrink-0">
+      <div class="min-w-0">
+        <h5 class="text-[11px] sm:text-xs font-black text-white truncate leading-tight">App Você Pode Tudo</h5>
+        <p class="text-[10px] text-slate-300 truncate">Acesso rápido offline</p>
       </div>
     </div>
-    <div class="flex items-center gap-1.5 flex-shrink-0">
-      <button type="button" id="pwa-install-btn" class="px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition-colors cursor-pointer shadow-sm">
+    <div class="flex items-center gap-1 flex-shrink-0">
+      <button type="button" id="pwa-install-btn" class="px-2.5 py-1 rounded-lg bg-[#ffdf00] hover:bg-yellow-400 text-slate-950 font-black text-[11px] transition-colors cursor-pointer shadow-xs">
         Instalar
       </button>
-      <button type="button" id="pwa-dismiss-btn" class="p-1 rounded-lg text-slate-400 hover:text-white transition-colors cursor-pointer" title="Agora não">
-        <i data-lucide="x" class="w-4 h-4"></i>
+      <button type="button" id="pwa-dismiss-btn" class="p-1 rounded-md text-slate-400 hover:text-white transition-colors cursor-pointer" title="Fechar aviso de instalação">
+        <i data-lucide="x" class="w-3.5 h-3.5"></i>
       </button>
     </div>
   </div>

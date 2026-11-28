@@ -661,32 +661,80 @@ if ($isPreview) {
       border-radius: 0 0.75rem 0.75rem 0;
     }
     /* Links em linha regulares no corpo do texto */
-    .article-body a:not([class*="bg-"]):not([class*="btn"]):not([class*="rounded"]):not(.toc-jump-link) {
+    .article-body a:not([class*="btn"]):not([class*="rounded"]):not(.toc-jump-link) {
       color: #008031;
       text-decoration: underline;
       font-weight: 600;
       transition: color 0.15s ease;
     }
-    .article-body a:not([class*="bg-"]):not([class*="btn"]):not([class*="rounded"]):not(.toc-jump-link):hover {
+    .article-body a:not([class*="btn"]):not([class*="rounded"]):not(.toc-jump-link):hover {
       color: #005e24;
     }
 
-    /* Botões de Ação dentro do Conteúdo (Legibilidade & Alto Contraste AAA) */
-    .article-body a[class*="bg-"],
-    .article-body a[class*="btn"],
-    .article-body a.text-white {
+    /* Botões de Ação em Caixas Especiais do Artigo */
+    .article-body a.btn-action,
+    .article-body a[class*="btn-"],
+    .article-body a[style*="background"],
+    .article-body a[class*="bg-purple"],
+    .article-body a[class*="bg-blue"],
+    .article-body a[class*="bg-[#002776]"] {
       text-decoration: none !important;
       color: #ffffff !important;
     }
-    .article-body a[class*="bg-"] *,
-    .article-body a[class*="btn"] *,
-    .article-body a.text-white * {
+    .article-body a.btn-action *,
+    .article-body a[class*="btn-"] *,
+    .article-body a[class*="bg-purple"] *,
+    .article-body a[class*="bg-blue"] *,
+    .article-body a[class*="bg-[#002776]"] * {
       color: #ffffff !important;
     }
 
-    /* Links do Sumário (TOC) */
-    .article-body a.toc-jump-link {
+    /* Sumário do Artigo (TOC) - Contraste Perfeito e Legibilidade AAA */
+    #article-toc, .reader-dynamic-toc {
+      background-color: #f8fafc !important;
+      border: 2px solid rgba(16, 185, 129, 0.3) !important;
+    }
+    .article-body a.toc-jump-link,
+    .reader-dynamic-toc a.reader-toc-link {
+      color: #0f172a !important;
       text-decoration: none !important;
+      font-weight: 600 !important;
+    }
+    .article-body a.toc-jump-link .toc-title,
+    .reader-dynamic-toc a.reader-toc-link .toc-title {
+      color: #0f172a !important;
+      font-weight: 600 !important;
+    }
+    .article-body a.toc-jump-link:hover,
+    .reader-dynamic-toc a.reader-toc-link:hover {
+      background-color: rgba(16, 185, 129, 0.12) !important;
+      color: #005e24 !important;
+    }
+    .article-body a.toc-jump-link:hover .toc-title,
+    .reader-dynamic-toc a.reader-toc-link:hover .toc-title {
+      color: #005e24 !important;
+    }
+    .article-body a.toc-jump-link.active-toc,
+    .reader-dynamic-toc a.reader-toc-link.active-toc {
+      background-color: rgba(16, 185, 129, 0.22) !important;
+      color: #005e24 !important;
+      font-weight: 700 !important;
+    }
+    .article-body a.toc-jump-link.active-toc .toc-title,
+    .reader-dynamic-toc a.reader-toc-link.active-toc .toc-title {
+      color: #005e24 !important;
+      font-weight: 700 !important;
+    }
+    .article-body a.toc-jump-link .toc-num,
+    .reader-dynamic-toc a.reader-toc-link .toc-num {
+      background-color: #d1fae5 !important;
+      color: #065f46 !important;
+      font-weight: 900 !important;
+    }
+    .article-body a.toc-jump-link:hover .toc-num,
+    .reader-dynamic-toc a.reader-toc-link:hover .toc-num {
+      background-color: #009639 !important;
+      color: #ffffff !important;
     }
 
     /* Tabelas Comparativas Ricas e Responsivas */
